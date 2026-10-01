@@ -24,11 +24,11 @@ export function Thanks() {
       <div className="mx-auto mt-10 max-w-xl rounded-2xl bg-brand-50 p-6 ring-1 ring-brand-100 sm:p-8">
         <p className="font-medium text-brand-900">{t.thanks.unlocked}</p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button size="lg" onClick={() => goTo('me')}>
-            {t.thanks.openProfile} <ArrowRight className="size-5" />
+          <Button size="lg" onClick={() => goTo('home')}>
+            <BookOpen className="size-5" /> {t.me.browseCourses} <ArrowRight className="size-5" />
           </Button>
-          <Button size="lg" variant="secondary" onClick={() => goTo('courses')}>
-            <BookOpen className="size-5" /> {t.me.browseCourses}
+          <Button size="lg" variant="secondary" onClick={() => goTo('me')}>
+            {t.thanks.openProfile}
           </Button>
         </div>
       </div>

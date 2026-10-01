@@ -18,20 +18,21 @@ Then open the URL that Vite prints (usually http://localhost:5173). `npm run bui
 
 **After onboarding** the main navigation appears:
 
-- **Mans profils**: the home page. It shows the user's profile, saved courses, suggested people and a completeness checklist. Each section opens the matching step to edit it, and Save returns to the profile.
-- **Kursi un prakses**: search and filter courses, bootcamps and internships. Users can save a course or "apply" to it (nothing is sent).
+- **Iespējas (home page)**: jobs, internships and courses in one place. It has a search box, quick filters (Jobs, Internships, Remote, In Saldus, Free courses), recommendations based on the user's career path, and a full list with filters. Users can save an opportunity or "apply" (nothing is sent).
 - **Cilvēki**: suggested mentors, professionals and other young people to follow.
-- **Meklēt**: one search across courses, people, careers and companies.
+- **Karjeras ceļi**: the career cards and learning paths from onboarding.
+- **Mans profils**: the user's profile, saved opportunities, suggested people and a completeness checklist. Each section opens the matching step to edit it, and Save returns to the profile.
+- **Meklēt**: one search across opportunities, people, careers and companies.
 
 The header has an LV/EN toggle. Latvian is the default language.
 
-> **All companies, courses and people are fictional examples.** The UI labels them that way with a "Piemērs" badge and a notice on every page. Replace them with real partners in `src/data.ts` once you have agreements.
+> **All companies, jobs, courses and people are fictional examples.** The UI labels them that way with a "Piemērs" badge and a notice on every page. Replace them with real partners in `src/data.ts` once you have agreements.
 
 ## Where to edit
 
 | What | File |
 | --- | --- |
-| Interests, skills, motivation tags, experience types, careers, training steps, example companies / courses / people | `src/data.ts` (commented constants at the top) |
+| Interests, skills, motivation tags, experience types, careers, training steps, example companies / jobs / courses / people | `src/data.ts` (commented constants at the top) |
 | All UI text (LV + EN) | `src/i18n.ts`. `en` is type-checked against `lv`, so a missing key fails the build |
 | Brand colours / font | `src/index.css` (`@theme` block) |
 | App state & step order | `src/state.tsx` |

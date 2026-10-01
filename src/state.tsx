@@ -9,10 +9,11 @@ export const STEPS = ['welcome', 'interests', 'profile', 'paths', 'training', 's
 type FlowStep = (typeof STEPS)[number]
 /**
  * App pages, unlocked after onboarding (the 6-step flow above):
- * 'me' = "Mans profils" (home), 'courses' = course & training search,
+ * 'home' = opportunities (jobs, internships, courses) — the start page,
+ * 'me' = "Mans profils",
  * 'people' = people to follow, 'search' = search across everything.
  */
-export type AppPage = 'me' | 'courses' | 'people' | 'search'
+export type AppPage = 'home' | 'me' | 'people' | 'search'
 export type Step = FlowStep | AppPage
 /** Steps shown in the progress indicator (thank-you screen is not counted). */
 export const PROGRESS_STEPS = STEPS.length - 1

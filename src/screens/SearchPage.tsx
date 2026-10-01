@@ -5,7 +5,7 @@ import type { Lang } from '../data'
 import { useApp } from '../state'
 import { Card, cx } from '../components/ui'
 import { CourseCard, ExampleBadge, ExampleNotice, PersonCard, SearchBox } from '../components/cards'
-import { matchCourse } from './Courses'
+import { matchCourse } from './Home'
 import { matchPerson } from './People'
 
 const LANGS: Lang[] = ['lv', 'en']
@@ -98,7 +98,7 @@ export function SearchPage() {
         )}
 
         {courses.length > 0 && (
-          <Group title={t.search.courses} count={courses.length} onSeeAll={() => goTo('courses')} seeAll={t.search.seeAll}>
+          <Group title={t.search.courses} count={courses.length} onSeeAll={() => goTo('home')} seeAll={t.search.seeAll}>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
               {courses.slice(0, 6).map((c) => (
                 <CourseCard key={c.id} course={c} />

@@ -161,7 +161,9 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
         <span
           className={cx(
             'rounded-md px-2 py-0.5 text-xs font-semibold',
-            course.type === 'internship' ? 'bg-accent-50 text-accent-700' : 'bg-brand-50 text-brand-700',
+            course.type === 'job' && 'bg-slate-900 text-white',
+            course.type === 'internship' && 'bg-accent-50 text-accent-700',
+            (course.type === 'course' || course.type === 'bootcamp') && 'bg-brand-50 text-brand-700',
           )}
         >
           {t.courses.types[course.type]}
@@ -195,9 +197,15 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-5">
-        <span className={cx('text-base font-bold', course.price === 0 ? 'text-accent-700' : 'text-slate-900')}>
-          {course.price === 0 ? t.courses.free : `€${course.price}`}
-        </span>
+        {course.type === 'job' || course.type === 'internship' ? (
+          <span className={cx('text-base font-bold', course.paid ? 'text-accent-700' : 'text-slate-500')}>
+            {course.paid ? t.courses.paid : t.courses.unpaid}
+          </span>
+        ) : (
+          <span className={cx('text-base font-bold', course.price === 0 ? 'text-accent-700' : 'text-slate-900')}>
+            {course.price === 0 ? t.courses.free : `€${course.price}`}
+          </span>
+        )}
         <Button
           variant={applied ? 'secondary' : 'primary'}
           onClick={() => update({ appliedCourses: toggle(profile.appliedCourses, course.id) })}

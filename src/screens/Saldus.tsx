@@ -49,7 +49,7 @@ export function Saldus() {
               variant="light"
               onClick={() => {
                 update({ interested: true })
-                if (onboarded) goTo('me')
+                if (onboarded) goTo('home')
                 else next()
               }}
               className="w-full sm:w-auto"

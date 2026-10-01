@@ -66,10 +66,10 @@ export function Header() {
 
   // The main navigation only exists once onboarding (the 6 steps) is done.
   const nav: { step: Step; label: string; also?: Step[] }[] = [
-    { step: 'me', label: t.nav.profile },
-    { step: 'courses', label: t.nav.courses },
+    { step: 'home', label: t.nav.courses },
     { step: 'people', label: t.nav.people },
     { step: 'paths', label: t.nav.careers, also: ['training'] },
+    { step: 'me', label: t.nav.profile },
   ]
   const isActive = (item: (typeof nav)[number]) => step === item.step || !!item.also?.includes(step)
   const initial = profile.name.trim().charAt(0).toUpperCase()
@@ -89,7 +89,7 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:px-8">
         <button
           type="button"
-          onClick={() => navigate(onboarded ? 'me' : 'welcome')}
+          onClick={() => navigate(onboarded ? 'home' : 'welcome')}
           className="shrink-0 cursor-pointer"
           aria-label="ERE"
         >
@@ -252,7 +252,7 @@ export function Footer() {
             <div>
               <h3 className="text-sm font-semibold text-white">{t.footer.explore}</h3>
               <ul className="mt-4 space-y-3">
-                <li><button type="button" className={link} onClick={() => goTo('courses')}>{t.nav.courses}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('home')}>{t.nav.courses}</button></li>
                 <li><button type="button" className={link} onClick={() => goTo('people')}>{t.nav.people}</button></li>
                 <li><button type="button" className={link} onClick={() => goTo('paths')}>{t.nav.careers}</button></li>
                 <li><button type="button" className={link} onClick={() => goTo('saldus')}>{t.footer.links.remote}</button></li>
