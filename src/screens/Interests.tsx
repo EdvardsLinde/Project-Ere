@@ -4,7 +4,7 @@ import { toggle, useApp } from '../state'
 import { ActionBar, Button, PageHeader, cx } from '../components/ui'
 
 export function Interests() {
-  const { t, l, profile, update, next } = useApp()
+  const { t, l, profile, update, next, editing } = useApp()
   const selected = profile.interests
 
   return (
@@ -60,8 +60,8 @@ export function Interests() {
       </div>
 
       <ActionBar hint={selected.length ? t.interests.selected(selected.length) : t.interests.pickOne}>
-        <Button size="lg" onClick={next} disabled={!selected.length}>
-          {t.common.next} <ArrowRight className="size-5" />
+        <Button size="lg" onClick={() => next()} disabled={!selected.length}>
+          {editing ? t.common.save : t.common.next} <ArrowRight className="size-5" />
         </Button>
       </ActionBar>
     </>

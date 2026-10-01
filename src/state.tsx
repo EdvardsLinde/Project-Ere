@@ -6,7 +6,9 @@ import type { Dict } from './i18n'
 
 /** Linear flow. Order here = order on screen. */
 export const STEPS = ['welcome', 'interests', 'profile', 'paths', 'training', 'saldus', 'thanks'] as const
-export type Step = (typeof STEPS)[number]
+type FlowStep = (typeof STEPS)[number]
+/** 'me' = the "Mans profils" page; reachable any time, outside the linear flow. */
+export type Step = FlowStep | 'me'
 /** Steps shown in the progress indicator (thank-you screen is not counted). */
 export const PROGRESS_STEPS = STEPS.length - 1
 
@@ -27,6 +29,8 @@ export interface Profile {
   motivationTags: string[]
   experiences: Experience[]
   careerId: string | null
+  /** Pressed "Esmu ieinteresēts/-a". */
+  interested: boolean
 }
 
 const emptyProfile: Profile = {
@@ -39,6 +43,7 @@ const emptyProfile: Profile = {
   motivationTags: [],
   experiences: [],
   careerId: null,
+  interested: false,
 }
 
 interface AppState {
@@ -50,8 +55,13 @@ interface AppState {
   step: Step
   stepIndex: number
   goTo: (s: Step) => void
-  next: () => void
+  /** Go to the next flow step — or back to "Mans profils" when editing from there. */
+  next: (fallback?: Step) => void
   back: () => void
+  /** Open a flow step to edit it; "next"/"back" then return to "Mans profils". */
+  edit: (s: Step) => void
+  /** True while editing a step opened from "Mans profils". */
+  editing: boolean
   profile: Profile
   update: (patch: Partial<Profile>) => void
   restart: () => void
@@ -63,17 +73,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>('lv')
   const [step, setStep] = useState<Step>('welcome')
   const [profile, setProfile] = useState<Profile>(emptyProfile)
+  const [editing, setEditing] = useState(false)
 
-  const stepIndex = STEPS.indexOf(step)
+  const stepIndex = STEPS.indexOf(step as FlowStep)
 
   useEffect(() => {
     document.documentElement.lang = lang
   }, [lang])
 
-  const goTo = useCallback((s: Step) => {
+  const show = useCallback((s: Step) => {
     setStep(s)
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }, [])
+
+  const goTo = useCallback(
+    (s: Step) => {
+      setEditing(false)
+      show(s)
+    },
+    [show],
+  )
 
   const value = useMemo<AppState>(
     () => ({
@@ -84,8 +103,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       step,
       stepIndex,
       goTo,
-      next: () => goTo(STEPS[Math.min(stepIndex + 1, STEPS.length - 1)]),
-      back: () => goTo(STEPS[Math.max(stepIndex - 1, 0)]),
+      next: (fallback) =>
+        goTo(editing ? 'me' : (fallback ?? STEPS[Math.min(stepIndex + 1, STEPS.length - 1)])),
+      back: () => goTo(editing ? 'me' : STEPS[Math.max(stepIndex - 1, 0)]),
+      edit: (s) => {
+        setEditing(true)
+        show(s)
+      },
+      editing,
       profile,
       update: (patch) => setProfile((p) => ({ ...p, ...patch })),
       restart: () => {
@@ -93,7 +118,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         goTo('welcome')
       },
     }),
-    [lang, step, stepIndex, goTo, profile],
+    [lang, step, stepIndex, goTo, show, editing, profile],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

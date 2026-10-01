@@ -99,7 +99,7 @@ export function Training() {
       </div>
 
       <ActionBar>
-        <Button size="lg" onClick={next}>
+        <Button size="lg" onClick={() => next()}>
           {t.common.next} <ArrowRight className="size-5" />
         </Button>
       </ActionBar>

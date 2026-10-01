@@ -6,7 +6,7 @@ import { Button, Card } from '../components/ui'
 const BENEFIT_ICONS = [House, Globe, HandHeart]
 
 export function Saldus() {
-  const { t, l, profile, next } = useApp()
+  const { t, l, profile, update, next } = useApp()
   const career = CAREERS.find((c) => c.id === profile.careerId)
 
   return (
@@ -47,7 +47,10 @@ export function Saldus() {
             <Button
               size="lg"
               variant="light"
-              onClick={next}
+              onClick={() => {
+                update({ interested: true })
+                next()
+              }}
               className="w-full sm:w-auto"
             >
               {t.saldus.cta} <ArrowRight className="size-5" />

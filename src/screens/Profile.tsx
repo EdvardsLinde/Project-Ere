@@ -36,7 +36,7 @@ function Section({
 }
 
 export function Profile() {
-  const { t, l, profile, update, next } = useApp()
+  const { t, l, profile, update, next, editing } = useApp()
   const [customSkill, setCustomSkill] = useState('')
   const [expType, setExpType] = useState(EXPERIENCE_TYPES[0].id)
   const [expTitle, setExpTitle] = useState('')
@@ -283,8 +283,8 @@ export function Profile() {
       </div>
 
       <ActionBar>
-        <Button size="lg" onClick={next}>
-          {t.common.next} <ArrowRight className="size-5" />
+        <Button size="lg" onClick={() => next()}>
+          {editing ? t.common.save : t.common.next} <ArrowRight className="size-5" />
         </Button>
       </ActionBar>
     </>

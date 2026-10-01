@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react'
-import { Mail, PartyPopper, RotateCcw } from 'lucide-react'
+import { Mail, PartyPopper, RotateCcw, UserRound } from 'lucide-react'
 import { CAREERS, INTERESTS, MOTIVATION_TAGS, SKILLS } from '../data'
 import { useApp } from '../state'
 import { Button, Card } from '../components/ui'
 
 export function Thanks() {
-  const { t, l, profile, restart } = useApp()
+  const { t, l, profile, restart, goTo } = useApp()
   const career = CAREERS.find((c) => c.id === profile.careerId)
   const join = (items: string[]) => (items.length ? items.join(', ') : t.thanks.none)
 
@@ -56,9 +56,14 @@ export function Thanks() {
       </Card>
 
       <div className="mt-8 flex flex-col items-center gap-3">
-        <Button variant="secondary" size="lg" onClick={restart}>
-          <RotateCcw className="size-4" /> {t.thanks.restart}
-        </Button>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button size="lg" onClick={() => goTo('me')}>
+            <UserRound className="size-4" /> {t.nav.profile}
+          </Button>
+          <Button variant="secondary" size="lg" onClick={restart}>
+            <RotateCcw className="size-4" /> {t.thanks.restart}
+          </Button>
+        </div>
         <p className="text-xs text-slate-400">{t.thanks.prototype}</p>
       </div>
     </div>

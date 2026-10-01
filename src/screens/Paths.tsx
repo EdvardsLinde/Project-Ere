@@ -13,12 +13,12 @@ export function useRankedCareers() {
 }
 
 export function Paths() {
-  const { t, l, update, goTo } = useApp()
+  const { t, l, update, next } = useApp()
   const ranked = useRankedCareers()
 
   const choose = (id: string) => {
     update({ careerId: id })
-    goTo('training')
+    next('training')
   }
 
   return (

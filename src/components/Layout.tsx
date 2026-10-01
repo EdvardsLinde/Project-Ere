@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowLeft, MapPin, Menu, RotateCcw, X } from 'lucide-react'
+import { ArrowLeft, MapPin, Menu, RotateCcw, UserRound, X } from 'lucide-react'
 import type { Lang } from '../data'
 import { PROGRESS_STEPS, useApp } from '../state'
 import type { Step } from '../state'
@@ -102,14 +102,23 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <LangToggle />
-          {initial && (
-            <span
-              title={profile.name}
-              className="hidden size-9 items-center justify-center rounded-full bg-accent-100 text-sm font-bold text-accent-800 ring-2 ring-white sm:flex"
-            >
-              {initial}
+          <button
+            type="button"
+            onClick={() => navigate('me')}
+            aria-label={t.nav.profile}
+            title={t.nav.profile}
+            className={cx(
+              'hidden h-10 cursor-pointer items-center gap-2 rounded-full py-0.5 pr-3 pl-0.5 text-sm font-semibold ring-1 transition sm:flex',
+              step === 'me'
+                ? 'bg-brand-50 text-brand-800 ring-brand-300'
+                : 'text-slate-700 ring-slate-200 hover:bg-slate-50 hover:ring-slate-300',
+            )}
+          >
+            <span className="flex size-9 items-center justify-center rounded-full bg-accent-100 text-accent-800">
+              {initial || <UserRound className="size-4" />}
             </span>
-          )}
+            <span className="max-w-28 truncate">{profile.name || t.nav.profile}</span>
+          </button>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -139,6 +148,16 @@ export function Header() {
           ))}
           <button
             type="button"
+            onClick={() => navigate('me')}
+            className={cx(
+              'flex h-12 w-full cursor-pointer items-center gap-2 rounded-lg px-3 text-left text-base font-medium',
+              step === 'me' ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50',
+            )}
+          >
+            <UserRound className="size-4" /> {t.nav.profile}
+          </button>
+          <button
+            type="button"
             onClick={() => {
               setOpen(false)
               restart()
@@ -155,7 +174,7 @@ export function Header() {
 
 /** Back button + "Step X of 6" + segmented progress bar. */
 export function StepBar() {
-  const { t, stepIndex, back } = useApp()
+  const { t, stepIndex, back, editing } = useApp()
   const current = stepIndex + 1
   return (
     <div className="border-b border-slate-200/70 bg-white">
@@ -165,7 +184,7 @@ export function StepBar() {
           onClick={back}
           className="-ml-2 flex h-10 cursor-pointer items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
         >
-          <ArrowLeft className="size-4" /> {t.common.back}
+          <ArrowLeft className="size-4" /> {editing ? t.common.backToProfile : t.common.back}
         </button>
         <div className="ml-auto flex flex-1 items-center justify-end gap-3 sm:max-w-md">
           <span className="shrink-0 text-xs font-semibold text-slate-500 sm:text-sm">
@@ -214,7 +233,7 @@ export function Footer() {
           <h3 className="text-sm font-semibold text-white">{t.footer.forYou}</h3>
           <ul className="mt-4 space-y-3">
             <li><button type="button" className={link} onClick={() => goTo('welcome')}>{t.footer.links.how}</button></li>
-            <li><button type="button" className={link} onClick={() => goTo('profile')}>{t.footer.links.profile}</button></li>
+            <li><button type="button" className={link} onClick={() => goTo('me')}>{t.footer.links.profile}</button></li>
             <li><button type="button" className={link} onClick={restart}>{t.footer.links.start}</button></li>
           </ul>
         </div>
