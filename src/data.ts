@@ -247,3 +247,389 @@ export const TRAINING: Record<string, [TrainingStep, TrainingStep, TrainingStep]
     },
   ],
 }
+
+/* ========================================================================== */
+/*  EXAMPLE DATA — everything below is FICTIONAL.                             */
+/*  Companies, courses and people are invented to demonstrate the idea.      */
+/*  The UI labels them as examples. Replace with real partners once agreed.   */
+/* ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/*  7. PROVIDERS — companies / organisations offering courses (EXAMPLES)       */
+/* -------------------------------------------------------------------------- */
+export interface Provider {
+  id: string
+  name: string
+  kind: Localized
+  location: Localized
+  /** Tailwind classes for the logo tile. */
+  tone: string
+}
+
+export const PROVIDERS: Provider[] = [
+  {
+    id: 'secnord',
+    name: 'SecNord Labs',
+    kind: { lv: 'Kiberdrošības uzņēmums', en: 'Cybersecurity company' },
+    location: { lv: 'Rīga · strādā attālināti', en: 'Riga · works remotely' },
+    tone: 'bg-brand-600 text-white',
+  },
+  {
+    id: 'datudarbnica',
+    name: 'DatuDarbnīca',
+    kind: { lv: 'Datu analītikas uzņēmums', en: 'Data analytics company' },
+    location: { lv: 'Kuldīga', en: 'Kuldīga' },
+    tone: 'bg-violet-600 text-white',
+  },
+  {
+    id: 'weblauks',
+    name: 'WebLauks',
+    kind: { lv: 'Web izstrādes aģentūra', en: 'Web development agency' },
+    location: { lv: 'Liepāja', en: 'Liepāja' },
+    tone: 'bg-accent-600 text-white',
+  },
+  {
+    id: 'cloudbalt',
+    name: 'CloudBalt',
+    kind: { lv: 'IT pakalpojumu uzņēmums', en: 'IT services company' },
+    location: { lv: 'Rīga · attālināti', en: 'Riga · remote' },
+    tone: 'bg-sky-600 text-white',
+  },
+  {
+    id: 'kodaklubs',
+    name: 'Novada Koda klubs',
+    kind: { lv: 'Jauniešu biedrība', en: 'Youth NGO' },
+    location: { lv: 'Saldus', en: 'Saldus' },
+    tone: 'bg-amber-500 text-white',
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/*  8. COURSES & TRAINING — offered by the providers above (EXAMPLES)          */
+/*     type:   course = kurss · bootcamp = intensīvais · internship = prakse   */
+/*     format: online · saldus (in person in Saldus) · hybrid                  */
+/*     price:  0 = free, otherwise euros                                       */
+/* -------------------------------------------------------------------------- */
+export type CourseType = 'course' | 'bootcamp' | 'internship'
+export type CourseFormat = 'online' | 'saldus' | 'hybrid'
+
+export interface Course {
+  id: string
+  providerId: string
+  careerId: string
+  type: CourseType
+  format: CourseFormat
+  level: 'beginner' | 'intermediate'
+  price: number
+  title: Localized
+  description: Localized
+  duration: Localized
+  start: Localized
+  keywords: string
+}
+
+export const COURSES: Course[] = [
+  {
+    id: 'sec-basics',
+    providerId: 'secnord',
+    careerId: 'cyber',
+    type: 'course',
+    format: 'online',
+    level: 'beginner',
+    price: 0,
+    title: { lv: 'Kiberdrošības pamati jauniešiem', en: 'Cybersecurity basics for young people' },
+    description: {
+      lv: 'Paroles, tīkli, pikšķerēšana un tas, kā domā uzbrucējs. Ar praktiskiem uzdevumiem pārlūkā.',
+      en: 'Passwords, networks, phishing and how an attacker thinks. With hands-on tasks in the browser.',
+    },
+    duration: { lv: '6 nedēļas', en: '6 weeks' },
+    start: { lv: 'Sākas novembrī', en: 'Starts in November' },
+    keywords: 'security drošība hacker paroles tīkli phishing',
+  },
+  {
+    id: 'sec-intern',
+    providerId: 'secnord',
+    careerId: 'cyber',
+    type: 'internship',
+    format: 'hybrid',
+    level: 'intermediate',
+    price: 0,
+    title: { lv: 'Vasaras prakse drošības komandā', en: 'Summer internship in a security team' },
+    description: {
+      lv: 'Divus mēnešus strādā kopā ar drošības analītiķiem: uzraugi brīdinājumus un palīdzi izmeklēt incidentus.',
+      en: 'Spend two months with security analysts: monitor alerts and help investigate incidents.',
+    },
+    duration: { lv: '2 mēneši', en: '2 months' },
+    start: { lv: 'Pieteikšanās līdz aprīlim', en: 'Apply by April' },
+    keywords: 'prakse internship soc analītiķis',
+  },
+  {
+    id: 'ctf-saldus',
+    providerId: 'kodaklubs',
+    careerId: 'cyber',
+    type: 'course',
+    format: 'saldus',
+    level: 'beginner',
+    price: 0,
+    title: { lv: 'CTF treniņi Saldū', en: 'CTF practice in Saldus' },
+    description: {
+      lv: 'Reizi nedēļā risinām drošības “mīklas” komandās. Atnāc ar savu klēpjdatoru vai izmanto kluba datoru.',
+      en: 'Once a week we solve security “puzzles” in teams. Bring your laptop or use one of the club’s.',
+    },
+    duration: { lv: 'Katru ceturtdienu', en: 'Every Thursday' },
+    start: { lv: 'Var pievienoties jebkurā laikā', en: 'Join any time' },
+    keywords: 'ctf spēles games komanda saldus klātienē',
+  },
+  {
+    id: 'python-data',
+    providerId: 'datudarbnica',
+    careerId: 'ai-data',
+    type: 'course',
+    format: 'online',
+    level: 'beginner',
+    price: 39,
+    title: { lv: 'Python un datu analīze no nulles', en: 'Python and data analysis from zero' },
+    description: {
+      lv: 'Iemācies Python, strādā ar tabulām un veido grafikus no īstiem Latvijas datiem.',
+      en: 'Learn Python, work with tables and build charts from real Latvian data.',
+    },
+    duration: { lv: '8 nedēļas', en: '8 weeks' },
+    start: { lv: 'Sākas decembrī', en: 'Starts in December' },
+    keywords: 'python dati data excel grafiki analīze',
+  },
+  {
+    id: 'ai-bootcamp',
+    providerId: 'datudarbnica',
+    careerId: 'ai-data',
+    type: 'bootcamp',
+    format: 'hybrid',
+    level: 'intermediate',
+    price: 79,
+    title: { lv: 'MI projektu intensīvais kurss', en: 'AI projects bootcamp' },
+    description: {
+      lv: 'Četrās nedēļās uztrenē savu MI modeli un izveido nelielu čatbotu. Noslēgumā — prezentācija uzņēmumam.',
+      en: 'In four weeks, train your own AI model and build a small chatbot. Ends with a pitch to the company.',
+    },
+    duration: { lv: '4 nedēļas', en: '4 weeks' },
+    start: { lv: 'Sākas februārī', en: 'Starts in February' },
+    keywords: 'mi ai mākslīgais intelekts machine learning čatbots',
+  },
+  {
+    id: 'data-intern',
+    providerId: 'cloudbalt',
+    careerId: 'ai-data',
+    type: 'internship',
+    format: 'online',
+    level: 'beginner',
+    price: 0,
+    title: { lv: 'Datu analītiķa prakse (attālināti)', en: 'Data analyst internship (remote)' },
+    description: {
+      lv: 'Palīdzi komandai sakārtot datus un veidot atskaites. Strādā no mājām, ar mentoru katru nedēļu.',
+      en: 'Help the team clean data and build reports. Work from home, with a weekly mentor call.',
+    },
+    duration: { lv: '3 mēneši', en: '3 months' },
+    start: { lv: 'Pieteikšanās atvērta', en: 'Applications open' },
+    keywords: 'prakse internship dati remote attālināti',
+  },
+  {
+    id: 'first-site',
+    providerId: 'weblauks',
+    careerId: 'web',
+    type: 'course',
+    format: 'online',
+    level: 'beginner',
+    price: 0,
+    title: { lv: 'Pirmā mājaslapa: HTML un CSS', en: 'Your first website: HTML and CSS' },
+    description: {
+      lv: 'Soli pa solim izveido un publicē savu personīgo mājaslapu. Nekāda iepriekšēja pieredze nav vajadzīga.',
+      en: 'Build and publish your own personal website step by step. No previous experience needed.',
+    },
+    duration: { lv: '4 nedēļas', en: '4 weeks' },
+    start: { lv: 'Sāc jebkurā laikā', en: 'Start any time' },
+    keywords: 'html css web mājaslapa dizains',
+  },
+  {
+    id: 'react-bootcamp',
+    providerId: 'weblauks',
+    careerId: 'web',
+    type: 'bootcamp',
+    format: 'hybrid',
+    level: 'intermediate',
+    price: 59,
+    title: { lv: 'React izstrādes intensīvais kurss', en: 'React development bootcamp' },
+    description: {
+      lv: 'Strādā komandā pie īsta projekta, mācies Git un koda pārskatīšanu kā īstā aģentūrā.',
+      en: 'Work in a team on a real project, learning Git and code review like at a real agency.',
+    },
+    duration: { lv: '6 nedēļas', en: '6 weeks' },
+    start: { lv: 'Sākas martā', en: 'Starts in March' },
+    keywords: 'react javascript programmēšana git komanda',
+  },
+  {
+    id: 'web-workshop',
+    providerId: 'kodaklubs',
+    careerId: 'web',
+    type: 'course',
+    format: 'saldus',
+    level: 'beginner',
+    price: 0,
+    title: { lv: 'Web projektu darbnīca Saldū', en: 'Web project workshop in Saldus' },
+    description: {
+      lv: 'Kopā veidojam mājaslapas vietējām biedrībām un pasākumiem. Labs pirmais projekts tavā portfolio.',
+      en: 'We build websites for local NGOs and events together. A great first portfolio project.',
+    },
+    duration: { lv: 'Sestdienās, 8 nedēļas', en: 'Saturdays, 8 weeks' },
+    start: { lv: 'Sākas janvārī', en: 'Starts in January' },
+    keywords: 'web saldus klātienē projekts portfolio',
+  },
+  {
+    id: 'web-intern',
+    providerId: 'cloudbalt',
+    careerId: 'web',
+    type: 'internship',
+    format: 'online',
+    level: 'intermediate',
+    price: 0,
+    title: { lv: 'Junior web izstrādātāja prakse', en: 'Junior web developer internship' },
+    description: {
+      lv: 'Labo kļūdas un veido nelielas funkcijas īstā produktā. Pilnībā attālināti.',
+      en: 'Fix bugs and build small features in a real product. Fully remote.',
+    },
+    duration: { lv: '3 mēneši', en: '3 months' },
+    start: { lv: 'Pieteikšanās līdz maijam', en: 'Apply by May' },
+    keywords: 'prakse internship javascript remote',
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/*  9. PEOPLE — suggested people to follow (EXAMPLES, not real persons)        */
+/*     kind: mentor · pro (professional) · peer (another young person)         */
+/* -------------------------------------------------------------------------- */
+export type PersonKind = 'mentor' | 'pro' | 'peer'
+
+export interface Person {
+  id: string
+  name: string
+  kind: PersonKind
+  role: Localized
+  location: Localized
+  careerId: string
+  interests: string[]
+  bio: Localized
+  followers: number
+}
+
+export const PEOPLE: Person[] = [
+  {
+    id: 'laura',
+    name: 'Laura Kalniņa',
+    kind: 'mentor',
+    role: { lv: 'Kiberdrošības analītiķe, SecNord Labs', en: 'Security analyst, SecNord Labs' },
+    location: { lv: 'Saldus (attālināti)', en: 'Saldus (remote)' },
+    careerId: 'cyber',
+    interests: ['security', 'problems'],
+    bio: {
+      lv: 'Strādāju Rīgas uzņēmumam, dzīvojot Saldū. Palīdzu iesācējiem saprast, ar ko sākt drošībā.',
+      en: 'I work for a Riga company while living in Saldus. I help beginners figure out where to start in security.',
+    },
+    followers: 214,
+  },
+  {
+    id: 'martins',
+    name: 'Mārtiņš Ozols',
+    kind: 'mentor',
+    role: { lv: 'Datu zinātnieks, DatuDarbnīca', en: 'Data scientist, DatuDarbnīca' },
+    location: { lv: 'Kuldīga', en: 'Kuldīga' },
+    careerId: 'ai-data',
+    interests: ['ai', 'data', 'math'],
+    bio: {
+      lv: 'Pirms 5 gadiem nezināju, kas ir Python. Tagad māku stāstīt, kā tur nokļūt bez augstskolas diploma datorzinātnēs.',
+      en: 'Five years ago I didn’t know what Python was. Now I share how to get there without a CS degree.',
+    },
+    followers: 389,
+  },
+  {
+    id: 'eliza',
+    name: 'Elīza Bērziņa',
+    kind: 'pro',
+    role: { lv: 'Frontend izstrādātāja, WebLauks', en: 'Frontend developer, WebLauks' },
+    location: { lv: 'Saldus', en: 'Saldus' },
+    careerId: 'web',
+    interests: ['coding', 'design'],
+    bio: {
+      lv: 'Veidoju mājaslapas klientiem visā Eiropā. Dalos ar padomiem par portfolio un pirmo darbu.',
+      en: 'I build websites for clients across Europe. Sharing tips on portfolios and landing a first job.',
+    },
+    followers: 156,
+  },
+  {
+    id: 'davis',
+    name: 'Dāvis Krūmiņš',
+    kind: 'mentor',
+    role: { lv: 'Novada Koda kluba vadītājs', en: 'Leader, Novada Koda klubs' },
+    location: { lv: 'Saldus', en: 'Saldus' },
+    careerId: 'web',
+    interests: ['coding', 'games', 'problems'],
+    bio: {
+      lv: 'Organizēju CTF treniņus un web darbnīcas Saldū. Nāc ciemos — pieredze nav vajadzīga!',
+      en: 'I run CTF practice and web workshops in Saldus. Drop by — no experience needed!',
+    },
+    followers: 97,
+  },
+  {
+    id: 'anete',
+    name: 'Anete Vītola',
+    kind: 'pro',
+    role: { lv: 'UX dizainere, CloudBalt', en: 'UX designer, CloudBalt' },
+    location: { lv: 'Brocēni (attālināti)', en: 'Brocēni (remote)' },
+    careerId: 'web',
+    interests: ['design', 'problems'],
+    bio: {
+      lv: 'Projektēju, kā cilvēki lieto lietotnes. Dizains IT nozarē ir daudz vairāk nekā skaistas bildes.',
+      en: 'I design how people use apps. Design in tech is much more than pretty pictures.',
+    },
+    followers: 131,
+  },
+  {
+    id: 'kristaps',
+    name: 'Kristaps Jansons',
+    kind: 'peer',
+    role: { lv: 'Kiberdrošības praktikants, 20 g.', en: 'Security intern, 20' },
+    location: { lv: 'Saldus', en: 'Saldus' },
+    careerId: 'cyber',
+    interests: ['security', 'games', 'coding'],
+    bio: {
+      lv: 'Sāku ar CTF treniņiem kodu klubā, tagad esmu praksē. Pastāstīšu, kā tas bija.',
+      en: 'I started with CTF practice at the code club, now I’m an intern. Happy to share how it went.',
+    },
+    followers: 48,
+  },
+  {
+    id: 'katrina',
+    name: 'Katrīna Zariņa',
+    kind: 'peer',
+    role: { lv: 'Datorzinātņu studente, 19 g.', en: 'Computer science student, 19' },
+    location: { lv: 'Rīga (no Saldus)', en: 'Riga (from Saldus)' },
+    careerId: 'ai-data',
+    interests: ['ai', 'math', 'data'],
+    bio: {
+      lv: 'Studēju un mācos par mākslīgo intelektu. Rakstu par to, kā izvēlēties studijas.',
+      en: 'Studying and learning about AI. I write about how to choose what to study.',
+    },
+    followers: 63,
+  },
+  {
+    id: 'roberts',
+    name: 'Roberts Liepiņš',
+    kind: 'peer',
+    role: { lv: 'Vidusskolēns, 17 g.', en: 'High-school student, 17' },
+    location: { lv: 'Saldus', en: 'Saldus' },
+    careerId: 'web',
+    interests: ['games', 'coding'],
+    bio: {
+      lv: 'Veidoju savu pirmo spēli un mācos JavaScript. Meklēju, ar ko kopā taisīt projektus.',
+      en: 'Making my first game and learning JavaScript. Looking for people to build projects with.',
+    },
+    followers: 22,
+  },
+]

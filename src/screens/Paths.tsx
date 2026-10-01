@@ -25,7 +25,7 @@ export function Paths() {
     <>
       <PageHeader eyebrow={t.paths.eyebrow} title={t.paths.title} subtitle={t.paths.subtitle} />
 
-      <div className="grid gap-5 md:grid-cols-3 lg:gap-6">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
         {ranked.map(({ career, matched }, i) => {
           const Icon = career.icon
           const best = i === 0 && matched.length > 0

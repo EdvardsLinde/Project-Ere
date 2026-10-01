@@ -81,7 +81,7 @@ export function Profile() {
     <>
       <PageHeader eyebrow={t.profile.eyebrow} title={t.profile.title} subtitle={t.profile.subtitle} />
 
-      <div className="grid items-start gap-6 lg:grid-cols-[1fr_320px] lg:gap-8">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
         <div className="space-y-6">
           {/* 01 — Skills */}
           <Section index={1} icon={<Sparkles className="size-5" />} title={t.profile.skillsTitle} help={t.profile.skillsHelp}>

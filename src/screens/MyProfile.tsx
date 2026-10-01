@@ -11,13 +11,16 @@ import {
   Pencil,
   Plus,
   Route,
+  BookOpen,
+  Users,
   Sparkles,
   UserRound,
 } from 'lucide-react'
-import { CAREERS, EXPERIENCE_TYPES, INTERESTS, MOTIVATION_TAGS, SKILLS, TRAINING } from '../data'
+import { CAREERS, COURSES, EXPERIENCE_TYPES, INTERESTS, MOTIVATION_TAGS, PEOPLE, SKILLS, TRAINING } from '../data'
 import { useApp } from '../state'
 import type { Step } from '../state'
 import { Button, Card, cx } from '../components/ui'
+import { Avatar, CourseCard, PersonCard, rankPeople, useIsRecommended } from '../components/cards'
 
 /**
  * "Mans profils" — the user's profile page, reachable any time from the header.
@@ -26,6 +29,7 @@ import { Button, Card, cx } from '../components/ui'
  */
 export function MyProfile() {
   const { t, l, profile, edit, goTo } = useApp()
+  const isRecommended = useIsRecommended()
 
   if (!profile.name) {
     return (
@@ -46,6 +50,14 @@ export function MyProfile() {
   const interests = INTERESTS.filter((i) => profile.interests.includes(i.id))
   const skills = [...SKILLS.filter((s) => profile.skills.includes(s.id)).map((s) => l(s.label)), ...profile.customSkills]
   const motivationTags = MOTIVATION_TAGS.filter((m) => profile.motivationTags.includes(m.id))
+  const myCourses = COURSES.filter((c) => profile.savedCourses.includes(c.id) || profile.appliedCourses.includes(c.id))
+  const recommendedCourses = COURSES.filter(isRecommended).slice(0, 2)
+  const followed = PEOPLE.filter((p) => profile.following.includes(p.id))
+  const suggestedPeople = rankPeople(
+    PEOPLE.filter((p) => !profile.following.includes(p.id)),
+    profile.careerId,
+    profile.interests,
+  ).slice(0, 3)
 
   const todos: { done: boolean; label: string; step: Step }[] = [
     { done: interests.length > 0, label: t.me.todo.interests, step: 'interests' },
@@ -93,9 +105,26 @@ export function MyProfile() {
             )}
           </div>
         </div>
+        <div className="grid grid-cols-3 divide-x divide-slate-100 border-t border-slate-100">
+          {[
+            { n: profile.following.length, label: t.me.stats.following, to: 'people' as Step },
+            { n: profile.savedCourses.length, label: t.me.stats.saved, to: 'courses' as Step },
+            { n: profile.appliedCourses.length, label: t.me.stats.applied, to: 'courses' as Step },
+          ].map((s) => (
+            <button
+              key={s.label}
+              type="button"
+              onClick={() => goTo(s.to)}
+              className="cursor-pointer px-2 py-3 text-center transition hover:bg-slate-50"
+            >
+              <span className="block text-xl font-bold text-slate-900 tabular-nums">{s.n}</span>
+              <span className="text-xs text-slate-500">{s.label}</span>
+            </button>
+          ))}
+        </div>
       </Card>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         {/* Main column */}
         <div className="min-w-0 space-y-6">
           <Section icon={<Heart className="size-5" />} title={t.me.about} onEdit={() => edit('profile')} editLabel={t.me.edit}>
@@ -143,7 +172,7 @@ export function MyProfile() {
               <>
                 <p className="text-lg font-semibold text-slate-900">{l(career.title)}</p>
                 <p className="mt-1 text-sm text-slate-600">{l(career.description)}</p>
-                <ol className="mt-5 grid gap-3 sm:grid-cols-3">
+                <ol className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
                   {TRAINING[career.id].map((step, i) => (
                     <li
                       key={i}
@@ -170,10 +199,25 @@ export function MyProfile() {
               <EmptyAction text={t.me.careerEmpty} action={t.me.chooseCareer} onClick={() => edit('paths')} />
             )}
           </Section>
+
+          <Section
+            icon={<BookOpen className="size-5" />}
+            title={myCourses.length ? t.me.savedCourses : t.me.recommended}
+            onEdit={() => goTo('courses')}
+            editLabel={t.me.browseCourses}
+            link
+          >
+            {!myCourses.length && <p className="-mt-1 mb-4 text-sm text-slate-500">{t.me.savedEmpty}</p>}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {(myCourses.length ? myCourses : recommendedCourses).map((c) => (
+                <CourseCard key={c.id} course={c} compact />
+              ))}
+            </div>
+          </Section>
         </div>
 
         {/* Sidebar */}
-        <aside className="order-first space-y-6 lg:sticky lg:top-24 lg:order-none">
+        <aside className="order-first space-y-6 lg:order-none">
           <Card className="p-5 sm:p-6">
             <div className="flex items-baseline justify-between">
               <h2 className="font-bold text-slate-900">{t.me.completeness}</h2>
@@ -234,6 +278,28 @@ export function MyProfile() {
               <EmptyAction action={t.me.add} onClick={() => edit('profile')} />
             )}
           </Section>
+
+          <Section icon={<Users className="size-5" />} title={t.me.suggestedPeople} onEdit={() => goTo('people')} editLabel={t.me.seeAll} compact link>
+            <div className="space-y-4">
+              {suggestedPeople.map((p) => (
+                <PersonCard key={p.id} person={p} compact />
+              ))}
+            </div>
+            {followed.length > 0 && (
+              <div className="mt-5 border-t border-slate-100 pt-4">
+                <p className="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                  {t.me.followingTitle} · {followed.length}
+                </p>
+                <div className="mt-3 flex -space-x-2">
+                  {followed.map((p) => (
+                    <span key={p.id} title={p.name} className="rounded-full ring-2 ring-white">
+                      <Avatar name={p.name} size="sm" />
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </Section>
         </aside>
       </div>
     </div>
@@ -246,6 +312,7 @@ function Section({
   onEdit,
   editLabel,
   compact,
+  link,
   children,
 }: {
   icon: ReactNode
@@ -253,24 +320,36 @@ function Section({
   onEdit?: () => void
   editLabel: string
   compact?: boolean
+  /** Action navigates elsewhere (arrow) instead of editing (pencil). */
+  link?: boolean
   children: ReactNode
 }) {
   return (
     <Card className={compact ? 'p-5 sm:p-6' : 'p-5 sm:p-7'}>
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-2.5 font-bold text-slate-900 sm:text-lg">
-          <span className="flex size-9 items-center justify-center rounded-lg bg-brand-50 text-brand-700 ring-1 ring-brand-100">
-            {icon}
-          </span>
+        <h2 className="flex min-w-0 items-center gap-2.5 font-bold text-slate-900 sm:text-lg">
+          {!compact && (
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700 ring-1 ring-brand-100">
+              {icon}
+            </span>
+          )}
           {title}
         </h2>
         {onEdit && (
           <button
             type="button"
             onClick={onEdit}
-            className="inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg px-3 text-sm font-semibold text-brand-700 transition hover:bg-brand-50"
+            className="-mr-2 inline-flex h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-3 text-sm font-semibold whitespace-nowrap text-brand-700 transition hover:bg-brand-50"
           >
-            <Pencil className="size-3.5" /> {editLabel}
+            {link ? (
+              <>
+                {editLabel} <ArrowRight className="size-4" />
+              </>
+            ) : (
+              <>
+                <Pencil className="size-3.5" /> {editLabel}
+              </>
+            )}
           </button>
         )}
       </div>

@@ -7,8 +7,13 @@ import type { Dict } from './i18n'
 /** Linear flow. Order here = order on screen. */
 export const STEPS = ['welcome', 'interests', 'profile', 'paths', 'training', 'saldus', 'thanks'] as const
 type FlowStep = (typeof STEPS)[number]
-/** 'me' = the "Mans profils" page; reachable any time, outside the linear flow. */
-export type Step = FlowStep | 'me'
+/**
+ * App pages, unlocked after onboarding (the 6-step flow above):
+ * 'me' = "Mans profils" (home), 'courses' = course & training search,
+ * 'people' = people to follow, 'search' = search across everything.
+ */
+export type AppPage = 'me' | 'courses' | 'people' | 'search'
+export type Step = FlowStep | AppPage
 /** Steps shown in the progress indicator (thank-you screen is not counted). */
 export const PROGRESS_STEPS = STEPS.length - 1
 
@@ -31,6 +36,9 @@ export interface Profile {
   careerId: string | null
   /** Pressed "Esmu ieinteresēts/-a". */
   interested: boolean
+  savedCourses: string[]
+  appliedCourses: string[]
+  following: string[]
 }
 
 const emptyProfile: Profile = {
@@ -44,6 +52,9 @@ const emptyProfile: Profile = {
   experiences: [],
   careerId: null,
   interested: false,
+  savedCourses: [],
+  appliedCourses: [],
+  following: [],
 }
 
 interface AppState {
@@ -62,6 +73,12 @@ interface AppState {
   edit: (s: Step) => void
   /** True while editing a step opened from "Mans profils". */
   editing: boolean
+  /** True once the user has finished the 6-step onboarding. */
+  onboarded: boolean
+  query: string
+  setQuery: (q: string) => void
+  /** Run a search from anywhere (header, suggestions) and open the results. */
+  search: (q: string) => void
   profile: Profile
   update: (patch: Partial<Profile>) => void
   restart: () => void
@@ -74,6 +91,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [step, setStep] = useState<Step>('welcome')
   const [profile, setProfile] = useState<Profile>(emptyProfile)
   const [editing, setEditing] = useState(false)
+  const [onboarded, setOnboarded] = useState(false)
+  const [query, setQuery] = useState('')
 
   const stepIndex = STEPS.indexOf(step as FlowStep)
 
@@ -83,6 +102,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const show = useCallback((s: Step) => {
     setStep(s)
+    if (s === 'thanks') setOnboarded(true)
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }, [])
 
@@ -111,14 +131,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
         show(s)
       },
       editing,
+      onboarded,
+      query,
+      setQuery,
+      search: (q) => {
+        setQuery(q)
+        goTo('search')
+      },
       profile,
       update: (patch) => setProfile((p) => ({ ...p, ...patch })),
       restart: () => {
         setProfile(emptyProfile)
+        setOnboarded(false)
+        setQuery('')
         goTo('welcome')
       },
     }),
-    [lang, step, stepIndex, goTo, show, editing, profile],
+    [lang, step, stepIndex, goTo, show, editing, onboarded, query, profile],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

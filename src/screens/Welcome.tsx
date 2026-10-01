@@ -34,7 +34,7 @@ export function Welcome() {
           <div className="absolute -bottom-48 -left-24 size-[420px] rounded-full bg-accent-100/60 blur-3xl" />
         </div>
 
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:px-8 lg:py-24">
+        <div className="relative mx-auto grid grid-cols-1 max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:px-8 lg:py-24">
           <div className="animate-fade-up">
             <span className="inline-flex items-center gap-2 rounded-full bg-accent-50 px-3 py-1.5 text-sm font-semibold text-accent-700 ring-1 ring-accent-200">
               <span className="size-1.5 rounded-full bg-accent-500" />
@@ -106,7 +106,7 @@ export function Welcome() {
 
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <h2 className="text-center text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{t.welcome.howTitle}</h2>
-        <ol className="mt-10 grid gap-5 md:grid-cols-3">
+        <ol className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
           {t.welcome.how.map((item, i) => {
             const Icon = howIcons[i]
             return (

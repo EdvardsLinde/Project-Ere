@@ -7,7 +7,7 @@ import { useRankedCareers } from './Paths'
 const STEP_ICONS = [BookOpen, Wrench, Rocket]
 
 export function Training() {
-  const { t, l, profile, update, next } = useApp()
+  const { t, l, profile, update, next, goTo, onboarded, editing } = useApp()
   const ranked = useRankedCareers()
   // Fall back to the best-matching career if the user jumped here from the nav.
   const career = CAREERS.find((c) => c.id === profile.careerId) ?? ranked[0].career
@@ -47,7 +47,7 @@ export function Training() {
         ))}
       </div>
 
-      <ol key={career.id} className="relative grid gap-5 md:grid-cols-3 lg:gap-6">
+      <ol key={career.id} className="relative grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
         {/* connector line (desktop) */}
         <span aria-hidden className="absolute top-11 right-[16%] left-[16%] hidden h-0.5 bg-gradient-to-r from-brand-200 via-brand-300 to-accent-300 md:block" />
         {steps.map((step, i) => {
@@ -99,9 +99,15 @@ export function Training() {
       </div>
 
       <ActionBar>
-        <Button size="lg" onClick={() => next()}>
-          {t.common.next} <ArrowRight className="size-5" />
-        </Button>
+        {onboarded && !editing ? (
+          <Button size="lg" onClick={() => goTo('courses')}>
+            {t.training.findCourses} <ArrowRight className="size-5" />
+          </Button>
+        ) : (
+          <Button size="lg" onClick={() => next()}>
+            {t.common.next} <ArrowRight className="size-5" />
+          </Button>
+        )}
       </ActionBar>
     </>
   )

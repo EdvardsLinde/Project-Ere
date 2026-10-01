@@ -1,35 +1,13 @@
-import type { ReactNode } from 'react'
-import { Mail, PartyPopper, RotateCcw, UserRound } from 'lucide-react'
-import { CAREERS, INTERESTS, MOTIVATION_TAGS, SKILLS } from '../data'
+import { ArrowRight, BookOpen, Mail, PartyPopper } from 'lucide-react'
 import { useApp } from '../state'
-import { Button, Card } from '../components/ui'
+import { Button } from '../components/ui'
 
+/** End of onboarding. From here on the user lives in the app (profile, courses, people). */
 export function Thanks() {
-  const { t, l, profile, restart, goTo } = useApp()
-  const career = CAREERS.find((c) => c.id === profile.careerId)
-  const join = (items: string[]) => (items.length ? items.join(', ') : t.thanks.none)
-
-  const rows: [string, ReactNode][] = [
-    [t.thanks.career, career ? l(career.title) : t.thanks.none],
-    [t.thanks.interests, join(INTERESTS.filter((i) => profile.interests.includes(i.id)).map((i) => l(i.label)))],
-    [
-      t.thanks.skills,
-      join([...SKILLS.filter((s) => profile.skills.includes(s.id)).map((s) => l(s.label)), ...profile.customSkills]),
-    ],
-    [
-      t.thanks.motivation,
-      join(
-        [
-          profile.motivationText.trim() && `“${profile.motivationText.trim()}”`,
-          ...MOTIVATION_TAGS.filter((m) => profile.motivationTags.includes(m.id)).map((m) => l(m.label)),
-        ].filter(Boolean) as string[],
-      ),
-    ],
-    [t.thanks.experience, join(profile.experiences.map((e) => e.title))],
-  ]
+  const { t, profile, goTo } = useApp()
 
   return (
-    <div className="mx-auto max-w-2xl py-4 text-center sm:py-8">
+    <div className="mx-auto max-w-2xl py-6 text-center sm:py-12">
       <span className="animate-fade-up mx-auto flex size-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-accent-500 text-white shadow-lift">
         <PartyPopper className="size-9" />
       </span>
@@ -43,29 +21,18 @@ export function Thanks() {
         </p>
       )}
 
-      <Card className="mt-10 text-left">
-        <h2 className="border-b border-slate-100 px-6 py-4 text-base font-bold text-slate-900">{t.thanks.summaryTitle}</h2>
-        <dl className="divide-y divide-slate-100">
-          {rows.map(([label, value]) => (
-            <div key={label} className="grid gap-1 px-6 py-4 sm:grid-cols-[150px_1fr] sm:gap-4">
-              <dt className="text-sm font-medium text-slate-500">{label}</dt>
-              <dd className="text-sm break-words text-slate-900">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </Card>
-
-      <div className="mt-8 flex flex-col items-center gap-3">
-        <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="mx-auto mt-10 max-w-xl rounded-2xl bg-brand-50 p-6 ring-1 ring-brand-100 sm:p-8">
+        <p className="font-medium text-brand-900">{t.thanks.unlocked}</p>
+        <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <Button size="lg" onClick={() => goTo('me')}>
-            <UserRound className="size-4" /> {t.nav.profile}
+            {t.thanks.openProfile} <ArrowRight className="size-5" />
           </Button>
-          <Button variant="secondary" size="lg" onClick={restart}>
-            <RotateCcw className="size-4" /> {t.thanks.restart}
+          <Button size="lg" variant="secondary" onClick={() => goTo('courses')}>
+            <BookOpen className="size-5" /> {t.me.browseCourses}
           </Button>
         </div>
-        <p className="text-xs text-slate-400">{t.thanks.prototype}</p>
       </div>
+      <p className="mt-6 text-xs text-slate-400">{t.thanks.prototype}</p>
     </div>
   )
 }

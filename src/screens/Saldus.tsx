@@ -6,7 +6,7 @@ import { Button, Card } from '../components/ui'
 const BENEFIT_ICONS = [House, Globe, HandHeart]
 
 export function Saldus() {
-  const { t, l, profile, update, next } = useApp()
+  const { t, l, profile, update, next, goTo, onboarded } = useApp()
   const career = CAREERS.find((c) => c.id === profile.careerId)
 
   return (
@@ -49,7 +49,8 @@ export function Saldus() {
               variant="light"
               onClick={() => {
                 update({ interested: true })
-                next()
+                if (onboarded) goTo('me')
+                else next()
               }}
               className="w-full sm:w-auto"
             >
@@ -60,7 +61,7 @@ export function Saldus() {
         </div>
       </section>
 
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         {t.saldus.benefits.map((b, i) => {
           const Icon = BENEFIT_ICONS[i]
           return (

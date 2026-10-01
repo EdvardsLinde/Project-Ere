@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { ArrowLeft, MapPin, Menu, RotateCcw, UserRound, X } from 'lucide-react'
+import { ArrowLeft, MapPin, Menu, RotateCcw, Search, UserRound, X } from 'lucide-react'
+import { SearchBox } from './cards'
 import type { Lang } from '../data'
 import { PROGRESS_STEPS, useApp } from '../state'
 import type { Step } from '../state'
@@ -59,103 +60,127 @@ function LangToggle() {
 }
 
 export function Header() {
-  const { t, step, goTo, profile, restart } = useApp()
+  const { t, step, goTo, profile, restart, onboarded, search } = useApp()
   const [open, setOpen] = useState(false)
+  const [q, setQ] = useState('')
 
-  const nav: { step: Step; label: string }[] = [
-    { step: 'paths', label: t.nav.careers },
-    { step: 'training', label: t.nav.training },
-    { step: 'saldus', label: t.nav.saldus },
+  // The main navigation only exists once onboarding (the 6 steps) is done.
+  const nav: { step: Step; label: string; also?: Step[] }[] = [
+    { step: 'me', label: t.nav.profile },
+    { step: 'courses', label: t.nav.courses },
+    { step: 'people', label: t.nav.people },
+    { step: 'paths', label: t.nav.careers, also: ['training'] },
   ]
+  const isActive = (item: (typeof nav)[number]) => step === item.step || !!item.also?.includes(step)
   const initial = profile.name.trim().charAt(0).toUpperCase()
 
   const navigate = (s: Step) => {
     setOpen(false)
     goTo(s)
   }
+  const submitSearch = (value: string) => {
+    setOpen(false)
+    search(value)
+    setQ('')
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:h-18 sm:px-6 lg:px-8">
-        <button type="button" onClick={() => navigate('welcome')} className="cursor-pointer" aria-label="ERE">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:px-8">
+        <button
+          type="button"
+          onClick={() => navigate(onboarded ? 'me' : 'welcome')}
+          className="shrink-0 cursor-pointer"
+          aria-label="ERE"
+        >
           <Logo />
         </button>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          {nav.map((item) => (
+        {onboarded && (
+          <nav className="hidden items-center gap-0.5 lg:flex">
+            {nav.map((item) => (
+              <button
+                key={item.step}
+                type="button"
+                onClick={() => navigate(item.step)}
+                className={cx(
+                  'relative cursor-pointer rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap transition',
+                  isActive(item) ? 'text-brand-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                )}
+              >
+                {item.label}
+                {isActive(item) && <span className="absolute inset-x-3 -bottom-[17px] h-0.5 rounded-full bg-brand-600" />}
+              </button>
+            ))}
+          </nav>
+        )}
+
+        <div className="flex items-center gap-2 sm:gap-3">
+          {onboarded && (
+            <>
+              <div className="hidden w-52 xl:block">
+                <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.search} size="md" />
+              </div>
+              <button
+                type="button"
+                onClick={() => navigate('search')}
+                aria-label={t.nav.search}
+                className={cx(
+                  'flex size-11 cursor-pointer items-center justify-center rounded-lg transition xl:hidden',
+                  step === 'search' ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-100',
+                )}
+              >
+                <Search className="size-5" />
+              </button>
+            </>
+          )}
+          <LangToggle />
+          {onboarded && (
             <button
-              key={item.step}
               type="button"
-              onClick={() => navigate(item.step)}
+              onClick={() => navigate('me')}
+              aria-label={t.nav.profile}
+              title={profile.name}
               className={cx(
-                'relative cursor-pointer rounded-lg px-3.5 py-2 text-sm font-medium transition',
-                step === item.step ? 'text-brand-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                'hidden size-10 cursor-pointer items-center justify-center rounded-full bg-accent-100 text-sm font-bold text-accent-800 ring-2 transition sm:flex',
+                step === 'me' ? 'ring-brand-500' : 'ring-white hover:ring-accent-300',
               )}
             >
-              {item.label}
-              {step === item.step && (
-                <span className="absolute inset-x-3.5 -bottom-[13px] h-0.5 rounded-full bg-brand-600 sm:-bottom-[17px]" />
-              )}
-            </button>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <LangToggle />
-          <button
-            type="button"
-            onClick={() => navigate('me')}
-            aria-label={t.nav.profile}
-            title={t.nav.profile}
-            className={cx(
-              'hidden h-10 cursor-pointer items-center gap-2 rounded-full py-0.5 pr-3 pl-0.5 text-sm font-semibold ring-1 transition sm:flex',
-              step === 'me'
-                ? 'bg-brand-50 text-brand-800 ring-brand-300'
-                : 'text-slate-700 ring-slate-200 hover:bg-slate-50 hover:ring-slate-300',
-            )}
-          >
-            <span className="flex size-9 items-center justify-center rounded-full bg-accent-100 text-accent-800">
               {initial || <UserRound className="size-4" />}
-            </span>
-            <span className="max-w-28 truncate">{profile.name || t.nav.profile}</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setOpen((o) => !o)}
-            aria-expanded={open}
-            aria-label={open ? t.nav.close : t.nav.menu}
-            className="flex size-11 cursor-pointer items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 md:hidden"
-          >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+            </button>
+          )}
+          {onboarded && (
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              aria-expanded={open}
+              aria-label={open ? t.nav.close : t.nav.menu}
+              className="flex size-11 cursor-pointer items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 lg:hidden"
+            >
+              {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
+          )}
         </div>
       </div>
 
-      {open && (
-        <div className="animate-fade-up border-t border-slate-200 bg-white px-4 pt-2 pb-4 md:hidden">
-          {nav.map((item) => (
+      {open && onboarded && (
+        <div className="animate-fade-up border-t border-slate-200 bg-white px-4 pt-3 pb-4 lg:hidden">
+          <div className="mb-2">
+            <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.searchPlaceholder} size="md" />
+          </div>
+          {[...nav, { step: 'saldus' as Step, label: t.nav.saldus }].map((item) => (
             <button
               key={item.step}
               type="button"
               onClick={() => navigate(item.step)}
               className={cx(
                 'flex h-12 w-full cursor-pointer items-center rounded-lg px-3 text-left text-base font-medium',
-                step === item.step ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50',
+                isActive(item) ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50',
               )}
             >
               {item.label}
             </button>
           ))}
-          <button
-            type="button"
-            onClick={() => navigate('me')}
-            className={cx(
-              'flex h-12 w-full cursor-pointer items-center gap-2 rounded-lg px-3 text-left text-base font-medium',
-              step === 'me' ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50',
-            )}
-          >
-            <UserRound className="size-4" /> {t.nav.profile}
-          </button>
           <button
             type="button"
             onClick={() => {
@@ -209,11 +234,11 @@ export function StepBar() {
 }
 
 export function Footer() {
-  const { t, goTo, restart } = useApp()
+  const { t, goTo, restart, onboarded } = useApp()
   const link = 'cursor-pointer text-sm text-slate-400 transition hover:text-white'
   return (
     <footer className="mt-auto bg-slate-900 text-slate-300">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
+      <div className="mx-auto grid grid-cols-1 max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
         <div className="max-w-sm">
           <Logo inverted />
           <p className="mt-4 text-sm leading-relaxed text-slate-400">{t.footer.about}</p>
@@ -221,22 +246,28 @@ export function Footer() {
             <MapPin className="size-4 text-accent-400" /> {t.footer.location}
           </p>
         </div>
-        <div>
-          <h3 className="text-sm font-semibold text-white">{t.footer.explore}</h3>
-          <ul className="mt-4 space-y-3">
-            <li><button type="button" className={link} onClick={() => goTo('paths')}>{t.nav.careers}</button></li>
-            <li><button type="button" className={link} onClick={() => goTo('training')}>{t.nav.training}</button></li>
-            <li><button type="button" className={link} onClick={() => goTo('saldus')}>{t.footer.links.remote}</button></li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-sm font-semibold text-white">{t.footer.forYou}</h3>
-          <ul className="mt-4 space-y-3">
-            <li><button type="button" className={link} onClick={() => goTo('welcome')}>{t.footer.links.how}</button></li>
-            <li><button type="button" className={link} onClick={() => goTo('me')}>{t.footer.links.profile}</button></li>
-            <li><button type="button" className={link} onClick={restart}>{t.footer.links.start}</button></li>
-          </ul>
-        </div>
+        {/* App links only make sense once the user has a profile. */}
+        {onboarded && (
+          <>
+            <div>
+              <h3 className="text-sm font-semibold text-white">{t.footer.explore}</h3>
+              <ul className="mt-4 space-y-3">
+                <li><button type="button" className={link} onClick={() => goTo('courses')}>{t.nav.courses}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('people')}>{t.nav.people}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('paths')}>{t.nav.careers}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('saldus')}>{t.footer.links.remote}</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white">{t.footer.forYou}</h3>
+              <ul className="mt-4 space-y-3">
+                <li><button type="button" className={link} onClick={() => goTo('me')}>{t.footer.links.profile}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('search')}>{t.nav.search}</button></li>
+                <li><button type="button" className={link} onClick={restart}>{t.footer.links.start}</button></li>
+              </ul>
+            </div>
+          </>
+        )}
       </div>
       <div className="border-t border-slate-800">
         <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-slate-500 sm:px-6 lg:px-8">
