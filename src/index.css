@@ -1,48 +1,193 @@
 @import "tailwindcss";
 
+/*
+ * ERE colour system — warm, friendly blue/teal ("ocean-fresh").
+ *
+ *   Background  #ECF8FD   Text       #0B293C   Primary   #006C9B
+ *   Button text #F5FBFE   Teal       #00A0A8   Aqua tint #D1F3F4
+ *   Sky tint    #D0ECF5   Muted text #566D7A   Sun       #EEC05B   Error #E62B34
+ *
+ * Components use Tailwind's colour names (slate/brand/accent/amber/red), so the
+ * whole app is themed by redefining these scales here. Dark mode redefines the
+ * same variables under `html.dark` (toggled from the header).
+ */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* ERE brand — warm blue */
-  --color-brand-50: #eff5ff;
-  --color-brand-100: #dbe8fe;
-  --color-brand-200: #bfd6fe;
-  --color-brand-300: #93bbfd;
-  --color-brand-400: #6096fa;
-  --color-brand-500: #3b74f6;
-  --color-brand-600: #2557eb;
-  --color-brand-700: #1d44d8;
-  --color-brand-800: #1e38af;
-  --color-brand-900: #1e348a;
-  --color-brand-950: #172154;
+  /* Neutrals: blue-tinted. 50 = page background, 500 = muted text, 900 = text. */
+  --color-slate-50: #ecf8fd;
+  --color-slate-100: #e0f1f8;
+  --color-slate-200: #cde4ee;
+  --color-slate-300: #b0cbd8;
+  --color-slate-400: #8aa3b0;
+  --color-slate-500: #566d7a;
+  --color-slate-600: #435a68;
+  --color-slate-700: #2d4757;
+  --color-slate-800: #183748;
+  --color-slate-900: #0b293c;
+  --color-slate-950: #061d2b;
 
-  /* ERE accent — teal */
-  --color-accent-50: #effcf9;
-  --color-accent-100: #c8f7ec;
-  --color-accent-200: #92eedb;
-  --color-accent-300: #54dec5;
-  --color-accent-400: #25c6ac;
-  --color-accent-500: #0ea893;
-  --color-accent-600: #088778;
-  --color-accent-700: #0b6c61;
-  --color-accent-800: #0e564f;
-  --color-accent-900: #114742;
+  /* Primary: deep warm blue (600 = #006C9B). 50 = selected-state sky tint. */
+  --color-brand-50: #e3f3f9;
+  --color-brand-100: #d0ecf5;
+  --color-brand-200: #a7d8ea;
+  --color-brand-300: #6fbedb;
+  --color-brand-400: #2f9dc6;
+  --color-brand-500: #0a84b5;
+  --color-brand-600: #006c9b;
+  --color-brand-700: #005a82;
+  --color-brand-800: #004a6b;
+  --color-brand-900: #0b3b55;
+  --color-brand-950: #0b293c;
 
-  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 1px 3px rgb(15 23 42 / 0.06);
-  --shadow-lift: 0 4px 6px -2px rgb(15 23 42 / 0.05), 0 12px 24px -6px rgb(15 23 42 / 0.12);
+  /* Teal accent (500 = #00A0A8). 100 = pale aqua tint for chips/badges. */
+  --color-accent-50: #e6f8f9;
+  --color-accent-100: #d1f3f4;
+  --color-accent-200: #a5e6e9;
+  --color-accent-300: #66d2d7;
+  --color-accent-400: #25bac1;
+  --color-accent-500: #00a0a8;
+  --color-accent-600: #008990;
+  --color-accent-700: #006f75;
+  --color-accent-800: #005a5f;
+  --color-accent-900: #0a4a4f;
+
+  /* Sun-yellow (500 = #EEC05B) — used sparingly: example badges, "recommended". */
+  --color-amber-50: #fdf7e8;
+  --color-amber-100: #fbedc9;
+  --color-amber-200: #f4da98;
+  --color-amber-300: #f1cd78;
+  --color-amber-400: #efc566;
+  --color-amber-500: #eec05b;
+  --color-amber-600: #c99a2e;
+  --color-amber-700: #8a6215;
+  --color-amber-800: #6f4f12;
+  --color-amber-900: #573e0f;
+
+  /* Error red (#E62B34). */
+  --color-red-50: #fdeced;
+  --color-red-400: #f06a70;
+  --color-red-500: #e62b34;
+  --color-red-600: #e62b34;
+  --color-red-700: #c21e26;
+
+  /* Text on primary buttons. */
+  --color-white: #f5fbfe;
+
+  /* Semantic surfaces. */
+  --color-card: #ffffff;
+  --color-ink: #0b293c; /* footer */
+  --color-on-accent: #f5fbfe; /* text on solid teal */
+  --color-on-sun: #0b293c; /* text on solid sun-yellow */
+  --color-hero-from: #005a82;
+  --color-hero-via: #006c9b;
+  --color-hero-to: #00a0a8;
+
+  /* Rounded everywhere: cards 16px, buttons/inputs 14px. */
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+
+  /* Soft blue-tinted shadows. */
+  --shadow-xs: 0 1px 2px rgb(0 108 155 / 0.06);
+  --shadow-sm: 0 1px 3px rgb(0 108 155 / 0.1), 0 1px 2px rgb(0 108 155 / 0.06);
+  --shadow-card: 0 1px 2px rgb(0 108 155 / 0.05), 0 6px 18px -6px rgb(0 108 155 / 0.14);
+  --shadow-lift: 0 4px 8px -2px rgb(0 108 155 / 0.08), 0 18px 36px -10px rgb(0 108 155 / 0.22);
+}
+
+/* Dark mode: deep navy-teal surfaces, brighter teal accents. */
+html.dark {
+  color-scheme: dark;
+
+  --color-slate-50: #061d2b;
+  --color-slate-100: #123245;
+  --color-slate-200: #1b3d51;
+  --color-slate-300: #2a5164;
+  --color-slate-400: #6f8c9a;
+  --color-slate-500: #98b0bc;
+  --color-slate-600: #b4c8d2;
+  --color-slate-700: #cbdbe3;
+  --color-slate-800: #e0ecf1;
+  --color-slate-900: #eef6f9;
+  --color-slate-950: #f5fbfe;
+
+  --color-brand-50: #0f3348;
+  --color-brand-100: #133c55;
+  --color-brand-200: #1c5170;
+  --color-brand-300: #2a7196;
+  --color-brand-400: #3e97c2;
+  --color-brand-500: #2c9ad0;
+  --color-brand-600: #1783b6;
+  --color-brand-700: #48b0de;
+  --color-brand-800: #7cc8ea;
+  --color-brand-900: #b5e0f3;
+  --color-brand-950: #ddf1fa;
+
+  --color-accent-50: #0b3038;
+  --color-accent-100: #0e3b44;
+  --color-accent-200: #145059;
+  --color-accent-300: #1e6e76;
+  --color-accent-400: #2e9ca3;
+  --color-accent-500: #3ebfc6;
+  --color-accent-600: #35b2b9;
+  --color-accent-700: #5ed0d6;
+  --color-accent-800: #8fe0e4;
+  --color-accent-900: #c2eff1;
+
+  --color-amber-50: #2a2512;
+  --color-amber-100: #3a3216;
+  --color-amber-200: #5a4b1f;
+  --color-amber-500: #eec05b;
+  --color-amber-600: #f2cc77;
+  --color-amber-700: #f2cc77;
+  --color-amber-800: #f6da9c;
+  --color-amber-900: #f9e7bf;
+
+  --color-red-50: #3a1416;
+  --color-red-400: #f06a70;
+  --color-red-500: #ff5a61;
+  --color-red-600: #ff6b71;
+  --color-red-700: #ff8a8f;
+
+  --color-card: #0e293a;
+  --color-ink: #03141f;
+  --color-on-accent: #061d2b;
+  --color-hero-from: #0a3f5c;
+  --color-hero-via: #0b5577;
+  --color-hero-to: #0b7a80;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.35);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 20px -8px rgb(0 0 0 / 0.5);
+  --shadow-lift: 0 6px 12px -4px rgb(0 0 0 / 0.4), 0 20px 40px -12px rgb(0 0 0 / 0.6);
 }
 
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
   }
   body {
-    @apply bg-slate-50 text-slate-800 antialiased;
+    @apply bg-slate-50 text-slate-900 antialiased;
     font-feature-settings: "cv11", "ss01";
+    transition: background-color 0.2s ease;
   }
   ::selection {
-    @apply bg-brand-200 text-brand-950;
+    @apply bg-accent-200 text-slate-900;
   }
+}
+
+/* Subtle teal + blue radial glows for hero backgrounds. */
+.hero-glow {
+  background:
+    radial-gradient(42rem 28rem at 88% -10%, color-mix(in oklab, var(--color-brand-300) 35%, transparent), transparent 70%),
+    radial-gradient(36rem 26rem at -5% 110%, color-mix(in oklab, var(--color-accent-300) 32%, transparent), transparent 70%),
+    var(--color-card);
 }
 
 @keyframes fade-up {

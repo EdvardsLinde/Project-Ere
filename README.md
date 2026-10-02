@@ -23,7 +23,7 @@ Then open the URL that Vite prints (usually http://localhost:5173). `npm run bui
 - **Cilvēki**: suggested mentors, professionals and other young people to follow. Search by name, job, place or skill; click anyone to open their profile (about, skills, "Mans ceļš" timeline, interests, courses in their field, similar people).
 - **Meklēt**: one search across courses, people, careers and companies.
 
-The header has an LV/EN toggle. Latvian is the default language.
+The header has an LV/EN toggle (Latvian is the default) and a light/dark toggle. The app uses light mode by default and remembers the choice in the browser.
 
 > **All companies, courses and people are fictional examples.** The UI labels them that way with a "Piemērs" badge and a notice on every page. Replace them with real partners in `src/data.ts` once you have agreements.
 
@@ -33,7 +33,7 @@ The header has an LV/EN toggle. Latvian is the default language.
 | --- | --- |
 | Interests, skills, motivation tags, experience types, careers, training steps, example companies / courses / people | `src/data.ts` (commented constants at the top) |
 | All UI text (LV + EN) | `src/i18n.ts`. `en` is type-checked against `lv`, so a missing key fails the build |
-| Brand colours / font | `src/index.css` (`@theme` block) |
+| Colours (light + dark), radius, shadows, font | `src/index.css`. The `@theme` block holds light mode and `html.dark` holds dark mode |
 | App state & step order | `src/state.tsx` |
 | Screens | `src/screens/*` |
 | Header, step bar, footer, shared UI | `src/components/*` |

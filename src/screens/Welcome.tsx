@@ -27,12 +27,8 @@ export function Welcome() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        {/* soft brand glow */}
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-40 -right-32 size-[520px] rounded-full bg-brand-100/70 blur-3xl" />
-          <div className="absolute -bottom-48 -left-24 size-[420px] rounded-full bg-accent-100/60 blur-3xl" />
-        </div>
+      {/* Teal + blue radial glows (see .hero-glow in index.css) */}
+      <section className="hero-glow relative overflow-hidden">
 
         <div className="relative mx-auto grid grid-cols-1 max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:px-8 lg:py-24">
           <div className="animate-fade-up">

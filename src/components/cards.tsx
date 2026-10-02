@@ -29,10 +29,9 @@ export function ExampleBadge() {
 const AVATAR_TONES = [
   'bg-brand-100 text-brand-800',
   'bg-accent-100 text-accent-800',
-  'bg-violet-100 text-violet-800',
   'bg-amber-100 text-amber-800',
-  'bg-sky-100 text-sky-800',
-  'bg-rose-100 text-rose-800',
+  'bg-brand-200 text-brand-900',
+  'bg-accent-200 text-accent-900',
 ]
 
 export function Avatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md' | 'lg' | 'xl' }) {
@@ -94,7 +93,7 @@ export function SearchBox({
         placeholder={placeholder}
         aria-label={placeholder}
         className={cx(
-          'block w-full rounded-xl border-0 bg-white text-slate-900 ring-1 ring-slate-300 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 focus:outline-none [&::-webkit-search-cancel-button]:hidden',
+          'block w-full rounded-xl border-0 bg-card text-slate-900 ring-1 ring-slate-300 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 focus:outline-none [&::-webkit-search-cancel-button]:hidden',
           size === 'lg' ? 'h-14 pr-12 pl-12 text-base shadow-card' : 'h-10 pr-9 pl-9 text-sm',
         )}
       />
@@ -279,7 +278,7 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
         className={cx(
           'mt-4 self-start rounded-md px-2 py-0.5 text-xs font-semibold',
           person.kind === 'mentor' && 'bg-brand-50 text-brand-700',
-          person.kind === 'pro' && 'bg-violet-50 text-violet-700',
+          person.kind === 'pro' && 'bg-amber-50 text-amber-800',
           person.kind === 'peer' && 'bg-accent-50 text-accent-700',
         )}
       >

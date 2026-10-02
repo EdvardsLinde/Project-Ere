@@ -20,6 +20,8 @@ const lv = {
     close: 'Aizvērt',
     restart: 'Sākt no jauna',
     language: 'Valoda',
+    darkMode: 'Tumšais režīms',
+    lightMode: 'Gaišais režīms',
   },
   common: {
     back: 'Atpakaļ',
@@ -294,6 +296,8 @@ const en: Dict = {
     close: 'Close',
     restart: 'Start over',
     language: 'Language',
+    darkMode: 'Dark mode',
+    lightMode: 'Light mode',
   },
   common: {
     back: 'Back',

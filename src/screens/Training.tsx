@@ -38,8 +38,8 @@ export function Training() {
             className={cx(
               'min-h-10 cursor-pointer rounded-full px-4 text-sm font-medium transition',
               c.id === career.id
-                ? 'bg-slate-900 text-white'
-                : 'bg-white text-slate-600 ring-1 ring-slate-300 hover:bg-slate-50 hover:text-slate-900',
+                ? 'bg-brand-600 text-white'
+                : 'bg-card text-slate-600 ring-1 ring-slate-300 hover:bg-slate-50 hover:text-slate-900',
             )}
           >
             {l(c.title)}
@@ -58,8 +58,8 @@ export function Training() {
                 <div className="flex items-center gap-3 md:flex-col md:items-start">
                   <span
                     className={cx(
-                      'relative flex size-11 items-center justify-center rounded-full text-base font-bold text-white ring-4 ring-white',
-                      i === 2 ? 'bg-accent-500' : 'bg-brand-600',
+                      'relative flex size-11 items-center justify-center rounded-full text-base font-bold ring-4 ring-card',
+                      i === 2 ? 'bg-accent-500 text-on-accent' : 'bg-brand-600 text-white',
                     )}
                   >
                     {i + 1}

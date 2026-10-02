@@ -12,10 +12,11 @@ const variants: Record<Variant, string> = {
   primary:
     'bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700 active:bg-brand-800 disabled:bg-slate-300 disabled:shadow-none',
   accent:
-    'bg-accent-500 text-white shadow-sm shadow-accent-600/25 hover:bg-accent-600 active:bg-accent-700 disabled:bg-slate-300 disabled:shadow-none',
+    'bg-accent-500 text-on-accent shadow-sm shadow-accent-600/25 hover:bg-accent-600 active:bg-accent-700 disabled:bg-slate-300 disabled:shadow-none',
   secondary:
-    'bg-white text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:ring-slate-400 disabled:text-slate-400',
-  light: 'bg-white text-brand-700 shadow-lg shadow-brand-950/20 hover:bg-brand-50 active:bg-brand-100',
+    'bg-card text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:ring-slate-400 disabled:text-slate-400',
+  // White button on the dark hero gradient — same look in light and dark mode.
+  light: 'bg-white text-[#006c9b] shadow-lg shadow-black/20 hover:bg-[#e3f3f9] active:bg-[#d0ecf5]',
   ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:text-slate-400',
 }
 
@@ -65,7 +66,7 @@ export function Chip({
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500',
         selected
           ? 'bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700'
-          : 'bg-white text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-brand-50 hover:text-brand-800 hover:ring-brand-300',
+          : 'bg-card text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-brand-50 hover:text-brand-800 hover:ring-brand-300',
       )}
     >
       {selected && <Check className="size-4" strokeWidth={2.5} aria-hidden />}
@@ -76,7 +77,7 @@ export function Chip({
 
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
   return (
-    <div className={cx('rounded-2xl bg-white shadow-card ring-1 ring-slate-200/70', className)}>{children}</div>
+    <div className={cx('rounded-2xl bg-card shadow-card ring-1 ring-slate-200/70', className)}>{children}</div>
   )
 }
 
@@ -109,7 +110,7 @@ export function PageHeader({
  */
 export function ActionBar({ children, hint }: { children: ReactNode; hint?: ReactNode }) {
   return (
-    <div className="sticky bottom-0 z-20 -mx-4 mt-10 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-12 sm:border-t sm:bg-transparent sm:px-0 sm:pt-6 sm:pb-0 sm:backdrop-blur-none">
+    <div className="sticky bottom-0 z-20 -mx-4 mt-10 border-t border-slate-200 bg-card/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-12 sm:border-t sm:bg-transparent sm:px-0 sm:pt-6 sm:pb-0 sm:backdrop-blur-none">
       <div className="flex items-center justify-between gap-4">
         <div className="text-sm text-slate-500">{hint}</div>
         <div className="flex gap-3">{children}</div>
@@ -128,4 +129,4 @@ export function Label({ htmlFor, children, optional }: { htmlFor: string; childr
 }
 
 export const inputClass =
-  'block w-full rounded-lg border-0 bg-white px-3.5 py-3 text-base text-slate-900 shadow-xs ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 transition focus:ring-2 focus:ring-inset focus:ring-brand-500 focus:outline-none sm:text-sm'
+  'block w-full rounded-lg border-0 bg-card px-3.5 py-3 text-base text-slate-900 shadow-xs ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 transition focus:ring-2 focus:ring-inset focus:ring-brand-500 focus:outline-none sm:text-sm'

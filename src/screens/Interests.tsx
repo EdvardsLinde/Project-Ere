@@ -32,7 +32,7 @@ export function Interests() {
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500',
                 on
                   ? 'bg-brand-50 shadow-card ring-2 ring-brand-600'
-                  : 'bg-white shadow-card ring-1 ring-slate-200 hover:-translate-y-0.5 hover:shadow-lift hover:ring-brand-300',
+                  : 'bg-card shadow-card ring-1 ring-slate-200 hover:-translate-y-0.5 hover:shadow-lift hover:ring-brand-300',
               )}
             >
               <span

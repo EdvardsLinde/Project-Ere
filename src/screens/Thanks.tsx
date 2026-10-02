@@ -8,7 +8,7 @@ export function Thanks() {
 
   return (
     <div className="mx-auto max-w-2xl py-6 text-center sm:py-12">
-      <span className="animate-fade-up mx-auto flex size-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-accent-500 text-white shadow-lift">
+      <span className="animate-fade-up mx-auto flex size-20 items-center justify-center rounded-full bg-gradient-to-br from-hero-via to-hero-to text-white shadow-lift">
         <PartyPopper className="size-9" />
       </span>
       <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">

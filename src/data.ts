@@ -116,7 +116,7 @@ export const CAREERS: Career[] = [
   {
     id: 'ai-data',
     icon: Brain,
-    tone: 'bg-violet-50 text-violet-700 ring-violet-100',
+    tone: 'bg-amber-50 text-amber-800 ring-amber-200',
     title: { lv: 'Mākslīgais intelekts un dati', en: 'AI & data' },
     description: {
       lv: 'Tu palīdz datoriem atrast likumsakarības lielos datu apjomos — piemēram, paredzēt pieprasījumu vai veidot gudrus palīgrīkus.',
@@ -279,28 +279,28 @@ export const PROVIDERS: Provider[] = [
     name: 'DatuDarbnīca',
     kind: { lv: 'Datu analītikas uzņēmums', en: 'Data analytics company' },
     location: { lv: 'Kuldīga', en: 'Kuldīga' },
-    tone: 'bg-violet-600 text-white',
+    tone: 'bg-amber-500 text-on-sun',
   },
   {
     id: 'weblauks',
     name: 'WebLauks',
     kind: { lv: 'Web izstrādes aģentūra', en: 'Web development agency' },
     location: { lv: 'Liepāja', en: 'Liepāja' },
-    tone: 'bg-accent-600 text-white',
+    tone: 'bg-accent-500 text-on-accent',
   },
   {
     id: 'cloudbalt',
     name: 'CloudBalt',
     kind: { lv: 'IT pakalpojumu uzņēmums', en: 'IT services company' },
     location: { lv: 'Rīga · attālināti', en: 'Riga · remote' },
-    tone: 'bg-sky-600 text-white',
+    tone: 'bg-brand-900 text-brand-50',
   },
   {
     id: 'kodaklubs',
     name: 'Novada Koda klubs',
     kind: { lv: 'Jauniešu biedrība', en: 'Youth NGO' },
     location: { lv: 'Saldus', en: 'Saldus' },
-    tone: 'bg-amber-500 text-white',
+    tone: 'bg-amber-200 text-amber-900',
   },
 ]
 

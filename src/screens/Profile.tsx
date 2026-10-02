@@ -99,7 +99,7 @@ export function Profile() {
               {profile.customSkills.map((s) => (
                 <span
                   key={s}
-                  className="inline-flex min-h-11 items-center gap-1 rounded-full bg-accent-500 py-1 pr-1.5 pl-4 text-sm font-medium text-white"
+                  className="inline-flex min-h-11 items-center gap-1 rounded-full bg-accent-500 py-1 pr-1.5 pl-4 text-sm font-medium text-on-accent"
                 >
                   {s}
                   <button
@@ -251,7 +251,7 @@ export function Profile() {
         {/* Live profile preview — sticky sidebar on desktop */}
         <aside className="lg:sticky lg:top-24">
           <Card className="overflow-hidden">
-            <div className="bg-gradient-to-br from-brand-600 to-accent-500 p-5 text-white">
+            <div className="bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-5 text-white">
               <p className="text-xs font-semibold tracking-wide text-white/75 uppercase">{t.profile.previewTitle}</p>
               <div className="mt-3 flex items-center gap-3">
                 <span className="flex size-12 items-center justify-center rounded-full bg-white/20 text-lg font-bold ring-2 ring-white/40">

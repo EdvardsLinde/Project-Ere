@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowLeft, MapPin, Menu, RotateCcw, Search, UserRound, X } from 'lucide-react'
+import { ArrowLeft, MapPin, Menu, Moon, RotateCcw, Search, Sun, UserRound, X } from 'lucide-react'
 import { SearchBox } from './cards'
 import type { Lang } from '../data'
 import { PROGRESS_STEPS, useApp } from '../state'
@@ -13,8 +13,8 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
       <svg viewBox="0 0 32 32" className="size-9 shrink-0" aria-hidden>
         <defs>
           <linearGradient id="ere-logo" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#1d44d8" />
-            <stop offset="1" stopColor="#0ea893" />
+            <stop offset="0" stopColor="#006c9b" />
+            <stop offset="1" stopColor="#00a0a8" />
           </linearGradient>
         </defs>
         <rect width="32" height="32" rx="9" fill="url(#ere-logo)" />
@@ -27,7 +27,7 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
         <span
           className={cx(
             'mt-0.5 hidden text-[11px] font-medium sm:block',
-            inverted ? 'text-slate-400' : 'text-slate-500',
+            inverted ? 'text-[#9db8c4]' : 'text-slate-500',
           )}
         >
           {t.brand.tagline}
@@ -49,13 +49,29 @@ function LangToggle() {
           onClick={() => setLang(code)}
           className={cx(
             'min-w-10 cursor-pointer rounded-md px-2.5 py-1.5 text-xs font-bold uppercase transition',
-            lang === code ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-500 hover:text-slate-800',
+            lang === code ? 'bg-card text-brand-700 shadow-sm' : 'text-slate-500 hover:text-slate-800',
           )}
         >
           {code}
         </button>
       ))}
     </div>
+  )
+}
+
+function ThemeToggle() {
+  const { t, dark, toggleDark } = useApp()
+  const label = dark ? t.nav.lightMode : t.nav.darkMode
+  return (
+    <button
+      type="button"
+      onClick={toggleDark}
+      aria-label={label}
+      title={label}
+      className="flex size-10 cursor-pointer items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+    >
+      {dark ? <Sun className="size-5 text-amber-500" /> : <Moon className="size-5" />}
+    </button>
   )
 }
 
@@ -85,7 +101,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-card/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:px-8">
         <button
           type="button"
@@ -134,6 +150,7 @@ export function Header() {
               </button>
             </>
           )}
+          <ThemeToggle />
           <LangToggle />
           {onboarded && (
             <button
@@ -143,7 +160,7 @@ export function Header() {
               title={profile.name}
               className={cx(
                 'hidden size-10 cursor-pointer items-center justify-center rounded-full bg-accent-100 text-sm font-bold text-accent-800 ring-2 transition sm:flex',
-                step === 'me' ? 'ring-brand-500' : 'ring-white hover:ring-accent-300',
+                step === 'me' ? 'ring-brand-500' : 'ring-card hover:ring-accent-300',
               )}
             >
               {initial || <UserRound className="size-4" />}
@@ -164,7 +181,7 @@ export function Header() {
       </div>
 
       {open && onboarded && (
-        <div className="animate-fade-up border-t border-slate-200 bg-white px-4 pt-3 pb-4 lg:hidden">
+        <div className="animate-fade-up border-t border-slate-200 bg-card px-4 pt-3 pb-4 lg:hidden">
           <div className="mb-2">
             <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.searchPlaceholder} size="md" />
           </div>
@@ -202,7 +219,7 @@ export function StepBar() {
   const { t, stepIndex, back, editing } = useApp()
   const current = stepIndex + 1
   return (
-    <div className="border-b border-slate-200/70 bg-white">
+    <div className="border-b border-slate-200/70 bg-card">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <button
           type="button"
@@ -235,15 +252,15 @@ export function StepBar() {
 
 export function Footer() {
   const { t, goTo, restart, onboarded } = useApp()
-  const link = 'cursor-pointer text-sm text-slate-400 transition hover:text-white'
+  const link = 'cursor-pointer text-sm text-[#9db8c4] transition hover:text-white'
   return (
-    <footer className="mt-auto bg-slate-900 text-slate-300">
+    <footer className="mt-auto bg-ink text-[#c9dde5]">
       <div className="mx-auto grid grid-cols-1 max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
         <div className="max-w-sm">
           <Logo inverted />
-          <p className="mt-4 text-sm leading-relaxed text-slate-400">{t.footer.about}</p>
-          <p className="mt-4 flex items-center gap-1.5 text-sm text-slate-400">
-            <MapPin className="size-4 text-accent-400" /> {t.footer.location}
+          <p className="mt-4 text-sm leading-relaxed text-[#9db8c4]">{t.footer.about}</p>
+          <p className="mt-4 flex items-center gap-1.5 text-sm text-[#9db8c4]">
+            <MapPin className="size-4 text-[#3ebfc6]" /> {t.footer.location}
           </p>
         </div>
         {/* App links only make sense once the user has a profile. */}
@@ -269,8 +286,8 @@ export function Footer() {
           </>
         )}
       </div>
-      <div className="border-t border-slate-800">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-slate-500 sm:px-6 lg:px-8">
+      <div className="border-t border-white/10">
+        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-[#7f9aa7] sm:px-6 lg:px-8">
           © {new Date().getFullYear()} {t.footer.rights}
         </p>
       </div>

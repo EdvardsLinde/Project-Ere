@@ -49,10 +49,10 @@ export function PersonProfile() {
       <div className="space-y-6">
         {/* Header */}
         <Card className="overflow-hidden">
-          <div className="h-20 bg-gradient-to-r from-slate-800 via-brand-800 to-brand-600 sm:h-28" />
+          <div className="h-20 bg-gradient-to-r from-hero-from via-hero-via to-hero-to sm:h-28" />
           <div className="flex flex-col gap-5 px-5 pb-6 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:pt-5">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-              <span className="-mt-10 self-start rounded-full ring-4 ring-white sm:-mt-12">
+              <span className="-mt-10 self-start rounded-full ring-4 ring-card sm:-mt-12">
                 <Avatar name={person.name} size="xl" />
               </span>
               <div className="min-w-0">
@@ -70,7 +70,7 @@ export function PersonProfile() {
                     className={cx(
                       'rounded-md px-2 py-0.5 text-xs font-semibold',
                       person.kind === 'mentor' && 'bg-brand-50 text-brand-700',
-                      person.kind === 'pro' && 'bg-violet-50 text-violet-700',
+                      person.kind === 'pro' && 'bg-amber-50 text-amber-800',
                       person.kind === 'peer' && 'bg-accent-50 text-accent-700',
                     )}
                   >
@@ -104,7 +104,7 @@ export function PersonProfile() {
                   <li key={i} className="relative">
                     <span
                       className={cx(
-                        'absolute top-1.5 -left-[27px] size-3 rounded-full ring-4 ring-white',
+                        'absolute top-1.5 -left-[27px] size-3 rounded-full ring-4 ring-card',
                         i === person.journey.length - 1 ? 'bg-accent-500' : 'bg-brand-600',
                       )}
                     />

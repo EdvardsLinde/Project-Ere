@@ -73,10 +73,10 @@ export function MyProfile() {
     <div className="space-y-6">
       {/* Profile header */}
       <Card className="overflow-hidden">
-        <div className="h-24 bg-gradient-to-r from-brand-700 via-brand-600 to-accent-500 sm:h-32" />
+        <div className="h-24 bg-gradient-to-r from-hero-from via-hero-via to-hero-to sm:h-32" />
         <div className="flex flex-col gap-5 px-5 pb-6 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:pt-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-            <span className="-mt-12 flex size-24 shrink-0 items-center justify-center rounded-2xl bg-white text-4xl font-extrabold text-brand-700 shadow-lift ring-4 ring-white sm:-mt-10 sm:size-28">
+            <span className="-mt-12 flex size-24 shrink-0 items-center justify-center rounded-2xl bg-card text-4xl font-extrabold text-brand-700 shadow-lift ring-4 ring-card sm:-mt-10 sm:size-28">
               {profile.name.charAt(0).toUpperCase()}
             </span>
             <div className="min-w-0">
@@ -149,7 +149,7 @@ export function MyProfile() {
                   const types = EXPERIENCE_TYPES.filter((e) => x.types.includes(e.id))
                   return (
                     <li key={x.id} className="relative">
-                      <span className="absolute top-1.5 -left-[27px] size-3 rounded-full bg-brand-600 ring-4 ring-white" />
+                      <span className="absolute top-1.5 -left-[27px] size-3 rounded-full bg-brand-600 ring-4 ring-card" />
                       {types.length > 0 && (
                         <p className="text-xs font-semibold tracking-wide text-accent-600 uppercase">
                           {types.map((type) => l(type.label)).join(' · ')}
@@ -296,7 +296,7 @@ export function MyProfile() {
                 </p>
                 <div className="mt-3 flex -space-x-2">
                   {followed.map((p) => (
-                    <span key={p.id} title={p.name} className="rounded-full ring-2 ring-white">
+                    <span key={p.id} title={p.name} className="rounded-full ring-2 ring-card">
                       <Avatar name={p.name} size="sm" />
                     </span>
                   ))}

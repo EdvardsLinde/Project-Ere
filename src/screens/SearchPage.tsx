@@ -46,7 +46,7 @@ export function SearchPage() {
                 'min-h-9 cursor-pointer rounded-full px-3 font-medium ring-1 transition',
                 q.toLowerCase() === s.toLowerCase()
                   ? 'bg-brand-600 text-white ring-brand-600'
-                  : 'bg-white text-slate-600 ring-slate-300 hover:bg-brand-50 hover:text-brand-800',
+                  : 'bg-card text-slate-600 ring-slate-300 hover:bg-brand-50 hover:text-brand-800',
               )}
             >
               {s}

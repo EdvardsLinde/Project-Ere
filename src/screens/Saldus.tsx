@@ -11,7 +11,7 @@ export function Saldus() {
 
   return (
     <div className="space-y-6">
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-accent-600 px-6 py-12 text-white shadow-lift sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-hero-from via-hero-via to-hero-to px-6 py-12 text-white shadow-lift sm:px-12 sm:py-16 lg:px-16 lg:py-20">
         {/* decorative "map" rings centred on Saldus */}
         <div
           aria-hidden

@@ -61,6 +61,9 @@ const emptyProfile: Profile = {
 interface AppState {
   lang: Lang
   setLang: (l: Lang) => void
+  /** Light by default; the header toggle switches to dark. */
+  dark: boolean
+  toggleDark: () => void
   t: Dict
   /** Pick the current language from a `{ lv, en }` content object. */
   l: (text: Localized) => string
@@ -94,6 +97,13 @@ const AppContext = createContext<AppState | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>('lv')
+  const [dark, setDark] = useState(() => {
+    try {
+      return localStorage.getItem('ere-theme') === 'dark'
+    } catch {
+      return false
+    }
+  })
   const [step, setStep] = useState<Step>('welcome')
   const [profile, setProfile] = useState<Profile>(emptyProfile)
   const [editing, setEditing] = useState(false)
@@ -107,6 +117,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = lang
   }, [lang])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark)
+    try {
+      localStorage.setItem('ere-theme', dark ? 'dark' : 'light')
+    } catch {
+      /* storage unavailable — theme just won't be remembered */
+    }
+  }, [dark])
 
   const show = useCallback((s: Step) => {
     setStep(s)
@@ -126,6 +145,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     () => ({
       lang,
       setLang,
+      dark,
+      toggleDark: () => setDark((d) => !d),
       t: translations[lang],
       l: (text) => text[lang],
       step,
@@ -162,7 +183,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         goTo('welcome')
       },
     }),
-    [lang, step, stepIndex, goTo, show, editing, onboarded, query, personId, personFrom, profile],
+    [lang, dark, step, stepIndex, goTo, show, editing, onboarded, query, personId, personFrom, profile],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
