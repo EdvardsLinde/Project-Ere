@@ -35,7 +35,7 @@ const AVATAR_TONES = [
   'bg-rose-100 text-rose-800',
 ]
 
-export function Avatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md' | 'lg' }) {
+export function Avatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md' | 'lg' | 'xl' }) {
   const initials = name
     .split(' ')
     .map((p) => p.charAt(0))
@@ -51,6 +51,7 @@ export function Avatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md'
         size === 'sm' && 'size-9 text-xs',
         size === 'md' && 'size-12 text-sm',
         size === 'lg' && 'size-16 text-lg',
+        size === 'xl' && 'size-24 text-3xl',
       )}
     >
       {initials}
@@ -212,7 +213,8 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
 }
 
 export function PersonCard({ person, compact = false }: { person: Person; compact?: boolean }) {
-  const { t, l, profile, update } = useApp()
+  const { t, l, profile, update, openPerson } = useApp()
+  const open = () => openPerson(person.id)
   const following = profile.following.includes(person.id)
   const shared = person.interests.filter((i) => profile.interests.includes(i))
   const followBtn = (
@@ -230,11 +232,20 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
   if (compact) {
     return (
       <div className="flex items-center gap-3">
-        <Avatar name={person.name} size="sm" />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-slate-900">{person.name}</p>
-          <p className="truncate text-xs text-slate-500">{l(person.role)}</p>
-        </div>
+        <button
+          type="button"
+          onClick={open}
+          aria-label={`${t.people.viewProfile}: ${person.name}`}
+          className="group flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-lg text-left"
+        >
+          <Avatar name={person.name} size="sm" />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-semibold text-slate-900 group-hover:text-brand-700 group-hover:underline">
+              {person.name}
+            </span>
+            <span className="block truncate text-xs text-slate-500">{l(person.role)}</span>
+          </span>
+        </button>
         {followBtn}
       </div>
     )
@@ -243,10 +254,16 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
   return (
     <Card className="flex h-full flex-col p-5 sm:p-6">
       <div className="flex items-start gap-4">
-        <Avatar name={person.name} size="lg" />
+        <button type="button" onClick={open} aria-label={`${t.people.viewProfile}: ${person.name}`} className="cursor-pointer rounded-full">
+          <Avatar name={person.name} size="lg" />
+        </button>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-1.5">
-            <h3 className="font-bold text-slate-900">{person.name}</h3>
+            <h3 className="font-bold text-slate-900">
+              <button type="button" onClick={open} className="cursor-pointer text-left hover:text-brand-700 hover:underline">
+                {person.name}
+              </button>
+            </h3>
             <ExampleBadge />
           </div>
           <p className="mt-0.5 text-sm text-slate-600">{l(person.role)}</p>
@@ -279,7 +296,12 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
           ))}
         </div>
       )}
-      <div className="mt-auto pt-5">{followBtn}</div>
+      <div className="mt-auto flex flex-wrap gap-2 pt-5">
+        {followBtn}
+        <Button variant="secondary" onClick={open}>
+          {t.people.viewProfile}
+        </Button>
+      </div>
     </Card>
   )
 }

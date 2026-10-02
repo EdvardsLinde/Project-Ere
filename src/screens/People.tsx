@@ -19,6 +19,8 @@ export function matchPerson(person: Person, q: string) {
       career?.title[lang] ?? '',
     ]),
     person.kind === 'mentor' ? 'mentors mentor' : '',
+    ...person.skills,
+    ...person.journey.flatMap((j) => [j.text.lv, j.text.en]),
   ]
     .join(' ')
     .toLowerCase()

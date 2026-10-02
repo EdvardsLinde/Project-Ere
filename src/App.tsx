@@ -11,6 +11,7 @@ import { MyProfile } from './screens/MyProfile'
 import { Courses } from './screens/Courses'
 import { People } from './screens/People'
 import { SearchPage } from './screens/SearchPage'
+import { PersonProfile } from './screens/PersonProfile'
 
 const SCREENS = {
   interests: Interests,
@@ -23,6 +24,7 @@ const SCREENS = {
   courses: Courses,
   people: People,
   search: SearchPage,
+  person: PersonProfile,
 }
 
 function Shell() {

@@ -12,7 +12,7 @@ type FlowStep = (typeof STEPS)[number]
  * 'me' = "Mans profils" (home), 'courses' = course & training search,
  * 'people' = people to follow, 'search' = search across everything.
  */
-export type AppPage = 'me' | 'courses' | 'people' | 'search'
+export type AppPage = 'me' | 'courses' | 'people' | 'search' | 'person'
 export type Step = FlowStep | AppPage
 /** Steps shown in the progress indicator (thank-you screen is not counted). */
 export const PROGRESS_STEPS = STEPS.length - 1
@@ -80,6 +80,11 @@ interface AppState {
   setQuery: (q: string) => void
   /** Run a search from anywhere (header, suggestions) and open the results. */
   search: (q: string) => void
+  /** Id of the person whose profile is open on the 'person' page. */
+  personId: string | null
+  /** Open someone's profile; "back" on that page returns to where the user was. */
+  openPerson: (id: string) => void
+  closePerson: () => void
   profile: Profile
   update: (patch: Partial<Profile>) => void
   restart: () => void
@@ -94,6 +99,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [editing, setEditing] = useState(false)
   const [onboarded, setOnboarded] = useState(false)
   const [query, setQuery] = useState('')
+  const [personId, setPersonId] = useState<string | null>(null)
+  const [personFrom, setPersonFrom] = useState<Step>('people')
 
   const stepIndex = STEPS.indexOf(step as FlowStep)
 
@@ -135,6 +142,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       onboarded,
       query,
       setQuery,
+      personId,
+      openPerson: (id) => {
+        if (step !== 'person') setPersonFrom(step)
+        setPersonId(id)
+        goTo('person')
+      },
+      closePerson: () => goTo(personFrom),
       search: (q) => {
         setQuery(q)
         goTo('search')
@@ -148,7 +162,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         goTo('welcome')
       },
     }),
-    [lang, step, stepIndex, goTo, show, editing, onboarded, query, profile],
+    [lang, step, stepIndex, goTo, show, editing, onboarded, query, personId, personFrom, profile],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

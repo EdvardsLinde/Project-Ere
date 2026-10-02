@@ -68,7 +68,7 @@ export function Header() {
   const nav: { step: Step; label: string; also?: Step[] }[] = [
     { step: 'me', label: t.nav.profile },
     { step: 'courses', label: t.nav.courses },
-    { step: 'people', label: t.nav.people },
+    { step: 'people', label: t.nav.people, also: ['person'] },
     { step: 'paths', label: t.nav.careers, also: ['training'] },
   ]
   const isActive = (item: (typeof nav)[number]) => step === item.step || !!item.also?.includes(step)

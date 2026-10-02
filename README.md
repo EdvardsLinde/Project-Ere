@@ -20,7 +20,7 @@ Then open the URL that Vite prints (usually http://localhost:5173). `npm run bui
 
 - **Mans profils**: the home page. It shows the user's profile, saved courses, suggested people and a completeness checklist. Each section opens the matching step to edit it, and Save returns to the profile.
 - **Kursi un prakses**: search and filter courses, bootcamps and internships. Users can save a course or "apply" to it (nothing is sent).
-- **Cilvēki**: suggested mentors, professionals and other young people to follow.
+- **Cilvēki**: suggested mentors, professionals and other young people to follow. Search by name, job, place or skill; click anyone to open their profile (about, skills, "Mans ceļš" timeline, interests, courses in their field, similar people).
 - **Meklēt**: one search across courses, people, careers and companies.
 
 The header has an LV/EN toggle. Latvian is the default language.
