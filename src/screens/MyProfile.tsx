@@ -108,8 +108,8 @@ export function MyProfile() {
         <div className="grid grid-cols-3 divide-x divide-slate-100 border-t border-slate-100">
           {[
             { n: profile.following.length, label: t.me.stats.following, to: 'people' as Step },
-            { n: profile.savedCourses.length, label: t.me.stats.saved, to: 'home' as Step },
-            { n: profile.appliedCourses.length, label: t.me.stats.applied, to: 'home' as Step },
+            { n: profile.savedCourses.length, label: t.me.stats.saved, to: 'courses' as Step },
+            { n: profile.appliedCourses.length, label: t.me.stats.applied, to: 'courses' as Step },
           ].map((s) => (
             <button
               key={s.label}
@@ -203,7 +203,7 @@ export function MyProfile() {
           <Section
             icon={<BookOpen className="size-5" />}
             title={myCourses.length ? t.me.savedCourses : t.me.recommended}
-            onEdit={() => goTo('home')}
+            onEdit={() => goTo('courses')}
             editLabel={t.me.browseCourses}
             link
           >

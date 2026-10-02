@@ -307,12 +307,10 @@ export const PROVIDERS: Provider[] = [
 /* -------------------------------------------------------------------------- */
 /*  8. COURSES & TRAINING — offered by the providers above (EXAMPLES)          */
 /*     type:   course = kurss · bootcamp = intensīvais · internship = prakse   */
-/*             job = darbs (entry-level / part-time)                           */
 /*     format: online · saldus (in person in Saldus) · hybrid                  */
-/*     price:  0 = free, otherwise euros (for learning)                        */
-/*     paid:   internships & jobs — whether the work is paid                    */
+/*     price:  0 = free, otherwise euros                                       */
 /* -------------------------------------------------------------------------- */
-export type CourseType = 'job' | 'internship' | 'course' | 'bootcamp'
+export type CourseType = 'course' | 'bootcamp' | 'internship'
 export type CourseFormat = 'online' | 'saldus' | 'hybrid'
 
 export interface Course {
@@ -323,7 +321,6 @@ export interface Course {
   format: CourseFormat
   level: 'beginner' | 'intermediate'
   price: number
-  paid?: boolean
   title: Localized
   description: Localized
   duration: Localized
@@ -332,78 +329,6 @@ export interface Course {
 }
 
 export const COURSES: Course[] = [
-  {
-    id: 'job-it-support',
-    providerId: 'cloudbalt',
-    careerId: 'cyber',
-    type: 'job',
-    format: 'online',
-    level: 'beginner',
-    price: 0,
-    paid: true,
-    title: { lv: 'IT atbalsta asistents (nepilna slodze)', en: 'IT support assistant (part-time)' },
-    description: {
-      lv: 'Palīdzi klientiem ar paroļu, e-pasta un datoru problēmām. 15–20 stundas nedēļā, var savienot ar mācībām.',
-      en: 'Help customers with password, email and computer issues. 15–20 hours a week, fits around school.',
-    },
-    duration: { lv: 'Nepilna slodze', en: 'Part-time' },
-    start: { lv: 'Var sākt uzreiz', en: 'Start right away' },
-    keywords: 'darbs job atbalsts support nepilna slodze part-time remote attālināti',
-  },
-  {
-    id: 'job-junior-frontend',
-    providerId: 'weblauks',
-    careerId: 'web',
-    type: 'job',
-    format: 'online',
-    level: 'intermediate',
-    price: 0,
-    paid: true,
-    title: { lv: 'Junior frontend izstrādātājs', en: 'Junior frontend developer' },
-    description: {
-      lv: 'Veido mājaslapu daļas klientu projektiem kopā ar pieredzējušu komandu. Pilnībā attālināti — var strādāt no Saldus.',
-      en: 'Build parts of client websites with an experienced team. Fully remote — you can work from Saldus.',
-    },
-    duration: { lv: 'Pilna slodze', en: 'Full-time' },
-    start: { lv: 'Pieteikšanās līdz decembrim', en: 'Apply by December' },
-    keywords: 'darbs job junior frontend javascript react remote attālināti',
-  },
-  {
-    id: 'job-junior-security',
-    providerId: 'secnord',
-    careerId: 'cyber',
-    type: 'job',
-    format: 'hybrid',
-    level: 'intermediate',
-    price: 0,
-    paid: true,
-    title: { lv: 'Jaunākais drošības analītiķis', en: 'Junior security analyst' },
-    description: {
-      lv: 'Uzraugi drošības brīdinājumus un palīdzi izmeklēt incidentus. Apmācības pirmajos 3 mēnešos.',
-      en: 'Monitor security alerts and help investigate incidents. Training during the first 3 months.',
-    },
-    duration: { lv: 'Pilna slodze', en: 'Full-time' },
-    start: { lv: 'Sākums janvārī', en: 'Starts in January' },
-    keywords: 'darbs job junior security drošība analītiķis soc',
-  },
-  {
-    id: 'job-data-summer',
-    providerId: 'datudarbnica',
-    careerId: 'ai-data',
-    type: 'job',
-    format: 'online',
-    level: 'beginner',
-    price: 0,
-    paid: true,
-    title: { lv: 'Datu kvalitātes asistents (vasaras darbs)', en: 'Data quality assistant (summer job)' },
-    description: {
-      lv: 'Pārbaudi un sakārto datus MI projektiem. Labs pirmais darbs — iemācīsim visu nepieciešamo.',
-      en: 'Check and tidy data for AI projects. A great first job — we’ll teach you everything you need.',
-    },
-    duration: { lv: 'Vasarā, 2 mēneši', en: 'Summer, 2 months' },
-    start: { lv: 'Pieteikšanās līdz maijam', en: 'Apply by May' },
-    keywords: 'darbs job vasaras summer dati data remote attālināti',
-  },
   {
     id: 'sec-basics',
     providerId: 'secnord',
@@ -423,7 +348,6 @@ export const COURSES: Course[] = [
   },
   {
     id: 'sec-intern',
-    paid: true,
     providerId: 'secnord',
     careerId: 'cyber',
     type: 'internship',
@@ -492,7 +416,6 @@ export const COURSES: Course[] = [
   },
   {
     id: 'data-intern',
-    paid: true,
     providerId: 'cloudbalt',
     careerId: 'ai-data',
     type: 'internship',
@@ -561,7 +484,6 @@ export const COURSES: Course[] = [
   },
   {
     id: 'web-intern',
-    paid: true,
     providerId: 'cloudbalt',
     careerId: 'web',
     type: 'internship',

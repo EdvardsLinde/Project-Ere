@@ -100,7 +100,7 @@ export function Training() {
 
       <ActionBar>
         {onboarded && !editing ? (
-          <Button size="lg" onClick={() => goTo('home')}>
+          <Button size="lg" onClick={() => goTo('courses')}>
             {t.training.findCourses} <ArrowRight className="size-5" />
           </Button>
         ) : (

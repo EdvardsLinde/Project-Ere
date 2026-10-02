@@ -8,7 +8,7 @@ import { Training } from './screens/Training'
 import { Saldus } from './screens/Saldus'
 import { Thanks } from './screens/Thanks'
 import { MyProfile } from './screens/MyProfile'
-import { Home } from './screens/Home'
+import { Courses } from './screens/Courses'
 import { People } from './screens/People'
 import { SearchPage } from './screens/SearchPage'
 
@@ -20,7 +20,7 @@ const SCREENS = {
   saldus: Saldus,
   thanks: Thanks,
   me: MyProfile,
-  home: Home,
+  courses: Courses,
   people: People,
   search: SearchPage,
 }
