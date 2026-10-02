@@ -19,7 +19,8 @@ export const PROGRESS_STEPS = STEPS.length - 1
 
 export interface Experience {
   id: number
-  type: string
+  /** Experience type ids — one entry can be several (e.g. school project + course). */
+  types: string[]
   title: string
   description: string
 }

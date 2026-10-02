@@ -146,11 +146,15 @@ export function MyProfile() {
             {profile.experiences.length ? (
               <ol className="relative space-y-5 border-l-2 border-slate-100 pl-5">
                 {profile.experiences.map((x) => {
-                  const type = EXPERIENCE_TYPES.find((e) => e.id === x.type)
+                  const types = EXPERIENCE_TYPES.filter((e) => x.types.includes(e.id))
                   return (
                     <li key={x.id} className="relative">
                       <span className="absolute top-1.5 -left-[27px] size-3 rounded-full bg-brand-600 ring-4 ring-white" />
-                      {type && <p className="text-xs font-semibold tracking-wide text-accent-600 uppercase">{l(type.label)}</p>}
+                      {types.length > 0 && (
+                        <p className="text-xs font-semibold tracking-wide text-accent-600 uppercase">
+                          {types.map((type) => l(type.label)).join(' · ')}
+                        </p>
+                      )}
                       <p className="font-semibold break-words text-slate-900">{x.title}</p>
                       {x.description && <p className="mt-0.5 text-sm break-words text-slate-600">{x.description}</p>}
                     </li>

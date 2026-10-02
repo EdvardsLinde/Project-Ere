@@ -38,7 +38,7 @@ function Section({
 export function Profile() {
   const { t, l, profile, update, next, editing } = useApp()
   const [customSkill, setCustomSkill] = useState('')
-  const [expType, setExpType] = useState(EXPERIENCE_TYPES[0].id)
+  const [expTypes, setExpTypes] = useState<string[]>([])
   const [expTitle, setExpTitle] = useState('')
   const [expDesc, setExpDesc] = useState('')
 
@@ -57,11 +57,12 @@ export function Profile() {
     update({
       experiences: [
         ...profile.experiences,
-        { id: Date.now(), type: expType, title: expTitle.trim(), description: expDesc.trim() },
+        { id: Date.now(), types: expTypes, title: expTitle.trim(), description: expDesc.trim() },
       ],
     })
     setExpTitle('')
     setExpDesc('')
+    setExpTypes([])
   }
 
   // Rough completeness score for the live preview — motivates filling in more.
@@ -166,17 +167,24 @@ export function Profile() {
             {profile.experiences.length > 0 ? (
               <ul className="mb-6 space-y-3">
                 {profile.experiences.map((x) => {
-                  const type = EXPERIENCE_TYPES.find((e) => e.id === x.type)
+                  const types = EXPERIENCE_TYPES.filter((e) => x.types.includes(e.id))
                   return (
                     <li
                       key={x.id}
                       className="animate-fade-up flex items-start gap-3 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200"
                     >
                       <div className="min-w-0 flex-1">
-                        {type && (
-                          <span className="mb-1.5 inline-block rounded-md bg-accent-50 px-2 py-0.5 text-xs font-semibold text-accent-700 ring-1 ring-accent-200">
-                            {l(type.label)}
-                          </span>
+                        {types.length > 0 && (
+                          <div className="mb-1.5 flex flex-wrap gap-1.5">
+                            {types.map((type) => (
+                              <span
+                                key={type.id}
+                                className="rounded-md bg-accent-50 px-2 py-0.5 text-xs font-semibold text-accent-700 ring-1 ring-accent-200"
+                              >
+                                {l(type.label)}
+                              </span>
+                            ))}
+                          </div>
                         )}
                         <p className="font-semibold text-slate-900">{x.title}</p>
                         {x.description && <p className="mt-0.5 text-sm text-slate-600">{x.description}</p>}
@@ -204,7 +212,7 @@ export function Profile() {
                 <p className="mb-2 text-sm font-medium text-slate-800">{t.profile.expType}</p>
                 <div className="flex flex-wrap gap-2">
                   {EXPERIENCE_TYPES.map((e) => (
-                    <Chip key={e.id} selected={expType === e.id} onClick={() => setExpType(e.id)}>
+                    <Chip key={e.id} selected={expTypes.includes(e.id)} onClick={() => setExpTypes(toggle(expTypes, e.id))}>
                       {l(e.label)}
                     </Chip>
                   ))}
