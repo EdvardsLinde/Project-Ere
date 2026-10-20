@@ -41,7 +41,7 @@ export function People() {
 
   return (
     <>
-      <PageHeader eyebrow={t.people.eyebrow} title={t.people.title} subtitle={t.people.subtitle} />
+      <PageHeader icon={Users} eyebrow={t.people.eyebrow} title={t.people.title} subtitle={t.people.subtitle} />
       <ExampleNotice />
 
       <div className="space-y-4">

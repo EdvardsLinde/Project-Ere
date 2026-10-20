@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { ArrowLeft, MapPin, Menu, Moon, RotateCcw, Search, Sun, UserRound, X } from 'lucide-react'
+import { ArrowLeft, BriefcaseBusiness, GraduationCap, MapPin, Menu, Moon, Newspaper, RotateCcw, Search, Sun, Target, UserRound, Users, X } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { SearchBox } from './cards'
 import { overallProgress } from '../lib/skills'
 import type { Lang } from '../data'
@@ -76,22 +77,73 @@ function ThemeToggle() {
   )
 }
 
+interface NavItem {
+  step: Step
+  label: string
+  icon: LucideIcon
+  /** Other pages that belong to this item (keeps it highlighted). */
+  also?: Step[]
+}
+
+/** Main destinations after onboarding — shared by the header and the phone tab bar. */
+function useNavItems(): NavItem[] {
+  const { t } = useApp()
+  return [
+    { step: 'news', label: t.nav.news, icon: Newspaper },
+    { step: 'match', label: t.nav.myPath, icon: Target, also: ['test', 'paths', 'training'] },
+    { step: 'courses', label: t.nav.coursesShort, icon: GraduationCap },
+    { step: 'jobs', label: t.nav.jobs, icon: BriefcaseBusiness },
+    { step: 'people', label: t.nav.people, icon: Users, also: ['person'] },
+    { step: 'me', label: t.nav.profileShort, icon: UserRound },
+  ]
+}
+
+/** Phone/tablet bottom tab bar: the five main places, always one tap away. */
+export function TabBar() {
+  const { t, step, goTo } = useApp()
+  const items = useNavItems().filter((i) => i.step !== 'people')
+  return (
+    <nav
+      aria-label={t.nav.mainNav}
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-card/95 backdrop-blur-md xl:hidden"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+    >
+      <ul className="mx-auto grid h-16 max-w-xl grid-cols-5">
+        {items.map((item) => {
+          const on = step === item.step || !!item.also?.includes(step)
+          return (
+            <li key={item.step}>
+              <button
+                type="button"
+                onClick={() => goTo(item.step)}
+                aria-current={on ? 'page' : undefined}
+                className={cx(
+                  'flex h-full w-full cursor-pointer flex-col items-center justify-center gap-1 text-[11px] font-semibold transition',
+                  on ? 'text-brand-700' : 'text-slate-500 hover:text-slate-800',
+                )}
+              >
+                <span className={cx('flex h-7 w-12 items-center justify-center rounded-full transition', on && 'bg-brand-100')}>
+                  <item.icon className="size-5" />
+                </span>
+                {item.label}
+              </button>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
+  )
+}
+
 export function Header() {
   const { t, step, goTo, profile, restart, onboarded, search, dark, toggleDark } = useApp()
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
 
   // The main navigation only exists once onboarding (the 6 steps) is done.
-  const nav: { step: Step; label: string; also?: Step[] }[] = [
-    { step: 'news', label: t.nav.news },
-    { step: 'match', label: t.nav.myPath, also: ['test', 'paths', 'training'] },
-    { step: 'courses', label: t.nav.coursesShort },
-    { step: 'jobs', label: t.nav.jobs },
-    { step: 'people', label: t.nav.people, also: ['person'] },
-    { step: 'me', label: t.nav.profile },
-  ]
+  const nav = useNavItems()
   const progress = overallProgress(profile)
-  const isActive = (item: (typeof nav)[number]) => step === item.step || !!item.also?.includes(step)
+  const isActive = (item: { step: Step; also?: Step[] }) => step === item.step || !!item.also?.includes(step)
   const initial = profile.name.trim().charAt(0).toUpperCase()
 
   const navigate = (s: Step) => {
@@ -128,7 +180,9 @@ export function Header() {
                   isActive(item) ? 'text-brand-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
                 )}
               >
-                {item.label}
+                <span className="inline-flex items-center gap-1.5">
+                  <item.icon className="size-4" /> {item.label}
+                </span>
                 {isActive(item) && <span className="absolute inset-x-3 -bottom-[17px] h-0.5 rounded-full bg-brand-600" />}
               </button>
             ))}
@@ -209,17 +263,17 @@ export function Header() {
           <div className="mb-2">
             <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.searchPlaceholder} size="md" />
           </div>
-          {[...nav, { step: 'saldus' as Step, label: t.nav.saldus }].map((item) => (
+          {[...nav, { step: 'saldus' as Step, label: t.nav.saldus, icon: MapPin }].map((item) => (
             <button
               key={item.step}
               type="button"
               onClick={() => navigate(item.step)}
               className={cx(
-                'flex h-12 w-full cursor-pointer items-center rounded-lg px-3 text-left text-base font-medium',
+                'flex h-12 w-full cursor-pointer items-center gap-3 rounded-lg px-3 text-left text-base font-medium',
                 isActive(item) ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50',
               )}
             >
-              {item.label}
+              <item.icon className="size-5" /> {item.label}
             </button>
           ))}
           <button
@@ -301,13 +355,10 @@ export function Footer() {
             <div>
               <h3 className="text-sm font-semibold text-white">{t.footer.explore}</h3>
               <ul className="mt-4 space-y-3">
-                <li><button type="button" className={link} onClick={() => goTo('courses')}>{t.nav.courses}</button></li>
-                <li><button type="button" className={link} onClick={() => goTo('people')}>{t.nav.people}</button></li>
-                <li><button type="button" className={link} onClick={() => goTo('test')}>{t.nav.test}</button></li>
-                <li><button type="button" className={link} onClick={() => goTo('match')}>{t.nav.myPath}</button></li>
-                <li><button type="button" className={link} onClick={() => goTo('jobs')}>{t.nav.jobs}</button></li>
                 <li><button type="button" className={link} onClick={() => goTo('news')}>{t.nav.news}</button></li>
-                <li><button type="button" className={link} onClick={() => goTo('saldus')}>{t.footer.links.remote}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('match')}>{t.nav.myPath}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('courses')}>{t.nav.coursesShort}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('jobs')}>{t.nav.jobs}</button></li>
               </ul>
             </div>
             <div>

@@ -11,10 +11,10 @@ import { Button, Card, cx } from './ui'
 export function ExampleNotice() {
   const { t } = useApp()
   return (
-    <div className="mb-8 flex items-start gap-3 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900 ring-1 ring-amber-200">
-      <Info className="mt-0.5 size-4 shrink-0 text-amber-600" />
-      <p>{t.example.notice}</p>
-    </div>
+    <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-900 ring-1 ring-amber-200">
+      <Info className="size-3.5 shrink-0 text-amber-600" />
+      {t.example.notice}
+    </p>
   )
 }
 
@@ -209,17 +209,7 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
       )}
 
       <h3 className="mt-3 text-lg leading-snug font-bold text-slate-900">{l(course.title)}</h3>
-      {!compact && <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{l(course.description)}</p>}
-      {!compact && (
-        <p className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
-          {t.progress.gains}
-          {Object.entries(course.skills).map(([id, gain]) => (
-            <span key={id} className="rounded-md bg-slate-100 px-1.5 py-0.5 font-medium text-slate-700">
-              +{gain} {skillName(id)}
-            </span>
-          ))}
-        </p>
-      )}
+      {!compact && <p className="mt-1.5 line-clamp-2 text-sm text-slate-600">{l(course.description)}</p>}
 
       <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 text-sm text-slate-600">
         <div className="flex items-center gap-1.5">
@@ -230,12 +220,6 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
           <MapPin className="size-4 shrink-0 text-slate-400" />
           <span className="truncate">{t.courses.formats[course.format]}</span>
         </div>
-        {!compact && (
-          <>
-            <div className="truncate text-slate-500">{t.courses.levels[course.level]}</div>
-            <div className="truncate text-slate-500">{l(course.start)}</div>
-          </>
-        )}
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-5">
@@ -347,7 +331,7 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
       >
         {t.people.kindLabel[person.kind]}
       </span>
-      <p className="mt-3 text-sm leading-relaxed text-slate-600">{l(person.bio)}</p>
+      <p className="mt-3 line-clamp-2 text-sm text-slate-600">{l(person.bio)}</p>
       {shared.length > 0 && (
         <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
           {t.people.shared}

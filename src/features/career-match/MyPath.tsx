@@ -1,10 +1,11 @@
-import { ArrowRight, Check, ClipboardCheck, RotateCcw, Route } from 'lucide-react'
+import { ArrowRight, Check, ClipboardCheck, RotateCcw, Route, Target } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { JOBS, SKILL_AREAS } from '../../data'
 import { useApp } from '../../lib/state'
 import { coursesForGaps, currentTrack, effectiveSkills, jobFit, rankedTracks, readiness, skillGaps } from '../../lib/skills'
 import { Button, Card, Meter, PageHeader, cx } from '../../components/ui'
 import { CourseCard } from '../../components/cards'
+import { Illustration } from '../../components/Illustration'
 import { JobCard } from '../jobs/JobCard'
 
 /**
@@ -41,7 +42,7 @@ export function MyPath() {
 
   return (
     <>
-      <PageHeader eyebrow={t.match.eyebrow} title={t.match.title(l(track.title))} subtitle={l(track.description)} />
+      <PageHeader icon={Target} eyebrow={t.match.eyebrow} title={t.match.title(l(track.title))} />
 
       {/* Track ranking — tap to switch path */}
       <section aria-label={t.match.ranking} className="mb-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -154,12 +155,10 @@ export function MyPath() {
         </div>
 
         <aside className="space-y-6">
-          <Card className="p-5 sm:p-6">
-            <span className={cx('flex size-12 items-center justify-center rounded-xl ring-1', track.tone)}>
-              <track.icon className="size-6" />
-            </span>
-            <h2 className="mt-4 font-bold text-slate-900">{t.match.whatIs}</h2>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600">{l(track.description)}</p>
+          <Card className="overflow-hidden">
+            <Illustration scene={track.id} size="md" />
+            <div className="p-5 sm:p-6">
+            <h2 className="font-bold text-slate-900">{t.match.whatIs}</h2>
             <h3 className="mt-5 text-xs font-semibold tracking-wide text-slate-500 uppercase">{t.match.dayToDay}</h3>
             <ul className="mt-3 space-y-2">
               {track.dayToDay.map((d) => (
@@ -171,6 +170,7 @@ export function MyPath() {
             <Button variant="secondary" className="mt-6 w-full" onClick={() => goTo('training')}>
               <Route className="size-4" /> {t.match.learningPath}
             </Button>
+            </div>
           </Card>
           <Button variant="ghost" className="w-full" onClick={() => goTo('test')}>
             <RotateCcw className="size-4" /> {t.match.retake}

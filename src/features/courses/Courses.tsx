@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BookOpen } from 'lucide-react'
+import { BookOpen, GraduationCap } from 'lucide-react'
 import { CAREERS, COURSES, PROVIDERS } from '../../data'
 import type { Course, CourseFormat, CourseType } from '../../data'
 import { useApp } from '../../lib/state'
@@ -73,7 +73,7 @@ export function Courses() {
 
   return (
     <>
-      <PageHeader eyebrow={t.courses.eyebrow} title={t.courses.title} subtitle={t.courses.subtitle} />
+      <PageHeader icon={GraduationCap} eyebrow={t.courses.eyebrow} title={t.courses.title} subtitle={t.courses.subtitle} />
       <ExampleNotice />
 
       <div className="space-y-5">

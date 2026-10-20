@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { LucideIcon } from 'lucide-react'
 import { Check } from 'lucide-react'
 
 export function cx(...classes: (string | false | null | undefined)[]) {
@@ -86,18 +87,28 @@ export function PageHeader({
   title,
   subtitle,
   aside,
+  icon: Icon,
 }: {
   eyebrow: string
   title: string
   subtitle?: string
   aside?: ReactNode
+  /** Page icon — helps users see at a glance where they are. */
+  icon?: LucideIcon
 }) {
   return (
-    <div className="mb-8 flex flex-col gap-4 sm:mb-10 md:flex-row md:items-end md:justify-between">
-      <div className="max-w-2xl">
-        <p className="mb-2 text-sm font-semibold tracking-wide text-accent-600 uppercase">{eyebrow}</p>
-        <h1 className="text-3xl font-bold tracking-tight text-balance text-slate-900 sm:text-4xl">{title}</h1>
-        {subtitle && <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">{subtitle}</p>}
+    <div className="mb-6 flex flex-col gap-4 sm:mb-8 md:flex-row md:items-end md:justify-between">
+      <div className="flex max-w-2xl items-start gap-4">
+        {Icon && (
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-hero-via to-hero-to text-white shadow-card sm:size-14">
+            <Icon className="size-6 sm:size-7" />
+          </span>
+        )}
+        <div className="min-w-0">
+          <p className="mb-1 text-xs font-semibold tracking-wide text-accent-600 uppercase sm:text-sm">{eyebrow}</p>
+          <h1 className="text-2xl font-bold tracking-tight text-balance text-slate-900 sm:text-3xl">{title}</h1>
+          {subtitle && <p className="mt-2 text-base text-slate-600">{subtitle}</p>}
+        </div>
       </div>
       {aside}
     </div>
@@ -110,7 +121,7 @@ export function PageHeader({
  */
 export function ActionBar({ children, hint }: { children: ReactNode; hint?: ReactNode }) {
   return (
-    <div className="sticky bottom-0 z-20 -mx-4 mt-10 border-t border-slate-200 bg-card/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-12 sm:border-t sm:bg-transparent sm:px-0 sm:pt-6 sm:pb-0 sm:backdrop-blur-none">
+    <div className="sticky bottom-[var(--tabbar-h,0px)] z-20 -mx-4 mt-10 border-t border-slate-200 bg-card/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-12 sm:border-t sm:bg-transparent sm:px-0 sm:pt-6 sm:pb-0 sm:backdrop-blur-none">
       <div className="flex items-center justify-between gap-4">
         <div className="text-sm text-slate-500">{hint}</div>
         <div className="flex gap-3">{children}</div>

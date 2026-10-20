@@ -1,7 +1,8 @@
-import { ArrowRight, Check, Star, Wifi } from 'lucide-react'
+import { ArrowRight, Compass, Star, Wifi } from 'lucide-react'
 import { CAREERS, INTERESTS } from '../../data'
 import { useApp } from '../../lib/state'
 import { Card, PageHeader, cx } from '../../components/ui'
+import { Illustration } from '../../components/Illustration'
 
 /** Careers sorted by how many of the user's interests they match. */
 export function useRankedCareers() {
@@ -23,7 +24,7 @@ export function Paths() {
 
   return (
     <>
-      <PageHeader eyebrow={t.paths.eyebrow} title={t.paths.title} subtitle={t.paths.subtitle} />
+      <PageHeader icon={Compass} eyebrow={t.paths.eyebrow} title={t.paths.title} subtitle={t.paths.subtitle} />
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 lg:gap-6">
         {ranked.map(({ career, matched }, i) => {
@@ -42,35 +43,22 @@ export function Paths() {
             >
               <Card
                 className={cx(
-                  'flex h-full flex-col p-6 transition duration-200 group-hover:-translate-y-1 group-hover:shadow-lift',
+                  'flex h-full flex-col overflow-hidden transition duration-200 group-hover:-translate-y-1 group-hover:shadow-lift',
                   best && 'ring-2 ring-brand-600',
                 )}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <span className={cx('flex size-14 items-center justify-center rounded-2xl ring-1', career.tone)}>
-                    <Icon className="size-7" />
-                  </span>
+                <Illustration scene={career.id} size="sm">
                   {best && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-brand-600 px-2.5 py-1 text-xs font-semibold text-white">
+                    <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-brand-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
                       <Star className="size-3.5 fill-current" /> {t.paths.bestMatch}
                     </span>
                   )}
-                </div>
-
-                <h2 className="mt-5 text-xl font-bold text-slate-900">{l(career.title)}</h2>
-                <p className="mt-2 leading-relaxed text-slate-600">{l(career.description)}</p>
-
-                <div className="mt-5 border-t border-slate-100 pt-5">
-                  <p className="text-xs font-semibold tracking-wide text-slate-400 uppercase">{t.paths.dayToDay}</p>
-                  <ul className="mt-3 space-y-2">
-                    {career.dayToDay.map((d) => (
-                      <li key={d.lv} className="flex items-start gap-2 text-sm text-slate-700">
-                        <Check className="mt-0.5 size-4 shrink-0 text-accent-500" strokeWidth={2.5} />
-                        {l(d)}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                </Illustration>
+                <div className="flex flex-1 flex-col p-5">
+                <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+                  <Icon className="size-5 text-brand-600" /> {l(career.title)}
+                </h2>
+                <p className="mt-2 line-clamp-3 text-sm text-slate-600">{l(career.description)}</p>
 
                 {matched.length > 0 && (
                   <div className="mt-5">
@@ -101,6 +89,7 @@ export function Paths() {
                     {t.paths.seePath}
                     <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
                   </span>
+                </div>
                 </div>
               </Card>
             </button>

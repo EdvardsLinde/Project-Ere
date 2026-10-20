@@ -62,7 +62,7 @@ export function JobCard({ job, compact = false }: { job: Job; compact?: boolean 
         {career && <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">{l(career.title)}</span>}
         <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">{t.jobs.minAge(job.minAge)}</span>
       </div>
-      {!compact && <p className="mt-3 text-sm leading-relaxed text-slate-600">{l(job.description)}</p>}
+      {!compact && <p className="mt-3 line-clamp-2 text-sm text-slate-600">{l(job.description)}</p>}
 
       <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
         <span className="inline-flex items-center gap-1.5 text-slate-600">

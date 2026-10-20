@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, Sparkles } from 'lucide-react'
 import { INTERESTS } from '../../data'
 import { toggle, useApp } from '../../lib/state'
 import { ActionBar, Button, PageHeader, cx } from '../../components/ui'
@@ -9,7 +9,7 @@ export function Interests() {
 
   return (
     <>
-      <PageHeader
+      <PageHeader icon={Sparkles}
         eyebrow={t.interests.eyebrow}
         title={
           profile.name ? `${profile.name}, ${t.interests.title.charAt(0).toLowerCase()}${t.interests.title.slice(1)}` : t.interests.title

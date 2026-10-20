@@ -4,7 +4,8 @@ import { CAREERS, NEWS } from '../../data'
 import type { NewsItem, NewsKind, TrackId } from '../../data'
 import { toggle, useApp } from '../../lib/state'
 import { currentTrack, overallProgress } from '../../lib/skills'
-import { Button, Card, Chip, Meter, cx } from '../../components/ui'
+import { Button, Card, Chip, Meter, PageHeader, cx } from '../../components/ui'
+import { Illustration, newsScene } from '../../components/Illustration'
 import { ExampleNotice } from '../../components/cards'
 
 const KIND_STYLE: Record<NewsKind, { icon: typeof Newspaper; tone: string }> = {
@@ -32,6 +33,7 @@ export function News() {
   const [kind, setKind] = useState<NewsKind | 'all'>('all')
   const [topic, setTopic] = useState<TrackId | null>(null)
   const [saldusOnly, setSaldusOnly] = useState(false)
+  const [showAll, setShowAll] = useState(false)
 
   const items = NEWS.filter(
     (n) => (kind === 'all' || n.kind === kind) && (!topic || n.track === topic) && (!saldusOnly || n.inSaldus),
@@ -48,37 +50,32 @@ export function News() {
     const days = daysUntil(n.date)
     const saved = profile.savedNews.includes(n.id)
     const career = CAREERS.find((c) => c.id === n.track)
-    const [day, month] = fmt.format(new Date(n.date)).split(' ')
     return (
-      <Card key={n.id} className="flex h-full gap-4 p-5 sm:p-6">
-        <div className="flex w-14 shrink-0 flex-col items-center self-start rounded-xl bg-slate-100 py-2 text-center">
-          <span className="text-xl leading-none font-extrabold text-slate-900 tabular-nums">{day.replace('.', '')}</span>
-          <span className="mt-1 text-xs font-semibold text-slate-500 uppercase">{month}</span>
-        </div>
-        <div className="flex min-w-0 flex-1 flex-col">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className={cx('inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold', style.tone)}>
-              <style.icon className="size-3.5" /> {t.news.kinds[n.kind]}
-            </span>
+      <Card key={n.id} className="flex h-full flex-col overflow-hidden transition hover:shadow-lift">
+        <Illustration scene={newsScene(n.kind, n.track)} size="sm">
+          <span className={cx('absolute top-3 left-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm', style.tone)}>
+            <style.icon className="size-3.5" /> {t.news.kinds[n.kind]}
+          </span>
+          <span className="absolute top-3 right-3 rounded-full bg-card/90 px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm">
+            {isUpcoming(n) && days <= 30 ? (days === 0 ? t.news.today : t.news.inDays(days)) : fmt.format(new Date(n.date))}
+          </span>
+        </Illustration>
+        <div className="flex flex-1 flex-col p-5">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
             {career && (
-              <span className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
+              <span className="inline-flex items-center gap-1 font-medium text-slate-500">
                 <career.icon className="size-3.5" /> {l(career.title)}
               </span>
             )}
-            {isUpcoming(n) && days <= 30 && (
-              <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">
-                {days === 0 ? t.news.today : t.news.inDays(days)}
-              </span>
-            )}
-            <span className="inline-flex shrink-0 items-center rounded-md bg-amber-50 px-1.5 py-0.5 text-[11px] font-semibold tracking-wide text-amber-700 uppercase ring-1 ring-amber-200">
+            <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-semibold tracking-wide text-amber-700 uppercase">
               {t.example.badge}
             </span>
           </div>
-          <h3 className="mt-2 leading-snug font-bold text-slate-900 sm:text-lg">{l(n.title)}</h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{l(n.summary)}</p>
+          <h3 className="mt-1.5 leading-snug font-bold text-slate-900">{l(n.title)}</h3>
+          <p className="mt-1 line-clamp-2 text-sm text-slate-600">{l(n.summary)}</p>
           <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-4">
-            <span className="inline-flex items-center gap-1.5 text-sm text-slate-500">
-              <MapPin className="size-4" /> {l(n.place)}
+            <span className="inline-flex min-w-0 items-center gap-1.5 text-sm text-slate-500">
+              <MapPin className="size-4 shrink-0" /> <span className="truncate">{l(n.place)}</span>
             </span>
             {n.kind !== 'news' && n.kind !== 'article' && (
               <Button
@@ -99,11 +96,7 @@ export function News() {
 
   return (
     <>
-      <div className="mb-8 max-w-3xl">
-        <p className="mb-2 text-sm font-semibold tracking-wide text-accent-600 uppercase">{t.news.eyebrow}</p>
-        <h1 className="text-3xl font-bold tracking-tight text-balance text-slate-900 sm:text-4xl">{t.news.greeting(profile.name)}</h1>
-        <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">{t.news.subtitle}</p>
-      </div>
+      <PageHeader icon={Newspaper} eyebrow={t.news.eyebrow} title={t.news.greeting(profile.name)} subtitle={t.news.subtitle} />
       <ExampleNotice />
       <ProfileStrip />
 
@@ -140,14 +133,21 @@ export function News() {
           {upcoming.length > 0 && (
             <section className="mt-10">
               <h2 className="mb-4 text-xl font-bold text-slate-900">{t.news.upcoming}</h2>
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{upcoming.map(card)}</div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{(showAll ? upcoming : upcoming.slice(0, 4)).map(card)}</div>
             </section>
           )}
           {latest.length > 0 && (
             <section className="mt-10">
               <h2 className="mb-4 text-xl font-bold text-slate-900">{t.news.latest}</h2>
-              <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{latest.map(card)}</div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{(showAll ? latest : latest.slice(0, 4)).map(card)}</div>
             </section>
+          )}
+          {!showAll && upcoming.length + latest.length > 8 && (
+            <div className="mt-8 text-center">
+              <Button variant="secondary" size="lg" onClick={() => setShowAll(true)}>
+                {t.news.showMore(upcoming.length + latest.length - Math.min(4, upcoming.length) - Math.min(4, latest.length))}
+              </Button>
+            </div>
           )}
         </div>
 

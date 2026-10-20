@@ -157,7 +157,7 @@ export function SkillsTest() {
 
   return (
     <>
-      <PageHeader eyebrow={t.skillsTest.eyebrow} title={t.skillsTest.resultTitle} subtitle={t.skillsTest.resultText} />
+      <PageHeader icon={ClipboardCheck} eyebrow={t.skillsTest.eyebrow} title={t.skillsTest.resultTitle} subtitle={t.skillsTest.resultText} />
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-4">
           {ranked.map(({ career, score }, i) => (

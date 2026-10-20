@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Clock, Laptop, Rocket, Trophy, Wrench } from 'lucide-react'
+import { ArrowRight, BookOpen, Clock, Laptop, Rocket, Route, Trophy, Wrench } from 'lucide-react'
 import { CAREERS, TRAINING } from '../../data'
 import { useApp } from '../../lib/state'
 import { ActionBar, Button, Card, PageHeader, cx } from '../../components/ui'
@@ -16,7 +16,7 @@ export function Training() {
 
   return (
     <>
-      <PageHeader
+      <PageHeader icon={Route}
         eyebrow={t.training.eyebrow}
         title={t.training.title(l(career.title))}
         subtitle={t.training.subtitle}

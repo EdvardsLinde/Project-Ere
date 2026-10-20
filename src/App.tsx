@@ -1,8 +1,9 @@
 import type { ComponentType } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import { AppProvider, ROUTES, useApp } from './lib/state'
+import { cx } from './components/ui'
 import type { Step } from './lib/state'
-import { Footer, Header, StepBar } from './components/Layout'
+import { Footer, Header, StepBar, TabBar } from './components/Layout'
 // Onboarding (runs once)
 import { Welcome } from './features/onboarding/Welcome'
 import { Interests } from './features/onboarding/Interests'
@@ -55,8 +56,12 @@ function Shell() {
   // Progress bar: during first-time onboarding, or when editing a step from the profile.
   const showStepBar = editing || (!onboarded && stepIndex > 0 && step !== 'thanks')
 
+  const showTabBar = onboarded && !showStepBar
+
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div
+      className={cx('flex min-h-dvh flex-col', showTabBar && 'pb-16 xl:pb-0 [--tabbar-h:4rem] xl:[--tabbar-h:0px]')}
+    >
       <Header />
       {showStepBar && <StepBar />}
       <main className="flex-1">
@@ -70,6 +75,7 @@ function Shell() {
         </Routes>
       </main>
       <Footer />
+      {showTabBar && <TabBar />}
     </div>
   )
 }

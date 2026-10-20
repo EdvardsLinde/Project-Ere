@@ -25,7 +25,7 @@ export function Jobs() {
 
   return (
     <>
-      <PageHeader eyebrow={t.jobs.eyebrow} title={t.jobs.title} subtitle={t.jobs.subtitle} />
+      <PageHeader icon={BriefcaseBusiness} eyebrow={t.jobs.eyebrow} title={t.jobs.title} subtitle={t.jobs.subtitle} />
       <ExampleNotice />
 
       <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-2">

@@ -2,12 +2,14 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { ArrowRight, CheckCircle2, Compass, Lock, Route, UserRound } from 'lucide-react'
 import { useApp } from '../../lib/state'
+import { CAREERS } from '../../data'
+import { Illustration } from '../../components/Illustration'
 import { Button, Card, Label, cx, inputClass } from '../../components/ui'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function Welcome() {
-  const { t, profile, update, next } = useApp()
+  const { t, l, profile, update, next } = useApp()
   const [name, setName] = useState(profile.name)
   const [email, setEmail] = useState(profile.email)
   const [submitted, setSubmitted] = useState(false)
@@ -43,14 +45,29 @@ export function Welcome() {
               </span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">{t.welcome.intro}</p>
-            <ul className="mt-7 space-y-3">
+            <ul className="mt-6 flex flex-wrap gap-2">
               {t.welcome.points.map((p) => (
-                <li key={p} className="flex items-start gap-3 text-slate-700">
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent-500" />
-                  <span>{p}</span>
+                <li
+                  key={p}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-card px-3 py-1.5 text-sm font-medium text-slate-700 shadow-xs ring-1 ring-slate-200"
+                >
+                  <CheckCircle2 className="size-4 shrink-0 text-accent-500" />
+                  {p}
                 </li>
               ))}
             </ul>
+            {/* The four digital paths at a glance */}
+            <div className="mt-8 hidden grid-cols-4 gap-3 lg:grid">
+              {CAREERS.map((c) => (
+                <figure key={c.id} className="overflow-hidden rounded-2xl bg-card shadow-card ring-1 ring-slate-200/70">
+                  <Illustration scene={c.id} size="xs" />
+                  <figcaption className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-800">
+                    <c.icon className="size-3.5 shrink-0 text-brand-600" />
+                    <span className="truncate">{l(c.title)}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
 
           <Card className="animate-fade-up p-6 shadow-lift sm:p-8">
@@ -97,25 +114,37 @@ export function Welcome() {
               </p>
             </form>
           </Card>
+            {/* Phones: paths shown below the sign-up form, so "Sākt" stays near the top */}
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:hidden">
+              {CAREERS.map((c) => (
+                <figure key={c.id} className="overflow-hidden rounded-2xl bg-card shadow-card ring-1 ring-slate-200/70">
+                  <Illustration scene={c.id} size="xs" />
+                  <figcaption className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-800">
+                    <c.icon className="size-3.5 shrink-0 text-brand-600" />
+                    <span className="truncate">{l(c.title)}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <h2 className="text-center text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{t.welcome.howTitle}</h2>
-        <ol className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+        <ol className="mt-8 grid grid-cols-3 gap-3 sm:mt-10 sm:gap-5">
           {t.welcome.how.map((item, i) => {
             const Icon = howIcons[i]
             return (
               <li key={item.title}>
-                <Card className="h-full p-6 transition hover:-translate-y-0.5 hover:shadow-lift">
-                  <div className="flex items-center gap-3">
+                <Card className="h-full p-3 text-center transition hover:-translate-y-0.5 hover:shadow-lift sm:p-6 sm:text-left">
+                  <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
                     <span className="flex size-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700 ring-1 ring-brand-100">
                       <Icon className="size-5" />
                     </span>
-                    <span className="text-sm font-bold text-slate-400">0{i + 1}</span>
+                    <span className="hidden text-sm font-bold text-slate-400 sm:inline">0{i + 1}</span>
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold text-slate-900">{item.title}</h3>
-                  <p className="mt-1.5 text-slate-600">{item.text}</p>
+                  <h3 className="mt-3 text-sm font-semibold text-slate-900 sm:mt-4 sm:text-lg">{item.title}</h3>
+                  <p className="mt-1 text-xs text-slate-600 sm:text-base">{item.text}</p>
                 </Card>
               </li>
             )
