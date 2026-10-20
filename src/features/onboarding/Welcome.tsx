@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { ArrowRight, CheckCircle2, Compass, Lock, Route, UserRound } from 'lucide-react'
-import { useApp } from '../state'
-import { Button, Card, Label, cx, inputClass } from '../components/ui'
+import { useApp } from '../../lib/state'
+import { Button, Card, Label, cx, inputClass } from '../../components/ui'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 

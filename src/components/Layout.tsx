@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { ArrowLeft, MapPin, Menu, Moon, RotateCcw, Search, Sun, UserRound, X } from 'lucide-react'
 import { SearchBox } from './cards'
+import { overallProgress } from '../lib/skills'
 import type { Lang } from '../data'
-import { PROGRESS_STEPS, useApp } from '../state'
-import type { Step } from '../state'
+import { PROGRESS_STEPS, useApp } from '../lib/state'
+import type { Step } from '../lib/state'
 import { cx } from './ui'
 
 export function Logo({ inverted = false }: { inverted?: boolean }) {
@@ -76,17 +77,19 @@ function ThemeToggle() {
 }
 
 export function Header() {
-  const { t, step, goTo, profile, restart, onboarded, search } = useApp()
+  const { t, step, goTo, profile, restart, onboarded, search, dark, toggleDark } = useApp()
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
 
   // The main navigation only exists once onboarding (the 6 steps) is done.
   const nav: { step: Step; label: string; also?: Step[] }[] = [
-    { step: 'me', label: t.nav.profile },
-    { step: 'courses', label: t.nav.courses },
+    { step: 'match', label: t.nav.myPath, also: ['test', 'paths', 'training'] },
+    { step: 'courses', label: t.nav.coursesShort },
+    { step: 'jobs', label: t.nav.jobs },
+    { step: 'news', label: t.nav.news },
     { step: 'people', label: t.nav.people, also: ['person'] },
-    { step: 'paths', label: t.nav.careers, also: ['training'] },
   ]
+  const progress = overallProgress(profile)
   const isActive = (item: (typeof nav)[number]) => step === item.step || !!item.also?.includes(step)
   const initial = profile.name.trim().charAt(0).toUpperCase()
 
@@ -134,7 +137,7 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           {onboarded && (
             <>
-              <div className="hidden w-52 xl:block">
+              <div className="hidden w-48 2xl:block">
                 <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.search} size="md" />
               </div>
               <button
@@ -142,7 +145,7 @@ export function Header() {
                 onClick={() => navigate('search')}
                 aria-label={t.nav.search}
                 className={cx(
-                  'flex size-11 cursor-pointer items-center justify-center rounded-lg transition xl:hidden',
+                  'flex size-11 cursor-pointer items-center justify-center rounded-lg transition 2xl:hidden',
                   step === 'search' ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-100',
                 )}
               >
@@ -150,20 +153,40 @@ export function Header() {
               </button>
             </>
           )}
-          <ThemeToggle />
+          <span className={onboarded ? 'hidden sm:contents' : 'contents'}>
+            <ThemeToggle />
+          </span>
           <LangToggle />
           {onboarded && (
             <button
               type="button"
               onClick={() => navigate('me')}
-              aria-label={t.nav.profile}
-              title={profile.name}
-              className={cx(
-                'hidden size-10 cursor-pointer items-center justify-center rounded-full bg-accent-100 text-sm font-bold text-accent-800 ring-2 transition sm:flex',
-                step === 'me' ? 'ring-brand-500' : 'ring-card hover:ring-accent-300',
-              )}
+              aria-label={`${t.nav.profile} · ${t.nav.progress(progress)}`}
+              title={`${profile.name} · ${t.nav.progress(progress)}`}
+              className="group relative flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full"
             >
-              {initial || <UserRound className="size-4" />}
+              {/* Progress ring = readiness for the user's current path */}
+              <svg viewBox="0 0 44 44" className="absolute inset-0 size-11 -rotate-90" aria-hidden>
+                <circle cx="22" cy="22" r="20" fill="none" strokeWidth="3" className="stroke-slate-200" />
+                <circle
+                  cx="22"
+                  cy="22"
+                  r="20"
+                  fill="none"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  className="stroke-accent-500 transition-all duration-700"
+                  strokeDasharray={`${(progress / 100) * 125.66} 125.66`}
+                />
+              </svg>
+              <span
+                className={cx(
+                  'flex size-8 items-center justify-center rounded-full bg-accent-100 text-sm font-bold text-accent-800 transition',
+                  step === 'me' ? 'ring-2 ring-brand-500' : 'group-hover:bg-accent-200',
+                )}
+              >
+                {initial || <UserRound className="size-4" />}
+              </span>
             </button>
           )}
           {onboarded && (
@@ -185,7 +208,7 @@ export function Header() {
           <div className="mb-2">
             <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.searchPlaceholder} size="md" />
           </div>
-          {[...nav, { step: 'saldus' as Step, label: t.nav.saldus }].map((item) => (
+          {[{ step: 'me' as Step, label: t.nav.profile }, ...nav, { step: 'saldus' as Step, label: t.nav.saldus }].map((item) => (
             <button
               key={item.step}
               type="button"
@@ -198,6 +221,14 @@ export function Header() {
               {item.label}
             </button>
           ))}
+          <button
+            type="button"
+            onClick={toggleDark}
+            className="flex h-12 w-full cursor-pointer items-center gap-2 rounded-lg px-3 text-left text-base font-medium text-slate-700 hover:bg-slate-50 sm:hidden"
+          >
+            {dark ? <Sun className="size-4 text-amber-500" /> : <Moon className="size-4" />}
+            {dark ? t.nav.lightMode : t.nav.darkMode}
+          </button>
           <button
             type="button"
             onClick={() => {
@@ -271,7 +302,10 @@ export function Footer() {
               <ul className="mt-4 space-y-3">
                 <li><button type="button" className={link} onClick={() => goTo('courses')}>{t.nav.courses}</button></li>
                 <li><button type="button" className={link} onClick={() => goTo('people')}>{t.nav.people}</button></li>
-                <li><button type="button" className={link} onClick={() => goTo('paths')}>{t.nav.careers}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('test')}>{t.nav.test}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('match')}>{t.nav.myPath}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('jobs')}>{t.nav.jobs}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('news')}>{t.nav.news}</button></li>
                 <li><button type="button" className={link} onClick={() => goTo('saldus')}>{t.footer.links.remote}</button></li>
               </ul>
             </div>

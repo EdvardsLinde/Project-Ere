@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Users } from 'lucide-react'
-import { CAREERS, PEOPLE } from '../data'
-import type { Lang, Person, PersonKind } from '../data'
-import { useApp } from '../state'
-import { Chip, PageHeader } from '../components/ui'
-import { ExampleNotice, PersonCard, SearchBox, rankPeople } from '../components/cards'
+import { CAREERS, PEOPLE } from '../../data'
+import type { Lang, Person, PersonKind } from '../../data'
+import { useApp } from '../../lib/state'
+import { Chip, PageHeader } from '../../components/ui'
+import { ExampleNotice, PersonCard, SearchBox, rankPeople } from '../../components/cards'
 
 export function matchPerson(person: Person, q: string) {
   const needle = q.trim().toLowerCase()

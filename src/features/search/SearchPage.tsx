@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 import { ArrowRight, SearchX } from 'lucide-react'
-import { CAREERS, COURSES, PEOPLE, PROVIDERS } from '../data'
-import type { Lang } from '../data'
-import { useApp } from '../state'
-import { Card, cx } from '../components/ui'
-import { CourseCard, ExampleBadge, ExampleNotice, PersonCard, SearchBox } from '../components/cards'
-import { matchCourse } from './Courses'
-import { matchPerson } from './People'
+import { CAREERS, COURSES, JOBS, PEOPLE, PROVIDERS } from '../../data'
+import type { Lang } from '../../data'
+import { useApp } from '../../lib/state'
+import { Card, cx } from '../../components/ui'
+import { CourseCard, ExampleBadge, ExampleNotice, PersonCard, SearchBox } from '../../components/cards'
+import { matchCourse } from '../courses/Courses'
+import { matchPerson } from '../people/People'
+import { JobCard } from '../jobs/JobCard'
 
 const LANGS: Lang[] = ['lv', 'en']
 const has = (hay: string, q: string) => {
@@ -26,7 +27,20 @@ export function SearchPage() {
   const providers = q
     ? PROVIDERS.filter((p) => has([p.name, ...LANGS.flatMap((x) => [p.kind[x], p.location[x]])].join(' '), q))
     : []
-  const total = courses.length + people.length + careers.length + providers.length
+  const jobs = q
+    ? JOBS.filter((j) =>
+        has(
+          [
+            ...LANGS.flatMap((x) => [j.title[x], j.description[x], t.jobs.locations[j.location], t.jobs.employment[j.employment]]),
+            PROVIDERS.find((p) => p.id === j.providerId)?.name ?? '',
+            j.location !== 'saldus' ? 'attālināti remote' : 'saldus',
+            'darbs job',
+          ].join(' '),
+          q,
+        ),
+      )
+    : []
+  const total = courses.length + people.length + careers.length + providers.length + jobs.length
 
   return (
     <>
@@ -92,6 +106,16 @@ export function SearchPage() {
                     </span>
                   </Card>
                 </button>
+              ))}
+            </div>
+          </Group>
+        )}
+
+        {jobs.length > 0 && (
+          <Group title={t.nav.jobs} count={jobs.length} onSeeAll={() => goTo('jobs')} seeAll={t.search.seeAll}>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {jobs.slice(0, 6).map((j) => (
+                <JobCard key={j.id} job={j} />
               ))}
             </div>
           </Group>

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 import { ArrowLeft, Check, MapPin, UserPlus } from 'lucide-react'
-import { CAREERS, COURSES, INTERESTS, PEOPLE } from '../data'
-import { toggle, useApp } from '../state'
-import { Button, Card, cx } from '../components/ui'
-import { Avatar, CourseCard, ExampleBadge, ExampleNotice, PersonCard, rankPeople } from '../components/cards'
+import { CAREERS, COURSES, INTERESTS, PEOPLE } from '../../data'
+import { toggle, useApp } from '../../lib/state'
+import { Button, Card, cx } from '../../components/ui'
+import { Avatar, CourseCard, ExampleBadge, ExampleNotice, PersonCard, rankPeople } from '../../components/cards'
 
 /** Public profile of another person (mentor, professional or peer). */
 export function PersonProfile() {

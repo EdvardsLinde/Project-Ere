@@ -1,7 +1,7 @@
 import { ArrowRight, BookOpen, Clock, Laptop, Rocket, Trophy, Wrench } from 'lucide-react'
-import { CAREERS, TRAINING } from '../data'
-import { useApp } from '../state'
-import { ActionBar, Button, Card, PageHeader, cx } from '../components/ui'
+import { CAREERS, TRAINING } from '../../data'
+import { useApp } from '../../lib/state'
+import { ActionBar, Button, Card, PageHeader, cx } from '../../components/ui'
 import { useRankedCareers } from './Paths'
 
 const STEP_ICONS = [BookOpen, Wrench, Rocket]

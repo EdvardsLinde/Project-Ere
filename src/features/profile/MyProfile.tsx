@@ -16,11 +16,14 @@ import {
   Sparkles,
   UserRound,
 } from 'lucide-react'
-import { CAREERS, COURSES, EXPERIENCE_TYPES, INTERESTS, MOTIVATION_TAGS, PEOPLE, SKILLS, TRAINING } from '../data'
-import { useApp } from '../state'
-import type { Step } from '../state'
-import { Button, Card, cx } from '../components/ui'
-import { Avatar, CourseCard, PersonCard, rankPeople, useIsRecommended } from '../components/cards'
+import { CAREERS, COURSES, EXPERIENCE_TYPES, INTERESTS, MOTIVATION_TAGS, PEOPLE, SKILL_AREAS, SKILLS, TRAINING } from '../../data'
+import { useApp } from '../../lib/state'
+import type { Step } from '../../lib/state'
+import { Button, Card, cx } from '../../components/ui'
+import { Avatar, CourseCard, PersonCard, rankPeople, useIsRecommended } from '../../components/cards'
+import { currentTrack, effectiveSkills, readiness, skillGaps } from '../../lib/skills'
+import { Meter } from '../../components/ui'
+import { ClipboardCheck } from 'lucide-react'
 
 /**
  * "Mans profils" — the user's profile page, reachable any time from the header.
@@ -127,6 +130,7 @@ export function MyProfile() {
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         {/* Main column */}
         <div className="min-w-0 space-y-6">
+          <PathCard />
           <Section icon={<Heart className="size-5" />} title={t.me.about} onEdit={() => edit('profile')} editLabel={t.me.edit}>
             {profile.motivationText.trim() ? (
               <p className="leading-relaxed whitespace-pre-line text-slate-700">{profile.motivationText.trim()}</p>
@@ -383,5 +387,56 @@ function EmptyAction({ text, action, onClick }: { text?: string; action: string;
         <Plus className="size-4" /> {action}
       </Button>
     </div>
+  )
+}
+
+/** Top card: invite to take the skills test, or show readiness for the current path. */
+function PathCard() {
+  const { t, l, profile, goTo } = useApp()
+
+  if (!profile.testResult) {
+    return (
+      <div className="flex flex-col gap-5 rounded-2xl bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-6 text-white shadow-lift sm:flex-row sm:items-center sm:p-7">
+        <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/30">
+          <ClipboardCheck className="size-7" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <h2 className="text-lg font-bold sm:text-xl">{t.me.testCtaTitle}</h2>
+          <p className="mt-1 text-sm text-white/85">{t.me.testCtaText}</p>
+        </div>
+        <Button variant="light" onClick={() => goTo('test')}>
+          {t.me.testCta} <ArrowRight className="size-4" />
+        </Button>
+      </div>
+    )
+  }
+
+  const track = currentTrack(profile)
+  const skills = effectiveSkills(profile)
+  const ready = Math.round(100 * readiness(track, skills))
+  const nextGap = skillGaps(track, skills).find((g) => g.gap > 0)
+  return (
+    <Card className="p-5 sm:p-7">
+      <div className="flex items-center gap-4">
+        <span className={cx('flex size-12 shrink-0 items-center justify-center rounded-xl ring-1', track.tone)}>
+          <track.icon className="size-6" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <h2 className="font-bold text-slate-900 sm:text-lg">{t.me.readinessTitle(l(track.title))}</h2>
+          {nextGap && (
+            <p className="mt-0.5 text-sm text-slate-500">
+              {t.me.nextGap(l(SKILL_AREAS.find((s) => s.id === nextGap.id)!.label))}
+            </p>
+          )}
+        </div>
+        <span className="text-2xl font-extrabold text-brand-700 tabular-nums">{ready}%</span>
+      </div>
+      <div className="mt-4">
+        <Meter value={ready} label={t.me.readinessTitle(l(track.title))} />
+      </div>
+      <Button variant="secondary" className="mt-5" onClick={() => goTo('match')}>
+        {t.me.openMyPath} <ArrowRight className="size-4" />
+      </Button>
+    </Card>
   )
 }

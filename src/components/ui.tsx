@@ -130,3 +130,49 @@ export function Label({ htmlFor, children, optional }: { htmlFor: string; childr
 
 export const inputClass =
   'block w-full rounded-lg border-0 bg-card px-3.5 py-3 text-base text-slate-900 shadow-xs ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 transition focus:ring-2 focus:ring-inset focus:ring-brand-500 focus:outline-none sm:text-sm'
+
+/** Horizontal level bar (0–100) with an optional target marker. */
+export function Meter({
+  value,
+  target,
+  tone = 'brand',
+  label,
+}: {
+  value: number
+  target?: number
+  tone?: 'brand' | 'accent' | 'sun'
+  label?: string
+}) {
+  const fill = { brand: 'from-brand-600 to-brand-400', accent: 'from-accent-600 to-accent-400', sun: 'from-amber-600 to-amber-400' }[tone]
+  return (
+    <div
+      className="relative h-2.5 rounded-full bg-slate-100"
+      role="meter"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={value}
+      aria-label={label}
+    >
+      <div
+        className={cx('h-2.5 rounded-full bg-gradient-to-r transition-all duration-500', fill)}
+        style={{ width: `${Math.max(2, Math.min(100, value))}%` }}
+      />
+      {target !== undefined && (
+        <span
+          aria-hidden
+          className="absolute -top-1 h-4.5 w-1 -translate-x-1/2 rounded-full bg-slate-900 ring-2 ring-card"
+          style={{ left: `${target}%` }}
+        />
+      )}
+    </div>
+  )
+}
+
+/** Small "Piemērs" / status pill. */
+export function Pill({ className, children }: { className?: string; children: ReactNode }) {
+  return (
+    <span className={cx('inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold', className)}>
+      {children}
+    </span>
+  )
+}

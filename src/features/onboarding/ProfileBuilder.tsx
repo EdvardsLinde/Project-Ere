@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import { ArrowRight, Briefcase, Heart, Plus, Sparkles, Trash2, X } from 'lucide-react'
-import { EXPERIENCE_TYPES, INTERESTS, MOTIVATION_TAGS, SKILLS } from '../data'
-import { toggle, useApp } from '../state'
-import { ActionBar, Button, Card, Chip, Label, PageHeader, cx, inputClass } from '../components/ui'
+import { EXPERIENCE_TYPES, INTERESTS, MOTIVATION_TAGS, SKILLS } from '../../data'
+import { toggle, useApp } from '../../lib/state'
+import { ActionBar, Button, Card, Chip, Label, PageHeader, cx, inputClass } from '../../components/ui'
 
 function Section({
   index,

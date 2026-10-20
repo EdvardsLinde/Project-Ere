@@ -1,8 +1,8 @@
 # ERE — Atrodi savu digitālo karjeru
 
-ERE is a clickable prototype of a career-discovery tool for young people aged 16–21 in the Saldus region of Latvia. It helps them discover digital careers (cybersecurity, AI & data, web development), build a simple profile, and see a realistic learning path. It also shows that they can work in these fields remotely while still living in Saldus.
+ERE is a career-launch portal for young people aged 15–24 in the Saldus region of Latvia. It helps them get into IT support, cybersecurity, AI & data and web development, and shows that they can do this work remotely while living in Saldus.
 
-It is for demos and user testing only. There is **no backend, database or auth**. Everything is kept in React state and is lost on refresh.
+This is a clickable prototype. It has **no backend yet**. The user's profile is saved in the browser (`localStorage`), and all content comes from typed mock data in `src/data/`, which a real API can replace later.
 
 ## Run
 
@@ -10,34 +10,60 @@ It is for demos and user testing only. There is **no backend, database or auth**
 npm install && npm run dev
 ```
 
-Then open the URL that Vite prints (usually http://localhost:5173). `npm run build` type-checks the code and makes a production build.
+Then open the URL that Vite prints (usually http://localhost:5173). `npm run build` type-checks the code and makes a production build. The app uses real URLs (`/jobs`, `/my-path`…), so a static host has to serve `index.html` for every path. `vite build --mode artifact` switches to hash URLs (`#/jobs`) for hosts that can't do that.
 
-## Flow
+## The flow
 
-**Onboarding (once, at sign-up):** Welcome / sign-up → Interests → Profile (skills, motivation, experience) → Career paths → Learning path → Work from Saldus → Done
+**Onboarding (once, at sign-up):** sign-up → interests → profile (skills, motivation, experience) → career paths → learning path → work from Saldus → done.
 
-**After onboarding** the main navigation appears:
+**After onboarding**, the app connects everything through one shared profile:
 
-- **Mans profils**: the home page. It shows the user's profile, saved courses, suggested people and a completeness checklist. Each section opens the matching step to edit it, and Save returns to the profile.
-- **Kursi un prakses**: search and filter courses, bootcamps and internships. Users can save a course or "apply" to it (nothing is sent).
-- **Cilvēki**: suggested mentors, professionals and other young people to follow. Search by name, job, place or skill; click anyone to open their profile (about, skills, "Mans ceļš" timeline, interests, courses in their field, similar people).
-- **Meklēt**: one search across courses, people, careers and companies.
+| Feature | Route | What it does |
+| --- | --- | --- |
+| Skills test | `/skills-test` | 12 questions: interests, self-rated skills and two small scenarios. It scores 4 tracks and sets a base level (0–100) for 10 skills. |
+| Career match ("Mans ceļš") | `/my-path` | Shows the best-fit tracks and what the job involves, then lists the required skills with the user's level and gaps, plus courses and jobs that close those gaps. |
+| Courses | `/courses` | Courses, bootcamps and internships tagged by skill and track. Courses that close the user's gaps are highlighted. Users can mark a course started or completed; completing it raises their skill levels. |
+| Jobs | `/jobs` | Local Saldus and remote roles, each with required skill levels. Each job shows a fit % against the user's skills and which skills are still missing. |
+| News & events | `/news` | A feed of news, events, courses and volunteering, filterable by type, Saldus-only and the user's track. |
+| Profile | `/profile` | The home page: profile, readiness for the chosen path, saved courses and people to follow. |
+| People | `/people`, `/people/:id` | Mentors, professionals and peers to follow, each with a profile page. |
+| Search | `/search` | One search across jobs, courses, people, careers and companies. |
 
-The header has an LV/EN toggle (Latvian is the default) and a light/dark toggle. The app uses light mode by default and remembers the choice in the browser.
+The ring around the avatar in the header shows readiness for the user's current track.
 
-> **All companies, courses and people are fictional examples.** The UI labels them that way with a "Piemērs" badge and a notice on every page. Replace them with real partners in `src/data.ts` once you have agreements.
+> **All companies, jobs, courses, news items and people are fictional examples.** The UI marks them with a "Piemērs" badge and a notice on each page. Replace them with real partners once you have agreements. Job age limits are placeholders and must be checked against Latvian labour law.
 
-## Where to edit
+## Project structure
 
-| What | File |
-| --- | --- |
-| Interests, skills, motivation tags, experience types, careers, training steps, example companies / courses / people | `src/data.ts` (commented constants at the top) |
-| All UI text (LV + EN) | `src/i18n.ts`. `en` is type-checked against `lv`, so a missing key fails the build |
-| Colours (light + dark), radius, shadows, font | `src/index.css`. The `@theme` block holds light mode and `html.dark` holds dark mode |
-| App state & step order | `src/state.tsx` |
-| Screens | `src/screens/*` |
-| Header, step bar, footer, shared UI | `src/components/*` |
+```
+src/
+  features/            one folder per feature — teams can work in parallel
+    onboarding/        Welcome, Interests, ProfileBuilder, Saldus, Thanks
+    skills-test/       SkillsTest
+    career-match/      MyPath, Paths (career cards), Training (learning path)
+    courses/           Courses
+    jobs/              Jobs, JobCard
+    news/              News
+    profile/           MyProfile
+    people/            People, PersonProfile
+    search/            SearchPage
+  components/          shared UI (ui.tsx, Layout.tsx, cards.tsx)
+  data/                typed mock data, one file per topic (swap for an API later)
+  lib/
+    state.tsx          routes + the shared profile context (persisted to localStorage)
+    skills.ts          scoring: test → tracks, skill levels, gaps, course gains, job fit
+  i18n/                lv.ts (default, source of truth), en.ts (same shape), index.ts
+  index.css            colours (light + dark), radius, shadows
+```
+
+## Conventions
+
+- **No hard-coded visible text.** Add every string to `src/i18n/lv.ts` and `src/i18n/en.ts`. The build fails if `en` is missing a key.
+- **Content goes in `src/data/`**, as typed constants with comments. Bilingual content uses `{ lv, en }`.
+- **One shared profile.** Read it and change it with `useApp()` (`profile`, `update`). Scoring belongs in `src/lib/skills.ts`, not in components.
+- **New feature?** Create `src/features/<name>/`, add a route in `ROUTES` (`src/lib/state.tsx`) and `PAGES` (`src/App.tsx`), and add a nav link in `src/components/Layout.tsx`.
+- **Colours come from the theme tokens** in `index.css`. Don't use raw hex values in components, so dark mode keeps working.
 
 ## Stack
 
-React + Vite + TypeScript, Tailwind CSS v4, lucide-react icons.
+React + Vite + TypeScript, React Router, Tailwind CSS v4, lucide-react icons.

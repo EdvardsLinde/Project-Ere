@@ -1,7 +1,7 @@
 import { ArrowRight, Globe, HandHeart, House, MapPin } from 'lucide-react'
-import { CAREERS } from '../data'
-import { useApp } from '../state'
-import { Button, Card } from '../components/ui'
+import { CAREERS } from '../../data'
+import { useApp } from '../../lib/state'
+import { Button, Card } from '../../components/ui'
 
 const BENEFIT_ICONS = [House, Globe, HandHeart]
 

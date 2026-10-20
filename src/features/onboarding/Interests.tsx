@@ -1,7 +1,7 @@
 import { ArrowRight, Check } from 'lucide-react'
-import { INTERESTS } from '../data'
-import { toggle, useApp } from '../state'
-import { ActionBar, Button, PageHeader, cx } from '../components/ui'
+import { INTERESTS } from '../../data'
+import { toggle, useApp } from '../../lib/state'
+import { ActionBar, Button, PageHeader, cx } from '../../components/ui'
 
 export function Interests() {
   const { t, l, profile, update, next, editing } = useApp()

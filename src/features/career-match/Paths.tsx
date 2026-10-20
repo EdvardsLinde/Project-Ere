@@ -1,7 +1,7 @@
 import { ArrowRight, Check, Star, Wifi } from 'lucide-react'
-import { CAREERS, INTERESTS } from '../data'
-import { useApp } from '../state'
-import { Card, PageHeader, cx } from '../components/ui'
+import { CAREERS, INTERESTS } from '../../data'
+import { useApp } from '../../lib/state'
+import { Card, PageHeader, cx } from '../../components/ui'
 
 /** Careers sorted by how many of the user's interests they match. */
 export function useRankedCareers() {
@@ -25,7 +25,7 @@ export function Paths() {
     <>
       <PageHeader eyebrow={t.paths.eyebrow} title={t.paths.title} subtitle={t.paths.subtitle} />
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 lg:gap-6">
         {ranked.map(({ career, matched }, i) => {
           const Icon = career.icon
           const best = i === 0 && matched.length > 0

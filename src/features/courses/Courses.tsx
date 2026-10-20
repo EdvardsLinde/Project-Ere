@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { BookOpen } from 'lucide-react'
-import { CAREERS, COURSES, PROVIDERS } from '../data'
-import type { Course, CourseFormat, CourseType } from '../data'
-import { useApp } from '../state'
-import type { Lang } from '../data'
-import { Button, Chip, PageHeader } from '../components/ui'
-import { CourseCard, ExampleNotice, SearchBox, useIsRecommended } from '../components/cards'
+import { CAREERS, COURSES, PROVIDERS } from '../../data'
+import type { Course, CourseFormat, CourseType } from '../../data'
+import { useApp } from '../../lib/state'
+import type { CourseStatus } from '../../lib/state'
+import { currentTrack, effectiveSkills, gapValue, skillGaps } from '../../lib/skills'
+import type { Lang } from '../../data'
+import { Button, Chip, PageHeader } from '../../components/ui'
+import { CourseCard, ExampleNotice, SearchBox, useIsRecommended } from '../../components/cards'
 
 /** Free-text match across a course's title, description, provider and keywords (both languages). */
 export function matchCourse(course: Course, q: string) {
@@ -39,6 +41,11 @@ export function Courses() {
   const [type, setType] = useState<CourseType | null>(null)
   const [format, setFormat] = useState<CourseFormat | null>(null)
   const [freeOnly, setFreeOnly] = useState(false)
+  const [gapsOnly, setGapsOnly] = useState(false)
+  const [status, setStatus] = useState<CourseStatus | null>(null)
+
+  // Gaps for the user's current track (only meaningful after the skills test).
+  const gaps = profile.testResult ? skillGaps(currentTrack(profile), effectiveSkills(profile)) : []
 
   const results = COURSES.filter(
     (c) =>
@@ -46,16 +53,22 @@ export function Courses() {
       (!career || c.careerId === career) &&
       (!type || c.type === type) &&
       (!format || c.format === format) &&
-      (!freeOnly || c.price === 0),
-  ).sort((a, b) => Number(isRecommended(b)) - Number(isRecommended(a)))
+      (!freeOnly || c.price === 0) &&
+      (!gapsOnly || (gapValue(c, gaps) > 0 && profile.courseProgress[c.id] !== 'completed')) &&
+      (!status || profile.courseProgress[c.id] === status),
+  ).sort(
+    (a, b) => gapValue(b, gaps) - gapValue(a, gaps) || Number(isRecommended(b)) - Number(isRecommended(a)),
+  )
 
-  const hasFilters = !!(q || career || type || format || freeOnly)
+  const hasFilters = !!(q || career || type || format || freeOnly || gapsOnly || status)
   const clear = () => {
     setQ('')
     setCareer(null)
     setType(null)
     setFormat(null)
     setFreeOnly(false)
+    setGapsOnly(false)
+    setStatus(null)
   }
 
   return (
@@ -97,6 +110,20 @@ export function Courses() {
             <Chip selected={freeOnly} onClick={() => setFreeOnly(!freeOnly)}>
               {t.courses.freeOnly}
             </Chip>
+          </div>
+
+          <FilterLabel>{t.nav.myPath}</FilterLabel>
+          <div className="flex flex-wrap gap-2">
+            {gaps.length > 0 && (
+              <Chip selected={gapsOnly} onClick={() => setGapsOnly(!gapsOnly)}>
+                {t.progress.gapsOnly}
+              </Chip>
+            )}
+            {(['started', 'completed'] as CourseStatus[]).map((k) => (
+              <Chip key={k} selected={status === k} onClick={() => setStatus(status === k ? null : k)}>
+                {t.progress.status[k]}
+              </Chip>
+            ))}
           </div>
         </div>
       </div>
