@@ -9,7 +9,7 @@ import { Button, Card, Label, cx, inputClass } from '../../components/ui'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function Welcome() {
-  const { t, l, profile, update, next } = useApp()
+  const { t, l, profile, update, startOnboarding, browseAsGuest, goTo } = useApp()
   const [name, setName] = useState(profile.name)
   const [email, setEmail] = useState(profile.email)
   const [submitted, setSubmitted] = useState(false)
@@ -22,7 +22,7 @@ export function Welcome() {
     setSubmitted(true)
     if (!name.trim() || (email.trim() && !EMAIL_RE.test(email.trim()))) return
     update({ name: name.trim(), email: email.trim() })
-    next()
+    startOnboarding()
   }
 
   const howIcons = [UserRound, Compass, Route]
@@ -109,8 +109,17 @@ export function Welcome() {
               <Button type="submit" size="lg" className="w-full">
                 {t.welcome.start} <ArrowRight className="size-5" />
               </Button>
+              <Button variant="ghost" className="w-full" onClick={browseAsGuest}>
+                {t.welcome.browse}
+              </Button>
               <p className="flex items-start gap-2 text-xs leading-relaxed text-slate-500">
-                <Lock className="mt-0.5 size-3.5 shrink-0" /> {t.welcome.privacy}
+                <Lock className="mt-0.5 size-3.5 shrink-0" />
+                <span>
+                  {t.welcome.privacy}{' '}
+                  <button type="button" onClick={() => goTo('privacy')} className="cursor-pointer font-semibold text-brand-700 underline">
+                    {t.privacy.link}
+                  </button>
+                </span>
               </p>
             </form>
           </Card>

@@ -16,11 +16,26 @@ import type { Dict } from '../i18n'
 /*  Routes                                                                     */
 /* -------------------------------------------------------------------------- */
 
-/** Onboarding flow, in order. Runs once at sign-up. */
-export const STEPS = ['welcome', 'interests', 'profile', 'paths', 'training', 'saldus', 'thanks'] as const
+/**
+ * Onboarding flow, in order. Runs once at sign-up and is kept short on purpose:
+ * the profile details (skills, motivation, experience) are filled in later from "Mans profils".
+ */
+export const STEPS = ['welcome', 'interests', 'paths', 'training', 'saldus', 'thanks'] as const
 type FlowStep = (typeof STEPS)[number]
 /** Pages of the app itself (after onboarding). One route per feature. */
-export type AppPage = 'me' | 'test' | 'match' | 'courses' | 'course' | 'jobs' | 'news' | 'people' | 'person' | 'search'
+export type AppPage =
+  | 'me'
+  | 'profile'
+  | 'test'
+  | 'match'
+  | 'courses'
+  | 'course'
+  | 'jobs'
+  | 'news'
+  | 'people'
+  | 'person'
+  | 'search'
+  | 'privacy'
 export type Step = FlowStep | AppPage
 /** Steps shown in the onboarding progress bar (the thank-you screen is not counted). */
 export const PROGRESS_STEPS = STEPS.length - 1
@@ -29,7 +44,7 @@ export const PROGRESS_STEPS = STEPS.length - 1
 export const ROUTES: Record<Step, string> = {
   welcome: '/',
   interests: '/start/interests',
-  profile: '/start/profile',
+  profile: '/profile/edit',
   paths: '/careers',
   training: '/careers/learning-path',
   saldus: '/work-from-saldus',
@@ -44,6 +59,7 @@ export const ROUTES: Record<Step, string> = {
   people: '/people',
   person: '/people/:id',
   search: '/search',
+  privacy: '/privacy',
 }
 
 function stepFromPath(pathname: string): Step {
@@ -185,8 +201,16 @@ interface AppState {
   edit: (s: Step) => void
   /** True while editing a step opened from "Mans profils". */
   editing: boolean
-  /** True once the user has finished the 6-step onboarding. */
+  /** True once the user can use the app: finished onboarding, or chose to browse as a guest. */
   onboarded: boolean
+  /** True while the user is going through the sign-up steps (progress bar on, main nav off). */
+  flowActive: boolean
+  /** Main app navigation is visible. */
+  appNav: boolean
+  /** Sign-up form submitted: start the onboarding steps. */
+  startOnboarding: () => void
+  /** Skip sign-up and look around first. */
+  browseAsGuest: () => void
   query: string
   setQuery: (q: string) => void
   /** Run a search from anywhere (header, suggestions) and open the results. */
@@ -221,6 +245,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile>(initial.profile)
   const [onboarded, setOnboarded] = useState(initial.onboarded)
   const [editing, setEditing] = useState(false)
+  const [flowActive, setFlowActive] = useState(false)
   const [query, setQuery] = useState('')
 
   const step = stepFromPath(location.pathname)
@@ -243,7 +268,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Reaching the last onboarding screen unlocks the app.
   useEffect(() => {
-    if (step === 'thanks') setOnboarded(true)
+    if (step === 'thanks') {
+      setOnboarded(true)
+      setFlowActive(false)
+    }
   }, [step])
 
   useEffect(() => {
@@ -284,6 +312,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
       },
       editing,
       onboarded,
+      flowActive,
+      appNav: onboarded && !flowActive,
+      startOnboarding: () => {
+        setFlowActive(true)
+        goTo('interests')
+      },
+      browseAsGuest: () => {
+        setOnboarded(true)
+        goTo('news')
+      },
       query,
       setQuery,
       personId,
@@ -307,11 +345,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       restart: () => {
         setProfile(emptyProfile)
         setOnboarded(false)
+        setFlowActive(false)
         setQuery('')
         goTo('welcome')
       },
     }),
-    [lang, dark, step, stepIndex, goTo, show, navigate, location.key, editing, onboarded, query, personId, courseId, profile],
+    [lang, dark, step, stepIndex, goTo, show, navigate, location.key, editing, onboarded, flowActive, query, personId, courseId, profile],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

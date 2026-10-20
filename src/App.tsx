@@ -20,6 +20,7 @@ import { CourseDetail } from './features/courses/CourseDetail'
 import { Jobs } from './features/jobs/Jobs'
 import { News } from './features/news/News'
 import { MyProfile } from './features/profile/MyProfile'
+import { Privacy } from './features/profile/Privacy'
 import { People } from './features/people/People'
 import { PersonProfile } from './features/people/PersonProfile'
 import { SearchPage } from './features/search/SearchPage'
@@ -41,6 +42,7 @@ const PAGES: Record<Exclude<Step, 'welcome'>, ComponentType> = {
   people: People,
   person: PersonProfile,
   search: SearchPage,
+  privacy: Privacy,
 }
 
 /** Standard page frame: centred container with consistent padding. */
@@ -53,23 +55,41 @@ function Page({ step }: { step: Exclude<Step, 'welcome'> }) {
   )
 }
 
-function Shell() {
-  const { step, stepIndex, onboarded, editing } = useApp()
-  // Progress bar: during first-time onboarding, or when editing a step from the profile.
-  const showStepBar = editing || (!onboarded && stepIndex > 0 && step !== 'thanks')
+/** Keyboard users: jump past the header to the page content. */
+function SkipLink() {
+  const { t } = useApp()
+  return (
+    <button
+      type="button"
+      onClick={() => document.getElementById('main')?.focus()}
+      className="sr-only z-50 rounded-lg bg-brand-600 px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+    >
+      {t.common.skipToContent}
+    </button>
+  )
+}
 
-  const showTabBar = onboarded && !showStepBar
+function Shell() {
+  const { step, stepIndex, onboarded, editing, flowActive, appNav, profile } = useApp()
+  // Progress bar: during the sign-up steps, or when editing a step from the profile.
+  const showStepBar = editing || (flowActive && stepIndex > 0 && step !== 'thanks')
+  // Sign-up page for new users and guests; people with a profile go straight to the app.
+  // (not while the sign-up steps are running — a guest who just entered a name is mid-flow)
+  const hasProfile = onboarded && !!profile.name && !flowActive
+
+  const showTabBar = appNav && !showStepBar
 
   return (
     <div
       className={cx('flex min-h-dvh flex-col', showTabBar && 'pb-16 xl:pb-0 [--tabbar-h:4rem] xl:[--tabbar-h:0px]')}
     >
+      <SkipLink />
       <Header />
       {showStepBar && <StepBar />}
-      <main className="flex-1">
+      <main id="main" tabIndex={-1} className="flex-1 outline-none">
         <Routes>
           {/* Returning users skip sign-up and land on the news home page. */}
-          <Route path={ROUTES.welcome} element={onboarded ? <Navigate to={ROUTES.news} replace /> : <Welcome />} />
+          <Route path={ROUTES.welcome} element={hasProfile ? <Navigate to={ROUTES.news} replace /> : <Welcome />} />
           {(Object.keys(PAGES) as Exclude<Step, 'welcome'>[]).map((s) => (
             <Route key={s} path={ROUTES[s]} element={<Page step={s} />} />
           ))}

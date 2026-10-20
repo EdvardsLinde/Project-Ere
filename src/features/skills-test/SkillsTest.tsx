@@ -197,6 +197,7 @@ export function SkillsTest() {
         <Card className="p-5 sm:p-6">
           <h2 className="font-bold text-slate-900">{t.skillsTest.yourSkills}</h2>
           <p className="mt-0.5 text-xs text-slate-500">{t.skillsTest.takenOn(date)}</p>
+          <p className="mt-2 rounded-lg bg-amber-50 px-2.5 py-1.5 text-xs font-medium text-amber-800">{t.skillsTest.selfCap}</p>
           <ul className="mt-5 space-y-4">
             {SKILL_AREAS.map((s) => (
               <li key={s.id}>

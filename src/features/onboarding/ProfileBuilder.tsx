@@ -291,7 +291,7 @@ export function Profile() {
       </div>
 
       <ActionBar>
-        <Button size="lg" onClick={() => next()}>
+        <Button size="lg" onClick={() => next('me')}>
           {editing ? t.common.save : t.common.next} <ArrowRight className="size-5" />
         </Button>
       </ActionBar>

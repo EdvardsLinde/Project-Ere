@@ -136,7 +136,7 @@ export function TabBar() {
 }
 
 export function Header() {
-  const { t, step, goTo, profile, restart, onboarded, search, dark, toggleDark } = useApp()
+  const { t, step, goTo, profile, restart, appNav, search, dark, toggleDark } = useApp()
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
 
@@ -161,16 +161,16 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <button
           type="button"
-          onClick={() => navigate(onboarded ? 'news' : 'welcome')}
+          onClick={() => navigate(appNav ? 'news' : 'welcome')}
           className="shrink-0 cursor-pointer"
           aria-label="ERE"
         >
           <Logo />
         </button>
 
-        {onboarded && (
+        {appNav && (
           <nav className="hidden items-center gap-0.5 xl:flex">
-            {nav.map((item) => (
+            {nav.filter((item) => item.step !== 'people').map((item) => (
               <button
                 key={item.step}
                 type="button"
@@ -190,7 +190,7 @@ export function Header() {
         )}
 
         <div className="flex items-center gap-2 sm:gap-3">
-          {onboarded && (
+          {appNav && (
             <>
               <div className="hidden w-48 2xl:block">
                 <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.search} size="md" />
@@ -208,11 +208,11 @@ export function Header() {
               </button>
             </>
           )}
-          <span className={onboarded ? 'hidden sm:contents' : 'contents'}>
+          <span className={appNav ? 'hidden sm:contents' : 'contents'}>
             <ThemeToggle />
           </span>
           <LangToggle />
-          {onboarded && (
+          {appNav && (
             <button
               type="button"
               onClick={() => navigate('me')}
@@ -244,7 +244,7 @@ export function Header() {
               </span>
             </button>
           )}
-          {onboarded && (
+          {appNav && (
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
@@ -258,7 +258,7 @@ export function Header() {
         </div>
       </div>
 
-      {open && onboarded && (
+      {open && appNav && (
         <div className="animate-fade-up border-t border-slate-200 bg-card px-4 pt-3 pb-4 xl:hidden">
           <div className="mb-2">
             <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.searchPlaceholder} size="md" />
@@ -337,7 +337,7 @@ export function StepBar() {
 }
 
 export function Footer() {
-  const { t, goTo, restart, onboarded } = useApp()
+  const { t, goTo, restart, appNav } = useApp()
   const link = 'cursor-pointer text-sm text-[#9db8c4] transition hover:text-white'
   return (
     <footer className="mt-auto bg-ink text-[#c9dde5]">
@@ -350,7 +350,7 @@ export function Footer() {
           </p>
         </div>
         {/* App links only make sense once the user has a profile. */}
-        {onboarded && (
+        {appNav && (
           <>
             <div>
               <h3 className="text-sm font-semibold text-white">{t.footer.explore}</h3>
@@ -365,7 +365,9 @@ export function Footer() {
               <h3 className="text-sm font-semibold text-white">{t.footer.forYou}</h3>
               <ul className="mt-4 space-y-3">
                 <li><button type="button" className={link} onClick={() => goTo('me')}>{t.footer.links.profile}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('people')}>{t.nav.people}</button></li>
                 <li><button type="button" className={link} onClick={() => goTo('search')}>{t.nav.search}</button></li>
+                <li><button type="button" className={link} onClick={() => goTo('privacy')}>{t.privacy.link}</button></li>
                 <li><button type="button" className={link} onClick={restart}>{t.footer.links.start}</button></li>
               </ul>
             </div>

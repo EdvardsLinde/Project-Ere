@@ -10,24 +10,29 @@ This is a clickable prototype. It has **no backend yet**. The user's profile is 
 npm install && npm run dev
 ```
 
+`npm test` runs the unit tests for the scoring and next-step logic (`src/lib/*.test.ts`). See **TESTING.md** for a ready-made plan for testing with 5 young people.
+
 Then open the URL that Vite prints (usually http://localhost:5173). `npm run build` type-checks the code and makes a production build. The app uses real URLs (`/jobs`, `/my-path`…), so a static host has to serve `index.html` for every path. `vite build --mode artifact` switches to hash URLs (`#/jobs`) for hosts that can't do that.
 
 ## The flow
 
-**Onboarding (once, at sign-up):** sign-up → interests → profile (skills, motivation, experience) → career paths → learning path → work from Saldus → done.
+**Onboarding (once, at sign-up, 5 short steps):** sign-up → interests → career paths → learning path → work from Saldus → done. Profile details (skills, motivation, experience) are filled in later from **Mans profils**. You can also **look around first without signing up** (guest mode) and create a profile later.
+
+On the home page, a **"Tavs nākamais solis"** card always shows the next step on the core path: profile → skills test → free training tasks / gap-closing course → jobs (`src/lib/nextStep.ts`).
 
 **After onboarding**, the app connects everything through one shared profile:
 
 | Feature | Route | What it does |
 | --- | --- | --- |
-| Skills test | `/skills-test` | 12 questions: interests, self-rated skills and two small scenarios. It scores 4 tracks and sets a base level (0–100) for 10 skills. |
+| Skills test | `/skills-test` | 12 questions: interests, self-rated skills and two small scenarios. It scores 4 tracks and sets a base level (0–100) for 10 skills. Self-ratings are capped at 70; going higher takes solved tasks or completed courses. |
 | Career match ("Mans ceļš") | `/my-path` | Shows the best-fit tracks and what the job involves, then lists the required skills with the user's level and gaps, plus courses and jobs that close those gaps. |
 | Courses | `/courses`, `/courses/:id` | Courses, bootcamps and internships tagged by skill and track. Courses that close the user's gaps are highlighted. Users can mark a course started or completed; completing it raises their skill levels. **Example:** "Kiberdrošības pamati jauniešiem" (SecNord Labs) comes with 4 free training tasks (`src/data/tasks.ts`) that can be solved in the app; each solved task adds skill points. |
 | Jobs | `/jobs` | Local Saldus and remote roles, each with required skill levels. Each job shows a fit % against the user's skills and which skills are still missing. |
 | News & events (home page) | `/news` | **The first page after sign-up.** Articles about AI, cybersecurity, data, web and IT support, plus local job-market news, events, courses and volunteering. Filters cover type, topic (track) and Saldus only. A profile card links to the user's profile. |
 | Profile | `/profile` | Profile, readiness for the chosen path, saved courses and people to follow. It's in the main menu and behind the avatar. |
-| People | `/people`, `/people/:id` | Mentors, professionals and peers to follow, each with a profile page. |
+| People | `/people`, `/people/:id` | Mentors, professionals and peers to follow, each with a profile page. Follow only, no private messages, and every profile has a **Report** button. It's kept out of the main desktop menu on purpose: connecting minors with adults needs moderation before it goes live. |
 | Search | `/search` | One search across jobs, courses, people, careers and companies. |
+| Privacy | `/privacy` | Plain-language explanation of what is stored (only in this browser) and a **Delete my data** button. |
 
 The ring around the avatar in the header shows readiness for the user's current track.
 

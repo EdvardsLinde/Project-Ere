@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowLeft, Check, MapPin, UserPlus } from 'lucide-react'
+import { ArrowLeft, Check, Flag, MapPin, ShieldCheck, UserPlus } from 'lucide-react'
 import { CAREERS, COURSES, INTERESTS, PEOPLE } from '../../data'
 import { toggle, useApp } from '../../lib/state'
 import { Button, Card, cx } from '../../components/ui'
@@ -175,6 +176,7 @@ export function PersonProfile() {
                 ))}
               </div>
             </Section>
+            <SafetyCard />
           </aside>
         </div>
       </div>
@@ -189,5 +191,31 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
       {hint && <p className="mt-0.5 text-sm text-slate-500">{hint}</p>}
       <div className="mt-4">{children}</div>
     </Card>
+  )
+}
+
+/** Safety: only following is possible, and any profile can be reported. */
+function SafetyCard() {
+  const { t } = useApp()
+  const [reported, setReported] = useState(false)
+  return (
+    <div className="rounded-2xl bg-slate-100 p-4 text-sm text-slate-600">
+      <p className="flex items-start gap-2">
+        <ShieldCheck className="mt-0.5 size-4 shrink-0 text-accent-600" /> {t.people.safety}
+      </p>
+      {reported ? (
+        <p className="mt-3 flex items-center gap-1.5 font-medium text-accent-700">
+          <Check className="size-4" /> {t.people.reported}
+        </p>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setReported(true)}
+          className="mt-3 inline-flex cursor-pointer items-center gap-1.5 font-semibold text-slate-700 hover:text-red-600"
+        >
+          <Flag className="size-4" /> {t.people.report}
+        </button>
+      )}
+    </div>
   )
 }

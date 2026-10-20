@@ -32,8 +32,13 @@ export interface TestQuestion {
   options: TestOption[]
 }
 
-/** Self-rating scale shared by all `rating` questions: 1 → 10 … 5 → 90. */
-const RATING_LEVELS = [10, 30, 50, 70, 90]
+/**
+ * Self-rating scale shared by all `rating` questions: 1 → 10 … 5 → 70.
+ * Capped at 70 on purpose: self-ratings are easy to inflate, so going higher
+ * requires proof — solved training tasks or completed courses.
+ */
+export const SELF_RATING_CAP = 70
+const RATING_LEVELS = [10, 25, 40, 55, SELF_RATING_CAP]
 const RATING_LABELS: Localized[] = [
   { lv: 'Vēl nemaz', en: 'Not yet' },
   { lv: 'Mazliet', en: 'A little' },

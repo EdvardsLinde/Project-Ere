@@ -9,6 +9,7 @@ import { FilterBar } from '../../components/FilterBar'
 import type { FilterDef } from '../../components/FilterBar'
 import { Illustration, newsScene } from '../../components/Illustration'
 import { ExampleNotice } from '../../components/cards'
+import { NextStepCard } from '../../components/NextStepCard'
 
 const KIND_STYLE: Record<NewsKind, { icon: typeof Newspaper; tone: string }> = {
   news: { icon: Newspaper, tone: 'bg-brand-50 text-brand-700' },
@@ -132,8 +133,8 @@ export function News() {
   return (
     <>
       <PageHeader icon={Newspaper} eyebrow={t.news.eyebrow} title={t.news.greeting(profile.name)} subtitle={t.news.subtitle} />
+      <NextStepCard />
       <ExampleNotice />
-      <ProfileStrip />
 
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="min-w-0">
@@ -225,28 +226,3 @@ function ProfileCard() {
   )
 }
 
-/** Phones: a one-line profile shortcut instead of the sidebar card. */
-function ProfileStrip() {
-  const { t, l, profile, goTo } = useApp()
-  const ready = overallProgress(profile)
-  return (
-    <button
-      type="button"
-      onClick={() => goTo('me')}
-      className="mb-6 flex w-full cursor-pointer items-center gap-3 rounded-2xl bg-card p-3 text-left shadow-card ring-1 ring-slate-200 lg:hidden"
-    >
-      <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-100 font-bold text-accent-800">
-        {profile.name.charAt(0).toUpperCase() || <UserRound className="size-4" />}
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block truncate font-semibold text-slate-900">{profile.name || t.nav.profile}</span>
-        <span className="block truncate text-xs text-slate-500">
-          {profile.testResult ? `${t.news.readiness(l(currentTrack(profile).title))} · ${ready}%` : t.news.noTestYet}
-        </span>
-      </span>
-      <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand-700">
-        {t.news.openProfile} <ArrowRight className="size-4" />
-      </span>
-    </button>
-  )
-}

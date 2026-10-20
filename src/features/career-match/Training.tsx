@@ -7,7 +7,7 @@ import { useRankedCareers } from './Paths'
 const STEP_ICONS = [BookOpen, Wrench, Rocket]
 
 export function Training() {
-  const { t, l, profile, update, next, goTo, onboarded, editing } = useApp()
+  const { t, l, profile, update, next, goTo, appNav, editing } = useApp()
   const ranked = useRankedCareers()
   // Fall back to the best-matching career if the user jumped here from the nav.
   const career = CAREERS.find((c) => c.id === profile.careerId) ?? ranked[0].career
@@ -99,7 +99,7 @@ export function Training() {
       </div>
 
       <ActionBar>
-        {onboarded && !editing ? (
+        {appNav && !editing ? (
           <Button size="lg" onClick={() => goTo('courses')}>
             {t.training.findCourses} <ArrowRight className="size-5" />
           </Button>

@@ -6,7 +6,7 @@ import { Button, Card } from '../../components/ui'
 const BENEFIT_ICONS = [House, Globe, HandHeart]
 
 export function Saldus() {
-  const { t, l, profile, update, next, goTo, onboarded } = useApp()
+  const { t, l, profile, update, next, goTo, appNav } = useApp()
   const career = CAREERS.find((c) => c.id === profile.careerId)
 
   return (
@@ -49,7 +49,7 @@ export function Saldus() {
               variant="light"
               onClick={() => {
                 update({ interested: true })
-                if (onboarded) goTo('me')
+                if (appNav) goTo('news')
                 else next()
               }}
               className="w-full sm:w-auto"
