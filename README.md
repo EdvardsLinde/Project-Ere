@@ -24,8 +24,8 @@ Then open the URL that Vite prints (usually http://localhost:5173). `npm run bui
 | Career match ("Mans ceļš") | `/my-path` | Shows the best-fit tracks and what the job involves, then lists the required skills with the user's level and gaps, plus courses and jobs that close those gaps. |
 | Courses | `/courses` | Courses, bootcamps and internships tagged by skill and track. Courses that close the user's gaps are highlighted. Users can mark a course started or completed; completing it raises their skill levels. |
 | Jobs | `/jobs` | Local Saldus and remote roles, each with required skill levels. Each job shows a fit % against the user's skills and which skills are still missing. |
-| News & events | `/news` | A feed of news, events, courses and volunteering, filterable by type, Saldus-only and the user's track. |
-| Profile | `/profile` | The home page: profile, readiness for the chosen path, saved courses and people to follow. |
+| News & events (home page) | `/news` | **The first page after sign-up.** Articles about AI, cybersecurity, data, web and IT support, plus local job-market news, events, courses and volunteering. Filters cover type, topic (track) and Saldus only. A profile card links to the user's profile. |
+| Profile | `/profile` | Profile, readiness for the chosen path, saved courses and people to follow. It's in the main menu and behind the avatar. |
 | People | `/people`, `/people/:id` | Mentors, professionals and peers to follow, each with a profile page. |
 | Search | `/search` | One search across jobs, courses, people, careers and companies. |
 

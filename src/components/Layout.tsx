@@ -83,11 +83,12 @@ export function Header() {
 
   // The main navigation only exists once onboarding (the 6 steps) is done.
   const nav: { step: Step; label: string; also?: Step[] }[] = [
+    { step: 'news', label: t.nav.news },
     { step: 'match', label: t.nav.myPath, also: ['test', 'paths', 'training'] },
     { step: 'courses', label: t.nav.coursesShort },
     { step: 'jobs', label: t.nav.jobs },
-    { step: 'news', label: t.nav.news },
     { step: 'people', label: t.nav.people, also: ['person'] },
+    { step: 'me', label: t.nav.profile },
   ]
   const progress = overallProgress(profile)
   const isActive = (item: (typeof nav)[number]) => step === item.step || !!item.also?.includes(step)
@@ -108,7 +109,7 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:px-8">
         <button
           type="button"
-          onClick={() => navigate(onboarded ? 'me' : 'welcome')}
+          onClick={() => navigate(onboarded ? 'news' : 'welcome')}
           className="shrink-0 cursor-pointer"
           aria-label="ERE"
         >
@@ -116,7 +117,7 @@ export function Header() {
         </button>
 
         {onboarded && (
-          <nav className="hidden items-center gap-0.5 lg:flex">
+          <nav className="hidden items-center gap-0.5 xl:flex">
             {nav.map((item) => (
               <button
                 key={item.step}
@@ -195,7 +196,7 @@ export function Header() {
               onClick={() => setOpen((o) => !o)}
               aria-expanded={open}
               aria-label={open ? t.nav.close : t.nav.menu}
-              className="flex size-11 cursor-pointer items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 lg:hidden"
+              className="flex size-11 cursor-pointer items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 xl:hidden"
             >
               {open ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
@@ -204,11 +205,11 @@ export function Header() {
       </div>
 
       {open && onboarded && (
-        <div className="animate-fade-up border-t border-slate-200 bg-card px-4 pt-3 pb-4 lg:hidden">
+        <div className="animate-fade-up border-t border-slate-200 bg-card px-4 pt-3 pb-4 xl:hidden">
           <div className="mb-2">
             <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.searchPlaceholder} size="md" />
           </div>
-          {[{ step: 'me' as Step, label: t.nav.profile }, ...nav, { step: 'saldus' as Step, label: t.nav.saldus }].map((item) => (
+          {[...nav, { step: 'saldus' as Step, label: t.nav.saldus }].map((item) => (
             <button
               key={item.step}
               type="button"

@@ -61,12 +61,12 @@ function Shell() {
       {showStepBar && <StepBar />}
       <main className="flex-1">
         <Routes>
-          {/* Returning users skip sign-up and land on their profile. */}
-          <Route path={ROUTES.welcome} element={onboarded ? <Navigate to={ROUTES.me} replace /> : <Welcome />} />
+          {/* Returning users skip sign-up and land on the news home page. */}
+          <Route path={ROUTES.welcome} element={onboarded ? <Navigate to={ROUTES.news} replace /> : <Welcome />} />
           {(Object.keys(PAGES) as Exclude<Step, 'welcome'>[]).map((s) => (
             <Route key={s} path={ROUTES[s]} element={<Page step={s} />} />
           ))}
-          <Route path="*" element={<Navigate to={onboarded ? ROUTES.me : ROUTES.welcome} replace />} />
+          <Route path="*" element={<Navigate to={onboarded ? ROUTES.news : ROUTES.welcome} replace />} />
         </Routes>
       </main>
       <Footer />
