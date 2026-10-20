@@ -4,9 +4,9 @@
  *
  * Skill levels are 0–100.
  *   base level      = from the skills test (or 0 if not taken)
- *   effective level = base + gains from completed courses (capped at 100)
+ *   effective level = base + gains from completed courses and solved tasks (capped at 100)
  */
-import { CAREERS, COURSES, SKILL_AREAS, TEST_QUESTIONS } from '../data'
+import { CAREERS, COURSES, SKILL_AREAS, TASKS, TEST_QUESTIONS } from '../data'
 import type { Career, Course, Job, SkillAreaId, TrackId } from '../data'
 import type { Profile, TestResult } from './state'
 
@@ -61,6 +61,12 @@ export function effectiveSkills(profile: Profile): SkillLevels {
   for (const course of COURSES) {
     if (profile.courseProgress[course.id] !== 'completed') continue
     for (const [id, gain] of Object.entries(course.skills)) {
+      levels[id as SkillAreaId] = clamp(levels[id as SkillAreaId] + gain)
+    }
+  }
+  for (const task of TASKS) {
+    if (profile.taskProgress?.[task.id] !== 'done') continue
+    for (const [id, gain] of Object.entries(task.skills)) {
       levels[id as SkillAreaId] = clamp(levels[id as SkillAreaId] + gain)
     }
   }

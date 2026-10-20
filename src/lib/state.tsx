@@ -20,7 +20,7 @@ import type { Dict } from '../i18n'
 export const STEPS = ['welcome', 'interests', 'profile', 'paths', 'training', 'saldus', 'thanks'] as const
 type FlowStep = (typeof STEPS)[number]
 /** Pages of the app itself (after onboarding). One route per feature. */
-export type AppPage = 'me' | 'test' | 'match' | 'courses' | 'jobs' | 'news' | 'people' | 'person' | 'search'
+export type AppPage = 'me' | 'test' | 'match' | 'courses' | 'course' | 'jobs' | 'news' | 'people' | 'person' | 'search'
 export type Step = FlowStep | AppPage
 /** Steps shown in the onboarding progress bar (the thank-you screen is not counted). */
 export const PROGRESS_STEPS = STEPS.length - 1
@@ -38,6 +38,7 @@ export const ROUTES: Record<Step, string> = {
   test: '/skills-test',
   match: '/my-path',
   courses: '/courses',
+  course: '/courses/:id',
   jobs: '/jobs',
   news: '/news',
   people: '/people',
@@ -89,6 +90,8 @@ export interface Profile {
   appliedCourses: string[]
   /** Course progress; completed courses raise skill levels (see lib/skills.ts). */
   courseProgress: Record<string, CourseStatus>
+  /** Solved training tasks (task id → done); each adds skill points. */
+  taskProgress: Record<string, 'done'>
   savedJobs: string[]
   appliedJobs: string[]
   /** News & events the user marked "Interesē". */
@@ -111,6 +114,7 @@ export const emptyProfile: Profile = {
   savedCourses: [],
   appliedCourses: [],
   courseProgress: {},
+  taskProgress: {},
   savedJobs: [],
   appliedJobs: [],
   savedNews: [],
@@ -189,6 +193,9 @@ interface AppState {
   search: (q: string) => void
   /** Id of the person whose profile is open (from /people/:id). */
   personId: string | null
+  /** Id of the open course (from /courses/:id). */
+  courseId: string | null
+  openCourse: (id: string) => void
   openPerson: (id: string) => void
   closePerson: () => void
   profile: Profile
@@ -219,6 +226,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const step = stepFromPath(location.pathname)
   const stepIndex = STEPS.indexOf(step as FlowStep)
   const personId = matchPath(ROUTES.person, location.pathname)?.params.id ?? null
+  const courseId = matchPath(ROUTES.course, location.pathname)?.params.id ?? null
 
   useEffect(() => {
     document.documentElement.lang = lang
@@ -279,6 +287,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       query,
       setQuery,
       personId,
+      courseId,
+      openCourse: (id) => {
+        setEditing(false)
+        navigate(ROUTES.course.replace(':id', encodeURIComponent(id)))
+      },
       openPerson: (id) => {
         setEditing(false)
         navigate(ROUTES.person.replace(':id', encodeURIComponent(id)))
@@ -298,7 +311,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         goTo('welcome')
       },
     }),
-    [lang, dark, step, stepIndex, goTo, show, navigate, location.key, editing, onboarded, query, personId, profile],
+    [lang, dark, step, stepIndex, goTo, show, navigate, location.key, editing, onboarded, query, personId, courseId, profile],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

@@ -158,7 +158,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-card/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={() => navigate(onboarded ? 'news' : 'welcome')}
@@ -183,7 +183,7 @@ export function Header() {
                 <span className="inline-flex items-center gap-1.5">
                   <item.icon className="size-4" /> {item.label}
                 </span>
-                {isActive(item) && <span className="absolute inset-x-3 -bottom-[17px] h-0.5 rounded-full bg-brand-600" />}
+                {isActive(item) && <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-brand-600" />}
               </button>
             ))}
           </nav>
@@ -341,7 +341,7 @@ export function Footer() {
   const link = 'cursor-pointer text-sm text-[#9db8c4] transition hover:text-white'
   return (
     <footer className="mt-auto bg-ink text-[#c9dde5]">
-      <div className="mx-auto grid grid-cols-1 max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
+      <div className="mx-auto grid grid-cols-1 max-w-6xl gap-8 px-4 py-8 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
         <div className="max-w-sm">
           <Logo inverted />
           <p className="mt-4 text-sm leading-relaxed text-[#9db8c4]">{t.footer.about}</p>

@@ -22,7 +22,7 @@ const variants: Record<Variant, string> = {
 }
 
 const sizes: Record<Size, string> = {
-  md: 'h-11 px-4 text-sm gap-2 rounded-lg',
+  md: 'h-10 px-3.5 text-sm gap-2 rounded-lg',
   lg: 'h-13 px-6 text-base gap-2.5 rounded-xl',
 }
 
@@ -63,7 +63,7 @@ export function Chip({
       aria-pressed={selected}
       onClick={onClick}
       className={cx(
-        'inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full px-4 text-sm font-medium transition-all duration-150',
+        'inline-flex min-h-10 cursor-pointer items-center gap-1.5 rounded-full px-3.5 text-sm font-medium transition-all duration-150',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500',
         selected
           ? 'bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700'
@@ -97,7 +97,7 @@ export function PageHeader({
   icon?: LucideIcon
 }) {
   return (
-    <div className="mb-6 flex flex-col gap-4 sm:mb-8 md:flex-row md:items-end md:justify-between">
+    <div className="mb-5 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div className="flex max-w-2xl items-start gap-4">
         {Icon && (
           <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-hero-via to-hero-to text-white shadow-card sm:size-14">
@@ -121,7 +121,7 @@ export function PageHeader({
  */
 export function ActionBar({ children, hint }: { children: ReactNode; hint?: ReactNode }) {
   return (
-    <div className="sticky bottom-[var(--tabbar-h,0px)] z-20 -mx-4 mt-10 border-t border-slate-200 bg-card/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-12 sm:border-t sm:bg-transparent sm:px-0 sm:pt-6 sm:pb-0 sm:backdrop-blur-none">
+    <div className="sticky bottom-[var(--tabbar-h,0px)] z-20 -mx-4 mt-8 border-t border-slate-200 bg-card/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-12 sm:border-t sm:bg-transparent sm:px-0 sm:pt-6 sm:pb-0 sm:backdrop-blur-none">
       <div className="flex items-center justify-between gap-4">
         <div className="text-sm text-slate-500">{hint}</div>
         <div className="flex gap-3">{children}</div>

@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react'
-import { Bookmark, BookmarkCheck, Check, Clock, Info, MapPin, Play, Search, Star, Target, UserPlus, X } from 'lucide-react'
-import { CAREERS, INTERESTS, PROVIDERS, SKILL_AREAS } from '../data'
+import { Bookmark, BookmarkCheck, Check, Clock, Dumbbell, Info, MapPin, Play, Search, Star, Target, UserPlus, X } from 'lucide-react'
+import { CAREERS, INTERESTS, PROVIDERS, SKILL_AREAS, TASKS } from '../data'
 import type { Course, Person } from '../data'
 import { toggle, useApp } from '../lib/state'
 import type { CourseStatus } from '../lib/state'
@@ -124,7 +124,8 @@ export function useIsRecommended() {
 }
 
 export function CourseCard({ course, compact = false }: { course: Course; compact?: boolean }) {
-  const { t, l, profile, update } = useApp()
+  const { t, l, profile, update, openCourse } = useApp()
+  const taskCount = TASKS.filter((x) => x.courseId === course.id).length
   const isRecommended = useIsRecommended()
   const provider = PROVIDERS.find((p) => p.id === course.providerId)!
   const career = CAREERS.find((c) => c.id === course.careerId)
@@ -147,7 +148,7 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
   return (
     <Card
       className={cx(
-        'flex h-full flex-col p-5 transition hover:shadow-lift sm:p-6',
+        'flex h-full flex-col p-4 transition hover:shadow-lift',
         status === 'completed' && 'ring-2 ring-accent-400',
       )}
     >
@@ -177,7 +178,7 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
         </button>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
+      <div className="mt-3 flex flex-wrap gap-1.5">
         <span
           className={cx(
             'rounded-md px-2 py-0.5 text-xs font-semibold',
@@ -208,10 +209,23 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
         </p>
       )}
 
-      <h3 className="mt-3 text-lg leading-snug font-bold text-slate-900">{l(course.title)}</h3>
+      <h3 className="mt-2.5 text-base leading-snug font-bold text-slate-900">
+        <button type="button" onClick={() => openCourse(course.id)} className="cursor-pointer text-left hover:text-brand-700 hover:underline">
+          {l(course.title)}
+        </button>
+      </h3>
+      {taskCount > 0 && (
+        <button
+          type="button"
+          onClick={() => openCourse(course.id)}
+          className="mt-2 inline-flex cursor-pointer items-center gap-1.5 self-start rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800 hover:bg-amber-200"
+        >
+          <Dumbbell className="size-3.5" /> {t.tasks.badge(taskCount)}
+        </button>
+      )}
       {!compact && <p className="mt-1.5 line-clamp-2 text-sm text-slate-600">{l(course.description)}</p>}
 
-      <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 text-sm text-slate-600">
+      <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1.5 text-sm text-slate-600">
         <div className="flex items-center gap-1.5">
           <Clock className="size-4 shrink-0 text-slate-400" />
           <span className="truncate">{l(course.duration)}</span>
@@ -222,7 +236,7 @@ export function CourseCard({ course, compact = false }: { course: Course; compac
         </div>
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3 pt-5">
+      <div className="mt-auto flex items-center justify-between gap-3 pt-4">
         <span className={cx('text-base font-bold', course.price === 0 ? 'text-accent-700' : 'text-slate-900')}>
           {course.price === 0 ? t.courses.free : `€${course.price}`}
         </span>
@@ -298,10 +312,10 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
   }
 
   return (
-    <Card className="flex h-full flex-col p-5 sm:p-6">
-      <div className="flex items-start gap-4">
+    <Card className="flex h-full flex-col p-4">
+      <div className="flex items-start gap-3">
         <button type="button" onClick={open} aria-label={`${t.people.viewProfile}: ${person.name}`} className="cursor-pointer rounded-full">
-          <Avatar name={person.name} size="lg" />
+          <Avatar name={person.name} size="md" />
         </button>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-1.5">
@@ -323,7 +337,7 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
       </div>
       <span
         className={cx(
-          'mt-4 self-start rounded-md px-2 py-0.5 text-xs font-semibold',
+          'mt-3 self-start rounded-md px-2 py-0.5 text-xs font-semibold',
           person.kind === 'mentor' && 'bg-brand-50 text-brand-700',
           person.kind === 'pro' && 'bg-amber-50 text-amber-800',
           person.kind === 'peer' && 'bg-accent-50 text-accent-700',
@@ -342,7 +356,7 @@ export function PersonCard({ person, compact = false }: { person: Person; compac
           ))}
         </div>
       )}
-      <div className="mt-auto flex flex-wrap gap-2 pt-5">
+      <div className="mt-auto flex flex-wrap gap-2 pt-4">
         {followBtn}
         <Button variant="secondary" onClick={open}>
           {t.people.viewProfile}

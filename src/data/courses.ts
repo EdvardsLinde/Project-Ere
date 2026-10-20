@@ -4,7 +4,7 @@
  */
 import type { TrackId } from './careers'
 import type { SkillAreaId } from './skillAreas'
-import type { Localized } from './types'
+import type { Lang, Localized } from './types'
 
 /* -------------------------------------------------------------------------- */
 /*  8. COURSES & TRAINING — offered by the providers above (EXAMPLES)          */
@@ -28,6 +28,8 @@ export interface Course {
   duration: Localized
   start: Localized
   keywords: string
+  /** Languages the course is taught in. */
+  languages: Lang[]
   /** Skill points (0–100 scale) gained when the course is completed. Highlights courses that close gaps. */
   skills: Partial<Record<SkillAreaId, number>>
 }
@@ -49,6 +51,7 @@ export const COURSES: Course[] = [
     duration: { lv: '6 nedēļas', en: '6 weeks' },
     start: { lv: 'Sākas novembrī', en: 'Starts in November' },
     keywords: 'security drošība hacker paroles tīkli phishing',
+    languages: ['lv'],
     skills: { security: 30, networks: 15 },
   },
   {
@@ -67,6 +70,7 @@ export const COURSES: Course[] = [
     duration: { lv: '2 mēneši', en: '2 months' },
     start: { lv: 'Pieteikšanās līdz aprīlim', en: 'Apply by April' },
     keywords: 'prakse internship soc analītiķis',
+    languages: ['lv', 'en'],
     skills: { security: 25, networks: 20, troubleshooting: 15, english: 10 },
   },
   {
@@ -85,6 +89,7 @@ export const COURSES: Course[] = [
     duration: { lv: 'Katru ceturtdienu', en: 'Every Thursday' },
     start: { lv: 'Var pievienoties jebkurā laikā', en: 'Join any time' },
     keywords: 'ctf spēles games komanda saldus klātienē',
+    languages: ['lv'],
     skills: { security: 20, troubleshooting: 15, programming: 10 },
   },
   {
@@ -103,6 +108,7 @@ export const COURSES: Course[] = [
     duration: { lv: '8 nedēļas', en: '8 weeks' },
     start: { lv: 'Sākas decembrī', en: 'Starts in December' },
     keywords: 'python dati data excel grafiki analīze',
+    languages: ['lv'],
     skills: { programming: 25, data: 25, math: 10 },
   },
   {
@@ -121,6 +127,7 @@ export const COURSES: Course[] = [
     duration: { lv: '4 nedēļas', en: '4 weeks' },
     start: { lv: 'Sākas februārī', en: 'Starts in February' },
     keywords: 'mi ai mākslīgais intelekts machine learning čatbots',
+    languages: ['lv', 'en'],
     skills: { data: 25, programming: 15, math: 15 },
   },
   {
@@ -139,6 +146,7 @@ export const COURSES: Course[] = [
     duration: { lv: '3 mēneši', en: '3 months' },
     start: { lv: 'Pieteikšanās atvērta', en: 'Applications open' },
     keywords: 'prakse internship dati remote attālināti',
+    languages: ['en'],
     skills: { data: 30, english: 10, communication: 10 },
   },
   {
@@ -157,6 +165,7 @@ export const COURSES: Course[] = [
     duration: { lv: '4 nedēļas', en: '4 weeks' },
     start: { lv: 'Sāc jebkurā laikā', en: 'Start any time' },
     keywords: 'html css web mājaslapa dizains',
+    languages: ['lv'],
     skills: { web: 30, design: 15 },
   },
   {
@@ -175,6 +184,7 @@ export const COURSES: Course[] = [
     duration: { lv: '6 nedēļas', en: '6 weeks' },
     start: { lv: 'Sākas martā', en: 'Starts in March' },
     keywords: 'react javascript programmēšana git komanda',
+    languages: ['lv', 'en'],
     skills: { web: 25, programming: 25 },
   },
   {
@@ -193,6 +203,7 @@ export const COURSES: Course[] = [
     duration: { lv: 'Sestdienās, 8 nedēļas', en: 'Saturdays, 8 weeks' },
     start: { lv: 'Sākas janvārī', en: 'Starts in January' },
     keywords: 'web saldus klātienē projekts portfolio',
+    languages: ['lv'],
     skills: { web: 20, design: 15, communication: 10 },
   },
   {
@@ -211,6 +222,7 @@ export const COURSES: Course[] = [
     duration: { lv: '3 mēneši', en: '3 months' },
     start: { lv: 'Pieteikšanās līdz maijam', en: 'Apply by May' },
     keywords: 'prakse internship javascript remote',
+    languages: ['en'],
     skills: { web: 20, programming: 20, english: 10 },
   },
   {
@@ -229,6 +241,7 @@ export const COURSES: Course[] = [
     duration: { lv: '6 sestdienas', en: '6 Saturdays' },
     start: { lv: 'Sākas novembrī', en: 'Starts in November' },
     keywords: 'dators remonts hardware atbalsts support saldus klātienē',
+    languages: ['lv'],
     skills: { troubleshooting: 30, networks: 15 },
   },
   {
@@ -247,6 +260,7 @@ export const COURSES: Course[] = [
     duration: { lv: '4 nedēļas', en: '4 weeks' },
     start: { lv: 'Sāc jebkurā laikā', en: 'Start any time' },
     keywords: 'helpdesk atbalsts support komunikācija angļu',
+    languages: ['lv', 'en'],
     skills: { communication: 25, troubleshooting: 20, english: 10 },
   },
   {
@@ -265,6 +279,7 @@ export const COURSES: Course[] = [
     duration: { lv: '3 nedēļas', en: '3 weeks' },
     start: { lv: 'Sāc jebkurā laikā', en: 'Start any time' },
     keywords: 'tīkli network wifi internets ip dns',
+    languages: ['lv'],
     skills: { networks: 30, troubleshooting: 10, security: 10 },
   },
 ]

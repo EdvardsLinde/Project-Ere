@@ -16,6 +16,7 @@ import { Training } from './features/career-match/Training'
 import { MyPath } from './features/career-match/MyPath'
 import { SkillsTest } from './features/skills-test/SkillsTest'
 import { Courses } from './features/courses/Courses'
+import { CourseDetail } from './features/courses/CourseDetail'
 import { Jobs } from './features/jobs/Jobs'
 import { News } from './features/news/News'
 import { MyProfile } from './features/profile/MyProfile'
@@ -34,6 +35,7 @@ const PAGES: Record<Exclude<Step, 'welcome'>, ComponentType> = {
   test: SkillsTest,
   match: MyPath,
   courses: Courses,
+  course: CourseDetail,
   jobs: Jobs,
   news: News,
   people: People,
@@ -45,7 +47,7 @@ const PAGES: Record<Exclude<Step, 'welcome'>, ComponentType> = {
 function Page({ step }: { step: Exclude<Step, 'welcome'> }) {
   const Screen = PAGES[step]
   return (
-    <div key={step} className="animate-fade-up mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <div key={step} className="animate-fade-up mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
       <Screen />
     </div>
   )

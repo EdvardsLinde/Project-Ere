@@ -73,7 +73,7 @@ export function MyProfile() {
   const completeness = Math.round(((1 + todos.filter((x) => x.done).length) / (1 + todos.length)) * 100)
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Profile header */}
       <Card className="overflow-hidden">
         <div className="h-24 bg-gradient-to-r from-hero-from via-hero-via to-hero-to sm:h-32" />
@@ -129,7 +129,7 @@ export function MyProfile() {
 
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         {/* Main column */}
-        <div className="min-w-0 space-y-6">
+        <div className="min-w-0 space-y-4">
           <PathCard />
           <Section icon={<Heart className="size-5" />} title={t.me.about} onEdit={() => edit('profile')} editLabel={t.me.edit}>
             {profile.motivationText.trim() ? (
@@ -225,7 +225,7 @@ export function MyProfile() {
         </div>
 
         {/* Sidebar */}
-        <aside className="order-first space-y-6 lg:order-none">
+        <aside className="order-first space-y-4 lg:order-none">
           <Card className="p-5 sm:p-6">
             <div className="flex items-baseline justify-between">
               <h2 className="font-bold text-slate-900">{t.me.completeness}</h2>
@@ -333,7 +333,7 @@ function Section({
   children: ReactNode
 }) {
   return (
-    <Card className={compact ? 'p-5 sm:p-6' : 'p-5 sm:p-7'}>
+    <Card className={compact ? 'p-4 sm:p-5' : 'p-4 sm:p-6'}>
       <div className="mb-4 flex items-center justify-between gap-3">
         <h2 className="flex min-w-0 items-center gap-2.5 font-bold text-slate-900 sm:text-lg">
           {!compact && (

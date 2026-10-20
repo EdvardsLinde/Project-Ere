@@ -22,7 +22,7 @@ Then open the URL that Vite prints (usually http://localhost:5173). `npm run bui
 | --- | --- | --- |
 | Skills test | `/skills-test` | 12 questions: interests, self-rated skills and two small scenarios. It scores 4 tracks and sets a base level (0–100) for 10 skills. |
 | Career match ("Mans ceļš") | `/my-path` | Shows the best-fit tracks and what the job involves, then lists the required skills with the user's level and gaps, plus courses and jobs that close those gaps. |
-| Courses | `/courses` | Courses, bootcamps and internships tagged by skill and track. Courses that close the user's gaps are highlighted. Users can mark a course started or completed; completing it raises their skill levels. |
+| Courses | `/courses`, `/courses/:id` | Courses, bootcamps and internships tagged by skill and track. Courses that close the user's gaps are highlighted. Users can mark a course started or completed; completing it raises their skill levels. **Example:** "Kiberdrošības pamati jauniešiem" (SecNord Labs) comes with 4 free training tasks (`src/data/tasks.ts`) that can be solved in the app; each solved task adds skill points. |
 | Jobs | `/jobs` | Local Saldus and remote roles, each with required skill levels. Each job shows a fit % against the user's skills and which skills are still missing. |
 | News & events (home page) | `/news` | **The first page after sign-up.** Articles about AI, cybersecurity, data, web and IT support, plus local job-market news, events, courses and volunteering. Filters cover type, topic (track) and Saldus only. A profile card links to the user's profile. |
 | Profile | `/profile` | Profile, readiness for the chosen path, saved courses and people to follow. It's in the main menu and behind the avatar. |
@@ -55,6 +55,10 @@ src/
   i18n/                lv.ts (default, source of truth), en.ts (same shape), index.ts
   index.css            colours (light + dark), radius, shadows
 ```
+
+## Filters
+
+Every list page (news, courses, jobs, people) uses one shared `FilterBar` (`src/components/FilterBar.tsx`): a search box plus compact dropdowns such as field, language, type and place.
 
 ## Conventions
 

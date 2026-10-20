@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { ArrowRight, BookOpen, CalendarDays, Check, ClipboardCheck, GraduationCap, HandHeart, MapPin, Newspaper, Star, UserRound } from 'lucide-react'
 import { CAREERS, NEWS } from '../../data'
-import type { NewsItem, NewsKind, TrackId } from '../../data'
+import type { NewsItem, NewsKind } from '../../data'
 import { toggle, useApp } from '../../lib/state'
 import { currentTrack, overallProgress } from '../../lib/skills'
-import { Button, Card, Chip, Meter, PageHeader, cx } from '../../components/ui'
+import { Button, Card, Meter, PageHeader, cx } from '../../components/ui'
+import { FilterBar } from '../../components/FilterBar'
+import type { FilterDef } from '../../components/FilterBar'
 import { Illustration, newsScene } from '../../components/Illustration'
 import { ExampleNotice } from '../../components/cards'
 
@@ -30,14 +32,47 @@ const daysUntil = (iso: string) => Math.round((Date.parse(iso) - today()) / DAY)
  */
 export function News() {
   const { t, l, lang, profile, update } = useApp()
-  const [kind, setKind] = useState<NewsKind | 'all'>('all')
-  const [topic, setTopic] = useState<TrackId | null>(null)
-  const [saldusOnly, setSaldusOnly] = useState(false)
+  const [q, setQ] = useState('')
+  const [kind, setKind] = useState('')
+  const [topic, setTopic] = useState('')
+  const [place, setPlace] = useState('')
   const [showAll, setShowAll] = useState(false)
 
+  const needle = q.trim().toLowerCase()
   const items = NEWS.filter(
-    (n) => (kind === 'all' || n.kind === kind) && (!topic || n.track === topic) && (!saldusOnly || n.inSaldus),
+    (n) =>
+      (!needle || [n.title.lv, n.title.en, n.summary.lv, n.summary.en].join(' ').toLowerCase().includes(needle)) &&
+      (!kind || n.kind === kind) &&
+      (!topic || n.track === topic) &&
+      (!place || (place === 'saldus' ? n.inSaldus : !n.inSaldus)),
   )
+  const hasFilters = !!(q || kind || topic || place)
+  const filters: FilterDef[] = [
+    {
+      id: 'type',
+      label: t.filters.type,
+      value: kind,
+      onChange: setKind,
+      options: (['article', 'news', 'event', 'course', 'volunteering'] as NewsKind[]).map((k) => ({ value: k, label: t.news.kinds[k] })),
+    },
+    {
+      id: 'field',
+      label: t.filters.field,
+      value: topic,
+      onChange: setTopic,
+      options: CAREERS.map((c) => ({ value: c.id, label: l(c.title) + (profile.careerId === c.id ? ' ★' : '') })),
+    },
+    {
+      id: 'place',
+      label: t.filters.place,
+      value: place,
+      onChange: setPlace,
+      options: [
+        { value: 'saldus', label: t.filters.saldus },
+        { value: 'online', label: t.filters.online },
+      ],
+    },
+  ]
   const isUpcoming = (n: NewsItem) => (n.kind === 'event' || n.kind === 'course' || n.kind === 'volunteering') && daysUntil(n.date) >= 0
   // Upcoming events / courses / volunteering first (soonest first), then news and articles (newest first).
   const upcoming = items.filter(isUpcoming).sort((a, b) => a.date.localeCompare(b.date))
@@ -52,7 +87,7 @@ export function News() {
     const career = CAREERS.find((c) => c.id === n.track)
     return (
       <Card key={n.id} className="flex h-full flex-col overflow-hidden transition hover:shadow-lift">
-        <Illustration scene={newsScene(n.kind, n.track)} size="sm">
+        <Illustration scene={newsScene(n.kind, n.track)} size="xs">
           <span className={cx('absolute top-3 left-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm', style.tone)}>
             <style.icon className="size-3.5" /> {t.news.kinds[n.kind]}
           </span>
@@ -60,7 +95,7 @@ export function News() {
             {isUpcoming(n) && days <= 30 ? (days === 0 ? t.news.today : t.news.inDays(days)) : fmt.format(new Date(n.date))}
           </span>
         </Illustration>
-        <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-1 flex-col p-4">
           <div className="flex flex-wrap items-center gap-1.5 text-xs">
             {career && (
               <span className="inline-flex items-center gap-1 font-medium text-slate-500">
@@ -73,7 +108,7 @@ export function News() {
           </div>
           <h3 className="mt-1.5 leading-snug font-bold text-slate-900">{l(n.title)}</h3>
           <p className="mt-1 line-clamp-2 text-sm text-slate-600">{l(n.summary)}</p>
-          <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-4">
+          <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-3">
             <span className="inline-flex min-w-0 items-center gap-1.5 text-sm text-slate-500">
               <MapPin className="size-4 shrink-0" /> <span className="truncate">{l(n.place)}</span>
             </span>
@@ -100,45 +135,35 @@ export function News() {
       <ExampleNotice />
       <ProfileStrip />
 
-      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="min-w-0">
-          {/* Filters: type, then topic (career track) */}
-          <div className="space-y-3">
-            <div className="flex flex-wrap gap-2">
-              {(Object.keys(t.news.kinds) as (NewsKind | 'all')[]).map((k) => (
-                <Chip key={k} selected={kind === k} onClick={() => setKind(k)}>
-                  {t.news.kinds[k]}
-                </Chip>
-              ))}
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-1 text-xs font-semibold tracking-wide text-slate-500 uppercase">{t.news.topics}</span>
-              <Chip selected={!topic} onClick={() => setTopic(null)}>
-                {t.news.allTopics}
-              </Chip>
-              {CAREERS.map((c) => (
-                <Chip key={c.id} selected={topic === c.id} onClick={() => setTopic(topic === c.id ? null : c.id)}>
-                  {l(c.title)}
-                  {profile.careerId === c.id && ' ★'}
-                </Chip>
-              ))}
-              <Chip selected={saldusOnly} onClick={() => setSaldusOnly(!saldusOnly)}>
-                {t.news.inSaldus}
-              </Chip>
-            </div>
-          </div>
+          <FilterBar
+            search={{ value: q, onChange: setQ, placeholder: t.news.searchPlaceholder }}
+            filters={filters}
+            count={t.news.count(items.length)}
+            onClear={
+              hasFilters
+                ? () => {
+                    setQ('')
+                    setKind('')
+                    setTopic('')
+                    setPlace('')
+                  }
+                : undefined
+            }
+          />
 
           {!items.length && <p className="mt-10 text-center text-slate-500">{t.news.noResults}</p>}
 
           {upcoming.length > 0 && (
-            <section className="mt-10">
-              <h2 className="mb-4 text-xl font-bold text-slate-900">{t.news.upcoming}</h2>
+            <section className="mt-6">
+              <h2 className="mb-3 text-lg font-bold text-slate-900">{t.news.upcoming}</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{(showAll ? upcoming : upcoming.slice(0, 4)).map(card)}</div>
             </section>
           )}
           {latest.length > 0 && (
-            <section className="mt-10">
-              <h2 className="mb-4 text-xl font-bold text-slate-900">{t.news.latest}</h2>
+            <section className="mt-6">
+              <h2 className="mb-3 text-lg font-bold text-slate-900">{t.news.latest}</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{(showAll ? latest : latest.slice(0, 4)).map(card)}</div>
             </section>
           )}

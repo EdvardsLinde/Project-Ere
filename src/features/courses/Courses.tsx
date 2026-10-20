@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { BookOpen, GraduationCap } from 'lucide-react'
-import { CAREERS, COURSES, PROVIDERS } from '../../data'
+import { ArrowRight, BookOpen, Dumbbell, GraduationCap } from 'lucide-react'
+import { CAREERS, COURSES, PROVIDERS, TASKS } from '../../data'
 import type { Course, CourseFormat, CourseType } from '../../data'
 import { useApp } from '../../lib/state'
-import type { CourseStatus } from '../../lib/state'
 import { currentTrack, effectiveSkills, gapValue, skillGaps } from '../../lib/skills'
 import type { Lang } from '../../data'
-import { Button, Chip, PageHeader } from '../../components/ui'
-import { CourseCard, ExampleNotice, SearchBox, useIsRecommended } from '../../components/cards'
+import { Button, PageHeader } from '../../components/ui'
+import { FilterBar } from '../../components/FilterBar'
+import type { FilterDef } from '../../components/FilterBar'
+import { CourseCard, ExampleNotice, useIsRecommended } from '../../components/cards'
 
 /** Free-text match across a course's title, description, provider and keywords (both languages). */
 export function matchCourse(course: Course, q: string) {
@@ -34,15 +35,17 @@ export function matchCourse(course: Course, q: string) {
 }
 
 export function Courses() {
-  const { t, l, profile } = useApp()
+  const { t, l, profile, openCourse } = useApp()
   const isRecommended = useIsRecommended()
+  // Course that comes with free training tasks (the example), shown as a shortcut.
+  const taskCourse = COURSES.find((c) => TASKS.some((x) => x.courseId === c.id))
   const [q, setQ] = useState('')
-  const [career, setCareer] = useState<string | null>(null)
-  const [type, setType] = useState<CourseType | null>(null)
-  const [format, setFormat] = useState<CourseFormat | null>(null)
-  const [freeOnly, setFreeOnly] = useState(false)
-  const [gapsOnly, setGapsOnly] = useState(false)
-  const [status, setStatus] = useState<CourseStatus | null>(null)
+  const [career, setCareer] = useState('')
+  const [type, setType] = useState('')
+  const [format, setFormat] = useState('')
+  const [language, setLanguage] = useState('')
+  const [price, setPrice] = useState('')
+  const [progress, setProgress] = useState('')
 
   // Gaps for the user's current track (only meaningful after the skills test).
   const gaps = profile.testResult ? skillGaps(currentTrack(profile), effectiveSkills(profile)) : []
@@ -53,98 +56,116 @@ export function Courses() {
       (!career || c.careerId === career) &&
       (!type || c.type === type) &&
       (!format || c.format === format) &&
-      (!freeOnly || c.price === 0) &&
-      (!gapsOnly || (gapValue(c, gaps) > 0 && profile.courseProgress[c.id] !== 'completed')) &&
-      (!status || profile.courseProgress[c.id] === status),
+      (!language || c.languages.includes(language as Lang)) &&
+      (!price || (price === 'free' ? c.price === 0 : c.price > 0)) &&
+      (!progress ||
+        (progress === 'gaps'
+          ? gapValue(c, gaps) > 0 && profile.courseProgress[c.id] !== 'completed'
+          : profile.courseProgress[c.id] === progress)),
   ).sort(
     (a, b) => gapValue(b, gaps) - gapValue(a, gaps) || Number(isRecommended(b)) - Number(isRecommended(a)),
   )
 
-  const hasFilters = !!(q || career || type || format || freeOnly || gapsOnly || status)
+  const hasFilters = !!(q || career || type || format || language || price || progress)
   const clear = () => {
     setQ('')
-    setCareer(null)
-    setType(null)
-    setFormat(null)
-    setFreeOnly(false)
-    setGapsOnly(false)
-    setStatus(null)
+    setCareer('')
+    setType('')
+    setFormat('')
+    setLanguage('')
+    setPrice('')
+    setProgress('')
   }
+
+  const filters: FilterDef[] = [
+    {
+      id: 'field',
+      label: t.filters.field,
+      value: career,
+      onChange: setCareer,
+      options: CAREERS.map((c) => ({ value: c.id, label: l(c.title) + (profile.careerId === c.id ? ' ★' : '') })),
+    },
+    {
+      id: 'type',
+      label: t.filters.type,
+      value: type,
+      onChange: setType,
+      options: (['course', 'bootcamp', 'internship'] as CourseType[]).map((k) => ({ value: k, label: t.courses.types[k] })),
+    },
+    {
+      id: 'place',
+      label: t.filters.place,
+      value: format,
+      onChange: setFormat,
+      options: (Object.keys(t.courses.formats) as CourseFormat[]).map((k) => ({ value: k, label: t.courses.formats[k] })),
+    },
+    {
+      id: 'language',
+      label: t.filters.language,
+      value: language,
+      onChange: setLanguage,
+      options: (['lv', 'en'] as Lang[]).map((k) => ({ value: k, label: t.filters.langs[k] })),
+    },
+    {
+      id: 'price',
+      label: t.filters.price,
+      value: price,
+      onChange: setPrice,
+      options: [
+        { value: 'free', label: t.filters.free },
+        { value: 'paid', label: t.filters.paid },
+      ],
+    },
+    {
+      id: 'progress',
+      label: t.filters.progress,
+      value: progress,
+      onChange: setProgress,
+      options: [
+        ...(gaps.length ? [{ value: 'gaps', label: t.filters.myGaps }] : []),
+        { value: 'started', label: t.progress.status.started },
+        { value: 'completed', label: t.progress.status.completed },
+      ],
+    },
+  ]
 
   return (
     <>
       <PageHeader icon={GraduationCap} eyebrow={t.courses.eyebrow} title={t.courses.title} subtitle={t.courses.subtitle} />
       <ExampleNotice />
-
-      <div className="space-y-5">
-        <SearchBox value={q} onChange={setQ} placeholder={t.courses.searchPlaceholder} />
-
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-x-6">
-          <FilterLabel>{t.courses.field}</FilterLabel>
-          <div className="flex flex-wrap gap-2">
-            <Chip selected={!career} onClick={() => setCareer(null)}>{t.courses.all}</Chip>
-            {CAREERS.map((c) => (
-              <Chip key={c.id} selected={career === c.id} onClick={() => setCareer(career === c.id ? null : c.id)}>
-                {l(c.title)}
-                {profile.careerId === c.id && ' ★'}
-              </Chip>
-            ))}
-          </div>
-
-          <FilterLabel>{t.courses.typeLabel}</FilterLabel>
-          <div className="flex flex-wrap gap-2">
-            {(Object.keys(t.courses.types) as CourseType[]).map((k) => (
-              <Chip key={k} selected={type === k} onClick={() => setType(type === k ? null : k)}>
-                {t.courses.types[k]}
-              </Chip>
-            ))}
-          </div>
-
-          <FilterLabel>{t.courses.formatLabel}</FilterLabel>
-          <div className="flex flex-wrap gap-2">
-            {(Object.keys(t.courses.formats) as CourseFormat[]).map((k) => (
-              <Chip key={k} selected={format === k} onClick={() => setFormat(format === k ? null : k)}>
-                {t.courses.formats[k]}
-              </Chip>
-            ))}
-            <Chip selected={freeOnly} onClick={() => setFreeOnly(!freeOnly)}>
-              {t.courses.freeOnly}
-            </Chip>
-          </div>
-
-          <FilterLabel>{t.nav.myPath}</FilterLabel>
-          <div className="flex flex-wrap gap-2">
-            {gaps.length > 0 && (
-              <Chip selected={gapsOnly} onClick={() => setGapsOnly(!gapsOnly)}>
-                {t.progress.gapsOnly}
-              </Chip>
-            )}
-            {(['started', 'completed'] as CourseStatus[]).map((k) => (
-              <Chip key={k} selected={status === k} onClick={() => setStatus(status === k ? null : k)}>
-                {t.progress.status[k]}
-              </Chip>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-8 mb-4 flex items-center justify-between gap-4 border-t border-slate-200 pt-6">
-        <p className="text-sm font-semibold text-slate-700">{t.courses.results(results.length)}</p>
-        {hasFilters && (
-          <Button variant="ghost" onClick={clear}>
-            {t.courses.clear}
-          </Button>
-        )}
-      </div>
+      {taskCourse && (
+        <button
+          type="button"
+          onClick={() => openCourse(taskCourse.id)}
+          className="mb-4 flex w-full cursor-pointer items-center gap-3 rounded-2xl bg-amber-50 p-3 text-left ring-1 ring-amber-200 transition hover:bg-amber-100"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-on-sun">
+            <Dumbbell className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold text-slate-900">{t.tasks.title}</span>
+            <span className="block truncate text-xs text-slate-600">
+              {l(taskCourse.title)} · {t.tasks.badge(TASKS.filter((x) => x.courseId === taskCourse.id).length)}
+            </span>
+          </span>
+          <ArrowRight className="size-4 shrink-0 text-amber-800" />
+        </button>
+      )}
+      <FilterBar
+        search={{ value: q, onChange: setQ, placeholder: t.courses.searchPlaceholder }}
+        filters={filters}
+        count={t.courses.results(results.length)}
+        onClear={hasFilters ? clear : undefined}
+      />
 
       {results.length ? (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {results.map((c) => (
             <CourseCard key={c.id} course={c} />
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 px-6 py-14 text-center">
+        <div className="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 px-6 py-12 text-center">
           <BookOpen className="size-8 text-slate-300" />
           <p className="mt-3 max-w-sm text-slate-500">{t.courses.noResults}</p>
           <Button variant="secondary" className="mt-4" onClick={clear}>
@@ -154,8 +175,4 @@ export function Courses() {
       )}
     </>
   )
-}
-
-function FilterLabel({ children }: { children: string }) {
-  return <p className="-mb-2 text-xs font-semibold tracking-wide text-slate-500 uppercase lg:mb-0">{children}</p>
 }

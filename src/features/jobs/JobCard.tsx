@@ -29,7 +29,7 @@ export function JobCard({ job, compact = false }: { job: Job; compact?: boolean 
   )
 
   return (
-    <Card className="flex h-full flex-col p-5 transition hover:shadow-lift sm:p-6">
+    <Card className="flex h-full flex-col p-4 transition hover:shadow-lift">
       <div className="flex items-start gap-3">
         <span className={cx('flex size-11 shrink-0 items-center justify-center rounded-xl text-sm font-extrabold', provider.tone)}>
           {provider.name.charAt(0)}
@@ -54,7 +54,7 @@ export function JobCard({ job, compact = false }: { job: Job; compact?: boolean 
         )}
       </div>
 
-      <h3 className="mt-4 text-lg leading-snug font-bold text-slate-900">{l(job.title)}</h3>
+      <h3 className="mt-3 text-base leading-snug font-bold text-slate-900">{l(job.title)}</h3>
       <div className="mt-2 flex flex-wrap gap-1.5">
         <span className="rounded-md bg-brand-50 px-2 py-0.5 text-xs font-semibold text-brand-700">
           {t.jobs.employment[job.employment]}
@@ -64,7 +64,7 @@ export function JobCard({ job, compact = false }: { job: Job; compact?: boolean 
       </div>
       {!compact && <p className="mt-3 line-clamp-2 text-sm text-slate-600">{l(job.description)}</p>}
 
-      <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+      <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
         <span className="inline-flex items-center gap-1.5 text-slate-600">
           <MapPin className="size-4 text-slate-400" /> {t.jobs.locations[job.location]}
         </span>
@@ -94,7 +94,7 @@ export function JobCard({ job, compact = false }: { job: Job; compact?: boolean 
         </p>
       )}
 
-      <div className="mt-auto flex flex-wrap items-center gap-2 pt-5">
+      <div className="mt-auto flex flex-wrap items-center gap-2 pt-4">
         <Button
           variant={applied ? 'secondary' : 'primary'}
           onClick={() => update({ appliedJobs: toggle(profile.appliedJobs, job.id) })}

@@ -4,7 +4,7 @@
  */
 import type { TrackId } from './careers'
 import type { SkillAreaId } from './skillAreas'
-import type { Localized } from './types'
+import type { Lang, Localized } from './types'
 
 export type JobLocation = 'saldus' | 'remote' | 'hybrid'
 export type Employment = 'full' | 'part' | 'summer' | 'internship'
@@ -20,6 +20,8 @@ export interface Job {
   /** Minimum age. Rules for working minors are strict — check before going live. */
   minAge: number
   requiredSkills: Partial<Record<SkillAreaId, number>>
+  /** Working languages. */
+  languages: Lang[]
   /** ISO date. */
   posted: string
 }
@@ -38,6 +40,7 @@ export const JOBS: Job[] = [
     employment: 'part',
     minAge: 16,
     requiredSkills: { troubleshooting: 40, communication: 50, networks: 30 },
+    languages: ['lv'],
     posted: '2026-10-12',
   },
   {
@@ -53,6 +56,7 @@ export const JOBS: Job[] = [
     employment: 'full',
     minAge: 18,
     requiredSkills: { troubleshooting: 60, communication: 60, english: 60, networks: 40 },
+    languages: ['lv', 'en'],
     posted: '2026-10-15',
   },
   {
@@ -68,6 +72,7 @@ export const JOBS: Job[] = [
     employment: 'full',
     minAge: 18,
     requiredSkills: { security: 60, networks: 50, english: 60, troubleshooting: 40 },
+    languages: ['lv', 'en'],
     posted: '2026-10-09',
   },
   {
@@ -83,6 +88,7 @@ export const JOBS: Job[] = [
     employment: 'internship',
     minAge: 16,
     requiredSkills: { security: 40, networks: 30, english: 40 },
+    languages: ['lv'],
     posted: '2026-10-01',
   },
   {
@@ -98,6 +104,7 @@ export const JOBS: Job[] = [
     employment: 'summer',
     minAge: 16,
     requiredSkills: { data: 40, math: 40, english: 30 },
+    languages: ['lv'],
     posted: '2026-10-05',
   },
   {
@@ -113,6 +120,7 @@ export const JOBS: Job[] = [
     employment: 'full',
     minAge: 18,
     requiredSkills: { data: 65, math: 60, programming: 50, english: 50 },
+    languages: ['lv', 'en'],
     posted: '2026-10-16',
   },
   {
@@ -128,6 +136,7 @@ export const JOBS: Job[] = [
     employment: 'full',
     minAge: 18,
     requiredSkills: { web: 65, programming: 55, design: 30, english: 50 },
+    languages: ['en'],
     posted: '2026-10-11',
   },
   {
@@ -143,6 +152,7 @@ export const JOBS: Job[] = [
     employment: 'part',
     minAge: 15,
     requiredSkills: { web: 30, design: 40, communication: 40 },
+    languages: ['lv'],
     posted: '2026-10-18',
   },
   {
@@ -158,6 +168,7 @@ export const JOBS: Job[] = [
     employment: 'internship',
     minAge: 17,
     requiredSkills: { web: 45, programming: 40, english: 40 },
+    languages: ['en'],
     posted: '2026-10-07',
   },
 ]
