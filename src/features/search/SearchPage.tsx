@@ -7,7 +7,7 @@ import { Card, cx } from '../../components/ui'
 import { CourseCard, ExampleBadge, ExampleNotice, PersonCard, SearchBox } from '../../components/cards'
 import { matchCourse } from '../courses/Courses'
 import { matchPerson } from '../people/People'
-import { JobCard } from '../jobs/JobCard'
+import { JobList } from '../jobs/JobItem'
 
 const LANGS: Lang[] = ['lv', 'en']
 const has = (hay: string, q: string) => {
@@ -113,11 +113,7 @@ export function SearchPage() {
 
         {jobs.length > 0 && (
           <Group title={t.nav.jobs} count={jobs.length} onSeeAll={() => goTo('jobs')} seeAll={t.search.seeAll}>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {jobs.slice(0, 6).map((j) => (
-                <JobCard key={j.id} job={j} />
-              ))}
-            </div>
+            <JobList jobs={jobs.slice(0, 6)} />
           </Group>
         )}
 

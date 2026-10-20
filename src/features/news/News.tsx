@@ -1,30 +1,15 @@
 import { useState } from 'react'
-import { ArrowRight, BookOpen, CalendarDays, Check, ClipboardCheck, GraduationCap, HandHeart, MapPin, Newspaper, Star, UserRound } from 'lucide-react'
+import { ArrowRight, ClipboardCheck, Newspaper, UserRound } from 'lucide-react'
 import { CAREERS, NEWS } from '../../data'
-import type { NewsItem, NewsKind } from '../../data'
-import { toggle, useApp } from '../../lib/state'
+import type { NewsKind } from '../../data'
+import { useApp } from '../../lib/state'
 import { currentTrack, overallProgress } from '../../lib/skills'
-import { Button, Card, Meter, PageHeader, cx } from '../../components/ui'
+import { Button, Card, Meter, PageHeader } from '../../components/ui'
 import { FilterBar } from '../../components/FilterBar'
 import type { FilterDef } from '../../components/FilterBar'
-import { Illustration, newsScene } from '../../components/Illustration'
 import { ExampleNotice } from '../../components/cards'
+import { NewsList, isUpcoming } from './NewsItem'
 import { NextStepCard } from '../../components/NextStepCard'
-
-const KIND_STYLE: Record<NewsKind, { icon: typeof Newspaper; tone: string }> = {
-  news: { icon: Newspaper, tone: 'bg-brand-50 text-brand-700' },
-  article: { icon: BookOpen, tone: 'bg-brand-100 text-brand-800' },
-  event: { icon: CalendarDays, tone: 'bg-accent-100 text-accent-800' },
-  course: { icon: GraduationCap, tone: 'bg-accent-50 text-accent-800' },
-  volunteering: { icon: HandHeart, tone: 'bg-amber-50 text-amber-800' },
-}
-
-const DAY = 864e5
-const today = () => {
-  const d = new Date()
-  return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
-}
-const daysUntil = (iso: string) => Math.round((Date.parse(iso) - today()) / DAY)
 
 /**
  * News & events — the home page after onboarding. Articles about AI,
@@ -32,7 +17,7 @@ const daysUntil = (iso: string) => Math.round((Date.parse(iso) - today()) / DAY)
  * courses and volunteering, plus a profile card so "Mans profils" is one tap away.
  */
 export function News() {
-  const { t, l, lang, profile, update } = useApp()
+  const { t, l, profile } = useApp()
   const [q, setQ] = useState('')
   const [kind, setKind] = useState('')
   const [topic, setTopic] = useState('')
@@ -74,61 +59,10 @@ export function News() {
       ],
     },
   ]
-  const isUpcoming = (n: NewsItem) => (n.kind === 'event' || n.kind === 'course' || n.kind === 'volunteering') && daysUntil(n.date) >= 0
   // Upcoming events / courses / volunteering first (soonest first), then news and articles (newest first).
   const upcoming = items.filter(isUpcoming).sort((a, b) => a.date.localeCompare(b.date))
   const latest = items.filter((n) => !isUpcoming(n)).sort((a, b) => b.date.localeCompare(a.date))
 
-  const fmt = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { day: 'numeric', month: 'short' })
-
-  const card = (n: NewsItem) => {
-    const style = KIND_STYLE[n.kind]
-    const days = daysUntil(n.date)
-    const saved = profile.savedNews.includes(n.id)
-    const career = CAREERS.find((c) => c.id === n.track)
-    return (
-      <Card key={n.id} className="flex h-full flex-col overflow-hidden transition hover:shadow-lift">
-        <Illustration scene={newsScene(n.kind, n.track)} size="xs">
-          <span className={cx('absolute top-3 left-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm', style.tone)}>
-            <style.icon className="size-3.5" /> {t.news.kinds[n.kind]}
-          </span>
-          <span className="absolute top-3 right-3 rounded-full bg-card/90 px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm">
-            {isUpcoming(n) && days <= 30 ? (days === 0 ? t.news.today : t.news.inDays(days)) : fmt.format(new Date(n.date))}
-          </span>
-        </Illustration>
-        <div className="flex flex-1 flex-col p-4">
-          <div className="flex flex-wrap items-center gap-1.5 text-xs">
-            {career && (
-              <span className="inline-flex items-center gap-1 font-medium text-slate-500">
-                <career.icon className="size-3.5" /> {l(career.title)}
-              </span>
-            )}
-            <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-semibold tracking-wide text-amber-700 uppercase">
-              {t.example.badge}
-            </span>
-          </div>
-          <h3 className="mt-1.5 leading-snug font-bold text-slate-900">{l(n.title)}</h3>
-          <p className="mt-1 line-clamp-2 text-sm text-slate-600">{l(n.summary)}</p>
-          <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-3">
-            <span className="inline-flex min-w-0 items-center gap-1.5 text-sm text-slate-500">
-              <MapPin className="size-4 shrink-0" /> <span className="truncate">{l(n.place)}</span>
-            </span>
-            {n.kind !== 'news' && n.kind !== 'article' && (
-              <Button
-                variant={saved ? 'secondary' : 'primary'}
-                className="h-9 px-3"
-                aria-pressed={saved}
-                onClick={() => update({ savedNews: toggle(profile.savedNews, n.id) })}
-              >
-                {saved ? <Check className="size-4" strokeWidth={2.5} /> : <Star className="size-4" />}
-                {saved ? t.news.interestedDone : t.news.interested}
-              </Button>
-            )}
-          </div>
-        </div>
-      </Card>
-    )
-  }
 
   return (
     <>
@@ -159,19 +93,19 @@ export function News() {
           {upcoming.length > 0 && (
             <section className="mt-6">
               <h2 className="mb-3 text-lg font-bold text-slate-900">{t.news.upcoming}</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{(showAll ? upcoming : upcoming.slice(0, 4)).map(card)}</div>
+              <NewsList items={showAll ? upcoming : upcoming.slice(0, 4)} />
             </section>
           )}
           {latest.length > 0 && (
             <section className="mt-6">
               <h2 className="mb-3 text-lg font-bold text-slate-900">{t.news.latest}</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{(showAll ? latest : latest.slice(0, 4)).map(card)}</div>
+              <NewsList items={showAll ? latest : latest.slice(0, 6)} />
             </section>
           )}
-          {!showAll && upcoming.length + latest.length > 8 && (
+          {!showAll && (upcoming.length > 4 || latest.length > 6) && (
             <div className="mt-8 text-center">
               <Button variant="secondary" size="lg" onClick={() => setShowAll(true)}>
-                {t.news.showMore(upcoming.length + latest.length - Math.min(4, upcoming.length) - Math.min(4, latest.length))}
+                {t.news.showMore(upcoming.length + latest.length - Math.min(4, upcoming.length) - Math.min(6, latest.length))}
               </Button>
             </div>
           )}

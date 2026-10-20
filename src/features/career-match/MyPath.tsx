@@ -6,7 +6,7 @@ import { coursesForGaps, currentTrack, effectiveSkills, jobFit, rankedTracks, re
 import { Button, Card, Meter, PageHeader, cx } from '../../components/ui'
 import { CourseCard } from '../../components/cards'
 import { Illustration } from '../../components/Illustration'
-import { JobCard } from '../jobs/JobCard'
+import { JobList } from '../jobs/JobItem'
 
 /**
  * Career Match ("Mans ceļš"): best-fit tracks from the skills test, what the work
@@ -146,11 +146,7 @@ export function MyPath() {
           </Section>
 
           <Section title={t.match.jobsTitle} action={t.match.seeJobs} onAction={() => goTo('jobs')}>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {jobs.map((j) => (
-                <JobCard key={j.id} job={j} compact />
-              ))}
-            </div>
+            <JobList jobs={jobs} />
           </Section>
         </div>
 

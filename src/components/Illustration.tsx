@@ -24,7 +24,7 @@ const Box = ({ className, children }: { className?: string; children?: ReactNode
   <div className={cx('rounded-lg bg-card shadow-lift ring-1 ring-slate-200/60', className)}>{children}</div>
 )
 
-function SceneArt({ scene }: { scene: Scene }) {
+function SceneArt({ scene, day }: { scene: Scene; day?: number }) {
   switch (scene) {
     case 'web':
       return (
@@ -96,7 +96,7 @@ function SceneArt({ scene }: { scene: Scene }) {
           <div className="bg-accent-500 py-1 text-xs font-bold text-on-accent">
             <CalendarDays className="mx-auto size-4" />
           </div>
-          <div className="py-2 text-3xl font-extrabold text-slate-900">12</div>
+          <div className="py-2 text-3xl font-extrabold text-slate-900 tabular-nums">{day ?? <CalendarDays className="mx-auto size-8 text-accent-600" />}</div>
         </Box>
       )
     case 'volunteering':
@@ -136,8 +136,11 @@ export function Illustration({
   size = 'md',
   className,
   children,
+  day,
 }: {
   scene: Scene
+  /** Day of month for the event scene's calendar. */
+  day?: number
   size?: 'xs' | 'sm' | 'md' | 'lg'
   className?: string
   children?: ReactNode
@@ -160,7 +163,7 @@ export function Illustration({
       <span className="absolute top-4 right-10 size-3 rounded-full bg-accent-400/60" />
       <span className="absolute bottom-6 left-12 size-2 rounded-full bg-brand-400/60" />
       <div className={cx('relative', size === 'xs' && 'scale-[0.6]', size === 'sm' && 'scale-75', size === 'lg' && 'scale-125')}>
-        <SceneArt scene={scene} />
+        <SceneArt scene={scene} day={day} />
       </div>
       {children}
     </div>

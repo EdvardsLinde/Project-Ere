@@ -8,7 +8,7 @@ import { PageHeader } from '../../components/ui'
 import { FilterBar } from '../../components/FilterBar'
 import type { FilterDef } from '../../components/FilterBar'
 import { ExampleNotice } from '../../components/cards'
-import { JobCard } from './JobCard'
+import { JobList } from './JobItem'
 
 /** Jobs & local market: IT roles in Saldus and remote, matched against the user's skills. */
 export function Jobs() {
@@ -90,11 +90,7 @@ export function Jobs() {
       />
 
       {results.length ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {results.map((j) => (
-            <JobCard key={j.id} job={j} />
-          ))}
-        </div>
+        <JobList jobs={results} />
       ) : (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 px-6 py-12 text-center">
           <BriefcaseBusiness className="size-8 text-slate-300" />

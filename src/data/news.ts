@@ -19,6 +19,12 @@ export interface NewsItem {
   /** Related career track, if any. */
   track?: TrackId
   inSaldus: boolean
+  /** Longer description shown in the detail window. */
+  details?: Localized
+  /** Time, e.g. "18:00–21:00". */
+  time?: string
+  /** What to bring / how to join, as short bullets. */
+  info?: Localized[]
 }
 
 export const NEWS: NewsItem[] = [
@@ -138,6 +144,13 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Novada Koda klubs, Saldus', en: 'Novada Koda klubs, Saldus' },
     track: 'ai-data',
     inSaldus: true,
+    details: { lv: 'Praktiska darbnīca: izveidosim vienkāršu čatbotu, kas atbild uz jautājumiem par Saldus novadu, un pārbaudīsim, kur MI kļūdās un kāpēc. Uzzināsi, kā strādā valodas modeļi un kā tos izmantot gudri.', en: 'Hands-on workshop: build a simple chatbot that answers questions about the Saldus region and test where AI goes wrong and why. Learn how language models work and how to use them wisely.' },
+    time: '15:00–18:00',
+    info: [
+      { lv: 'Klēpjdatori būs uz vietas', en: 'Laptops provided' },
+      { lv: 'Pieredze nav vajadzīga', en: 'No experience needed' },
+      { lv: 'Vietu skaits: 15', en: '15 places' },
+    ],
   },
   {
     id: 'cowork-saldus',
@@ -188,6 +201,13 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Novada Koda klubs, Saldus', en: 'Novada Koda klubs, Saldus' },
     track: 'cyber',
     inSaldus: true,
+    details: { lv: 'CTF (Capture The Flag) ir sacensības, kurās komandās risina drošības mīklas: atrod paslēptas paroles, atšifrē ziņas un meklē kļūdas lapās. Vakars sāksies ar 15 minūšu ievadu iesācējiem, tad 2 stundas spēles un beigās — risinājumu apskats.', en: 'CTF (Capture The Flag) is a contest where teams solve security puzzles: find hidden passwords, decode messages and spot bugs in websites. The evening starts with a 15-minute intro for beginners, then 2 hours of play and a review of solutions at the end.' },
+    time: '18:00–21:00',
+    info: [
+      { lv: 'Ņem līdzi klēpjdatoru (vai izmanto kluba datoru)', en: 'Bring a laptop (or use one of the club’s)' },
+      { lv: 'Pieredze nav vajadzīga', en: 'No experience needed' },
+      { lv: 'Bez maksas, pica uz vietas', en: 'Free, pizza provided' },
+    ],
   },
   {
     id: 'career-day',
@@ -200,6 +220,13 @@ export const NEWS: NewsItem[] = [
     date: '2026-11-21',
     place: { lv: 'Tiešsaistē', en: 'Online' },
     inSaldus: false,
+    details: { lv: 'Piecu IT uzņēmumu speciālisti — drošības analītiķis, datu analītiķe, web izstrādātājs, IT atbalsta vadītājs un UX dizainere — 10 minūtēs pastāstīs par savu ikdienu un atbildēs uz jautājumiem čatā. Jautājumus var uzdot anonīmi.', en: 'Specialists from five IT companies — a security analyst, a data analyst, a web developer, an IT support lead and a UX designer — each spend 10 minutes on their workday and answer chat questions. Questions can be anonymous.' },
+    time: '16:00–17:30',
+    info: [
+      { lv: 'Pieslēdzies no telefona vai datora', en: 'Join from your phone or computer' },
+      { lv: 'Saite tiks atsūtīta dienu iepriekš', en: 'The link is sent a day before' },
+      { lv: 'Bez maksas', en: 'Free' },
+    ],
   },
   {
     id: 'hackathon',
@@ -213,6 +240,13 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Saldus', en: 'Saldus' },
     track: 'web',
     inSaldus: true,
+    details: { lv: 'Divas dienas komandās (3–5 cilvēki) veidojam idejas un prototipus reālām Saldus novada problēmām — piemēram, sabiedriskā transporta informācijai vai vietējo pasākumu kalendāram. Katrai komandai palīdz mentors no IT uzņēmuma. Noslēgumā — prezentācijas un balvas.', en: 'Over two days, teams of 3–5 build ideas and prototypes for real problems in the Saldus region — for example public transport info or a local events calendar. Each team gets a mentor from an IT company. Presentations and prizes at the end.' },
+    time: '10:00–18:00',
+    info: [
+      { lv: 'Var pieteikties vienatnē — palīdzēsim atrast komandu', en: 'You can sign up alone — we’ll help you find a team' },
+      { lv: 'Ēdināšana nodrošināta', en: 'Food provided' },
+      { lv: 'Vecums: 15–24', en: 'Age: 15–24' },
+    ],
   },
   {
     id: 'networks-course',
@@ -226,6 +260,11 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Tiešsaistē', en: 'Online' },
     track: 'it-support',
     inSaldus: false,
+    details: { lv: 'Trīs nedēļu tiešsaistes kurss ar īsiem video un praktiskiem uzdevumiem: IP adreses, maršrutētāji, DNS un Wi-Fi problēmu meklēšana. Katru nedēļu — tiešsaistes jautājumu stunda ar pasniedzēju.', en: 'A three-week online course with short videos and hands-on tasks: IP addresses, routers, DNS and Wi-Fi troubleshooting. A live Q&A hour with the teacher every week.' },
+    info: [
+      { lv: 'Bez maksas', en: 'Free' },
+      { lv: 'Apliecinājums par pabeigšanu', en: 'Certificate of completion' },
+    ],
   },
   {
     id: 'python-course',
@@ -239,6 +278,11 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Tiešsaistē', en: 'Online' },
     track: 'ai-data',
     inSaldus: false,
+    details: { lv: 'Astoņas nedēļas: Python pamati, darbs ar tabulām un grafiku veidošana no īstiem Latvijas datiem. Noslēgumā — mazs datu projekts par tēmu, kas interesē tieši tev.', en: 'Eight weeks: Python basics, working with tables and making charts from real Latvian data. Finish with a small data project on a topic you care about.' },
+    info: [
+      { lv: 'Iesācējiem', en: 'For beginners' },
+      { lv: 'Iknedēļas mentora atbalsts', en: 'Weekly mentor support' },
+    ],
   },
   {
     id: 'seniors-phones',
@@ -252,6 +296,13 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Saldus', en: 'Saldus' },
     track: 'it-support',
     inSaldus: true,
+    details: { lv: 'Sestdienās bibliotēkā palīdzam vecākiem cilvēkiem apgūt viedtālruņus: videozvanus, fotogrāfijas, internetbanku un drošību internetā. Tu strādā pārī ar citu brīvprātīgo, un ir īss ievads, kā skaidrot vienkārši.', en: 'On Saturdays we help older people learn to use smartphones: video calls, photos, online banking and online safety. You work in a pair with another volunteer, after a short intro on explaining things simply.' },
+    time: '11:00–13:00',
+    info: [
+      { lv: 'Brīvprātīgā darba apliecinājums', en: 'Volunteering certificate' },
+      { lv: 'Lieliska komunikācijas pieredze CV', en: 'Great communication experience for your CV' },
+      { lv: 'Pievienoties var jebkurā sestdienā', en: 'Join any Saturday' },
+    ],
   },
   {
     id: 'school-site',
@@ -265,5 +316,11 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Saldus novads', en: 'Saldus region' },
     track: 'web',
     inSaldus: true,
+    details: { lv: 'Kopā ar web izstrādātāju-mentoru pārveidosim vienas novada skolas mājaslapu: jauns dizains, ērta lietošana telefonā un vienkārša jaunumu pievienošana. Darbs notiek attālināti ar tikšanos reizi nedēļā.', en: 'With a web developer mentor, we’ll redo a school website in the region: new design, mobile-friendly and easy to post news. Work is remote with a weekly meeting.' },
+    info: [
+      { lv: 'Vajag HTML/CSS pamatus', en: 'Basic HTML/CSS needed' },
+      { lv: 'Īsts projekts tavam portfolio', en: 'A real project for your portfolio' },
+      { lv: 'Apliecinājums no mentora', en: 'A reference from your mentor' },
+    ],
   },
 ]
