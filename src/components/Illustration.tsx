@@ -158,8 +158,8 @@ export function Illustration({
         className,
       )}
     >
-      <span className="absolute -top-8 -left-6 size-24 rounded-full bg-white/40" />
-      <span className="absolute -right-8 -bottom-10 size-32 rounded-full bg-white/30" />
+      <span className="absolute -top-8 -left-6 size-24 rounded-full bg-white/40 dark:bg-white/[0.04]" />
+      <span className="absolute -right-8 -bottom-10 size-32 rounded-full bg-white/30 dark:bg-white/[0.03]" />
       <span className="absolute top-4 right-10 size-3 rounded-full bg-accent-400/60" />
       <span className="absolute bottom-6 left-12 size-2 rounded-full bg-brand-400/60" />
       <div className={cx('relative', size === 'xs' && 'scale-[0.6]', size === 'sm' && 'scale-75', size === 'lg' && 'scale-125')}>

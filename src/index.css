@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* `dark:` utilities follow the header toggle (html.dark), not the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * ERE colour system — warm, friendly blue/teal ("ocean-fresh").
  *
@@ -19,7 +22,7 @@
   --color-slate-100: #e0f1f8;
   --color-slate-200: #cde4ee;
   --color-slate-300: #b0cbd8;
-  --color-slate-400: #8aa3b0;
+  --color-slate-400: #5f7987;
   --color-slate-500: #566d7a;
   --color-slate-600: #435a68;
   --color-slate-700: #2d4757;
@@ -47,8 +50,8 @@
   --color-accent-300: #66d2d7;
   --color-accent-400: #25bac1;
   --color-accent-500: #00a0a8;
-  --color-accent-600: #008990;
-  --color-accent-700: #006f75;
+  --color-accent-600: #007980;
+  --color-accent-700: #006a70;
   --color-accent-800: #005a5f;
   --color-accent-900: #0a4a4f;
 
@@ -76,8 +79,9 @@
 
   /* Semantic surfaces. */
   --color-card: #ffffff;
+  --color-card-raised: #ffffff;
   --color-ink: #0b293c; /* footer */
-  --color-on-accent: #f5fbfe; /* text on solid teal */
+  --color-on-accent: #062633; /* text on solid teal (navy reads better than white on #00A0A8) */
   --color-on-sun: #0b293c; /* text on solid sun-yellow */
   --color-hero-from: #005a82;
   --color-hero-via: #006c9b;
@@ -102,10 +106,10 @@ html.dark {
   color-scheme: dark;
 
   --color-slate-50: #061d2b;
-  --color-slate-100: #123245;
-  --color-slate-200: #1b3d51;
-  --color-slate-300: #2a5164;
-  --color-slate-400: #6f8c9a;
+  --color-slate-100: #1a3c50;
+  --color-slate-200: #22475b;
+  --color-slate-300: #2f566a;
+  --color-slate-400: #86a3b1;
   --color-slate-500: #98b0bc;
   --color-slate-600: #b4c8d2;
   --color-slate-700: #cbdbe3;
@@ -118,8 +122,9 @@ html.dark {
   --color-brand-200: #1c5170;
   --color-brand-300: #2a7196;
   --color-brand-400: #3e97c2;
-  --color-brand-500: #2c9ad0;
-  --color-brand-600: #1783b6;
+  /* 500/600 are button fills in dark mode: dark enough for white text (≥4.5:1) */
+  --color-brand-500: #1679ab;
+  --color-brand-600: #0f6b97;
   --color-brand-700: #48b0de;
   --color-brand-800: #7cc8ea;
   --color-brand-900: #b5e0f3;
@@ -152,6 +157,7 @@ html.dark {
   --color-red-700: #ff8a8f;
 
   --color-card: #0e293a;
+  --color-card-raised: #133447;
   --color-ink: #03141f;
   --color-on-accent: #061d2b;
   --color-hero-from: #0a3f5c;
@@ -206,4 +212,14 @@ html.dark {
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up, .animate-fade-in { animation: none; }
+}
+
+/* Dark mode polish */
+html.dark ::selection {
+  background: var(--color-accent-300);
+  color: var(--color-slate-950);
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: var(--color-slate-400);
 }

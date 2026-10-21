@@ -35,7 +35,7 @@ export const PROVIDERS: Provider[] = [
     name: 'DatuDarbnīca',
     kind: { lv: 'Datu analītikas uzņēmums', en: 'Data analytics company' },
     location: { lv: 'Kuldīga', en: 'Kuldīga' },
-    tone: 'bg-amber-500 text-on-sun',
+    tone: 'bg-amber-100 text-amber-800',
   },
   {
     id: 'weblauks',
@@ -49,7 +49,7 @@ export const PROVIDERS: Provider[] = [
     name: 'CloudBalt',
     kind: { lv: 'IT pakalpojumu uzņēmums', en: 'IT services company' },
     location: { lv: 'Rīga · attālināti', en: 'Riga · remote' },
-    tone: 'bg-brand-900 text-brand-50',
+    tone: 'bg-brand-100 text-brand-800',
   },
   {
     id: 'kodaklubs',

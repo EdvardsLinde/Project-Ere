@@ -189,7 +189,7 @@ export function MyProfile() {
                         i === 0 ? 'bg-brand-50 ring-brand-200' : 'bg-slate-50 ring-slate-200',
                       )}
                     >
-                      <p className={cx('text-xs font-semibold', i === 0 ? 'text-brand-700' : 'text-slate-400')}>
+                      <p className={cx('text-xs font-semibold', i === 0 ? 'text-brand-700' : 'text-slate-500')}>
                         {i === 0 ? t.me.nextStep : t.me.later}
                       </p>
                       <p className="mt-1 font-semibold text-slate-900">

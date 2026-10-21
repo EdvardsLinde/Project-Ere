@@ -32,7 +32,7 @@ export function Thanks() {
           </Button>
         </div>
       </div>
-      <p className="mt-6 text-xs text-slate-400">{t.thanks.prototype}</p>
+      <p className="mt-6 text-xs text-slate-500">{t.thanks.prototype}</p>
     </div>
   )
 }

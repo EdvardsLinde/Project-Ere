@@ -11,7 +11,7 @@ type Size = 'md' | 'lg'
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700 active:bg-brand-800 disabled:bg-slate-300 disabled:shadow-none',
+    'bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700 active:bg-brand-800 dark:shadow-none dark:hover:bg-brand-500 dark:active:bg-brand-500 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none',
   accent:
     'bg-accent-500 text-on-accent shadow-sm shadow-accent-600/25 hover:bg-accent-600 active:bg-accent-700 disabled:bg-slate-300 disabled:shadow-none',
   secondary:
@@ -66,7 +66,7 @@ export function Chip({
         'inline-flex min-h-10 cursor-pointer items-center gap-1.5 rounded-full px-3.5 text-sm font-medium transition-all duration-150',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500',
         selected
-          ? 'bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700'
+          ? 'bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700 dark:shadow-none dark:hover:bg-brand-500'
           : 'bg-card text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-brand-50 hover:text-brand-800 hover:ring-brand-300',
       )}
     >
