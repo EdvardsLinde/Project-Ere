@@ -1,14 +1,13 @@
 /**
- * SEER brand: the icon-only mark (an eye on a horizon line — "see ahead") and the
- * wordmark, whose two E's carry orange middle bars like a pair of eyes looking
- * forward. Both are inline SVG so they stay sharp from favicon to header.
+ * SEER brand: a letter mark (orange tile with a white "S", inline SVG so it stays
+ * sharp from favicon to header) next to the name in bold text.
  * public/favicon.svg is a static copy of SeerMark — keep the two in sync.
  */
 import { useId } from 'react'
 import { useApp } from '../lib/state'
 import { cx } from './ui'
 
-/** Icon-only mark: rounded orange tile with an eye and its horizon line. */
+/** Icon-only mark: rounded orange tile with a white "S". */
 export function SeerMark({ className }: { className?: string }) {
   const id = useId()
   return (
@@ -20,31 +19,17 @@ export function SeerMark({ className }: { className?: string }) {
         </linearGradient>
       </defs>
       <rect width="32" height="32" rx="8" fill={`url(#${id})`} />
-      <path d="M4.5 16C8.5 9.2 23.5 9.2 27.5 16C23.5 22.8 8.5 22.8 4.5 16Z" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinejoin="round" />
-      <circle cx="16" cy="16" r="3.6" fill="#fff" />
-      <path d="M1.5 16H4.5M27.5 16H30.5" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" opacity=".8" />
+      <path d={S_PATH} fill="none" stroke="#fff" strokeWidth="3.4" />
     </svg>
   )
 }
 
-/** "SEER" wordmark. Letters use the current text colour; the E bars are orange. */
-export function SeerWordmark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 68 24" className={className} role="img" aria-label="SEER">
-      <g fill="none" stroke="currentColor" strokeWidth="3.4">
-        <path d="M13.2 5.6C12.2 3.4 10.2 2.2 7.4 2.2C4.2 2.2 2.2 3.9 2.2 6.4C2.2 9.2 4.6 10.4 7.6 11.2C11 12.1 13.6 13.3 13.6 16.6C13.6 19.6 11.1 21.8 7.5 21.8C4.6 21.8 2.4 20.5 1.4 18" />
-        <path d="M30.5 2.2H20.2V21.8H30.5" />
-        <path d="M48 2.2H37.7V21.8H48" />
-        <path d="M54.2 21.8V2.2H60.6C63.8 2.2 65.6 4.2 65.6 7C65.6 9.8 63.8 11.8 60.6 11.8H54.2M60.2 11.8L66.4 21.8" />
-      </g>
-      <path d="M21.9 12H28.6M39.4 12H46.1" stroke="var(--color-accent-500)" strokeWidth="3.4" />
-    </svg>
-  )
-}
+/** The "S" letter, drawn as one stroke so it looks the same in every browser (also in the favicon). */
+const S_PATH = 'M21 10.4C20.2 8.6 18.5 7.6 16.1 7.6C13.4 7.6 11.6 9 11.6 11.2C11.6 13.6 13.7 14.6 16.2 15.3C19.1 16.1 21.3 17.1 21.3 19.9C21.3 22.5 19.2 24.3 16.1 24.3C13.6 24.3 11.7 23.2 10.9 21.1'
 
 /**
- * Mark + wordmark + tagline. `compact` shows the mark only (very narrow headers);
- * the wordmark also collapses to the mark on screens under 360px.
+ * Mark + name + tagline. `compact` shows the mark only (very narrow headers);
+ * the name also collapses to the mark on screens under 360px.
  */
 export function Logo({ inverted = false, compact = false }: { inverted?: boolean; compact?: boolean }) {
   const { t } = useApp()
@@ -53,7 +38,7 @@ export function Logo({ inverted = false, compact = false }: { inverted?: boolean
       <SeerMark className="size-9 shrink-0" />
       {!compact && (
         <span className="flex flex-col items-start leading-none max-[359px]:hidden">
-          <SeerWordmark className={cx('h-[18px] w-auto', inverted ? 'text-white' : 'text-slate-900')} />
+          <span className={cx('text-xl font-extrabold tracking-tight', inverted ? 'text-white' : 'text-slate-900')}>SEER</span>
           <span className={cx('mt-1 hidden text-[11px] font-medium sm:block', inverted ? 'text-[#a8a29e]' : 'text-slate-500')}>
             {t.brand.tagline}
           </span>
