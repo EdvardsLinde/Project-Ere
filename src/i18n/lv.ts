@@ -39,6 +39,8 @@ export const lv = {
     remove: 'Noņemt',
     save: 'Saglabāt',
     skipToContent: 'Pāriet uz saturu',
+    home: 'Sākums',
+    breadcrumb: 'Atrašanās vieta',
     close: 'Aizvērt',
     details: 'Skatīt sīkāk',
     backToProfile: 'Atpakaļ uz profilu',

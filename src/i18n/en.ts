@@ -38,6 +38,8 @@ export const en: Dict = {
     remove: 'Remove',
     save: 'Save',
     skipToContent: 'Skip to content',
+    home: 'Home',
+    breadcrumb: 'Breadcrumb',
     close: 'Close',
     details: 'View details',
     backToProfile: 'Back to profile',

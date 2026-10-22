@@ -1,9 +1,8 @@
 import type { ComponentType } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import { AppProvider, ROUTES, useApp } from './lib/state'
-import { cx } from './components/ui'
 import type { Step } from './lib/state'
-import { Footer, Header, StepBar, TabBar } from './components/Layout'
+import { Footer, Header, StepBar } from './components/Layout'
 // Onboarding (runs once)
 import { Welcome } from './features/onboarding/Welcome'
 import { Interests } from './features/onboarding/Interests'
@@ -70,19 +69,15 @@ function SkipLink() {
 }
 
 function Shell() {
-  const { step, stepIndex, onboarded, editing, flowActive, appNav, profile } = useApp()
+  const { step, stepIndex, onboarded, editing, flowActive, profile } = useApp()
   // Progress bar: during the sign-up steps, or when editing a step from the profile.
   const showStepBar = editing || (flowActive && stepIndex > 0 && step !== 'thanks')
   // Sign-up page for new users and guests; people with a profile go straight to the app.
   // (not while the sign-up steps are running — a guest who just entered a name is mid-flow)
   const hasProfile = onboarded && !!profile.name && !flowActive
 
-  const showTabBar = appNav && !showStepBar
-
   return (
-    <div
-      className={cx('flex min-h-dvh flex-col', showTabBar && 'pb-16 xl:pb-0 [--tabbar-h:4rem] xl:[--tabbar-h:0px]')}
-    >
+    <div className="flex min-h-dvh flex-col overflow-x-clip">
       <SkipLink />
       <Header />
       {showStepBar && <StepBar />}
@@ -97,7 +92,6 @@ function Shell() {
         </Routes>
       </main>
       <Footer />
-      {showTabBar && <TabBar />}
     </div>
   )
 }

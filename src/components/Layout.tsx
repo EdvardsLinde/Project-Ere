@@ -98,43 +98,6 @@ function useNavItems(): NavItem[] {
   ]
 }
 
-/** Phone/tablet bottom tab bar: the five main places, always one tap away. */
-export function TabBar() {
-  const { t, step, goTo } = useApp()
-  const items = useNavItems().filter((i) => i.step !== 'people')
-  return (
-    <nav
-      aria-label={t.nav.mainNav}
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-card/95 backdrop-blur-md xl:hidden"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
-    >
-      <ul className="mx-auto grid h-16 max-w-xl grid-cols-5">
-        {items.map((item) => {
-          const on = step === item.step || !!item.also?.includes(step)
-          return (
-            <li key={item.step}>
-              <button
-                type="button"
-                onClick={() => goTo(item.step)}
-                aria-current={on ? 'page' : undefined}
-                className={cx(
-                  'flex h-full w-full cursor-pointer flex-col items-center justify-center gap-1 text-[11px] font-semibold transition',
-                  on ? 'text-brand-700' : 'text-slate-500 hover:text-slate-800',
-                )}
-              >
-                <span className={cx('flex h-7 w-12 items-center justify-center rounded-full transition', on && 'bg-brand-100')}>
-                  <item.icon className="size-5" />
-                </span>
-                {item.label}
-              </button>
-            </li>
-          )
-        })}
-      </ul>
-    </nav>
-  )
-}
-
 export function Header() {
   const { t, step, goTo, profile, restart, appNav, search, dark, toggleDark } = useApp()
   const [open, setOpen] = useState(false)
@@ -169,20 +132,18 @@ export function Header() {
         </button>
 
         {appNav && (
-          <nav className="hidden items-center gap-0.5 xl:flex">
+          <nav aria-label={t.nav.mainNav} className="hidden items-center gap-1 lg:flex">
             {nav.filter((item) => item.step !== 'people').map((item) => (
               <button
                 key={item.step}
                 type="button"
                 onClick={() => navigate(item.step)}
                 className={cx(
-                  'relative cursor-pointer rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap transition',
+                  'relative cursor-pointer rounded-lg px-3 py-2 text-[15px] font-medium whitespace-nowrap transition',
                   isActive(item) ? 'text-brand-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
                 )}
               >
-                <span className="inline-flex items-center gap-1.5">
-                  <item.icon className="size-4" /> {item.label}
-                </span>
+                {item.label}
                 {isActive(item) && <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-brand-600" />}
               </button>
             ))}
@@ -258,8 +219,32 @@ export function Header() {
         </div>
       </div>
 
+      {/* Phones & tablets: the main sections as a scrollable tab row under the logo (website-style, at the top) */}
+      {appNav && (
+        <nav aria-label={t.nav.mainNav} className="border-t border-slate-200/80 lg:hidden">
+          <ul className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-2 [scrollbar-width:none] sm:px-4 [&::-webkit-scrollbar]:hidden">
+            {nav.map((item) => (
+              <li key={item.step} className="shrink-0">
+                <button
+                  type="button"
+                  onClick={() => navigate(item.step)}
+                  aria-current={isActive(item) ? 'page' : undefined}
+                  className={cx(
+                    'relative flex h-11 cursor-pointer items-center px-3 text-sm font-semibold whitespace-nowrap transition',
+                    isActive(item) ? 'text-brand-700' : 'text-slate-600 hover:text-slate-900',
+                  )}
+                >
+                  {item.label}
+                  {isActive(item) && <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-brand-600" />}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
       {open && appNav && (
-        <div className="animate-fade-up border-t border-slate-200 bg-card px-4 pt-3 pb-4 xl:hidden">
+        <div className="animate-fade-up border-t border-slate-200 bg-card px-4 pt-3 pb-4 lg:hidden">
           <div className="mb-2">
             <SearchBox value={q} onChange={setQ} onSubmit={submitSearch} placeholder={t.nav.searchPlaceholder} size="md" />
           </div>

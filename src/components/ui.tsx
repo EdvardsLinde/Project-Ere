@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import type { LucideIcon } from 'lucide-react'
+import { useApp } from '../lib/state'
 import { Check } from 'lucide-react'
 
 export function cx(...classes: (string | false | null | undefined)[]) {
@@ -93,35 +94,43 @@ export function PageHeader({
   title: string
   subtitle?: string
   aside?: ReactNode
-  /** Page icon — helps users see at a glance where they are. */
+  /** Small section icon shown in the breadcrumb. */
   icon?: LucideIcon
 }) {
+  const { t, appNav, goTo } = useApp()
   return (
-    <div className="mb-5 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-      <div className="flex max-w-2xl items-start gap-4">
-        {Icon && (
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-hero-via to-hero-to text-white shadow-card sm:size-14">
-            <Icon className="size-6 sm:size-7" />
-          </span>
-        )}
-        <div className="min-w-0">
-          <p className="mb-1 text-xs font-semibold tracking-wide text-accent-600 uppercase sm:text-sm">{eyebrow}</p>
-          <h1 className="text-2xl font-bold tracking-tight text-balance text-slate-900 sm:text-3xl">{title}</h1>
-          {subtitle && <p className="mt-2 text-base text-slate-600">{subtitle}</p>}
+    // Full-width white band (website-style page header): the box-shadow + clip-path
+    // trick paints the band edge to edge while the text stays in the page container.
+    <div className="relative -mt-5 mb-6 bg-card py-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:mb-8 sm:py-8">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-2xl min-w-0">
+          <nav aria-label={t.common.breadcrumb} className="mb-2 flex items-center gap-1.5 text-sm text-slate-500">
+            {appNav && (
+              <>
+                <button type="button" onClick={() => goTo('news')} className="cursor-pointer hover:text-brand-700 hover:underline">
+                  {t.common.home}
+                </button>
+                <span aria-hidden>›</span>
+              </>
+            )}
+            <span className="inline-flex items-center gap-1.5 font-semibold text-accent-600">
+              {Icon && <Icon className="size-4" />}
+              {eyebrow}
+            </span>
+          </nav>
+          <h1 className="text-3xl font-bold tracking-tight text-balance text-slate-900 sm:text-4xl">{title}</h1>
+          {subtitle && <p className="mt-2 text-base text-slate-600 sm:text-lg">{subtitle}</p>}
         </div>
+        {aside}
       </div>
-      {aside}
     </div>
   )
 }
 
-/**
- * Primary actions at the bottom of a screen. On mobile it sticks to the bottom
- * of the viewport so the main button is always within thumb reach.
- */
+/** Primary actions at the end of a page, separated by a rule (website-style, not a sticky app bar). */
 export function ActionBar({ children, hint }: { children: ReactNode; hint?: ReactNode }) {
   return (
-    <div className="sticky bottom-[var(--tabbar-h,0px)] z-20 -mx-4 mt-8 border-t border-slate-200 bg-card/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-12 sm:border-t sm:bg-transparent sm:px-0 sm:pt-6 sm:pb-0 sm:backdrop-blur-none">
+    <div className="mt-8 border-t border-slate-200 pt-5">
       <div className="flex items-center justify-between gap-4">
         <div className="text-sm text-slate-500">{hint}</div>
         <div className="flex gap-3">{children}</div>

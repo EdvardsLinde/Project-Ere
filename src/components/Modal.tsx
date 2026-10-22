@@ -1,6 +1,5 @@
 /**
- * ERE — accessible detail window. Opens as a centred dialog on desktop and a
- * bottom sheet on phones. Closes with Esc, the X button or a click outside.
+ * ERE — accessible detail window, centred on every screen size. Closes with Esc, the X button or a click outside.
  */
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
@@ -44,14 +43,14 @@ export function Modal({
 
   if (!open) return null
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
       <div className="animate-fade-in absolute inset-0 bg-black/50 backdrop-blur-sm dark:bg-black/70" onClick={onClose} aria-hidden />
       <div
         role="dialog"
         aria-modal="true"
         aria-label={title}
         className={cx(
-          'animate-fade-up relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-card shadow-lift sm:max-w-xl sm:rounded-3xl dark:bg-card-raised dark:ring-1 dark:ring-slate-200',
+          'animate-fade-up relative flex max-h-[88dvh] w-full max-w-xl flex-col overflow-hidden rounded-3xl bg-card shadow-lift dark:bg-card-raised dark:ring-1 dark:ring-slate-200',
         )}
       >
         <button
