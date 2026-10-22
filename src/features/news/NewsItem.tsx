@@ -1,13 +1,16 @@
-import { useState } from 'react'
+/**
+ * Building blocks of the news portal: story cards in several sizes, event rows
+ * with a date block, the section nav and the sidebar lists. Every story links
+ * to its own article page (/news/:id).
+ */
 import type { ReactNode } from 'react'
-import { BookOpen, CalendarDays, Check, ChevronRight, GraduationCap, HandHeart, Info, MapPin, Newspaper, Star } from 'lucide-react'
-import { CAREERS } from '../../data'
+import { Link } from 'react-router'
+import { BookOpen, CalendarDays, Clock, GraduationCap, HandHeart, MapPin, Newspaper, Star } from 'lucide-react'
+import { NEWS } from '../../data'
 import type { NewsItem, NewsKind } from '../../data'
-import { toggle, useApp } from '../../lib/state'
-import { Button, Card, cx } from '../../components/ui'
-import { ExampleBadge } from '../../components/cards'
+import { articlePath, useApp } from '../../lib/state'
+import { cx } from '../../components/ui'
 import { Illustration, newsScene } from '../../components/Illustration'
-import { Modal } from '../../components/Modal'
 
 export const KIND_STYLE: Record<NewsKind, { icon: typeof Newspaper; tone: string }> = {
   news: { icon: Newspaper, tone: 'bg-brand-50 text-brand-700' },
@@ -23,154 +26,286 @@ const today = () => {
   return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
 }
 export const daysUntil = (iso: string) => Math.round((Date.parse(iso) - today()) / DAY)
-export const isUpcoming = (n: NewsItem) =>
-  (n.kind === 'event' || n.kind === 'course' || n.kind === 'volunteering') && daysUntil(n.date) >= 0
+export const isDated = (n: NewsItem) => n.kind === 'event' || n.kind === 'course' || n.kind === 'volunteering'
+export const isUpcoming = (n: NewsItem) => isDated(n) && daysUntil(n.date) >= 0
 
-/** News as a compact list of titles. Tap a row (or its icon) for the full description. */
-export function NewsList({ items }: { items: NewsItem[] }) {
-  const [open, setOpen] = useState<NewsItem | null>(null)
+/* -------------------------------------------------------------------------- */
+/*  Sections                                                                   */
+/* -------------------------------------------------------------------------- */
+
+export const SECTIONS = ['all', 'saldus', 'events', 'ai-data', 'cyber', 'web', 'it-support', 'learn'] as const
+export type Section = (typeof SECTIONS)[number]
+
+export const inSection = (n: NewsItem, s: Section) =>
+  s === 'all' ||
+  (s === 'saldus' && n.inSaldus) ||
+  (s === 'events' && n.kind === 'event') ||
+  (s === 'learn' && (n.kind === 'course' || n.kind === 'volunteering')) ||
+  n.track === s
+
+/** The section a story is filed under, shown as its kicker. */
+export function sectionOf(n: NewsItem): Section {
+  if (n.kind === 'event') return 'events'
+  if (n.kind === 'course' || n.kind === 'volunteering') return 'learn'
+  if (n.track) return n.track
+  return n.inSaldus ? 'saldus' : 'all'
+}
+
+export const sectionPath = (s: Section) => (s === 'all' ? '/news' : `/news?c=${s}`)
+
+/** News first (newest first); events, courses and volunteering by start date. */
+export const byNewest = (a: NewsItem, b: NewsItem) => b.date.localeCompare(a.date) || (b.at ?? '').localeCompare(a.at ?? '')
+export const published = () => NEWS.filter((n) => !isDated(n)).sort(byNewest)
+
+/* -------------------------------------------------------------------------- */
+/*  Small parts                                                                */
+/* -------------------------------------------------------------------------- */
+
+/** "11:15" today, "Vakar", "Pirms 3 dienām" or a date — like a news site's timestamp. */
+export function useWhen() {
+  const { t, lang } = useApp()
+  const short = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { day: 'numeric', month: 'short' })
+  return (n: NewsItem) => {
+    const d = daysUntil(n.date)
+    if (isDated(n)) {
+      if (d === 0) return t.news.today
+      if (d > 0 && d <= 7) return t.news.inDays(d)
+      return short.format(new Date(n.date))
+    }
+    if (d === 0) return n.at ?? t.news.today
+    if (d === -1) return t.news.yesterday
+    if (d < 0 && d > -7) return t.news.daysAgo(-d)
+    return short.format(new Date(n.date))
+  }
+}
+
+export function Kicker({ item, className }: { item: NewsItem; className?: string }) {
+  const { t } = useApp()
+  const s = sectionOf(item)
   return (
-    <>
-      <Card className="divide-y divide-slate-100 overflow-hidden">
-        {items.map((n) => (
-          <NewsRow key={n.id} item={n} onOpen={() => setOpen(n)} />
-        ))}
-      </Card>
-      {open && <NewsDetail item={open} onClose={() => setOpen(null)} />}
-    </>
+    <span className={cx('text-xs font-bold tracking-wide text-accent-600 uppercase', className)}>
+      {s === 'all' ? t.news.kinds[item.kind] : t.news.sections[s]}
+    </span>
   )
 }
 
-function useDate() {
-  const { lang } = useApp()
-  return new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { day: 'numeric', month: 'short' })
+function Meta({ item, className }: { item: NewsItem; className?: string }) {
+  const { t, l, profile } = useApp()
+  const when = useWhen()
+  return (
+    <span className={cx('flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-slate-500', className)}>
+      <span className="inline-flex items-center gap-1">
+        <Clock className="size-3.5" /> {when(item)}
+      </span>
+      {isDated(item) ? (
+        <span className="inline-flex min-w-0 items-center gap-1">
+          <MapPin className="size-3.5 shrink-0" /> <span className="truncate">{l(item.place)}</span>
+        </span>
+      ) : (
+        item.readMin && <span>· {t.news.readMin(item.readMin)}</span>
+      )}
+      {profile.savedNews.includes(item.id) && <Star className="size-3.5 fill-accent-500 text-accent-500" aria-label={t.news.interestedDone} />}
+    </span>
+  )
 }
 
-function NewsRow({ item, onOpen }: { item: NewsItem; onOpen: () => void }) {
-  const { t, l, profile } = useApp()
-  const fmt = useDate()
-  const style = KIND_STYLE[item.kind]
-  const days = daysUntil(item.date)
-  const saved = profile.savedNews.includes(item.id)
+/** Cover picture of a story. */
+export function Cover({ item, className, scale }: { item: NewsItem; className?: string; scale?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' }) {
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="group flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left transition hover:bg-slate-50 focus-visible:bg-brand-50 focus-visible:outline-none"
-    >
-      <span className={cx('flex size-11 shrink-0 items-center justify-center rounded-xl', style.tone)} title={t.news.kinds[item.kind]}>
-        <style.icon className="size-5" />
+    <Illustration
+      scene={newsScene(item)}
+      size="auto"
+      scale={scale}
+      day={new Date(item.date).getDate()}
+      className={cx('rounded-xl transition duration-300 group-hover:brightness-[1.03]', className)}
+    />
+  )
+}
+
+const headline = 'font-bold tracking-tight text-balance text-slate-900 group-hover:text-brand-700 group-hover:underline decoration-2 underline-offset-4'
+
+/* -------------------------------------------------------------------------- */
+/*  Story layouts                                                              */
+/* -------------------------------------------------------------------------- */
+
+type Variant = 'lead' | 'card' | 'row' | 'mini'
+
+/** One story, linked to its article page. */
+export function Story({ item, variant = 'card', className }: { item: NewsItem; variant?: Variant; className?: string }) {
+  const { l } = useApp()
+  const to = articlePath(item.id)
+
+  if (variant === 'lead')
+    return (
+      <Link to={to} className={cx('group block', className)}>
+        <Cover item={item} scale="xl" className="aspect-[16/9] w-full" />
+        <Kicker item={item} className="mt-4 block" />
+        <h2 className={cx(headline, 'mt-1.5 text-2xl leading-tight sm:text-4xl')}>{l(item.title)}</h2>
+        <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">{l(item.summary)}</p>
+        <Meta item={item} className="mt-3" />
+      </Link>
+    )
+
+  if (variant === 'row')
+    return (
+      <Link to={to} className={cx('group grid grid-cols-[7.5rem_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[13rem_minmax(0,1fr)]', className)}>
+        <Cover item={item} scale="xs" className="aspect-[4/3] w-full" />
+        <span className="min-w-0">
+          <Kicker item={item} />
+          <span className={cx(headline, 'mt-0.5 line-clamp-3 block text-base leading-snug sm:text-lg')}>{l(item.title)}</span>
+          <span className="mt-1 hidden text-sm leading-relaxed text-slate-600 sm:line-clamp-2">{l(item.summary)}</span>
+          <Meta item={item} className="mt-1.5" />
+        </span>
+      </Link>
+    )
+
+  if (variant === 'mini')
+    return (
+      <Link to={to} className={cx('group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-3', className)}>
+        <span className="min-w-0">
+          <span className={cx(headline, 'line-clamp-3 block text-[15px] leading-snug')}>{l(item.title)}</span>
+          <Meta item={item} className="mt-1" />
+        </span>
+        <Cover item={item} scale="2xs" className="aspect-square w-full" />
+      </Link>
+    )
+
+  return (
+    <Link to={to} className={cx('group block', className)}>
+      <Cover item={item} scale="sm" className="aspect-[16/10] w-full" />
+      <Kicker item={item} className="mt-3 block" />
+      <h3 className={cx(headline, 'mt-1 line-clamp-4 text-[15px] leading-snug sm:text-lg')}>{l(item.title)}</h3>
+      <Meta item={item} className="mt-2" />
+    </Link>
+  )
+}
+
+/** Event listing with a calendar date block. */
+export function EventRow({ item }: { item: NewsItem }) {
+  const { l, lang } = useApp()
+  const d = new Date(item.date)
+  const month = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { month: 'short' }).format(d).replace('.', '')
+  const weekday = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { weekday: 'short' }).format(d)
+  return (
+    <Link to={articlePath(item.id)} className="group flex items-start gap-4 py-4">
+      <span className="flex w-16 shrink-0 flex-col items-center overflow-hidden rounded-xl bg-card text-center ring-1 ring-slate-200">
+        <span className="w-full bg-accent-500 py-0.5 text-[11px] font-bold text-on-accent uppercase">{month}</span>
+        <span className="pt-1 text-2xl leading-none font-extrabold text-slate-900 tabular-nums">{d.getDate()}</span>
+        <span className="pb-1.5 text-[11px] text-slate-500 capitalize">{weekday}</span>
       </span>
-      <span className="min-w-0 flex-1">
-        <span className="line-clamp-2 font-semibold text-slate-900 group-hover:text-brand-700">{l(item.title)}</span>
-        <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-slate-500">
-          <span>{t.news.kinds[item.kind]}</span>
-          <span aria-hidden>·</span>
-          <span>{isUpcoming(item) && days <= 30 ? (days === 0 ? t.news.today : t.news.inDays(days)) : fmt.format(new Date(item.date))}</span>
-          <span aria-hidden>·</span>
-          <span className="truncate">{l(item.place)}</span>
-          {saved && (
-            <span className="inline-flex items-center gap-0.5 font-semibold text-accent-700">
-              <Star className="size-3 fill-current" />
+      <span className="min-w-0">
+        <Kicker item={item} />
+        <span className={cx(headline, 'mt-0.5 line-clamp-2 block leading-snug')}>{l(item.title)}</span>
+        <span className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-slate-500">
+          {item.time && (
+            <span className="inline-flex items-center gap-1">
+              <Clock className="size-3.5" /> {item.time}
             </span>
           )}
+          <span className="inline-flex items-center gap-1">
+            <MapPin className="size-3.5" /> {l(item.place)}
+          </span>
         </span>
       </span>
-      <ChevronRight className="size-5 shrink-0 text-slate-300 group-hover:text-brand-600" />
-    </button>
+    </Link>
   )
 }
 
-/** Detail window: full description, when/where and practical info. */
-function NewsDetail({ item, onClose }: { item: NewsItem; onClose: () => void }) {
-  const { t, l, lang, profile, update } = useApp()
-  const style = KIND_STYLE[item.kind]
-  const career = CAREERS.find((c) => c.id === item.track)
-  const saved = profile.savedNews.includes(item.id)
-  const actionable = item.kind !== 'news' && item.kind !== 'article'
-  const longDate = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  }).format(new Date(item.date))
+/* -------------------------------------------------------------------------- */
+/*  Section furniture                                                          */
+/* -------------------------------------------------------------------------- */
 
+/** Section heading with a rule and a "see all" link, newspaper style. */
+export function SectionHead({ title, section, className }: { title: string; section?: Section; className?: string }) {
+  const { t } = useApp()
   return (
-    <Modal
-      open
-      onClose={onClose}
-      title={l(item.title)}
-      footer={
-        actionable ? (
-          <Button
-            variant={saved ? 'secondary' : 'primary'}
-            aria-pressed={saved}
-            onClick={() => update({ savedNews: toggle(profile.savedNews, item.id) })}
-          >
-            {saved ? <Check className="size-4" strokeWidth={2.5} /> : <Star className="size-4" />}
-            {saved ? t.news.interestedDone : t.news.interested}
-          </Button>
-        ) : undefined
-      }
-    >
-      <Illustration scene={newsScene(item.kind, item.track)} size="sm" day={new Date(item.date).getDate()} />
-      <div className="p-5 sm:p-6">
-        <div className="flex flex-wrap items-center gap-1.5">
-          <span className={cx('inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', style.tone)}>
-            <style.icon className="size-3.5" /> {t.news.kinds[item.kind]}
-          </span>
-          {career && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
-              <career.icon className="size-3.5" /> {l(career.title)}
-            </span>
-          )}
-          <ExampleBadge />
-        </div>
-        <h2 className="mt-3 text-xl font-bold tracking-tight text-slate-900">{l(item.title)}</h2>
-
-        <dl className="mt-4 grid grid-cols-1 gap-2 rounded-2xl bg-slate-50 p-3 text-sm ring-1 ring-slate-200 sm:grid-cols-2">
-          <Row icon={<CalendarDays className="size-4" />} label={t.news.when}>
-            {longDate}
-            {item.time && <span className="text-slate-500"> · {item.time}</span>}
-          </Row>
-          <Row icon={<MapPin className="size-4" />} label={t.news.where}>
-            {l(item.place)}
-          </Row>
-        </dl>
-
-        <p className="mt-4 leading-relaxed text-slate-700">{l(item.details ?? item.summary)}</p>
-        {item.details && <p className="mt-3 text-sm text-slate-500">{l(item.summary)}</p>}
-
-        {item.info && item.info.length > 0 && (
-          <section className="mt-5">
-            <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900">
-              <span className="flex size-7 items-center justify-center rounded-lg bg-accent-100 text-accent-700">
-                <Info className="size-4" />
-              </span>
-              {t.news.goodToKnow}
-            </h3>
-            <ul className="mt-2 space-y-1.5 pl-9">
-              {item.info.map((x) => (
-                <li key={x.lv} className="list-disc text-sm text-slate-700 marker:text-slate-300">
-                  {l(x)}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-      </div>
-    </Modal>
-  )
-}
-
-function Row({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
-  return (
-    <div className="flex items-start gap-2">
-      <span className="mt-0.5 text-slate-400">{icon}</span>
-      <div>
-        <dt className="text-xs font-semibold text-slate-500">{label}</dt>
-        <dd className="font-medium text-slate-800 first-letter:uppercase">{children}</dd>
-      </div>
+    <div className={cx('mb-4 flex items-end justify-between gap-3 border-b-2 border-slate-900 pb-2', className)}>
+      <h2 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">{title}</h2>
+      {section && (
+        <Link to={sectionPath(section)} className="shrink-0 text-sm font-semibold text-brand-700 hover:underline">
+          {t.news.seeAll} →
+        </Link>
+      )}
     </div>
   )
 }
 
+/** "Jaunākais": timestamped headline list. */
+export function LatestList({ items, title }: { items: NewsItem[]; title?: string }) {
+  const { t, l } = useApp()
+  const when = useWhen()
+  return (
+    <section>
+      <h2 className="flex items-center gap-2 border-b-2 border-slate-900 pb-2 text-lg font-extrabold text-slate-900">
+        <span className="size-2 animate-pulse rounded-full bg-red-500" aria-hidden />
+        {title ?? t.news.latest}
+      </h2>
+      <ol className="divide-y divide-slate-200">
+        {items.map((n) => (
+          <li key={n.id}>
+            <Link to={articlePath(n.id)} className="group flex gap-3 py-3">
+              <span className="w-14 shrink-0 pt-0.5 text-xs font-bold text-red-700 tabular-nums">{when(n)}</span>
+              <span className="min-w-0 text-[15px] leading-snug font-semibold text-slate-800 group-hover:text-brand-700 group-hover:underline">
+                {l(n.title)}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+/** "Lasītākais": big numbers + headlines. */
+export function MostRead({ items }: { items: NewsItem[] }) {
+  const { t, l } = useApp()
+  return (
+    <section>
+      <h2 className="border-b-2 border-slate-900 pb-2 text-lg font-extrabold text-slate-900">{t.news.mostRead}</h2>
+      <ol className="divide-y divide-slate-200">
+        {items.map((n, i) => (
+          <li key={n.id}>
+            <Link to={articlePath(n.id)} className="group flex items-start gap-3 py-3">
+              <span className="w-7 shrink-0 text-3xl leading-none font-extrabold text-brand-500 tabular-nums dark:text-brand-400">{i + 1}</span>
+              <span className="min-w-0 text-[15px] leading-snug font-semibold text-slate-800 group-hover:text-brand-700 group-hover:underline">
+                {l(n.title)}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+/** Fixed "most read" picks for the prototype (a real site would count views). */
+const MOST_READ = ['phishing-wave', 'student-app-win', 'remote-worker-story', 'cyber-phishing-signs', 'saldus-tech-week']
+export const mostRead = () => MOST_READ.map((id) => NEWS.find((n) => n.id === id)).filter((n): n is NewsItem => !!n)
+
+/** Horizontal section nav (text links with an underline on the active one). */
+export function SectionNav({ active, aside }: { active: Section | null; aside?: ReactNode }) {
+  const { t } = useApp()
+  return (
+    <div className="flex flex-col gap-3 border-y border-slate-200 py-2 md:flex-row md:items-center md:justify-between">
+      <nav aria-label={t.news.sectionsLabel} className="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] md:mx-0 md:px-0">
+        <ul className="flex gap-1 whitespace-nowrap">
+          {SECTIONS.map((s) => (
+            <li key={s}>
+              <Link
+                to={sectionPath(s)}
+                aria-current={active === s ? 'page' : undefined}
+                className={cx(
+                  'inline-block rounded-md px-2.5 py-2 text-sm font-semibold transition-colors',
+                  active === s ? 'bg-slate-900 text-slate-50' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900',
+                )}
+              >
+                {t.news.sections[s]}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {aside}
+    </div>
+  )
+}

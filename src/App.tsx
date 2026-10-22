@@ -18,6 +18,7 @@ import { Courses } from './features/courses/Courses'
 import { CourseDetail } from './features/courses/CourseDetail'
 import { Jobs } from './features/jobs/Jobs'
 import { News } from './features/news/News'
+import { Article } from './features/news/Article'
 import { MyProfile } from './features/profile/MyProfile'
 import { Privacy } from './features/profile/Privacy'
 import { People } from './features/people/People'
@@ -38,6 +39,7 @@ const PAGES: Record<Exclude<Step, 'welcome'>, ComponentType> = {
   course: CourseDetail,
   jobs: Jobs,
   news: News,
+  article: Article,
   people: People,
   person: PersonProfile,
   search: SearchPage,

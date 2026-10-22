@@ -32,6 +32,7 @@ export type AppPage =
   | 'course'
   | 'jobs'
   | 'news'
+  | 'article'
   | 'people'
   | 'person'
   | 'search'
@@ -56,11 +57,15 @@ export const ROUTES: Record<Step, string> = {
   course: '/courses/:id',
   jobs: '/jobs',
   news: '/news',
+  article: '/news/:id',
   people: '/people',
   person: '/people/:id',
   search: '/search',
   privacy: '/privacy',
 }
+
+/** Link to one news article / event page. */
+export const articlePath = (id: string) => ROUTES.article.replace(':id', encodeURIComponent(id))
 
 function stepFromPath(pathname: string): Step {
   const hit = (Object.keys(ROUTES) as Step[]).find((s) => matchPath({ path: ROUTES[s], end: true }, pathname))
@@ -219,6 +224,8 @@ interface AppState {
   personId: string | null
   /** Id of the open course (from /courses/:id). */
   courseId: string | null
+  /** Id of the open news article (from /news/:id). */
+  articleId: string | null
   openCourse: (id: string) => void
   openPerson: (id: string) => void
   closePerson: () => void
@@ -252,6 +259,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const stepIndex = STEPS.indexOf(step as FlowStep)
   const personId = matchPath(ROUTES.person, location.pathname)?.params.id ?? null
   const courseId = matchPath(ROUTES.course, location.pathname)?.params.id ?? null
+  const articleId = matchPath(ROUTES.article, location.pathname)?.params.id ?? null
 
   useEffect(() => {
     document.documentElement.lang = lang
@@ -326,6 +334,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setQuery,
       personId,
       courseId,
+      articleId,
       openCourse: (id) => {
         setEditing(false)
         navigate(ROUTES.course.replace(':id', encodeURIComponent(id)))
@@ -350,7 +359,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         goTo('welcome')
       },
     }),
-    [lang, dark, step, stepIndex, goTo, show, navigate, location.key, editing, onboarded, flowActive, query, personId, courseId, profile],
+    [lang, dark, step, stepIndex, goTo, show, navigate, location.key, editing, onboarded, flowActive, query, personId, courseId, articleId, profile],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

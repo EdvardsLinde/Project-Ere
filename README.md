@@ -28,7 +28,8 @@ On the home page, a **"Tavs nākamais solis"** card always shows the next step o
 | Career match ("Mans ceļš") | `/my-path` | Shows the best-fit tracks and what the job involves, then lists the required skills with the user's level and gaps, plus courses and jobs that close those gaps. |
 | Courses | `/courses`, `/courses/:id` | Courses, bootcamps and internships tagged by skill and track. Courses that close the user's gaps are highlighted. Users can mark a course started or completed; completing it raises their skill levels. **Example:** "Kiberdrošības pamati jauniešiem" (SecNord Labs) comes with 4 free training tasks (`src/data/tasks.ts`) that can be solved in the app; each solved task adds skill points. |
 | Jobs | `/jobs` | Local Saldus and remote roles, each with required skill levels. Shown as a compact list (title, company, place, fit %). Tapping a job opens a detail window: **Ko prasām / Ko sagaidām / Ko piedāvājam**, hours, languages, fit and missing skills, with Apply and Save. |
-| News & events (home page) | `/news` | **The first page after sign-up.** Articles about AI, cybersecurity, data, web and IT support, plus local job-market news, events, courses and volunteering. Filters cover type, topic (track) and Saldus only. Shown as a compact list of titles; tapping one opens a detail window with the full description, date, time, place and practical info. A profile card links to the user's profile. |
+| News portal (home page) | `/news`, `/news?c=<section>` | **The first page after sign-up**, laid out like a news site ("ERE Ziņas"): masthead, section nav (Saldus, events, AI & data, cybersecurity, web, IT support, learning), a lead story with a timestamped "Latest" column, top stories, a Saldus section, "Most read", events with date blocks, technology articles and courses/volunteering. A section or a search shows a classic list. |
+| Article | `/news/:id` | Full article page: headline, standfirst, byline, read time, cover, body text, event details with an "Interested" button, sidebar and related stories. |
 | Profile | `/profile` | Profile, readiness for the chosen path, saved courses and people to follow. It's in the main menu and behind the avatar. |
 | People | `/people`, `/people/:id` | Mentors, professionals and peers to follow, each with a profile page. Follow only, no private messages, and every profile has a **Report** button. It's kept out of the main desktop menu on purpose: connecting minors with adults needs moderation before it goes live. |
 | Search | `/search` | One search across jobs, courses, people, careers and companies. |
@@ -63,7 +64,7 @@ src/
 
 ## Filters
 
-Every list page (news, courses, jobs, people) uses one shared `FilterBar` (`src/components/FilterBar.tsx`): a search box plus compact dropdowns such as field, language, type and place.
+Every list page except news (courses, jobs, people) uses one shared `FilterBar` (`src/components/FilterBar.tsx`): a search box plus compact dropdowns such as field, language, type and place.
 
 ## Conventions
 

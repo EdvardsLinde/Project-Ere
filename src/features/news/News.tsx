@@ -1,162 +1,238 @@
 import { useState } from 'react'
-import { ArrowRight, ClipboardCheck, Newspaper, UserRound } from 'lucide-react'
-import { CAREERS, NEWS } from '../../data'
-import type { NewsKind } from '../../data'
-import { useApp } from '../../lib/state'
-import { currentTrack, overallProgress } from '../../lib/skills'
-import { Button, Card, Meter, PageHeader } from '../../components/ui'
-import { FilterBar } from '../../components/FilterBar'
-import type { FilterDef } from '../../components/FilterBar'
-import { ExampleNotice } from '../../components/cards'
-import { NewsList, isUpcoming } from './NewsItem'
+import { Link, useSearchParams } from 'react-router'
+import { Info, Search, X } from 'lucide-react'
+import { NEWS } from '../../data'
+import { articlePath, useApp } from '../../lib/state'
 import { NextStepCard } from '../../components/NextStepCard'
+import {
+  EventRow,
+  LatestList,
+  MostRead,
+  SECTIONS,
+  SectionHead,
+  SectionNav,
+  Story,
+  byNewest,
+  inSection,
+  isUpcoming,
+  mostRead,
+  published,
+} from './NewsItem'
+import type { Section } from './NewsItem'
 
 /**
- * News & events — the home page after onboarding. Articles about AI,
- * cybersecurity, data, web and IT support, local job-market news, events,
- * courses and volunteering, plus a profile card so "Mans profils" is one tap away.
+ * ERE Ziņas — the home page after onboarding, laid out like a news portal:
+ * masthead + section nav, a lead story with a "latest" column, then sections
+ * (Saldus, events, technology, learning). A section or search shows a classic list.
+ * Every story opens its own article page.
  */
 export function News() {
-  const { t, l, profile } = useApp()
+  const { t, l } = useApp()
+  const [params] = useSearchParams()
+  const raw = params.get('c')
+  const section: Section = SECTIONS.includes(raw as Section) ? (raw as Section) : 'all'
   const [q, setQ] = useState('')
-  const [kind, setKind] = useState('')
-  const [topic, setTopic] = useState('')
-  const [place, setPlace] = useState('')
-  const [showAll, setShowAll] = useState(false)
-
   const needle = q.trim().toLowerCase()
-  const items = NEWS.filter(
-    (n) =>
-      (!needle || [n.title.lv, n.title.en, n.summary.lv, n.summary.en].join(' ').toLowerCase().includes(needle)) &&
-      (!kind || n.kind === kind) &&
-      (!topic || n.track === topic) &&
-      (!place || (place === 'saldus' ? n.inSaldus : !n.inSaldus)),
-  )
-  const hasFilters = !!(q || kind || topic || place)
-  const filters: FilterDef[] = [
-    {
-      id: 'type',
-      label: t.filters.type,
-      value: kind,
-      onChange: setKind,
-      options: (['article', 'news', 'event', 'course', 'volunteering'] as NewsKind[]).map((k) => ({ value: k, label: t.news.kinds[k] })),
-    },
-    {
-      id: 'field',
-      label: t.filters.field,
-      value: topic,
-      onChange: setTopic,
-      options: CAREERS.map((c) => ({ value: c.id, label: l(c.title) + (profile.careerId === c.id ? ' ★' : '') })),
-    },
-    {
-      id: 'place',
-      label: t.filters.place,
-      value: place,
-      onChange: setPlace,
-      options: [
-        { value: 'saldus', label: t.filters.saldus },
-        { value: 'online', label: t.filters.online },
-      ],
-    },
-  ]
-  // Upcoming events / courses / volunteering first (soonest first), then news and articles (newest first).
-  const upcoming = items.filter(isUpcoming).sort((a, b) => a.date.localeCompare(b.date))
-  const latest = items.filter((n) => !isUpcoming(n)).sort((a, b) => b.date.localeCompare(a.date))
 
+  const search = (
+    <form role="search" onSubmit={(e) => e.preventDefault()} className="relative md:w-64">
+      <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
+      <input
+        type="search"
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        placeholder={t.news.searchPlaceholder}
+        aria-label={t.news.searchPlaceholder}
+        className="h-10 w-full rounded-lg border-0 bg-slate-50 pr-9 pl-9 text-sm text-slate-900 ring-1 ring-slate-200 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+      />
+      {q && (
+        <button
+          type="button"
+          onClick={() => setQ('')}
+          aria-label={t.filters.clear}
+          className="absolute top-1/2 right-2 flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-slate-500 hover:bg-slate-200"
+        >
+          <X className="size-4" />
+        </button>
+      )}
+    </form>
+  )
+
+  const breaking = published()[0]
 
   return (
     <>
-      <PageHeader icon={Newspaper} eyebrow={t.news.eyebrow} title={t.news.greeting(profile.name)} subtitle={t.news.subtitle} />
-      <NextStepCard />
-      <ExampleNotice />
+      <Masthead />
+      <SectionNav active={needle ? null : section} aside={search} />
 
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
-        <div className="min-w-0">
-          <FilterBar
-            search={{ value: q, onChange: setQ, placeholder: t.news.searchPlaceholder }}
-            filters={filters}
-            count={t.news.count(items.length)}
-            onClear={
-              hasFilters
-                ? () => {
-                    setQ('')
-                    setKind('')
-                    setTopic('')
-                    setPlace('')
-                  }
-                : undefined
-            }
-          />
+      {breaking && !needle && section === 'all' && (
+        <Link
+          to={articlePath(breaking.id)}
+          className="group mt-3 flex items-center gap-3 rounded-lg bg-red-50 px-3 py-2 text-sm ring-1 ring-red-400/30"
+        >
+          <span className="shrink-0 rounded bg-red-700 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-white uppercase dark:bg-red-500 dark:text-slate-50">
+            {t.news.breaking}
+          </span>
+          <span className="min-w-0 truncate font-semibold text-slate-900 group-hover:underline">{l(breaking.title)}</span>
+        </Link>
+      )}
 
-          {!items.length && <p className="mt-10 text-center text-slate-500">{t.news.noResults}</p>}
+      {needle || section !== 'all' ? <ListView section={section} needle={needle} /> : <FrontPage />}
 
-          {upcoming.length > 0 && (
-            <section className="mt-6">
-              <h2 className="mb-3 text-lg font-bold text-slate-900">{t.news.upcoming}</h2>
-              <NewsList items={showAll ? upcoming : upcoming.slice(0, 4)} />
-            </section>
-          )}
-          {latest.length > 0 && (
-            <section className="mt-6">
-              <h2 className="mb-3 text-lg font-bold text-slate-900">{t.news.latest}</h2>
-              <NewsList items={showAll ? latest : latest.slice(0, 6)} />
-            </section>
-          )}
-          {!showAll && (upcoming.length > 4 || latest.length > 6) && (
-            <div className="mt-8 text-center">
-              <Button variant="secondary" size="lg" onClick={() => setShowAll(true)}>
-                {t.news.showMore(upcoming.length + latest.length - Math.min(4, upcoming.length) - Math.min(6, latest.length))}
-              </Button>
-            </div>
-          )}
-        </div>
-
-        <aside className="hidden lg:sticky lg:top-24 lg:block">
-          <ProfileCard />
-        </aside>
-      </div>
+      <p className="mt-12 flex items-start gap-2 border-t border-slate-200 pt-4 text-xs text-slate-500">
+        <Info className="mt-px size-3.5 shrink-0 text-amber-600" />
+        {t.news.fictional}
+      </p>
     </>
   )
 }
 
-/** Compact profile summary so the user's profile is always one tap from the home page. */
-function ProfileCard() {
-  const { t, l, profile, goTo } = useApp()
-  const track = currentTrack(profile)
-  const ready = overallProgress(profile)
+/** Newspaper-style title band: date, name, tagline. */
+function Masthead() {
+  const { t, lang } = useApp()
+  const date = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date())
   return (
-    <Card className="overflow-hidden">
-      <div className="bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-5 text-white">
-        <p className="text-xs font-semibold tracking-wide text-white/75 uppercase">{t.news.profileCard}</p>
-        <div className="mt-3 flex items-center gap-3">
-          <span className="flex size-12 items-center justify-center rounded-full bg-white/20 text-lg font-bold ring-2 ring-white/40">
-            {profile.name.charAt(0).toUpperCase() || <UserRound className="size-5" />}
-          </span>
-          <p className="min-w-0 truncate text-lg font-bold">{profile.name || t.nav.profile}</p>
+    <header className="relative -mt-5 bg-card pt-5 pb-4 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] sm:-mt-8 sm:pt-7">
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+        <div>
+          <p className="text-xs font-semibold text-slate-500 first-letter:uppercase">{date}</p>
+          <h1 className="mt-1 font-serif text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
+            {t.news.masthead}
+          </h1>
         </div>
+        <p className="pb-1 text-sm text-slate-600">{t.news.tagline}</p>
       </div>
-      <div className="space-y-4 p-5">
-        {profile.testResult ? (
-          <div>
-            <div className="mb-2 flex justify-between gap-2 text-sm">
-              <span className="font-medium text-slate-700">{t.news.readiness(l(track.title))}</span>
-              <span className="font-bold text-brand-700 tabular-nums">{ready}%</span>
-            </div>
-            <Meter value={ready} label={t.news.readiness(l(track.title))} />
-          </div>
-        ) : (
-          <div>
-            <p className="text-sm text-slate-600">{t.news.noTestYet}</p>
-            <Button variant="secondary" className="mt-3 w-full" onClick={() => goTo('test')}>
-              <ClipboardCheck className="size-4" /> {t.me.testCta}
-            </Button>
-          </div>
-        )}
-        <Button className="w-full" onClick={() => goTo('me')}>
-          {t.news.openProfile} <ArrowRight className="size-4" />
-        </Button>
-      </div>
-    </Card>
+    </header>
   )
 }
 
+function FrontPage() {
+  const { t } = useApp()
+  const news = published()
+  const lead = news.find((n) => n.featured) ?? news[0]
+  const rest = news.filter((n) => n !== lead)
+  const top = rest.filter((n) => n.kind === 'news').slice(0, 4)
+  const used = new Set([lead, ...top].map((n) => n.id))
+  const saldus = rest.filter((n) => n.inSaldus && !used.has(n.id)).slice(0, 4)
+  saldus.forEach((n) => used.add(n.id))
+  const tech = rest.filter((n) => n.kind === 'article' && n.track && !used.has(n.id)).slice(0, 6)
+  const upcoming = NEWS.filter(isUpcoming).sort((a, b) => a.date.localeCompare(b.date))
+  const events = upcoming.filter((n) => n.kind === 'event').slice(0, 6)
+  const learn = upcoming.filter((n) => n.kind !== 'event').slice(0, 4)
+
+  return (
+    <div className="mt-6 space-y-12">
+      {/* Lead story + latest */}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <Story item={lead} variant="lead" className="lg:col-span-8" />
+        <aside className="lg:col-span-4">
+          <LatestList items={news.slice(0, 7)} />
+        </aside>
+      </div>
+
+      {/* Top stories */}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 border-t border-slate-200 pt-8 sm:gap-x-6 lg:grid-cols-4">
+        {top.map((n) => (
+          <Story key={n.id} item={n} />
+        ))}
+      </div>
+
+      {/* Saldus + most read */}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <section className="lg:col-span-8">
+          <SectionHead title={t.news.inSaldusTitle} section="saldus" />
+          <div className="divide-y divide-slate-200">
+            {saldus.map((n) => (
+              <Story key={n.id} item={n} variant="row" className="py-4 first:pt-0" />
+            ))}
+          </div>
+        </section>
+        <aside className="space-y-8 lg:col-span-4">
+          <MostRead items={mostRead()} />
+          <div>
+            <p className="mb-2 text-xs font-bold tracking-wide text-slate-500 uppercase">{t.news.yourStep}</p>
+            <NextStepCard stacked />
+          </div>
+        </aside>
+      </div>
+
+      {/* Events */}
+      {events.length > 0 && (
+        <section>
+          <SectionHead title={t.news.eventsTitle} section="events" />
+          <div className="grid grid-cols-1 gap-x-8 md:grid-cols-2 lg:grid-cols-3 [&>*]:border-b [&>*]:border-slate-200">
+            {events.map((n) => (
+              <EventRow key={n.id} item={n} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Technology */}
+      <section>
+        <SectionHead title={t.news.techTitle} />
+        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          {tech.slice(0, 3).map((n) => (
+            <Story key={n.id} item={n} />
+          ))}
+        </div>
+        <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-5 border-t border-slate-200 pt-6 sm:grid-cols-3">
+          {tech.slice(3).map((n) => (
+            <Story key={n.id} item={n} variant="mini" />
+          ))}
+        </div>
+      </section>
+
+      {/* Courses + volunteering */}
+      {learn.length > 0 && (
+        <section>
+          <SectionHead title={t.news.learnTitle} section="learn" />
+          <div className="grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2">
+            {learn.map((n) => (
+              <Story key={n.id} item={n} variant="row" />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  )
+}
+
+/** A section page or search results: classic news list + sidebar. */
+function ListView({ section, needle }: { section: Section; needle: string }) {
+  const { t } = useApp()
+  const items = NEWS.filter(
+    (n) =>
+      inSection(n, needle ? 'all' : section) &&
+      (!needle || [n.title.lv, n.title.en, n.summary.lv, n.summary.en].join(' ').toLowerCase().includes(needle)),
+  )
+  // Events are listed soonest first; everything else newest first.
+  const sorted =
+    section === 'events' && !needle
+      ? [...items.filter(isUpcoming).sort((a, b) => a.date.localeCompare(b.date)), ...items.filter((n) => !isUpcoming(n)).sort(byNewest)]
+      : [...items].sort(byNewest)
+
+  return (
+    <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-12">
+      <section className="lg:col-span-8">
+        <SectionHead title={needle ? t.news.resultsFor(needle) : t.news.sections[section]} />
+        <p className="-mt-2 mb-4 text-sm text-slate-500">{t.news.count(sorted.length)}</p>
+        {!sorted.length && <p className="py-10 text-center text-slate-500">{t.news.noResults}</p>}
+        <div className="divide-y divide-slate-200">
+          {sorted.map((n) => (
+            <Story key={n.id} item={n} variant="row" className="py-5 first:pt-0" />
+          ))}
+        </div>
+      </section>
+      <aside className="space-y-8 lg:col-span-4">
+        <LatestList items={published().slice(0, 6)} />
+        <MostRead items={mostRead()} />
+      </aside>
+    </div>
+  )
+}

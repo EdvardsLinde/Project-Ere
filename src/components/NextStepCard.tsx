@@ -4,7 +4,7 @@ import { nextStep } from '../lib/nextStep'
 import { Button } from './ui'
 
 /** One clear "do this next" card that walks the user along the core path. */
-export function NextStepCard() {
+export function NextStepCard({ stacked = false }: { stacked?: boolean }) {
   const { t, l, profile, goTo, openCourse } = useApp()
   const step = nextStep(profile)
 
@@ -35,6 +35,25 @@ export function NextStepCard() {
     }
   })()
   const Icon = view.icon
+
+  // Narrow columns (e.g. the news sidebar): icon + text on top, full-width button below.
+  if (stacked)
+    return (
+      <div className="rounded-2xl bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-4 text-white shadow-lift">
+        <div className="flex items-start gap-3">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/30">
+            <Icon className="size-5" />
+          </span>
+          <span className="min-w-0">
+            <span className="block font-bold">{view.title}</span>
+            <span className="mt-0.5 line-clamp-2 block text-sm text-white/80">{view.text}</span>
+          </span>
+        </div>
+        <Button variant="light" className="mt-4 w-full" onClick={view.go}>
+          {view.cta} <ArrowRight className="size-4" />
+        </Button>
+      </div>
+    )
 
   return (
     <div className="mb-5 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-hero-from via-hero-via to-hero-to p-3 text-white shadow-lift sm:gap-4 sm:p-4">

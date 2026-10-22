@@ -89,9 +89,9 @@ interface NavItem {
 function useNavItems(): NavItem[] {
   const { t } = useApp()
   return [
-    { step: 'news', label: t.nav.news, icon: Newspaper },
+    { step: 'news', label: t.nav.news, icon: Newspaper, also: ['article'] },
     { step: 'match', label: t.nav.myPath, icon: Target, also: ['test', 'paths', 'training'] },
-    { step: 'courses', label: t.nav.coursesShort, icon: GraduationCap },
+    { step: 'courses', label: t.nav.coursesShort, icon: GraduationCap, also: ['course'] },
     { step: 'jobs', label: t.nav.jobs, icon: BriefcaseBusiness },
     { step: 'people', label: t.nav.people, icon: Users, also: ['person'] },
     { step: 'me', label: t.nav.profileShort, icon: UserRound },
