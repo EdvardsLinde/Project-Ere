@@ -1,5 +1,5 @@
 /**
- * ERE — people to follow (FICTIONAL EXAMPLES, not real persons)
+ * SEER — people to follow (FICTIONAL EXAMPLES, not real persons)
  * Mock data: typed constants that a real API can replace later.
  */
 import type { Localized } from './types'

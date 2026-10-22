@@ -1,5 +1,5 @@
 /**
- * ERE — one compact filter bar used by every list page (news, courses, jobs, people).
+ * SEER — one compact filter bar used by every list page (news, courses, jobs, people).
  * A search box plus dropdowns ("Joma: Visas", "Valoda: Latviešu"…) instead of rows of buttons.
  */
 import { ChevronDown, SlidersHorizontal, X } from 'lucide-react'

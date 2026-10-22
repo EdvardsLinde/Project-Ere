@@ -1,5 +1,5 @@
 /**
- * ERE — free training tasks a provider attaches to a course (FICTIONAL EXAMPLE).
+ * SEER — free training tasks a provider attaches to a course (FICTIONAL EXAMPLE).
  * Each task is a short real-life challenge with one correct answer. Solving it
  * marks the task done and adds its skill points (see lib/skills.ts).
  *

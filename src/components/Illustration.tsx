@@ -1,5 +1,5 @@
 /**
- * ERE — lightweight, theme-aware illustrations built from simple shapes and icons
+ * SEER — lightweight, theme-aware illustrations built from simple shapes and icons
  * (no image files), one scene per career track and per news type.
  * Used as covers on news and career cards and on the welcome page.
  */

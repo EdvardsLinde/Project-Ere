@@ -4,7 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * ERE colour system — black and orange.
+ * SEER colour system — black and orange.
  *
  *   Background #F7F5F3 / dark #0B0A09   Text #171412 / dark #F5F2EF
  *   Primary    #C2410C (deep orange — buttons with white text)

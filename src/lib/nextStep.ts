@@ -1,5 +1,5 @@
 /**
- * ERE — "what should I do next?" Guides the user along the core path:
+ * SEER — "what should I do next?" Guides the user along the core path:
  * profile → skills test → training tasks / courses that close gaps → jobs.
  */
 import { COURSES, TASKS } from '../data'

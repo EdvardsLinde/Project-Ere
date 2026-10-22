@@ -1,5 +1,5 @@
 /**
- * ERE — shared app state: language, theme, navigation helpers and the ONE user
+ * SEER — shared app state: language, theme, navigation helpers and the ONE user
  * profile that every feature reads and writes (test → match → gaps → courses → jobs).
  *
  * The profile is persisted to localStorage (all access wrapped in try/catch), so
@@ -147,6 +147,7 @@ export const emptyProfile: Profile = {
 /*  Persistence (localStorage, always wrapped in try/catch)                    */
 /* -------------------------------------------------------------------------- */
 
+/** Storage keys keep the old "ere" prefix on purpose: renaming them would wipe saved profiles. */
 const STORAGE_KEY = 'ere:v1'
 /** v2: the black/orange theme made dark the default (old saved 'light' choices are ignored). */
 const THEME_KEY = 'ere:theme:v2'
@@ -264,6 +265,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = lang
+    document.title = translations[lang].brand.title
   }, [lang])
 
   useEffect(() => {

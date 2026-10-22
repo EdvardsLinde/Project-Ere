@@ -1,5 +1,5 @@
 /**
- * ERE — scoring helpers shared by the skills test, career match, courses and jobs.
+ * SEER — scoring helpers shared by the skills test, career match, courses and jobs.
  * Pure functions (no React), so they can move to a backend unchanged.
  *
  * Skill levels are 0–100.

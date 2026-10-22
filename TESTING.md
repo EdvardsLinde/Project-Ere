@@ -1,4 +1,4 @@
-# ERE — testēšana ar jauniešiem
+# SEER — testēšana ar jauniešiem
 
 Vienkāršs plāns, kā pārbaudīt prototipu ar **5 jauniešiem** (15–24 g.). Pieci cilvēki parasti atklāj lielāko daļu nopietno problēmu. Viens tests aizņem ~20 minūtes.
 

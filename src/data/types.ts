@@ -1,5 +1,5 @@
 /**
- * ERE — shared data types
+ * SEER — shared data types
  * Mock data: typed constants that a real API can replace later.
  */
 import type { LucideIcon } from 'lucide-react'

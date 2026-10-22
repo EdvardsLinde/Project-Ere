@@ -1,6 +1,6 @@
-# ERE — Atrodi savu digitālo karjeru
+# SEER — see where your career can go.
 
-ERE is a career-launch portal for young people aged 15–24 in the Saldus region of Latvia. It helps them get into IT support, cybersecurity, AI & data and web development, and shows that they can do this work remotely while living in Saldus.
+SEER is a career-launch portal for young people aged 15–24 in the Saldus region of Latvia. It helps them get into IT support, cybersecurity, AI & data and web development, and shows that they can do this work remotely while living in Saldus.
 
 This is a clickable prototype. It has **no backend yet**. The user's profile is saved in the browser (`localStorage`), and all content comes from typed mock data in `src/data/`, which a real API can replace later.
 

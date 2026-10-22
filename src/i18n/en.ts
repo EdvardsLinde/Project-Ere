@@ -1,9 +1,10 @@
-/** ERE — English UI strings. Must have the same shape as lv.ts (TypeScript enforces it). */
+/** SEER — English UI strings. Must have the same shape as lv.ts (TypeScript enforces it). */
 import type { Dict } from './lv'
 
 export const en: Dict = {
   brand: {
-    tagline: 'Find your digital career',
+    tagline: 'See where your career can go',
+    title: 'SEER — see where your career can go.',
   },
   nav: {
     careers: 'Career paths',
@@ -406,7 +407,7 @@ export const en: Dict = {
     interested: 'Interested',
     interestedDone: 'Saved',
     noResults: 'Nothing here for this filter. Try another one.',
-    masthead: 'ERE News',
+    masthead: 'SEER News',
     tagline: 'Tech, careers and life in the Saldus region',
     sectionsLabel: 'News sections',
     sections: { all: 'Home', saldus: 'Saldus', events: 'Events', 'ai-data': 'AI & data', cyber: 'Cybersecurity', web: 'Web', 'it-support': 'IT support', learn: 'Learning' },
@@ -419,7 +420,7 @@ export const en: Dict = {
     seeAll: 'All',
     readMin: (n: number) => `${n} min read`,
     by: 'By',
-    editors: 'ERE editors',
+    editors: 'SEER editors',
     yesterday: 'Yesterday',
     daysAgo: (n: number) => `${n} days ago`,
     related: 'Read also',
@@ -431,7 +432,7 @@ export const en: Dict = {
     resultsFor: (q: string) => `Search results: “${q}”`,
     yourStep: 'Your next step',
     time: 'Time',
-    heroEyebrow: 'ERE News · Saldus region',
+    heroEyebrow: 'SEER News · Saldus region',
     heroTitle: 'What’s on in Saldus?',
     heroSubtitle: 'News, events, courses and volunteering — all in one place.',
     heroSearch: 'Search news, events or courses',
@@ -524,6 +525,6 @@ export const en: Dict = {
       start: 'Start over',
     },
     location: 'Saldus, Latvia',
-    rights: 'ERE. Prototype for user testing.',
+    rights: 'SEER. Prototype for user testing.',
   },
 }

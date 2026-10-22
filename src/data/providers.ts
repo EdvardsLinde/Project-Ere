@@ -1,5 +1,5 @@
 /**
- * ERE — course & job providers (FICTIONAL EXAMPLES)
+ * SEER — course & job providers (FICTIONAL EXAMPLES)
  * Mock data: typed constants that a real API can replace later.
  */
 import type { Localized } from './types'

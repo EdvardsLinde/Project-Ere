@@ -7,37 +7,7 @@ import type { Lang } from '../data'
 import { PROGRESS_STEPS, useApp } from '../lib/state'
 import type { Step } from '../lib/state'
 import { cx } from './ui'
-
-export function Logo({ inverted = false }: { inverted?: boolean }) {
-  const { t } = useApp()
-  return (
-    <span className="flex items-center gap-2.5">
-      <svg viewBox="0 0 32 32" className="size-9 shrink-0" aria-hidden>
-        <defs>
-          <linearGradient id="ere-logo" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#ea580c" />
-            <stop offset="1" stopColor="#9a3412" />
-          </linearGradient>
-        </defs>
-        <rect width="32" height="32" rx="9" fill="url(#ere-logo)" />
-        <path d="M10 9h12v3.2h-8.4v2.4h7.4v3h-7.4v2.6H22V23H10z" fill="#fff" />
-      </svg>
-      <span className="flex flex-col items-start text-left leading-none">
-        <span className={cx('text-xl font-extrabold tracking-tight', inverted ? 'text-white' : 'text-slate-900')}>
-          ERE
-        </span>
-        <span
-          className={cx(
-            'mt-0.5 hidden text-[11px] font-medium sm:block',
-            inverted ? 'text-[#a8a29e]' : 'text-slate-500',
-          )}
-        >
-          {t.brand.tagline}
-        </span>
-      </span>
-    </span>
-  )
-}
+import { Logo } from './Brand'
 
 function LangToggle() {
   const { lang, setLang, t } = useApp()
@@ -126,7 +96,7 @@ export function Header() {
           type="button"
           onClick={() => navigate(appNav ? 'news' : 'welcome')}
           className="shrink-0 cursor-pointer"
-          aria-label="ERE"
+          aria-label="SEER"
         >
           <Logo />
         </button>

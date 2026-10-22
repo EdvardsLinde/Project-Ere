@@ -1,5 +1,5 @@
 /**
- * ERE — courses, bootcamps & internships (FICTIONAL EXAMPLES)
+ * SEER — courses, bootcamps & internships (FICTIONAL EXAMPLES)
  * Mock data: typed constants that a real API can replace later.
  */
 import type { TrackId } from './careers'

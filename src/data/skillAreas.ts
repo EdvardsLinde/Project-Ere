@@ -1,5 +1,5 @@
 /**
- * ERE — skill areas used by the skills test, career match, courses and jobs.
+ * SEER — skill areas used by the skills test, career match, courses and jobs.
  * Levels are 0–100. The test sets a base level; completed courses add to it.
  */
 import { BookOpen, ChartColumn, CodeXml, Globe, Languages, MessageCircle, Network, Palette, ShieldCheck, Sigma, Wrench } from 'lucide-react'

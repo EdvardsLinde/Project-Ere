@@ -1,5 +1,5 @@
 /**
- * ERE — career tracks and their 3-step learning paths
+ * SEER — career tracks and their 3-step learning paths
  * Mock data: typed constants that a real API can replace later.
  */
 import { Brain, CodeXml, Headset, ShieldCheck } from 'lucide-react'

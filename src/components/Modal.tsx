@@ -1,5 +1,5 @@
 /**
- * ERE — accessible detail window, centred on every screen size. Closes with Esc, the X button or a click outside.
+ * SEER — accessible detail window, centred on every screen size. Closes with Esc, the X button or a click outside.
  */
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'

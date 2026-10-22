@@ -1,5 +1,5 @@
 /**
- * ERE — skills test question bank (12 questions).
+ * SEER — skills test question bank (12 questions).
  *
  * Three kinds of questions:
  *   - interest:  "what would you rather do?" → points per track

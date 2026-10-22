@@ -1,5 +1,5 @@
 /**
- * ERE — news, events, courses and volunteering feed (FICTIONAL EXAMPLES).
+ * SEER — news, events, courses and volunteering feed (FICTIONAL EXAMPLES).
  * Dates are ISO strings; the News page sorts and labels upcoming items.
  */
 import type { TrackId } from './careers'
@@ -30,7 +30,7 @@ export interface NewsItem {
   info?: Localized[]
   /** Article text, one entry per paragraph (the summary is shown above it as the standfirst). */
   body?: Localized[]
-  /** Byline (fictional). Defaults to "ERE redakcija". */
+  /** Byline (fictional). Defaults to "SEER redakcija". */
   author?: string
   /** Reading time in minutes. */
   readMin?: number
@@ -54,7 +54,7 @@ export const NEWS: NewsItem[] = [
       en: 'AI doesn’t think like a person — it finds patterns in huge numbers of examples. A simple explanation using everyday examples: YouTube suggestions, translation and face unlock.',
     },
     date: '2026-10-19',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'ai-data',
     inSaldus: false,
     author: 'Roberts Liepa',
@@ -74,7 +74,7 @@ export const NEWS: NewsItem[] = [
       en: 'Chatbots can help you understand a topic or check your work, but they can also be wrong. Tips for getting AI to explain rather than do the work for you — and how to check its answers.',
     },
     date: '2026-10-16',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'ai-data',
     inSaldus: false,
     author: 'Līga Bērziņa',
@@ -94,7 +94,7 @@ export const NEWS: NewsItem[] = [
       en: 'Urgency (“your account will be blocked!”), a strange sender address, a link to a look-alike site, a request for your password and typos. What to do if you’ve already clicked.',
     },
     date: '2026-10-18',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'cyber',
     inSaldus: false,
     author: 'Jānis Ozols',
@@ -114,7 +114,7 @@ export const NEWS: NewsItem[] = [
       en: 'Even if someone learns your password, the second step (a code on your phone or in an app) keeps them out. How to turn it on for email, social media and gaming accounts.',
     },
     date: '2026-10-12',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'cyber',
     inSaldus: false,
     author: 'Jānis Ozols',
@@ -133,7 +133,7 @@ export const NEWS: NewsItem[] = [
       en: 'Mornings start with reviewing alerts, midday is investigating a suspicious email, afternoons are training colleagues. What the job really involves and where to start.',
     },
     date: '2026-10-05',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'cyber',
     inSaldus: false,
     author: 'Roberts Liepa',
@@ -153,7 +153,7 @@ export const NEWS: NewsItem[] = [
       en: 'From a table with thousands of rows to one clear chart that helps make a decision. Which skills you need (spoiler: it starts with spreadsheets) and what a first project looks like.',
     },
     date: '2026-10-09',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'ai-data',
     inSaldus: false,
     author: 'Līga Bērziņa',
@@ -172,7 +172,7 @@ export const NEWS: NewsItem[] = [
       en: 'HTML is the page’s skeleton, CSS is its look, JavaScript makes it move and react. A simple plan to build your own personal page tonight and show it to friends.',
     },
     date: '2026-10-14',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'web',
     inSaldus: false,
     author: 'Marta Kalniņa',
@@ -191,7 +191,7 @@ export const NEWS: NewsItem[] = [
       en: 'Too many startup programs, a full disk, missing updates and overheating. Tips from an IT support specialist you can try today.',
     },
     date: '2026-10-11',
-    place: { lv: 'ERE raksts', en: 'ERE article' },
+    place: { lv: 'SEER raksts', en: 'SEER article' },
     track: 'it-support',
     inSaldus: false,
     author: 'Roberts Liepa',
@@ -246,13 +246,13 @@ export const NEWS: NewsItem[] = [
     kind: 'news',
     title: { lv: 'IT uzņēmumi arvien biežāk meklē darbiniekus reģionos', en: 'IT companies increasingly hire in the regions' },
     summary: {
-      lv: 'Vairāki Rīgas uzņēmumi ERE stāsta, ka attālināts darbs ļauj pieņemt cilvēkus no visas Latvijas — galvenais ir prasmes un angļu valoda.',
-      en: 'Several Riga companies tell ERE that remote work lets them hire from all over Latvia — what matters is skills and English.',
+      lv: 'Vairāki Rīgas uzņēmumi SEER stāsta, ka attālināts darbs ļauj pieņemt cilvēkus no visas Latvijas — galvenais ir prasmes un angļu valoda.',
+      en: 'Several Riga companies tell SEER that remote work lets them hire from all over Latvia — what matters is skills and English.',
     },
     date: '2026-10-08',
     place: { lv: 'Latvija', en: 'Latvia' },
     inSaldus: false,
-    author: 'ERE redakcija',
+    author: 'SEER redakcija',
     readMin: 2,
     scene: 'town',
     body: [
@@ -272,7 +272,7 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Saldus', en: 'Saldus' },
     track: 'it-support',
     inSaldus: true,
-    author: 'ERE redakcija',
+    author: 'SEER redakcija',
     readMin: 2,
     body: [
       { lv: 'Praktikanti palīdzēs uzturēt biroja datorus, printerus un Wi-Fi tīklu, kā arī atbildēs uz kolēģu jautājumiem. Prakse būs apmaksāta, un labākajiem piedāvās turpināt darbu.', en: 'The interns will help maintain office computers, printers and the Wi-Fi network, and answer colleagues’ questions. The internship is paid, and the best will be offered to stay on.' },
@@ -312,7 +312,7 @@ export const NEWS: NewsItem[] = [
     date: '2026-11-21',
     place: { lv: 'Tiešsaistē', en: 'Online' },
     inSaldus: false,
-    author: 'ERE redakcija',
+    author: 'SEER redakcija',
     readMin: 2,
     scene: 'people',
     details: { lv: 'Piecu IT uzņēmumu speciālisti — drošības analītiķis, datu analītiķe, web izstrādātājs, IT atbalsta vadītājs un UX dizainere — 10 minūtēs pastāstīs par savu ikdienu un atbildēs uz jautājumiem čatā. Jautājumus var uzdot anonīmi.', en: 'Specialists from five IT companies — a security analyst, a data analyst, a web developer, an IT support lead and a UX designer — each spend 10 minutes on their workday and answer chat questions. Questions can be anonymous.' },
@@ -336,7 +336,7 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Saldus', en: 'Saldus' },
     track: 'web',
     inSaldus: true,
-    author: 'ERE redakcija',
+    author: 'SEER redakcija',
     readMin: 2,
     scene: 'trophy',
     details: { lv: 'Divas dienas komandās (3–5 cilvēki) veidojam idejas un prototipus reālām Saldus novada problēmām — piemēram, sabiedriskā transporta informācijai vai vietējo pasākumu kalendāram. Katrai komandai palīdz mentors no IT uzņēmuma. Noslēgumā — prezentācijas un balvas.', en: 'Over two days, teams of 3–5 build ideas and prototypes for real problems in the Saldus region — for example public transport info or a local events calendar. Each team gets a mentor from an IT company. Presentations and prizes at the end.' },
@@ -398,7 +398,7 @@ export const NEWS: NewsItem[] = [
     place: { lv: 'Saldus', en: 'Saldus' },
     track: 'it-support',
     inSaldus: true,
-    author: 'ERE redakcija',
+    author: 'SEER redakcija',
     readMin: 2,
     scene: 'phone',
     details: { lv: 'Sestdienās bibliotēkā palīdzam vecākiem cilvēkiem apgūt viedtālruņus: videozvanus, fotogrāfijas, internetbanku un drošību internetā. Tu strādā pārī ar citu brīvprātīgo, un ir īss ievads, kā skaidrot vienkārši.', en: 'On Saturdays we help older people learn to use smartphones: video calls, photos, online banking and online safety. You work in a pair with another volunteer, after a short intro on explaining things simply.' },
@@ -567,7 +567,7 @@ export const NEWS: NewsItem[] = [
     date: '2026-10-15',
     place: { lv: 'Saldus novads', en: 'Saldus region' },
     inSaldus: true,
-    author: 'ERE redakcija',
+    author: 'SEER redakcija',
     readMin: 2,
     scene: 'town',
     body: [

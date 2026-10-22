@@ -1,5 +1,5 @@
 /**
- * ERE — jobs & internships (FICTIONAL EXAMPLES). Each role lists the skill levels
+ * SEER — jobs & internships (FICTIONAL EXAMPLES). Each role lists the skill levels
  * (0–100) it needs; the Jobs page compares them with the user's levels → fit %.
  */
 import type { TrackId } from './careers'

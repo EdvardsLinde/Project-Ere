@@ -1,5 +1,5 @@
 /**
- * ERE — onboarding & profile options (interests, skill tags, motivation, experience types)
+ * SEER — onboarding & profile options (interests, skill tags, motivation, experience types)
  * Mock data: typed constants that a real API can replace later.
  */
 import { Brain, ChartColumn, CodeXml, Gamepad2, Palette, Puzzle, ShieldCheck, Sigma } from 'lucide-react'

@@ -1,10 +1,12 @@
 /**
- * ERE — Latvian UI strings (source of truth; the default language).
+ * SEER — Latvian UI strings (source of truth; the default language).
  * Never hard-code visible text in components: add it here and in en.ts.
  */
 export const lv = {
   brand: {
-    tagline: 'Atrodi savu digitālo karjeru',
+    tagline: 'Ieraugi, kur var aizvest tava karjera',
+    /** Browser tab title. */
+    title: 'SEER — ieraugi, kur var aizvest tava karjera.',
   },
   nav: {
     careers: 'Karjeras ceļi',
@@ -407,7 +409,7 @@ export const lv = {
     interested: 'Interesē',
     interestedDone: 'Atzīmēts',
     noResults: 'Šim filtram nekā nav. Pamēģini citu.',
-    masthead: 'ERE Ziņas',
+    masthead: 'SEER Ziņas',
     tagline: 'Tehnoloģijas, karjera un dzīve Saldus novadā',
     sectionsLabel: 'Ziņu sadaļas',
     sections: { all: 'Sākums', saldus: 'Saldus', events: 'Pasākumi', 'ai-data': 'MI un dati', cyber: 'Kiberdrošība', web: 'Web', 'it-support': 'IT atbalsts', learn: 'Mācības' },
@@ -420,7 +422,7 @@ export const lv = {
     seeAll: 'Visi',
     readMin: (n: number) => `${n} min lasīšana`,
     by: 'Teksts',
-    editors: 'ERE redakcija',
+    editors: 'SEER redakcija',
     yesterday: 'Vakar',
     daysAgo: (n: number) => `Pirms ${n} dienām`,
     related: 'Lasi arī',
@@ -432,7 +434,7 @@ export const lv = {
     resultsFor: (q: string) => `Meklēšanas rezultāti: “${q}”`,
     yourStep: 'Tavs nākamais solis',
     time: 'Laiks',
-    heroEyebrow: 'ERE Ziņas · Saldus novads',
+    heroEyebrow: 'SEER Ziņas · Saldus novads',
     heroTitle: 'Kas notiek Saldū?',
     heroSubtitle: 'Ziņas, pasākumi, kursi un brīvprātīgais darbs — viss vienuviet.',
     heroSearch: 'Meklē ziņas, pasākumus vai kursus',
@@ -525,7 +527,7 @@ export const lv = {
       start: 'Sākt no jauna',
     },
     location: 'Saldus, Latvija',
-    rights: 'ERE. Prototips lietotāju testēšanai.',
+    rights: 'SEER. Prototips lietotāju testēšanai.',
   },
 }
 
