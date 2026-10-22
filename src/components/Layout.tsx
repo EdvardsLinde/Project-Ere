@@ -15,8 +15,8 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
       <svg viewBox="0 0 32 32" className="size-9 shrink-0" aria-hidden>
         <defs>
           <linearGradient id="ere-logo" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#006c9b" />
-            <stop offset="1" stopColor="#00a0a8" />
+            <stop offset="0" stopColor="#ea580c" />
+            <stop offset="1" stopColor="#9a3412" />
           </linearGradient>
         </defs>
         <rect width="32" height="32" rx="9" fill="url(#ere-logo)" />
@@ -29,7 +29,7 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
         <span
           className={cx(
             'mt-0.5 hidden text-[11px] font-medium sm:block',
-            inverted ? 'text-[#9db8c4]' : 'text-slate-500',
+            inverted ? 'text-[#a8a29e]' : 'text-slate-500',
           )}
         >
           {t.brand.tagline}
@@ -323,15 +323,15 @@ export function StepBar() {
 
 export function Footer() {
   const { t, goTo, restart, appNav } = useApp()
-  const link = 'cursor-pointer text-sm text-[#9db8c4] transition hover:text-white'
+  const link = 'cursor-pointer text-sm text-[#a8a29e] transition hover:text-white'
   return (
-    <footer className="mt-auto bg-ink text-[#c9dde5]">
+    <footer className="mt-auto bg-ink text-[#d6d3d1]">
       <div className="mx-auto grid grid-cols-1 max-w-6xl gap-8 px-4 py-8 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
         <div className="max-w-sm">
           <Logo inverted />
-          <p className="mt-4 text-sm leading-relaxed text-[#9db8c4]">{t.footer.about}</p>
-          <p className="mt-4 flex items-center gap-1.5 text-sm text-[#9db8c4]">
-            <MapPin className="size-4 text-[#3ebfc6]" /> {t.footer.location}
+          <p className="mt-4 text-sm leading-relaxed text-[#a8a29e]">{t.footer.about}</p>
+          <p className="mt-4 flex items-center gap-1.5 text-sm text-[#a8a29e]">
+            <MapPin className="size-4 text-[#ff8c3a]" /> {t.footer.location}
           </p>
         </div>
         {/* App links only make sense once the user has a profile. */}
@@ -360,7 +360,7 @@ export function Footer() {
         )}
       </div>
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-[#7f9aa7] sm:px-6 lg:px-8">
+        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-[#8a827c] sm:px-6 lg:px-8">
           © {new Date().getFullYear()} {t.footer.rights}
         </p>
       </div>

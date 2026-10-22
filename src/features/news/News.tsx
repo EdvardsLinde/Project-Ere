@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { CalendarDays, ChevronDown, Cpu, GraduationCap, Info, Lightbulb, MapPin, Newspaper, Search, X } from 'lucide-react'
-import { NEWS } from '../../data'
+import { HERO_PHOTOS, NEWS } from '../../data'
 import type { NewsItem } from '../../data'
 import { useApp } from '../../lib/state'
 import { cx } from '../../components/ui'
@@ -33,10 +33,7 @@ export function News() {
     <>
       {/* Hero: full-width band with a faint grid, like an events portal */}
       <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:pt-12 sm:pb-8">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -inset-x-[100vmax] inset-y-0 opacity-60 [background-image:linear-gradient(var(--color-slate-200)_1px,transparent_1px),linear-gradient(90deg,var(--color-slate-200)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
-        />
+        <HeroBackdrop />
         <div className="relative">
           <p className="text-xs font-bold tracking-wide text-accent-600 uppercase sm:text-sm">{t.news.heroEyebrow}</p>
           <div className="mt-2 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
@@ -115,6 +112,47 @@ export function News() {
       <p className="mt-12 flex items-start gap-2 border-t border-slate-200 pt-4 text-xs text-slate-500">
         <Info className="mt-px size-3.5 shrink-0 text-amber-600" />
         {t.news.fictional}
+      </p>
+    </>
+  )
+}
+
+/**
+ * Behind the hero: Saldus photos (slow cross-fade, darkened so the text stays
+ * readable) when there are any in data/heroPhotos.ts, otherwise a faint grid.
+ */
+function HeroBackdrop() {
+  const [i, setI] = useState(0)
+  const n = HERO_PHOTOS.length
+  useEffect(() => {
+    if (n < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const id = window.setInterval(() => setI((x) => (x + 1) % n), 7000)
+    return () => window.clearInterval(id)
+  }, [n])
+
+  if (!n)
+    return (
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-x-[100vmax] inset-y-0 opacity-60 [background-image:linear-gradient(var(--color-slate-200)_1px,transparent_1px),linear-gradient(90deg,var(--color-slate-200)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
+      />
+    )
+  return (
+    <>
+      <div aria-hidden className="pointer-events-none absolute -inset-x-[100vmax] inset-y-0 overflow-hidden">
+        {HERO_PHOTOS.map((p, k) => (
+          <img
+            key={p.src}
+            src={p.src}
+            alt=""
+            className={cx('absolute inset-0 size-full object-cover transition-opacity duration-1000', k === i ? 'opacity-100' : 'opacity-0')}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-r from-card via-card/85 to-card/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+      </div>
+      <p className="absolute right-0 bottom-2 z-10 text-[10px] text-slate-500">
+        {HERO_PHOTOS[i].caption} · {HERO_PHOTOS[i].credit}
       </p>
     </>
   )

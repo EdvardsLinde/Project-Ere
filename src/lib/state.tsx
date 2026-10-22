@@ -148,7 +148,8 @@ export const emptyProfile: Profile = {
 /* -------------------------------------------------------------------------- */
 
 const STORAGE_KEY = 'ere:v1'
-const THEME_KEY = 'ere:theme'
+/** v2: the black/orange theme made dark the default (old saved 'light' choices are ignored). */
+const THEME_KEY = 'ere:theme:v2'
 
 interface Saved {
   profile: Profile
@@ -188,7 +189,7 @@ function save(data: Saved) {
 interface AppState {
   lang: Lang
   setLang: (l: Lang) => void
-  /** Light by default; the header toggle switches to dark. */
+  /** Dark by default; the header toggle switches to light. */
   dark: boolean
   toggleDark: () => void
   t: Dict
@@ -244,9 +245,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>(initial.lang)
   const [dark, setDark] = useState(() => {
     try {
-      return localStorage.getItem(THEME_KEY) === 'dark'
+      return localStorage.getItem(THEME_KEY) !== 'light'
     } catch {
-      return false
+      return true
     }
   })
   const [profile, setProfile] = useState<Profile>(initial.profile)

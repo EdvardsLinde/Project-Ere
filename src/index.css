@@ -4,56 +4,57 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * ERE colour system — warm, friendly blue/teal ("ocean-fresh").
+ * ERE colour system — black and orange.
  *
- *   Background  #ECF8FD   Text       #0B293C   Primary   #006C9B
- *   Button text #F5FBFE   Teal       #00A0A8   Aqua tint #D1F3F4
- *   Sky tint    #D0ECF5   Muted text #566D7A   Sun       #EEC05B   Error #E62B34
+ *   Background #F7F5F3 / dark #0B0A09   Text #171412 / dark #F5F2EF
+ *   Primary    #C2410C (deep orange — buttons with white text)
+ *   Accent     #FF7A1A (bright orange — chips, tiles, badges with black text)
+ *   Sun        #EEC05B   Error #E62B34
  *
  * Components use Tailwind's colour names (slate/brand/accent/amber/red), so the
- * whole app is themed by redefining these scales here. Dark mode redefines the
- * same variables under `html.dark` (toggled from the header).
+ * whole app is themed by redefining these scales here. Dark mode (the default)
+ * redefines the same variables under `html.dark` (toggled from the header).
  */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* Neutrals: blue-tinted. 50 = page background, 500 = muted text, 900 = text. */
-  --color-slate-50: #ecf8fd;
-  --color-slate-100: #e0f1f8;
-  --color-slate-200: #cde4ee;
-  --color-slate-300: #b0cbd8;
-  --color-slate-400: #5f7987;
-  --color-slate-500: #566d7a;
-  --color-slate-600: #435a68;
-  --color-slate-700: #2d4757;
-  --color-slate-800: #183748;
-  --color-slate-900: #0b293c;
-  --color-slate-950: #061d2b;
+  /* Neutrals: warm greys. 50 = page background, 500 = muted text, 900 = text. */
+  --color-slate-50: #f7f5f3;
+  --color-slate-100: #efebe7;
+  --color-slate-200: #e3ded9;
+  --color-slate-300: #cbc4bd;
+  --color-slate-400: #6f6862;
+  --color-slate-500: #655e58;
+  --color-slate-600: #4d4743;
+  --color-slate-700: #37322e;
+  --color-slate-800: #24201d;
+  --color-slate-900: #171412;
+  --color-slate-950: #0c0a09;
 
-  /* Primary: deep warm blue (600 = #006C9B). 50 = selected-state sky tint. */
-  --color-brand-50: #e3f3f9;
-  --color-brand-100: #d0ecf5;
-  --color-brand-200: #a7d8ea;
-  --color-brand-300: #6fbedb;
-  --color-brand-400: #2f9dc6;
-  --color-brand-500: #0a84b5;
-  --color-brand-600: #006c9b;
-  --color-brand-700: #005a82;
-  --color-brand-800: #004a6b;
-  --color-brand-900: #0b3b55;
-  --color-brand-950: #0b293c;
+  /* Primary: deep orange (600 = #C2410C), white text on it. */
+  --color-brand-50: #fff4ec;
+  --color-brand-100: #ffe4d1;
+  --color-brand-200: #ffc59e;
+  --color-brand-300: #ff9f63;
+  --color-brand-400: #f97a2e;
+  --color-brand-500: #dc5410;
+  --color-brand-600: #c2410c;
+  --color-brand-700: #9a3412;
+  --color-brand-800: #7c2d12;
+  --color-brand-900: #5a200c;
+  --color-brand-950: #3b1407;
 
-  /* Teal accent (500 = #00A0A8). 100 = pale aqua tint for chips/badges. */
-  --color-accent-50: #e6f8f9;
-  --color-accent-100: #d1f3f4;
-  --color-accent-200: #a5e6e9;
-  --color-accent-300: #66d2d7;
-  --color-accent-400: #25bac1;
-  --color-accent-500: #00a0a8;
-  --color-accent-600: #007980;
-  --color-accent-700: #006a70;
-  --color-accent-800: #005a5f;
-  --color-accent-900: #0a4a4f;
+  /* Bright orange accent (500 = #FF7A1A), black text on it. 600+ = orange text on light. */
+  --color-accent-50: #fff6ed;
+  --color-accent-100: #ffead5;
+  --color-accent-200: #ffd0a8;
+  --color-accent-300: #ffb170;
+  --color-accent-400: #ff9440;
+  --color-accent-500: #ff7a1a;
+  --color-accent-600: #b34700;
+  --color-accent-700: #963c00;
+  --color-accent-800: #7a3100;
+  --color-accent-900: #5c2500;
 
   /* Sun-yellow (500 = #EEC05B) — used sparingly: example badges, "recommended". */
   --color-amber-50: #fdf7e8;
@@ -75,17 +76,17 @@
   --color-red-700: #c21e26;
 
   /* Text on primary buttons. */
-  --color-white: #f5fbfe;
+  --color-white: #ffffff;
 
   /* Semantic surfaces. */
   --color-card: #ffffff;
   --color-card-raised: #ffffff;
-  --color-ink: #0b293c; /* footer */
-  --color-on-accent: #062633; /* text on solid teal (navy reads better than white on #00A0A8) */
-  --color-on-sun: #0b293c; /* text on solid sun-yellow */
-  --color-hero-from: #005a82;
-  --color-hero-via: #006c9b;
-  --color-hero-to: #00a0a8;
+  --color-ink: #0c0a09; /* footer */
+  --color-on-accent: #140a03; /* text on solid bright orange */
+  --color-on-sun: #171412; /* text on solid sun-yellow */
+  --color-hero-from: #1a1310;
+  --color-hero-via: #5a200c;
+  --color-hero-to: #c2410c;
 
   /* Rounded everywhere: cards 16px, buttons/inputs 14px. */
   --radius-md: 0.625rem;
@@ -94,52 +95,52 @@
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
 
-  /* Soft blue-tinted shadows. */
-  --shadow-xs: 0 1px 2px rgb(0 108 155 / 0.06);
-  --shadow-sm: 0 1px 3px rgb(0 108 155 / 0.1), 0 1px 2px rgb(0 108 155 / 0.06);
-  --shadow-card: 0 1px 2px rgb(0 108 155 / 0.05), 0 6px 18px -6px rgb(0 108 155 / 0.14);
-  --shadow-lift: 0 4px 8px -2px rgb(0 108 155 / 0.08), 0 18px 36px -10px rgb(0 108 155 / 0.22);
+  /* Soft neutral shadows. */
+  --shadow-xs: 0 1px 2px rgb(23 20 18 / 0.06);
+  --shadow-sm: 0 1px 3px rgb(23 20 18 / 0.1), 0 1px 2px rgb(23 20 18 / 0.06);
+  --shadow-card: 0 1px 2px rgb(23 20 18 / 0.05), 0 6px 18px -6px rgb(23 20 18 / 0.14);
+  --shadow-lift: 0 4px 8px -2px rgb(23 20 18 / 0.08), 0 18px 36px -10px rgb(23 20 18 / 0.22);
 }
 
-/* Dark mode: deep navy-teal surfaces, brighter teal accents. */
+/* Dark mode (default): near-black surfaces, orange accents. */
 html.dark {
   color-scheme: dark;
 
-  --color-slate-50: #061d2b;
-  --color-slate-100: #1a3c50;
-  --color-slate-200: #22475b;
-  --color-slate-300: #2f566a;
-  --color-slate-400: #86a3b1;
-  --color-slate-500: #98b0bc;
-  --color-slate-600: #b4c8d2;
-  --color-slate-700: #cbdbe3;
-  --color-slate-800: #e0ecf1;
-  --color-slate-900: #eef6f9;
-  --color-slate-950: #f5fbfe;
+  --color-slate-50: #0b0a09;
+  --color-slate-100: #1c1917;
+  --color-slate-200: #2a2522;
+  --color-slate-300: #3b3531;
+  --color-slate-400: #a8a29e;
+  --color-slate-500: #b6afa9;
+  --color-slate-600: #cfc8c2;
+  --color-slate-700: #e0dad5;
+  --color-slate-800: #ece7e3;
+  --color-slate-900: #f5f2ef;
+  --color-slate-950: #fbf9f7;
 
-  --color-brand-50: #0f3348;
-  --color-brand-100: #133c55;
-  --color-brand-200: #1c5170;
-  --color-brand-300: #2a7196;
-  --color-brand-400: #3e97c2;
-  /* 500/600 are button fills in dark mode: dark enough for white text (≥4.5:1) */
-  --color-brand-500: #1679ab;
-  --color-brand-600: #0f6b97;
-  --color-brand-700: #48b0de;
-  --color-brand-800: #7cc8ea;
-  --color-brand-900: #b5e0f3;
-  --color-brand-950: #ddf1fa;
+  --color-brand-50: #26150a;
+  --color-brand-100: #36190a;
+  --color-brand-200: #57290f;
+  --color-brand-300: #8a4116;
+  --color-brand-400: #e2661f;
+  /* 500/600 are button fills: dark enough for white text (≥4.5:1) */
+  --color-brand-500: #b33d0b;
+  --color-brand-600: #c2410c;
+  --color-brand-700: #ff8a3d;
+  --color-brand-800: #ffab73;
+  --color-brand-900: #ffd1b0;
+  --color-brand-950: #ffe8d6;
 
-  --color-accent-50: #0b3038;
-  --color-accent-100: #0e3b44;
-  --color-accent-200: #145059;
-  --color-accent-300: #1e6e76;
-  --color-accent-400: #2e9ca3;
-  --color-accent-500: #3ebfc6;
-  --color-accent-600: #35b2b9;
-  --color-accent-700: #5ed0d6;
-  --color-accent-800: #8fe0e4;
-  --color-accent-900: #c2eff1;
+  --color-accent-50: #24160b;
+  --color-accent-100: #331d0c;
+  --color-accent-200: #4d2a10;
+  --color-accent-300: #7a3f15;
+  --color-accent-400: #e66a17;
+  --color-accent-500: #ff7a1a;
+  --color-accent-600: #ff8c3a;
+  --color-accent-700: #ffa463;
+  --color-accent-800: #ffc193;
+  --color-accent-900: #ffdcc0;
 
   --color-amber-50: #2a2512;
   --color-amber-100: #3a3216;
@@ -156,13 +157,13 @@ html.dark {
   --color-red-600: #ff6b71;
   --color-red-700: #ff8a8f;
 
-  --color-card: #0e293a;
-  --color-card-raised: #133447;
-  --color-ink: #03141f;
-  --color-on-accent: #061d2b;
-  --color-hero-from: #0a3f5c;
-  --color-hero-via: #0b5577;
-  --color-hero-to: #0b7a80;
+  --color-card: #151210;
+  --color-card-raised: #1c1815;
+  --color-ink: #050403;
+  --color-on-accent: #140a03;
+  --color-hero-from: #120d0a;
+  --color-hero-via: #4a1b08;
+  --color-hero-to: #b33d0b;
 
   --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.3);
   --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.35);
@@ -188,7 +189,7 @@ html.dark {
   }
 }
 
-/* Subtle teal + blue radial glows for hero backgrounds. */
+/* Subtle orange radial glows for hero backgrounds. */
 .hero-glow {
   background:
     radial-gradient(42rem 28rem at 88% -10%, color-mix(in oklab, var(--color-brand-300) 35%, transparent), transparent 70%),
