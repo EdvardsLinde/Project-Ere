@@ -189,6 +189,17 @@ html.dark {
   }
 }
 
+/*
+ * Page background outside any layer, so it also wins over a host page's own
+ * unlayered `body { background }` (e.g. when the app is embedded or published).
+ * The app root (App.tsx) paints the same background, so a host rule can never show through.
+ */
+html,
+body {
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
+}
+
 /* Subtle orange radial glows for hero backgrounds. */
 .hero-glow {
   background:

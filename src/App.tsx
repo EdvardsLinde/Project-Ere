@@ -79,7 +79,7 @@ function Shell() {
   const hasProfile = onboarded && !!profile.name && !flowActive
 
   return (
-    <div className="flex min-h-dvh flex-col overflow-x-clip">
+    <div className="flex min-h-dvh flex-col overflow-x-clip bg-slate-50 text-slate-900">
       <SkipLink />
       <Header />
       {showStepBar && <StepBar />}
