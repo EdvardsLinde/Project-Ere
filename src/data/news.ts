@@ -40,6 +40,8 @@ export interface NewsItem {
   scene?: NewsScene | TrackId
   /** Shown as the lead story on the news front page. */
   featured?: boolean
+  /** Price in euros for events, courses and volunteering; 0 = free. */
+  price?: number
 }
 
 export const NEWS: NewsItem[] = [
@@ -202,6 +204,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'ai-workshop-saldus',
     kind: 'event',
+    price: 0,
     title: { lv: 'MI darbnīca jauniešiem: uztaisi savu čatbotu', en: 'AI workshop for young people: build your own chatbot' },
     summary: {
       lv: 'Trīs stundās izveidosim vienkāršu čatbotu un parunāsim, kur MI kļūdās. Pieredze nav vajadzīga, klēpjdatori būs uz vietas.',
@@ -279,6 +282,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'ctf-night',
     kind: 'event',
+    price: 0,
     title: { lv: 'CTF vakars jauniešiem', en: 'CTF night for young people' },
     summary: {
       lv: 'Komandās risinām drošības mīklas. Iesācēji ļoti gaidīti — mentori palīdzēs. Pica uz vietas.',
@@ -299,6 +303,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'career-day',
     kind: 'event',
+    price: 0,
     title: { lv: 'Tiešsaistes karjeras diena: IT uzņēmumi atbild', en: 'Online career day: IT companies answer your questions' },
     summary: {
       lv: 'Piecu uzņēmumu speciālisti stāsta par savu ikdienu un atbild uz jautājumiem. Var pieslēgties no telefona.',
@@ -321,6 +326,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'hackathon',
     kind: 'event',
+    price: 0,
     title: { lv: 'Hakatons: digitāli risinājumi Saldus novadam', en: 'Hackathon: digital solutions for the Saldus region' },
     summary: {
       lv: 'Divas dienas komandās veidojam idejas un prototipus vietējām problēmām. Balvas un mentori no IT uzņēmumiem.',
@@ -344,6 +350,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'networks-course',
     kind: 'course',
+    price: 0,
     title: { lv: 'Sākas bezmaksas kurss “Tīkli un Wi-Fi iesācējiem”', en: 'Free course “Networks and Wi-Fi for beginners” starts' },
     summary: {
       lv: 'Trīs nedēļas tiešsaistē. Pēc kursa varēsi saprast, kāpēc internets “nestrādā”, un to salabot.',
@@ -362,6 +369,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'python-course',
     kind: 'course',
+    price: 25,
     title: { lv: 'Python un datu analīze — jauna grupa decembrī', en: 'Python and data analysis — new group in December' },
     summary: {
       lv: 'Astoņas nedēļas ar īstiem Latvijas datiem. Iesācējiem, bez iepriekšējas pieredzes.',
@@ -380,6 +388,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'seniors-phones',
     kind: 'volunteering',
+    price: 0,
     title: { lv: 'Palīdzi senioriem apgūt viedtālruņus', en: 'Help seniors learn to use smartphones' },
     summary: {
       lv: 'Divas stundas sestdienās: palīdzi vecākiem cilvēkiem ar viedtālruņiem un drošību internetā. Lieliska komunikācijas pieredze.',
@@ -403,6 +412,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'school-site',
     kind: 'volunteering',
+    price: 0,
     title: { lv: 'Meklējam brīvprātīgos skolas mājaslapas atjaunošanai', en: 'Volunteers wanted to refresh a school website' },
     summary: {
       lv: 'Kopā ar mentoru pārveido vienas novada skolas mājaslapu. Iegūsi īstu projektu savam portfolio.',
@@ -587,6 +597,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'cv-workshop',
     kind: 'event',
+    price: 0,
     title: { lv: 'CV darbnīca: uzraksti savu pirmo CV vienā pēcpusdienā', en: 'CV workshop: write your first CV in one afternoon' },
     summary: {
       lv: 'Ko rakstīt, ja vēl nav darba pieredzes? Kopā izveidosim CV, kurā redzami tavi projekti, hobiji un prasmes.',
@@ -610,6 +621,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'repair-cafe',
     kind: 'volunteering',
+    price: 0,
     title: { lv: 'Remontu kafejnīca: palīdzi salabot datorus un telefonus', en: 'Repair café: help fix computers and phones' },
     summary: {
       lv: 'Iedzīvotāji atnes salūzušas ierīces, bet brīvprātīgie kopā ar meistariem tās mēģina salabot. Lieliska IT atbalsta prakse.',
@@ -634,6 +646,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'gaming-lan',
     kind: 'event',
+    price: 3,
     title: { lv: 'Spēļu turnīrs un saruna “Kā top datorspēles”', en: 'Gaming tournament and talk: “How video games are made”' },
     summary: {
       lv: 'Visu dienu turnīrs komandās, bet pusdienlaikā — spēļu izstrādātājs stāsta, kā no idejas top spēle un kādas profesijas tur vajag.',
@@ -657,6 +670,7 @@ export const NEWS: NewsItem[] = [
   {
     id: 'girls-in-tech',
     kind: 'event',
+    price: 0,
     title: { lv: 'Meitenes tehnoloģijās: sarunu vakars ar IT speciālistēm', en: 'Girls in tech: an evening with women in IT' },
     summary: {
       lv: 'Četras IT speciālistes no Kurzemes stāsta, kā sāka, kas bija grūti un ko darītu citādi. Jautājumus var uzdot anonīmi.',

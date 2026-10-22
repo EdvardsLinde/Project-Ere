@@ -1,24 +1,14 @@
 /**
- * Building blocks of the news portal: story cards in several sizes, event rows
- * with a date block, the section nav and the sidebar lists. Every story links
- * to its own article page (/news/:id).
+ * Building blocks of the news page: picture cards, card rows, section titles
+ * and the article sidebar lists. Every card links to its own article page (/news/:id).
  */
-import type { ReactNode } from 'react'
 import { Link } from 'react-router'
-import { BookOpen, CalendarDays, Clock, GraduationCap, HandHeart, MapPin, Newspaper, Star } from 'lucide-react'
+import { ChevronRight, Clock, MapPin, Newspaper, Star } from 'lucide-react'
 import { NEWS } from '../../data'
-import type { NewsItem, NewsKind } from '../../data'
+import type { NewsItem } from '../../data'
 import { articlePath, useApp } from '../../lib/state'
 import { cx } from '../../components/ui'
 import { Illustration, newsScene } from '../../components/Illustration'
-
-export const KIND_STYLE: Record<NewsKind, { icon: typeof Newspaper; tone: string }> = {
-  news: { icon: Newspaper, tone: 'bg-brand-50 text-brand-700' },
-  article: { icon: BookOpen, tone: 'bg-brand-100 text-brand-800' },
-  event: { icon: CalendarDays, tone: 'bg-accent-100 text-accent-800' },
-  course: { icon: GraduationCap, tone: 'bg-accent-50 text-accent-800' },
-  volunteering: { icon: HandHeart, tone: 'bg-amber-50 text-amber-800' },
-}
 
 const DAY = 864e5
 const today = () => {
@@ -89,26 +79,6 @@ export function Kicker({ item, className }: { item: NewsItem; className?: string
   )
 }
 
-function Meta({ item, className }: { item: NewsItem; className?: string }) {
-  const { t, l, profile } = useApp()
-  const when = useWhen()
-  return (
-    <span className={cx('flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-slate-500', className)}>
-      <span className="inline-flex items-center gap-1">
-        <Clock className="size-3.5" /> {when(item)}
-      </span>
-      {isDated(item) ? (
-        <span className="inline-flex min-w-0 items-center gap-1">
-          <MapPin className="size-3.5 shrink-0" /> <span className="truncate">{l(item.place)}</span>
-        </span>
-      ) : (
-        item.readMin && <span>· {t.news.readMin(item.readMin)}</span>
-      )}
-      {profile.savedNews.includes(item.id) && <Star className="size-3.5 fill-accent-500 text-accent-500" aria-label={t.news.interestedDone} />}
-    </span>
-  )
-}
-
 /** Cover picture of a story. */
 export function Cover({ item, className, scale }: { item: NewsItem; className?: string; scale?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' }) {
   return (
@@ -117,110 +87,105 @@ export function Cover({ item, className, scale }: { item: NewsItem; className?: 
       size="auto"
       scale={scale}
       day={new Date(item.date).getDate()}
-      className={cx('rounded-xl transition duration-300 group-hover:brightness-[1.03]', className)}
+      className={cx('transition duration-300 group-hover:brightness-[1.03]', className)}
     />
   )
 }
 
-const headline = 'font-bold tracking-tight text-balance text-slate-900 group-hover:text-brand-700 group-hover:underline decoration-2 underline-offset-4'
 
 /* -------------------------------------------------------------------------- */
-/*  Story layouts                                                              */
+/*  Card                                                                       */
 /* -------------------------------------------------------------------------- */
 
-type Variant = 'lead' | 'card' | 'row' | 'mini'
-
-/** One story, linked to its article page. */
-export function Story({ item, variant = 'card', className }: { item: NewsItem; variant?: Variant; className?: string }) {
-  const { l } = useApp()
-  const to = articlePath(item.id)
-
-  if (variant === 'lead')
-    return (
-      <Link to={to} className={cx('group block', className)}>
-        <Cover item={item} scale="xl" className="aspect-[16/9] w-full" />
-        <Kicker item={item} className="mt-4 block" />
-        <h2 className={cx(headline, 'mt-1.5 text-2xl leading-tight sm:text-4xl')}>{l(item.title)}</h2>
-        <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">{l(item.summary)}</p>
-        <Meta item={item} className="mt-3" />
-      </Link>
-    )
-
-  if (variant === 'row')
-    return (
-      <Link to={to} className={cx('group grid grid-cols-[7.5rem_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[13rem_minmax(0,1fr)]', className)}>
-        <Cover item={item} scale="xs" className="aspect-[4/3] w-full" />
-        <span className="min-w-0">
-          <Kicker item={item} />
-          <span className={cx(headline, 'mt-0.5 line-clamp-3 block text-base leading-snug sm:text-lg')}>{l(item.title)}</span>
-          <span className="mt-1 hidden text-sm leading-relaxed text-slate-600 sm:line-clamp-2">{l(item.summary)}</span>
-          <Meta item={item} className="mt-1.5" />
-        </span>
-      </Link>
-    )
-
-  if (variant === 'mini')
-    return (
-      <Link to={to} className={cx('group grid grid-cols-[minmax(0,1fr)_5rem] items-start gap-3', className)}>
-        <span className="min-w-0">
-          <span className={cx(headline, 'line-clamp-3 block text-[15px] leading-snug')}>{l(item.title)}</span>
-          <Meta item={item} className="mt-1" />
-        </span>
-        <Cover item={item} scale="2xs" className="aspect-square w-full" />
-      </Link>
-    )
-
+/**
+ * One story / event as a picture card: type badge and price (or reading time)
+ * over the cover, then title, place, date and a "see more" row.
+ */
+export function NewsCard({ item, className }: { item: NewsItem; className?: string }) {
+  const { t, l, lang, profile } = useApp()
+  const when = useWhen()
+  const s = sectionOf(item)
+  const dated = isDated(item)
+  const date = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { day: 'numeric', month: 'short' }).format(new Date(item.date))
+  const tag = dated ? (item.price ? t.news.from(item.price) : t.news.free) : item.readMin ? t.news.readMin(item.readMin) : null
   return (
-    <Link to={to} className={cx('group block', className)}>
-      <Cover item={item} scale="sm" className="aspect-[16/10] w-full" />
-      <Kicker item={item} className="mt-3 block" />
-      <h3 className={cx(headline, 'mt-1 line-clamp-4 text-[15px] leading-snug sm:text-lg')}>{l(item.title)}</h3>
-      <Meta item={item} className="mt-2" />
-    </Link>
-  )
-}
-
-/** Event listing with a calendar date block. */
-export function EventRow({ item }: { item: NewsItem }) {
-  const { l, lang } = useApp()
-  const d = new Date(item.date)
-  const month = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { month: 'short' }).format(d).replace('.', '')
-  const weekday = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { weekday: 'short' }).format(d)
-  return (
-    <Link to={articlePath(item.id)} className="group flex items-start gap-4 py-4">
-      <span className="flex w-16 shrink-0 flex-col items-center overflow-hidden rounded-xl bg-card text-center ring-1 ring-slate-200">
-        <span className="w-full bg-accent-500 py-0.5 text-[11px] font-bold text-on-accent uppercase">{month}</span>
-        <span className="pt-1 text-2xl leading-none font-extrabold text-slate-900 tabular-nums">{d.getDate()}</span>
-        <span className="pb-1.5 text-[11px] text-slate-500 capitalize">{weekday}</span>
-      </span>
-      <span className="min-w-0">
-        <Kicker item={item} />
-        <span className={cx(headline, 'mt-0.5 line-clamp-2 block leading-snug')}>{l(item.title)}</span>
-        <span className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-slate-500">
-          {item.time && (
-            <span className="inline-flex items-center gap-1">
-              <Clock className="size-3.5" /> {item.time}
-            </span>
-          )}
-          <span className="inline-flex items-center gap-1">
-            <MapPin className="size-3.5" /> {l(item.place)}
+    <Link
+      to={articlePath(item.id)}
+      className={cx(
+        'group flex flex-col overflow-hidden rounded-2xl bg-card ring-1 ring-slate-200 transition duration-200 hover:-translate-y-0.5 hover:shadow-lift hover:ring-brand-300',
+        className,
+      )}
+    >
+      <div className="relative">
+        <Cover item={item} scale="sm" className="aspect-[16/9] w-full rounded-none" />
+        <span className="absolute top-3 left-3 rounded-md bg-slate-950 px-2 py-1 text-[11px] font-bold tracking-wide text-white uppercase dark:bg-slate-50 dark:text-slate-950">
+          {s === 'all' ? t.news.kinds[item.kind] : t.news.sections[s]}
+        </span>
+        <span className="absolute right-3 bottom-2 rounded bg-card/80 px-1.5 py-0.5 text-[10px] font-semibold tracking-wide text-slate-600 uppercase">
+          {t.example.badge}
+        </span>
+        {tag && (
+          <span className="absolute top-3 right-3 rounded-md bg-accent-500 px-2 py-1 text-[11px] font-bold tracking-wide text-on-accent uppercase">
+            {tag}
           </span>
+        )}
+      </div>
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <h3 className="line-clamp-3 text-lg leading-snug font-bold tracking-tight text-slate-900 group-hover:text-brand-700">{l(item.title)}</h3>
+        <ul className="mt-3 mb-4 space-y-1.5 text-sm text-slate-600">
+          <li className="flex items-center gap-2">
+            <MapPin className="size-4 shrink-0 text-accent-600" /> <span className="truncate">{l(item.place)}</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <Clock className="size-4 shrink-0 text-accent-600" />
+            {dated ? `${date}${item.time ? ` · ${item.time.split('–')[0]}` : ''}` : when(item)}
+            {profile.savedNews.includes(item.id) && <Star className="size-3.5 fill-accent-500 text-accent-500" aria-label={t.news.interestedDone} />}
+          </li>
+        </ul>
+        <span className="mt-auto flex items-center justify-between border-t border-slate-200 pt-3 text-sm font-semibold text-slate-900">
+          {t.news.more}
+          <ChevronRight className="size-4 text-accent-600 transition group-hover:translate-x-0.5" />
         </span>
-      </span>
+      </div>
     </Link>
   )
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Section furniture                                                          */
-/* -------------------------------------------------------------------------- */
+/** A row of cards: a grid on larger screens, a swipeable rail on phones. */
+export function CardRail({ items }: { items: NewsItem[] }) {
+  return (
+    <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+      {items.map((n) => (
+        <NewsCard key={n.id} item={n} className="w-[80%] shrink-0 snap-start sm:w-auto" />
+      ))}
+    </div>
+  )
+}
 
-/** Section heading with a rule and a "see all" link, newspaper style. */
-export function SectionHead({ title, section, className }: { title: string; section?: Section; className?: string }) {
+/** Section heading: icon tile, title and a one-line description. */
+export function SectionTitle({
+  icon: Icon,
+  title,
+  subtitle,
+  section,
+}: {
+  icon: typeof Newspaper
+  title: string
+  subtitle?: string
+  section?: Section
+}) {
   const { t } = useApp()
   return (
-    <div className={cx('mb-4 flex items-end justify-between gap-3 border-b-2 border-slate-900 pb-2', className)}>
-      <h2 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">{title}</h2>
+    <div className="mb-5 flex items-end justify-between gap-4">
+      <div className="flex items-center gap-3">
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent-500 text-on-accent shadow-sm">
+          <Icon className="size-5" />
+        </span>
+        <div className="min-w-0">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">{title}</h2>
+          {subtitle && <p className="text-sm text-slate-600">{subtitle}</p>}
+        </div>
+      </div>
       {section && (
         <Link to={sectionPath(section)} className="shrink-0 text-sm font-semibold text-brand-700 hover:underline">
           {t.news.seeAll} →
@@ -229,6 +194,10 @@ export function SectionHead({ title, section, className }: { title: string; sect
     </div>
   )
 }
+
+/* -------------------------------------------------------------------------- */
+/*  Section furniture                                                          */
+/* -------------------------------------------------------------------------- */
 
 /** "Jaunākais": timestamped headline list. */
 export function LatestList({ items, title }: { items: NewsItem[]; title?: string }) {
@@ -281,31 +250,3 @@ export function MostRead({ items }: { items: NewsItem[] }) {
 /** Fixed "most read" picks for the prototype (a real site would count views). */
 const MOST_READ = ['phishing-wave', 'student-app-win', 'remote-worker-story', 'cyber-phishing-signs', 'saldus-tech-week']
 export const mostRead = () => MOST_READ.map((id) => NEWS.find((n) => n.id === id)).filter((n): n is NewsItem => !!n)
-
-/** Horizontal section nav (text links with an underline on the active one). */
-export function SectionNav({ active, aside }: { active: Section | null; aside?: ReactNode }) {
-  const { t } = useApp()
-  return (
-    <div className="flex flex-col gap-3 border-y border-slate-200 py-2 md:flex-row md:items-center md:justify-between">
-      <nav aria-label={t.news.sectionsLabel} className="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] md:mx-0 md:px-0">
-        <ul className="flex gap-1 whitespace-nowrap">
-          {SECTIONS.map((s) => (
-            <li key={s}>
-              <Link
-                to={sectionPath(s)}
-                aria-current={active === s ? 'page' : undefined}
-                className={cx(
-                  'inline-block rounded-md px-2.5 py-2 text-sm font-semibold transition-colors',
-                  active === s ? 'bg-slate-900 text-slate-50' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900',
-                )}
-              >
-                {t.news.sections[s]}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      {aside}
-    </div>
-  )
-}

@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
-import { ArrowLeft, CalendarDays, Check, Clock, Info, MapPin, Star } from 'lucide-react'
+import { ArrowLeft, CalendarDays, Check, Clock, Info, MapPin, Newspaper, Star } from 'lucide-react'
 import { NEWS } from '../../data'
 import { toggle, useApp } from '../../lib/state'
 import { Button } from '../../components/ui'
 import { ExampleBadge } from '../../components/cards'
-import { Cover, Kicker, LatestList, MostRead, SectionHead, Story, isDated, mostRead, published, sectionOf, sectionPath } from './NewsItem'
+import { Cover, Kicker, LatestList, MostRead, NewsCard, SectionTitle, isDated, mostRead, published, sectionOf, sectionPath } from './NewsItem'
 
 /** One news story / event as a full article page (/news/:id). */
 export function Article() {
@@ -145,10 +145,10 @@ export function Article() {
       </div>
 
       <section className="mt-14">
-        <SectionHead title={t.news.related} />
-        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
+        <SectionTitle icon={Newspaper} title={t.news.related} />
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           {related.map((n) => (
-            <Story key={n.id} item={n} />
+            <NewsCard key={n.id} item={n} />
           ))}
         </div>
       </section>
