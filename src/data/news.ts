@@ -4,6 +4,8 @@
  */
 import type { TrackId } from './careers'
 import type { Localized } from './types'
+import { newsPhoto } from './newsPhotos'
+import type { NewsPhoto } from './newsPhotos'
 
 /** article = explainer / tips about a field (AI, cybersecurity, data, web, IT support). */
 export type NewsKind = 'news' | 'article' | 'event' | 'course' | 'volunteering'
@@ -36,8 +38,8 @@ export interface NewsItem {
   readMin?: number
   /** Publish time for news, e.g. "08:30". */
   at?: string
-  /** Cover photo (imported image URL + credit). Without one the card shows an illustration. */
-  photo?: { src: string; credit: string }
+  /** Cover photo (see newsPhotos.ts). Without one the card shows an illustration. */
+  photo?: NewsPhoto
   /** Cover illustration; defaults to the track or the item type. */
   scene?: NewsScene | TrackId
   /** Shown as the lead story on the news front page. */
@@ -46,7 +48,7 @@ export interface NewsItem {
   price?: number
 }
 
-export const NEWS: NewsItem[] = [
+const ITEMS: NewsItem[] = [
   {
     id: 'ai-how-it-learns',
     kind: 'article',
@@ -694,3 +696,6 @@ export const NEWS: NewsItem[] = [
     ],
   },
 ]
+
+/** All news items, each with its cover photo attached. */
+export const NEWS: NewsItem[] = ITEMS.map((n) => ({ ...n, photo: n.photo ?? newsPhoto(n.id) }))

@@ -84,7 +84,17 @@ export function Article() {
           <figure className="mt-6">
             <Cover item={item} scale="xl" className="aspect-[16/9] w-full rounded-2xl" />
             <figcaption className="mt-2 text-xs text-slate-500">
-              {item.photo ? `${t.news.photo}: ${item.photo.credit}` : `${t.news.illustration} · ${t.example.badge}`}
+              {item.photo ? (
+                <>
+                  {t.news.photo}:{' '}
+                  <a href={item.photo.url} target="_blank" rel="noreferrer" className="underline hover:text-brand-700">
+                    {item.photo.credit}
+                  </a>{' '}
+                  · {t.news.photoNote}
+                </>
+              ) : (
+                `${t.news.illustration} · ${t.example.badge}`
+              )}
             </figcaption>
           </figure>
 

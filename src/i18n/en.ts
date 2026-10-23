@@ -427,6 +427,7 @@ export const en: Dict = {
     backToNews: 'All news',
     illustration: 'Illustration',
     photo: 'Photo',
+    photoNote: 'stock image, the story is made up',
     notFound: 'This article wasn’t found.',
     eventInfo: 'Event details',
     fictional: 'All news, events and people on this page are made up — examples only.',

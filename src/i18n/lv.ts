@@ -429,6 +429,7 @@ export const lv = {
     backToNews: 'Visas ziņas',
     illustration: 'Ilustrācija',
     photo: 'Foto',
+    photoNote: 'ilustratīvs attēls, ziņa ir izdomāta',
     notFound: 'Šāds raksts nav atrasts.',
     eventInfo: 'Pasākuma informācija',
     fictional: 'Visas ziņas, pasākumi un cilvēki šajā lapā ir izdomāti — tikai piemēram.',
