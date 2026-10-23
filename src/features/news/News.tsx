@@ -31,7 +31,7 @@ export function News() {
   return (
     <>
       {/* Hero: full-width band with a Saldus photo behind it */}
-      <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:pt-12 sm:pb-8">
+      <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] sm:-mt-8 sm:pt-12 sm:pb-8">
         <HeroBackdrop />
         <div className="relative">
           <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
@@ -109,6 +109,8 @@ function HeroBackdrop() {
       <img src={HERO_PHOTO.src} alt="" className="absolute inset-0 size-full object-cover object-[center_45%] saturate-150" />
       {/* One even veil over the whole photo (no fades): lighter in light mode, darker in dark mode. */}
       <div className="absolute inset-0 bg-white/30 dark:bg-black/45" />
+      {/* Soft fade from the photo into the page background below, instead of a hard edge. */}
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-slate-50 sm:h-36" />
     </div>
   )
 }
