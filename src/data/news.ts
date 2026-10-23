@@ -36,6 +36,8 @@ export interface NewsItem {
   readMin?: number
   /** Publish time for news, e.g. "08:30". */
   at?: string
+  /** Cover photo (imported image URL + credit). Without one the card shows an illustration. */
+  photo?: { src: string; credit: string }
   /** Cover illustration; defaults to the track or the item type. */
   scene?: NewsScene | TrackId
   /** Shown as the lead story on the news front page. */

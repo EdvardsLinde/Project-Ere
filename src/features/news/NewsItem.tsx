@@ -79,8 +79,17 @@ export function Kicker({ item, className }: { item: NewsItem; className?: string
   )
 }
 
-/** Cover picture of a story. */
+/** Cover of a story: its photo if it has one, otherwise an illustration. */
 export function Cover({ item, className, scale }: { item: NewsItem; className?: string; scale?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' }) {
+  if (item.photo)
+    return (
+      <img
+        src={item.photo.src}
+        alt=""
+        loading="lazy"
+        className={cx('object-cover transition duration-300 group-hover:brightness-[1.05]', className)}
+      />
+    )
   return (
     <Illustration
       scene={newsScene(item)}

@@ -31,7 +31,7 @@ export function News() {
 
   return (
     <>
-      {/* Hero: full-width band with a faint grid, like an events portal */}
+      {/* Hero: full-width band, with Saldus photos behind it when there are any */}
       <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:pt-12 sm:pb-8">
         <HeroBackdrop />
         <div className="relative">
@@ -119,7 +119,7 @@ export function News() {
 
 /**
  * Behind the hero: Saldus photos (slow cross-fade, darkened so the text stays
- * readable) when there are any in data/heroPhotos.ts, otherwise a faint grid.
+ * readable) when there are any in data/heroPhotos.ts, otherwise nothing.
  */
 function HeroBackdrop() {
   const [i, setI] = useState(0)
@@ -130,8 +130,8 @@ function HeroBackdrop() {
     return () => window.clearInterval(id)
   }, [n])
 
-  if (!n)
-    return (
+  if (!n) return null
+  return (
       <div
         aria-hidden
         className="pointer-events-none absolute -inset-x-[100vmax] inset-y-0 opacity-60 [background-image:linear-gradient(var(--color-slate-200)_1px,transparent_1px),linear-gradient(90deg,var(--color-slate-200)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent)]"

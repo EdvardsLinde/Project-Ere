@@ -428,6 +428,7 @@ export const lv = {
     related: 'Lasi arī',
     backToNews: 'Visas ziņas',
     illustration: 'Ilustrācija',
+    photo: 'Foto',
     notFound: 'Šāds raksts nav atrasts.',
     eventInfo: 'Pasākuma informācija',
     fictional: 'Visas ziņas, pasākumi un cilvēki šajā lapā ir izdomāti — tikai piemēram.',

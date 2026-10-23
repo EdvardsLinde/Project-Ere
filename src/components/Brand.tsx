@@ -1,6 +1,6 @@
 /**
  * SEER brand: a letter mark (orange tile with a white "S", inline SVG so it stays
- * sharp from favicon to header) next to the name in bold text.
+ * sharp from favicon to header) next to the name in bold text, second E mirrored.
  * public/favicon.svg is a static copy of SeerMark — keep the two in sync.
  */
 import { useId } from 'react'
@@ -38,7 +38,10 @@ export function Logo({ inverted = false, compact = false }: { inverted?: boolean
       <SeerMark className="size-9 shrink-0" />
       {!compact && (
         <span className="flex flex-col items-start leading-none max-[359px]:hidden">
-          <span className={cx('text-xl font-extrabold tracking-tight', inverted ? 'text-white' : 'text-slate-900')}>SEER</span>
+          {/* The second E is mirrored (SEƎR): two E's facing each other. */}
+          <span role="img" aria-label="SEER" className={cx('text-xl font-extrabold tracking-tight', inverted ? 'text-white' : 'text-slate-900')}>
+            SE<span className="inline-block -scale-x-100">E</span>R
+          </span>
           <span className={cx('mt-1 hidden text-[11px] font-medium sm:block', inverted ? 'text-[#a8a29e]' : 'text-slate-500')}>
             {t.brand.tagline}
           </span>
