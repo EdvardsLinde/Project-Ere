@@ -4,9 +4,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * SEER colour system — black and orange.
+ * SEER colour system — dark blue (#00022E) and orange.
  *
- *   Background #F7F5F3 / dark #0B0A09   Text #171412 / dark #F5F2EF
+ *   Background #F5F6FB / dark #00022E   Text #00022E / dark #F4F5FB
  *   Primary    #C2410C (deep orange — buttons with white text)
  *   Accent     #FF7A1A (bright orange — chips, tiles, badges with black text)
  *   Sun        #EEC05B   Error #E62B34
@@ -18,18 +18,18 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* Neutrals: warm greys. 50 = page background, 500 = muted text, 900 = text. */
-  --color-slate-50: #f7f5f3;
-  --color-slate-100: #efebe7;
-  --color-slate-200: #e3ded9;
-  --color-slate-300: #cbc4bd;
-  --color-slate-400: #6f6862;
-  --color-slate-500: #655e58;
-  --color-slate-600: #4d4743;
-  --color-slate-700: #37322e;
-  --color-slate-800: #24201d;
-  --color-slate-900: #171412;
-  --color-slate-950: #0c0a09;
+  /* Neutrals: navy-tinted greys ending in #00022E. 50 = page background, 500 = muted text, 900 = text. */
+  --color-slate-50: #f5f6fb;
+  --color-slate-100: #eceef7;
+  --color-slate-200: #dfe1ef;
+  --color-slate-300: #c5c8e0;
+  --color-slate-400: #5f6385;
+  --color-slate-500: #565a7c;
+  --color-slate-600: #404468;
+  --color-slate-700: #2a2e56;
+  --color-slate-800: #151943;
+  --color-slate-900: #00022e;
+  --color-slate-950: #00011c;
 
   /* Primary: deep orange (600 = #C2410C), white text on it. */
   --color-brand-50: #fff4ec;
@@ -81,11 +81,11 @@
   /* Semantic surfaces. */
   --color-card: #ffffff;
   --color-card-raised: #ffffff;
-  --color-ink: #0c0a09; /* footer */
-  --color-on-accent: #140a03; /* text on solid bright orange */
-  --color-on-sun: #171412; /* text on solid sun-yellow */
-  --color-hero-from: #1a1310;
-  --color-hero-via: #5a200c;
+  --color-ink: #00022e; /* footer */
+  --color-on-accent: #00022e; /* text on solid bright orange */
+  --color-on-sun: #00022e; /* text on solid sun-yellow */
+  --color-hero-from: #00022e;
+  --color-hero-via: #4a1f3a;
   --color-hero-to: #c2410c;
 
   /* Rounded everywhere: cards 16px, buttons/inputs 14px. */
@@ -95,28 +95,28 @@
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
 
-  /* Soft neutral shadows. */
-  --shadow-xs: 0 1px 2px rgb(23 20 18 / 0.06);
-  --shadow-sm: 0 1px 3px rgb(23 20 18 / 0.1), 0 1px 2px rgb(23 20 18 / 0.06);
-  --shadow-card: 0 1px 2px rgb(23 20 18 / 0.05), 0 6px 18px -6px rgb(23 20 18 / 0.14);
-  --shadow-lift: 0 4px 8px -2px rgb(23 20 18 / 0.08), 0 18px 36px -10px rgb(23 20 18 / 0.22);
+  /* Soft navy shadows. */
+  --shadow-xs: 0 1px 2px rgb(0 2 46 / 0.06);
+  --shadow-sm: 0 1px 3px rgb(0 2 46 / 0.1), 0 1px 2px rgb(0 2 46 / 0.06);
+  --shadow-card: 0 1px 2px rgb(0 2 46 / 0.05), 0 6px 18px -6px rgb(0 2 46 / 0.14);
+  --shadow-lift: 0 4px 8px -2px rgb(0 2 46 / 0.08), 0 18px 36px -10px rgb(0 2 46 / 0.22);
 }
 
-/* Dark mode (default): near-black surfaces, orange accents. */
+/* Dark mode (default): dark blue surfaces, orange accents. */
 html.dark {
   color-scheme: dark;
 
-  --color-slate-50: #0b0a09;
-  --color-slate-100: #1c1917;
-  --color-slate-200: #2a2522;
-  --color-slate-300: #3b3531;
-  --color-slate-400: #a8a29e;
-  --color-slate-500: #b6afa9;
-  --color-slate-600: #cfc8c2;
-  --color-slate-700: #e0dad5;
-  --color-slate-800: #ece7e3;
-  --color-slate-900: #f5f2ef;
-  --color-slate-950: #fbf9f7;
+  --color-slate-50: #00022e;
+  --color-slate-100: #0e1250;
+  --color-slate-200: #1a1f5e;
+  --color-slate-300: #2b3172;
+  --color-slate-400: #a3a6c9;
+  --color-slate-500: #b1b4d3;
+  --color-slate-600: #c9cbe3;
+  --color-slate-700: #dddef0;
+  --color-slate-800: #ebecf7;
+  --color-slate-900: #f4f5fb;
+  --color-slate-950: #fafaff;
 
   --color-brand-50: #26150a;
   --color-brand-100: #36190a;
@@ -157,18 +157,18 @@ html.dark {
   --color-red-600: #ff6b71;
   --color-red-700: #ff8a8f;
 
-  --color-card: #151210;
-  --color-card-raised: #1c1815;
-  --color-ink: #050403;
-  --color-on-accent: #140a03;
-  --color-hero-from: #120d0a;
-  --color-hero-via: #4a1b08;
+  --color-card: #070a3d;
+  --color-card-raised: #0d1148;
+  --color-ink: #00011c;
+  --color-on-accent: #00022e;
+  --color-hero-from: #00022e;
+  --color-hero-via: #3d1a3a;
   --color-hero-to: #b33d0b;
 
-  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.3);
-  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.35);
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 20px -8px rgb(0 0 0 / 0.5);
-  --shadow-lift: 0 6px 12px -4px rgb(0 0 0 / 0.4), 0 20px 40px -12px rgb(0 0 0 / 0.6);
+  --shadow-xs: 0 1px 2px rgb(0 1 20 / 0.3);
+  --shadow-sm: 0 1px 3px rgb(0 1 20 / 0.35);
+  --shadow-card: 0 1px 2px rgb(0 1 20 / 0.3), 0 8px 20px -8px rgb(0 1 20 / 0.5);
+  --shadow-lift: 0 6px 12px -4px rgb(0 1 20 / 0.4), 0 20px 40px -12px rgb(0 1 20 / 0.6);
 }
 
 @layer base {

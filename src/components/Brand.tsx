@@ -39,7 +39,7 @@ export function Logo({ inverted = false, compact = false }: { inverted?: boolean
       {!compact && (
         <span className="flex flex-col items-start leading-none max-[359px]:hidden">
           <span className={cx('text-xl font-extrabold tracking-tight', inverted ? 'text-white' : 'text-slate-900')}>SEER</span>
-          <span className={cx('mt-1 hidden text-[11px] font-medium sm:block', inverted ? 'text-[#a8a29e]' : 'text-slate-500')}>
+          <span className={cx('mt-1 hidden text-[11px] font-medium sm:block', inverted ? 'text-[#a3a6c9]' : 'text-slate-500')}>
             {t.brand.tagline}
           </span>
         </span>

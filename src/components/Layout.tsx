@@ -293,14 +293,14 @@ export function StepBar() {
 
 export function Footer() {
   const { t, goTo, restart, appNav } = useApp()
-  const link = 'cursor-pointer text-sm text-[#a8a29e] transition hover:text-white'
+  const link = 'cursor-pointer text-sm text-[#a3a6c9] transition hover:text-white'
   return (
-    <footer className="mt-auto bg-ink text-[#d6d3d1]">
+    <footer className="mt-auto bg-ink text-[#d9dbee]">
       <div className="mx-auto grid grid-cols-1 max-w-6xl gap-8 px-4 py-8 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
         <div className="max-w-sm">
           <Logo inverted />
-          <p className="mt-4 text-sm leading-relaxed text-[#a8a29e]">{t.footer.about}</p>
-          <p className="mt-4 flex items-center gap-1.5 text-sm text-[#a8a29e]">
+          <p className="mt-4 text-sm leading-relaxed text-[#a3a6c9]">{t.footer.about}</p>
+          <p className="mt-4 flex items-center gap-1.5 text-sm text-[#a3a6c9]">
             <MapPin className="size-4 text-[#ff8c3a]" /> {t.footer.location}
           </p>
         </div>
@@ -330,7 +330,7 @@ export function Footer() {
         )}
       </div>
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-[#8a827c] sm:px-6 lg:px-8">
+        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-[#8d90b8] sm:px-6 lg:px-8">
           © {new Date().getFullYear()} {t.footer.rights}
         </p>
       </div>
