@@ -200,11 +200,6 @@ body {
   color: var(--color-slate-900);
 }
 
-/* Text placed on a photo: a soft halo in the page colour keeps it readable without darkening the photo. */
-.on-photo {
-  text-shadow: 0 0 18px var(--color-card), 0 0 6px var(--color-card), 0 1px 2px var(--color-card);
-}
-
 /* Subtle orange radial glows for hero backgrounds. */
 .hero-glow {
   background:

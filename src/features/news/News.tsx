@@ -34,11 +34,11 @@ export function News() {
       <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:pt-12 sm:pb-8">
         <HeroBackdrop />
         <div className="relative">
-          <p className="on-photo text-xs font-bold tracking-wide text-accent-600 uppercase sm:text-sm">{t.news.heroEyebrow}</p>
+          <p className="text-xs font-bold tracking-wide text-accent-600 uppercase sm:text-sm">{t.news.heroEyebrow}</p>
           <div className="mt-2 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
             <div>
-              <h1 className="on-photo text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{t.news.heroTitle}</h1>
-              <p className="on-photo mt-2 text-base font-medium text-slate-700 sm:text-lg">{t.news.heroSubtitle}</p>
+              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{t.news.heroTitle}</h1>
+              <p className="mt-2 text-base font-medium text-slate-700 sm:text-lg">{t.news.heroSubtitle}</p>
             </div>
           </div>
 
@@ -106,17 +106,11 @@ export function News() {
 function HeroBackdrop() {
   if (!HERO_PHOTO) return null
   return (
-    <>
-      <div aria-hidden className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden">
-        <img src={HERO_PHOTO.src} alt="" className="absolute inset-0 size-full object-cover object-[center_45%]" />
-        {/* One even veil over the whole photo (no fades): lighter in light mode, darker in dark mode. */}
-        <div className="absolute inset-0 bg-white/45 dark:bg-black/50" />
-      </div>
-      <p className="on-photo absolute right-0 bottom-2 z-10 text-[10px] text-slate-600">
-        {HERO_PHOTO.caption}
-        {HERO_PHOTO.credit && ` · ${HERO_PHOTO.credit}`}
-      </p>
-    </>
+    <div aria-hidden className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden">
+      <img src={HERO_PHOTO.src} alt="" className="absolute inset-0 size-full object-cover object-[center_45%] saturate-150" />
+      {/* One even veil over the whole photo (no fades): lighter in light mode, darker in dark mode. */}
+      <div className="absolute inset-0 bg-white/30 dark:bg-black/45" />
+    </div>
   )
 }
 
