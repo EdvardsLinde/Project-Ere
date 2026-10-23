@@ -438,7 +438,6 @@ export const en: Dict = {
     heroTitle: 'What’s on in Saldus?',
     heroSubtitle: 'News, events, courses and volunteering — all in one place.',
     heroSearch: 'Search news, events or courses',
-    found: (n: number) => (n === 1 ? '1 item found' : `${n} items found`),
     free: 'Free',
     from: (n: number) => `From €${n}`,
     more: 'See more',

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router'
-import { CalendarDays, ChevronDown, Cpu, GraduationCap, Info, Lightbulb, MapPin, Newspaper, Search, X } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router'
+import { CalendarDays, Cpu, GraduationCap, Info, MapPin, Newspaper, Search, X } from 'lucide-react'
 import { HERO_PHOTO, NEWS } from '../../data'
 import type { NewsItem } from '../../data'
 import { useApp } from '../../lib/state'
@@ -9,14 +9,13 @@ import { CardRail, NewsCard, SECTIONS, SectionTitle, byNewest, inSection, isUpco
 import type { Section } from './NewsItem'
 
 /**
- * News & events — the home page after onboarding. A hero with search, a section
- * dropdown and section chips; then card rows per section (this week, events,
+ * News & events — the home page after onboarding. A hero with a Saldus photo, search
+ * and section chips; then card rows per section (this week, events,
  * Saldus, technology, learning). A section or a search shows all matching cards.
  * Every card opens its own article page.
  */
 export function News() {
   const { t } = useApp()
-  const navigate = useNavigate()
   const [params] = useSearchParams()
   const raw = params.get('c')
   const section: Section = SECTIONS.includes(raw as Section) ? (raw as Section) : 'all'
@@ -35,16 +34,15 @@ export function News() {
       <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:pt-12 sm:pb-8">
         <HeroBackdrop />
         <div className="relative">
-          <p className="text-xs font-bold tracking-wide text-accent-600 uppercase sm:text-sm">{t.news.heroEyebrow}</p>
+          <p className="on-photo text-xs font-bold tracking-wide text-accent-600 uppercase sm:text-sm">{t.news.heroEyebrow}</p>
           <div className="mt-2 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
             <div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{t.news.heroTitle}</h1>
-              <p className="mt-2 text-base text-slate-600 sm:text-lg">{t.news.heroSubtitle}</p>
+              <h1 className="on-photo text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{t.news.heroTitle}</h1>
+              <p className="on-photo mt-2 text-base font-medium text-slate-700 sm:text-lg">{t.news.heroSubtitle}</p>
             </div>
-            <p className="text-sm text-slate-500 tabular-nums">{t.news.found(matches.length)}</p>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_16rem]">
+          <div className="mt-6">
             <form role="search" onSubmit={(e) => e.preventDefault()} className="relative">
               <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-slate-400" />
               <input
@@ -66,22 +64,6 @@ export function News() {
                 </button>
               )}
             </form>
-            <label className="relative">
-              <span className="sr-only">{t.filters.type}</span>
-              <Lightbulb className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-accent-600" />
-              <select
-                value={section}
-                onChange={(e) => navigate(sectionPath(e.target.value as Section))}
-                className="h-13 w-full cursor-pointer appearance-none rounded-xl border-0 bg-slate-50 pr-10 pl-12 text-base font-medium text-slate-900 ring-1 ring-slate-300 ring-inset focus:ring-2 focus:ring-brand-500 focus:outline-none"
-              >
-                {SECTIONS.map((s) => (
-                  <option key={s} value={s}>
-                    {s === 'all' ? t.filters.all : t.news.sections[s]}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-slate-500" />
-            </label>
           </div>
 
           <nav aria-label={t.news.sectionsLabel} className="-mx-4 mt-4 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:px-0">
@@ -118,8 +100,8 @@ export function News() {
 }
 
 /**
- * Behind the hero: one Saldus photo, darkened on the text side so the text stays
- * readable. Sized to the screen width (not wider), so the photo is never blown up.
+ * Behind the hero: one Saldus photo under an even veil, so the text stays readable.
+ * Sized to the screen width (not wider), so the photo is never blown up.
  */
 function HeroBackdrop() {
   if (!HERO_PHOTO) return null
@@ -127,10 +109,10 @@ function HeroBackdrop() {
     <>
       <div aria-hidden className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden">
         <img src={HERO_PHOTO.src} alt="" className="absolute inset-0 size-full object-cover object-[center_45%]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-card via-card/75 to-card/15" />
-        <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
+        {/* One even veil over the whole photo (no fades): lighter in light mode, darker in dark mode. */}
+        <div className="absolute inset-0 bg-white/45 dark:bg-black/50" />
       </div>
-      <p className="absolute right-0 bottom-2 z-10 text-[10px] text-slate-500">
+      <p className="on-photo absolute right-0 bottom-2 z-10 text-[10px] text-slate-600">
         {HERO_PHOTO.caption}
         {HERO_PHOTO.credit && ` · ${HERO_PHOTO.credit}`}
       </p>

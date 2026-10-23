@@ -440,7 +440,6 @@ export const lv = {
     heroTitle: 'Kas notiek Saldū?',
     heroSubtitle: 'Ziņas, pasākumi, kursi un brīvprātīgais darbs — viss vienuviet.',
     heroSearch: 'Meklē ziņas, pasākumus vai kursus',
-    found: (n: number) => (n === 1 ? 'Atrasts 1 ieraksts' : `Atrasti ${n} ieraksti`),
     free: 'Bezmaksas',
     from: (n: number) => `No €${n}`,
     more: 'Skatīt vairāk',
