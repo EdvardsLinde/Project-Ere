@@ -110,7 +110,7 @@ function HeroBackdrop() {
       {/* One even veil over the whole photo (no fades): lighter in light mode, darker in dark mode. */}
       <div className="absolute inset-0 bg-white/30 dark:bg-black/45" />
       {/* Soft fade from the photo into the page background below, instead of a hard edge. */}
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-slate-50 sm:h-36" />
+      <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-slate-50 sm:h-16" />
     </div>
   )
 }
