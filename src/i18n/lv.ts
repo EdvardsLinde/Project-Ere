@@ -436,7 +436,6 @@ export const lv = {
     resultsFor: (q: string) => `Meklēšanas rezultāti: “${q}”`,
     yourStep: 'Tavs nākamais solis',
     time: 'Laiks',
-    heroEyebrow: 'SEER Ziņas · Saldus novads',
     heroTitle: 'Kas notiek Saldū?',
     heroSubtitle: 'Ziņas, pasākumi, kursi un brīvprātīgais darbs — viss vienuviet.',
     heroSearch: 'Meklē ziņas, pasākumus vai kursus',

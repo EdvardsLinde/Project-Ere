@@ -434,7 +434,6 @@ export const en: Dict = {
     resultsFor: (q: string) => `Search results: “${q}”`,
     yourStep: 'Your next step',
     time: 'Time',
-    heroEyebrow: 'SEER News · Saldus region',
     heroTitle: 'What’s on in Saldus?',
     heroSubtitle: 'News, events, courses and volunteering — all in one place.',
     heroSearch: 'Search news, events or courses',

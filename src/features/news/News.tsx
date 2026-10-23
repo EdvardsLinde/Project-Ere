@@ -34,8 +34,7 @@ export function News() {
       <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:pt-12 sm:pb-8">
         <HeroBackdrop />
         <div className="relative">
-          <p className="text-xs font-bold tracking-wide text-accent-600 uppercase sm:text-sm">{t.news.heroEyebrow}</p>
-          <div className="mt-2 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
             <div>
               <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{t.news.heroTitle}</h1>
               <p className="mt-2 text-base font-medium text-slate-700 sm:text-lg">{t.news.heroSubtitle}</p>
