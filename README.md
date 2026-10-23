@@ -37,7 +37,7 @@ On the home page, a **"Tavs nākamais solis"** card always shows the next step o
 
 The ring around the avatar in the header shows readiness for the user's current track.
 
-> **News photos** are free stock photos from [Pexels](https://www.pexels.com/license/) (no attribution required; each article still links to its photo). They are stored in `src/assets/news/<news id>.jpg` and mapped in `src/data/newsPhotos.ts`. They do not show the (fictional) events; articles caption them as illustrative. Pexels does not allow selling unaltered copies, implying that people shown endorse SEER, or showing identifiable people in a bad light.
+> **News photos.** News stories show Saldus or other Latvian places: two Saldus photos supplied by the team (also behind the News hero; **source still to be credited**, see `TODO` in `src/data/newsPhotos.ts` and `src/data/heroPhotos.ts`) and Latvian photos from [Pexels](https://www.pexels.com/license/). Events, courses and explainers show the activity itself (Pexels stock photos). Files are in `src/assets/news/<news id>.jpg`; captions name the place and say the image is illustrative, because the stories are made up. Pexels does not allow selling unaltered copies, implying that people shown endorse SEER, or showing identifiable people in a bad light.
 
 > **All companies, jobs, courses, news items and people are fictional examples.** The UI marks them with a "Piemērs" badge and a notice on each page. Replace them with real partners once you have agreements. Job age limits are placeholders and must be checked against Latvian labour law.
 

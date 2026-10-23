@@ -132,12 +132,6 @@ function HeroBackdrop() {
 
   if (!n) return null
   return (
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-x-[100vmax] inset-y-0 opacity-60 [background-image:linear-gradient(var(--color-slate-200)_1px,transparent_1px),linear-gradient(90deg,var(--color-slate-200)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
-      />
-    )
-  return (
     <>
       <div aria-hidden className="pointer-events-none absolute -inset-x-[100vmax] inset-y-0 overflow-hidden">
         {HERO_PHOTOS.map((p, k) => (
@@ -148,11 +142,12 @@ function HeroBackdrop() {
             className={cx('absolute inset-0 size-full object-cover transition-opacity duration-1000', k === i ? 'opacity-100' : 'opacity-0')}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-card via-card/85 to-card/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-card via-card/75 to-card/15" />
+        <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
       </div>
       <p className="absolute right-0 bottom-2 z-10 text-[10px] text-slate-500">
-        {HERO_PHOTOS[i].caption} · {HERO_PHOTOS[i].credit}
+        {HERO_PHOTOS[i].caption}
+        {HERO_PHOTOS[i].credit && ` · ${HERO_PHOTOS[i].credit}`}
       </p>
     </>
   )

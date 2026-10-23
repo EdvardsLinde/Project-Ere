@@ -87,10 +87,15 @@ export function Article() {
               {item.photo ? (
                 <>
                   {t.news.photo}:{' '}
-                  <a href={item.photo.url} target="_blank" rel="noreferrer" className="underline hover:text-brand-700">
-                    {item.photo.credit}
-                  </a>{' '}
-                  · {t.news.photoNote}
+                  {item.photo.url ? (
+                    <a href={item.photo.url} target="_blank" rel="noreferrer" className="underline hover:text-brand-700">
+                      {item.photo.credit}
+                    </a>
+                  ) : (
+                    item.photo.credit
+                  )}
+                  {item.photo.credit && item.photo.place && ' · '}
+                  {item.photo.place} · {t.news.photoNote}
                 </>
               ) : (
                 `${t.news.illustration} · ${t.example.badge}`
