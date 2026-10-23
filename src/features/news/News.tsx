@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { CalendarDays, ChevronDown, Cpu, GraduationCap, Info, Lightbulb, MapPin, Newspaper, Search, X } from 'lucide-react'
-import { HERO_PHOTOS, NEWS } from '../../data'
+import { HERO_PHOTO, NEWS } from '../../data'
 import type { NewsItem } from '../../data'
 import { useApp } from '../../lib/state'
 import { cx } from '../../components/ui'
@@ -31,7 +31,7 @@ export function News() {
 
   return (
     <>
-      {/* Hero: full-width band, with Saldus photos behind it when there are any */}
+      {/* Hero: full-width band with a Saldus photo behind it */}
       <section className="relative -mt-5 bg-card pt-8 pb-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:pt-12 sm:pb-8">
         <HeroBackdrop />
         <div className="relative">
@@ -118,36 +118,21 @@ export function News() {
 }
 
 /**
- * Behind the hero: Saldus photos (slow cross-fade, darkened so the text stays
- * readable) when there are any in data/heroPhotos.ts, otherwise nothing.
+ * Behind the hero: one Saldus photo, darkened on the text side so the text stays
+ * readable. Sized to the screen width (not wider), so the photo is never blown up.
  */
 function HeroBackdrop() {
-  const [i, setI] = useState(0)
-  const n = HERO_PHOTOS.length
-  useEffect(() => {
-    if (n < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const id = window.setInterval(() => setI((x) => (x + 1) % n), 7000)
-    return () => window.clearInterval(id)
-  }, [n])
-
-  if (!n) return null
+  if (!HERO_PHOTO) return null
   return (
     <>
-      <div aria-hidden className="pointer-events-none absolute -inset-x-[100vmax] inset-y-0 overflow-hidden">
-        {HERO_PHOTOS.map((p, k) => (
-          <img
-            key={p.src}
-            src={p.src}
-            alt=""
-            className={cx('absolute inset-0 size-full object-cover transition-opacity duration-1000', k === i ? 'opacity-100' : 'opacity-0')}
-          />
-        ))}
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden">
+        <img src={HERO_PHOTO.src} alt="" className="absolute inset-0 size-full object-cover object-[center_45%]" />
         <div className="absolute inset-0 bg-gradient-to-r from-card via-card/75 to-card/15" />
         <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
       </div>
       <p className="absolute right-0 bottom-2 z-10 text-[10px] text-slate-500">
-        {HERO_PHOTOS[i].caption}
-        {HERO_PHOTOS[i].credit && ` · ${HERO_PHOTOS[i].credit}`}
+        {HERO_PHOTO.caption}
+        {HERO_PHOTO.credit && ` · ${HERO_PHOTO.credit}`}
       </p>
     </>
   )

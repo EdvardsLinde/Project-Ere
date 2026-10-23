@@ -1,22 +1,17 @@
 /**
- * Saldus photos behind the News hero. Put the image files in src/assets/saldus/
- * and list them here with their author and licence (most free photos, e.g. from
- * Wikimedia Commons, require a credit). While the list is empty the hero is a plain band.
+ * The Saldus photo behind the News hero (original file, not re-encoded, so it stays
+ * sharp at full screen width). Most free photos, e.g. from Wikimedia Commons, require
+ * a credit: put the author and licence in `credit`. Set HERO_PHOTO to null for a plain band.
  */
-import square from '../assets/saldus/square.jpg'
-import sign from '../assets/saldus/sign.jpg'
+import square from '../assets/saldus/square.webp'
 
 export interface HeroPhoto {
-  /** Imported image URL, e.g. `import church from '../assets/saldus/church.jpg'`. */
   src: string
-  /** What the photo shows, for the credit line. */
+  /** What the photo shows, for the caption. */
   caption: string
   /** "Author, licence", e.g. "Jane Doe, CC BY-SA 4.0". Empty while unknown. */
   credit: string
 }
 
 // Supplied by the SEER team. TODO: add the photographer / source to `credit`.
-export const HERO_PHOTOS: HeroPhoto[] = [
-  { src: square, caption: 'Saldus centrs', credit: '' },
-  { src: sign, caption: 'Saldus', credit: '' },
-]
+export const HERO_PHOTO: HeroPhoto | null = { src: square, caption: 'Saldus centrs', credit: '' }
