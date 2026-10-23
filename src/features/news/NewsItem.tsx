@@ -107,7 +107,7 @@ export function Cover({ item, className, scale }: { item: NewsItem; className?: 
 /* -------------------------------------------------------------------------- */
 
 /**
- * One story / event as a picture card: type badge and price (or reading time)
+ * One story / event as a picture card: type badge and, for events and courses, the price
  * over the cover, then title, place, date and a "see more" row.
  */
 export function NewsCard({ item, className }: { item: NewsItem; className?: string }) {
@@ -116,7 +116,8 @@ export function NewsCard({ item, className }: { item: NewsItem; className?: stri
   const s = sectionOf(item)
   const dated = isDated(item)
   const date = new Intl.DateTimeFormat(lang === 'lv' ? 'lv-LV' : 'en-GB', { day: 'numeric', month: 'short' }).format(new Date(item.date))
-  const tag = dated ? (item.price ? t.news.from(item.price) : t.news.free) : item.readMin ? t.news.readMin(item.readMin) : null
+  // Only events, courses and volunteering get a badge (their price); news cards stay clean.
+  const tag = dated ? (item.price ? t.news.from(item.price) : t.news.free) : null
   return (
     <Link
       to={articlePath(item.id)}
