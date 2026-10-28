@@ -10,10 +10,12 @@ import {
   nextDates,
   nextPassportId,
   spotsLeft,
+  spotsLeftIn,
   validateApplication,
   validateDraft,
 } from './placements'
 import type { ApplicationForm, PlacementFilters } from './placements'
+import { formatRange } from './format'
 
 const none: PlacementFilters = { q: '', companyId: '', field: '', duration: '', level: '', location: '' }
 const pata = PLACEMENTS.find((p) => p.id === 'pata-downtime') as Placement
@@ -38,9 +40,17 @@ describe('mergeById', () => {
 })
 
 describe('spots and dates', () => {
-  it('counts accepted, in-progress and completed applications as taken spots', () => {
-    // pata-downtime: 2 spots, one completed example application
-    expect(spotsLeft(pata, APPLICATIONS)).toBe(1)
+  it('counts taken spots per date run', () => {
+    // jets-network-check: 1 spot per run; the December run has an accepted example application
+    const jets = PLACEMENTS.find((p) => p.id === 'jets-network-check') as Placement
+    expect(spotsLeftIn(jets, APPLICATIONS, jets.dates[0])).toBe(0)
+    expect(spotsLeftIn(jets, APPLICATIONS, jets.dates[1])).toBe(1)
+    expect(spotsLeft(jets, APPLICATIONS)).toBe(1)
+    // pata-downtime: 2 spots per run; the completed example ran on an earlier date, so both runs are free
+    expect(spotsLeft(pata, APPLICATIONS)).toBe(4)
+  })
+  it('formats a date range compactly', () => {
+    expect(formatRange({ start: '2026-12-01', end: '2026-12-03' }, 'en')).toBe('1–3 Dec 2026')
   })
   it('picks the next date range that has not started', () => {
     expect(nextDates(pata, '2026-12-01')?.start).toBe('2027-01-18')

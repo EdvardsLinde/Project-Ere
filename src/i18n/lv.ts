@@ -346,7 +346,7 @@ export const lv = {
     transport: 'Kā nokļūt',
     lunch: 'Pusdienas nodrošinātas',
     stipend: 'Atlīdzība, € (0 = bez)',
-    spots: 'Vietu skaits',
+    spots: 'Vietu skaits vienā norisē',
     deadline: 'Pieteikšanās termiņš',
     mentorName: 'Mentora vārds',
     mentorRole: 'Mentora amats',

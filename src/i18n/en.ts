@@ -344,7 +344,7 @@ export const en: Dict = {
     transport: 'Getting there',
     lunch: 'Lunch provided',
     stipend: 'Stipend, € (0 = none)',
-    spots: 'Number of spots',
+    spots: 'Spots per session',
     deadline: 'Application deadline',
     mentorName: 'Mentor name',
     mentorRole: 'Mentor role',

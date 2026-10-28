@@ -3,7 +3,7 @@ import type { FormEvent } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router'
 import { ArrowLeft, Send } from 'lucide-react'
 import { ROUTES, newId, path, todayIso, useApp } from '../../lib/state'
-import { isMinor, validateApplication } from '../../lib/placements'
+import { isMinor, spotsLeftIn, validateApplication } from '../../lib/placements'
 import type { ApplicationForm, Errors } from '../../lib/placements'
 import { formatRange } from '../../lib/format'
 import { Checkbox, Field, Select, TextArea, TextInput, described } from '../../components/form'
@@ -18,10 +18,10 @@ const EMPTY: ApplicationForm = {
 /** Student application for one placement (guardian consent when under 18). */
 export function Apply() {
   const { id = '' } = useParams()
-  const { t, l, lang, role, placements, companyOf, submitApplication, notify } = useApp()
+  const { t, l, lang, role, placements, applications, companyOf, submitApplication, notify } = useApp()
   const navigate = useNavigate()
   const p = placements.find((x) => x.id === id)
-  const upcoming = p ? p.dates.filter((d) => d.start >= todayIso()) : []
+  const upcoming = p ? p.dates.filter((d) => d.start >= todayIso() && spotsLeftIn(p, applications, d) > 0) : []
   const [form, setForm] = useState<ApplicationForm>({ ...EMPTY, dates: upcoming.length === 1 ? upcoming[0].start : '' })
   const [errors, setErrors] = useState<Errors>({})
 

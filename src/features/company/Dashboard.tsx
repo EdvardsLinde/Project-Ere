@@ -87,7 +87,8 @@ export function Dashboard() {
       <ul className="space-y-3">
         {ours.map((p) => {
           const apps = applications.filter((a) => a.placementId === p.id)
-          const taken = p.spots - spotsLeft(p, applications)
+          const capacity = p.spots * p.dates.length
+          const taken = capacity - spotsLeft(p, applications)
           return (
             <li key={p.id} className="rounded-2xl bg-card p-4 ring-1 ring-slate-200 sm:p-5">
               <div className="flex flex-col gap-4 md:flex-row md:items-center">
@@ -109,7 +110,7 @@ export function Dashboard() {
                     {l(p.title)}
                   </Link>
                   <p className="text-sm text-slate-600">
-                    {t.company.filled(taken, p.spots)} · {t.company.applicationsCount(apps.length)}
+                    {t.company.filled(taken, capacity)} · {t.company.applicationsCount(apps.length)}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">

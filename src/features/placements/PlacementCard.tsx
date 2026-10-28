@@ -48,7 +48,7 @@ export function PlacementCard({ placement: p, company, preview = false, isNew = 
         </li>
         {next && (
           <li className="flex items-center gap-2">
-            <CalendarDays className="size-4 shrink-0 text-accent-600" /> {formatRange(next, lang)}
+            <CalendarDays className="size-4 shrink-0 text-accent-600" /> {formatRange(next, lang) || '—'}
           </li>
         )}
         <li className="flex items-center gap-2">
@@ -77,10 +77,11 @@ export function PlacementCard({ placement: p, company, preview = false, isNew = 
     </>
   )
 
-  const box = 'group flex h-full flex-col rounded-2xl bg-card p-5 ring-1 ring-slate-200 transition'
+  const box = 'group flex flex-col rounded-2xl bg-card p-5 ring-1 ring-slate-200 transition'
   if (preview) return <div className={cx(box, 'shadow-card')}>{body}</div>
+  // On the board, cards in a row share one height.
   return (
-    <Link to={path(ROUTES.placement, p.id)} className={cx(box, 'hover:-translate-y-0.5 hover:shadow-lift hover:ring-brand-300')}>
+    <Link to={path(ROUTES.placement, p.id)} className={cx(box, 'h-full hover:-translate-y-0.5 hover:shadow-lift hover:ring-brand-300')}>
       {body}
     </Link>
   )

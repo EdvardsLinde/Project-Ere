@@ -17,8 +17,6 @@ export function formatDate(iso: string, lang: Lang, long = false): string {
 
 export function formatRange(range: DateRange, lang: Lang): string {
   if (!range.start) return ''
-  const sameYear = range.start.slice(0, 4) === range.end.slice(0, 4)
-  const start = new Intl.DateTimeFormat(locale(lang), { day: 'numeric', month: 'short', timeZone: 'UTC', year: sameYear ? undefined : 'numeric' }).format(parse(range.start))
-  const end = new Intl.DateTimeFormat(locale(lang), { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(parse(range.end))
-  return `${start} – ${end}`
+  const fmt = new Intl.DateTimeFormat(locale(lang), { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
+  return fmt.formatRange(parse(range.start), parse(range.end || range.start))
 }

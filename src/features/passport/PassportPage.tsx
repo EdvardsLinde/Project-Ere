@@ -41,7 +41,7 @@ export function PassportPage() {
         <Link to={role === 'student' ? ROUTES.myPassport : role === 'company' ? ROUTES.allApplications : ROUTES.landing} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline">
           <ArrowLeft className="size-4" /> {t.common.back}
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {data.passport.isExample && <ExampleBadge withNote />}
           <Button variant="secondary" onClick={copy}>
             {copied ? <Check className="size-4" /> : <Copy className="size-4" />} {t.passport.copyLink}

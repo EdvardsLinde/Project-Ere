@@ -58,7 +58,7 @@ export function PassportCard({ data, compact = false }: { data: PassportData; co
               <h2 className="text-xl font-extrabold tracking-tight sm:text-2xl">{t.passport.title}</h2>
             </div>
           </div>
-          <dl className="text-right text-sm">
+          <dl className="text-sm sm:text-right">
             <dt className="text-[11px] tracking-wide text-white/75 uppercase">{t.passport.id}</dt>
             <dd className="font-mono text-base font-bold tabular-nums">{passport.id}</dd>
             <dt className="mt-1 text-[11px] tracking-wide text-white/75 uppercase">{t.passport.issued}</dt>

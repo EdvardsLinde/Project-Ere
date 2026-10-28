@@ -14,9 +14,17 @@ export function mergeById<T extends { id: string }>(seed: T[], stored: T[]): T[]
 /** Statuses that hold a spot. */
 const TAKES_SPOT: ApplicationStatus[] = ['accepted', 'in_progress', 'completed']
 
-export function spotsLeft(placement: Placement, applications: Application[]): number {
-  const taken = applications.filter((a) => a.placementId === placement.id && TAKES_SPOT.includes(a.status)).length
+/** Free spots in one date run (\`spots\` is the capacity of each run). */
+export function spotsLeftIn(placement: Placement, applications: Application[], range: DateRange): number {
+  const taken = applications.filter(
+    (a) => a.placementId === placement.id && a.dates.start === range.start && TAKES_SPOT.includes(a.status),
+  ).length
   return Math.max(0, placement.spots - taken)
+}
+
+/** Free spots across all date runs. */
+export function spotsLeft(placement: Placement, applications: Application[]): number {
+  return placement.dates.reduce((sum, d) => sum + spotsLeftIn(placement, applications, d), 0)
 }
 
 /** The next date range that has not started yet (or the last one if all are past). */
