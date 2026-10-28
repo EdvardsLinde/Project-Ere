@@ -1,81 +1,192 @@
-# SEER — see where your career can go.
+# Saldus Industrial Digital Passport · Saldus Industriālā digitālā pase
 
-SEER is a career-launch portal for young people aged 15–24 in the Saldus region of Latvia. It helps them get into IT support, cybersecurity, AI & data and web development, and shows that they can do this work remotely while living in Saldus.
+**EN** · 3–5 day placements for 15–24-year-olds from Saldus municipality at local companies. The young person solves a real, small digital task on the company's actual data and systems with a mentor, and earns the **Industrial Digital Passport**, a certificate the partner companies recognise.
 
-This is a clickable prototype. It has **no backend yet**. The user's profile is saved in the browser (`localStorage`), and all content comes from typed mock data in `src/data/`, which a real API can replace later.
+**LV** · 3–5 dienu prakses Saldus novada uzņēmumos 15–24 gadus veciem jauniešiem. Jaunietis kopā ar mentoru atrisina īstu, nelielu digitālu uzdevumu ar uzņēmuma datiem un sistēmām un saņem **Industriālo digitālo pasi** — sertifikātu, ko atzīst partneruzņēmumi.
 
-## Run
+> ⚠️ **Demo mode / Demo režīms.** There is no server. Accounts, placements, applications and certificates live in the browser's `localStorage`. Login is **not secure** and exists for demonstration only. / Servera nav. Konti, prakses, pieteikumi un sertifikāti glabājas pārlūka `localStorage`. Pieslēgšanās **nav droša** un paredzēta tikai demonstrācijai.
+
+---
+
+## English
+
+### Run it
 
 ```bash
-npm install && npm run dev
+npm install
 ```
 
-`npm test` runs the unit tests for the scoring and next-step logic (`src/lib/*.test.ts`). See **TESTING.md** for a ready-made plan for testing with 5 young people.
-
-Then open the URL that Vite prints (usually http://localhost:5173). `npm run build` type-checks the code and makes a production build. The app uses real URLs (`/jobs`, `/my-path`…), so a static host has to serve `index.html` for every path. `vite build --mode artifact` switches to hash URLs (`#/jobs`) for hosts that can't do that.
-
-## The flow
-
-**Onboarding (once, at sign-up, 5 short steps):** sign-up → interests → career paths → learning path → work from Saldus → done. Profile details (skills, motivation, experience) are filled in later from **Mans profils**. You can also **look around first without signing up** (guest mode) and create a profile later.
-
-On the home page, a **"Tavs nākamais solis"** card always shows the next step on the core path: profile → skills test → free training tasks / gap-closing course → jobs (`src/lib/nextStep.ts`).
-
-**After onboarding**, the app connects everything through one shared profile:
-
-| Feature | Route | What it does |
-| --- | --- | --- |
-| Skills test | `/skills-test` | 12 questions: interests, self-rated skills and two small scenarios. It scores 4 tracks and sets a base level (0–100) for 10 skills. Self-ratings are capped at 70; going higher takes solved tasks or completed courses. |
-| Career match ("Mans ceļš") | `/my-path` | Shows the best-fit tracks and what the job involves, then lists the required skills with the user's level and gaps, plus courses and jobs that close those gaps. |
-| Courses | `/courses`, `/courses/:id` | Courses, bootcamps and internships tagged by skill and track. Courses that close the user's gaps are highlighted. Users can mark a course started or completed; completing it raises their skill levels. **Example:** "Kiberdrošības pamati jauniešiem" (SecNord Labs) comes with 4 free training tasks (`src/data/tasks.ts`) that can be solved in the app; each solved task adds skill points. |
-| Jobs | `/jobs` | Local Saldus and remote roles, each with required skill levels. Shown as a compact list (title, company, place, fit %). Tapping a job opens a detail window: **Ko prasām / Ko sagaidām / Ko piedāvājam**, hours, languages, fit and missing skills, with Apply and Save. |
-| News & events (home page) | `/news`, `/news?c=<section>` | **The first page after sign-up.** Hero ("Kas notiek Saldū?") with search, a section dropdown and section chips; then card rows: this week, events, Saldus, technology, courses & volunteering. Picture cards show type, price or reading time, place, date and "Skatīt vairāk". On phones each row swipes sideways. A section or a search shows all matching cards. |
-| Article | `/news/:id` | Full article page: headline, standfirst, byline, read time, cover, body text, event details with an "Interested" button, sidebar and related stories. |
-| Profile | `/profile` | Profile, readiness for the chosen path, saved courses and people to follow. It's in the main menu and behind the avatar. |
-| People | `/people`, `/people/:id` | Mentors, professionals and peers to follow, each with a profile page. Follow only, no private messages, and every profile has a **Report** button. It's kept out of the main desktop menu on purpose: connecting minors with adults needs moderation before it goes live. |
-| Search | `/search` | One search across jobs, courses, people, careers and companies. |
-| Privacy | `/privacy` | Plain-language explanation of what is stored (only in this browser) and a **Delete my data** button. |
-
-The ring around the avatar in the header shows readiness for the user's current track.
-
-> **News photos.** News stories show Saldus or other Latvian places: two Saldus photos supplied by the team (also behind the News hero; **source still to be credited**, see `TODO` in `src/data/newsPhotos.ts` and `src/data/heroPhotos.ts`) and Latvian photos from [Pexels](https://www.pexels.com/license/). Events, courses and explainers show the activity itself (Pexels stock photos). Files are in `src/assets/news/<news id>.jpg`; captions name the place and say the image is illustrative, because the stories are made up. Pexels does not allow selling unaltered copies, implying that people shown endorse SEER, or showing identifiable people in a bad light.
-
-> **All companies, jobs, courses, news items and people are fictional examples.** The UI marks them with a "Piemērs" badge and a notice on each page. Replace them with real partners once you have agreements. Job age limits are placeholders and must be checked against Latvian labour law.
-
-## Project structure
-
-```
-src/
-  features/            one folder per feature — teams can work in parallel
-    onboarding/        Welcome, Interests, ProfileBuilder, Saldus, Thanks
-    skills-test/       SkillsTest
-    career-match/      MyPath, Paths (career cards), Training (learning path)
-    courses/           Courses
-    jobs/              Jobs, JobCard
-    news/              News
-    profile/           MyProfile
-    people/            People, PersonProfile
-    search/            SearchPage
-  components/          shared UI (ui.tsx, Layout.tsx, cards.tsx)
-  data/                typed mock data, one file per topic (swap for an API later)
-  lib/
-    state.tsx          routes + the shared profile context (persisted to localStorage)
-    skills.ts          scoring: test → tracks, skill levels, gaps, course gains, job fit
-  i18n/                lv.ts (default, source of truth), en.ts (same shape), index.ts
-  index.css            colours (light + dark), radius, shadows
+```bash
+npm run dev
 ```
 
-## Filters
+Open http://localhost:3000. `npm run build` makes a production build (type-checks too), `npm run lint` runs ESLint. Requires Node.js 20+.
 
-Every list page except news (courses, jobs, people) uses one shared `FilterBar` (`src/components/FilterBar.tsx`): a search box plus compact dropdowns such as field, language, type and place.
+### Demo accounts
 
-## Conventions
+| Role | Email | Password | What's there |
+|---|---|---|---|
+| Company | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 published placement, 1 draft, 1 finished placement with an issued certificate |
+| Student | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, aged 17: 1 approved application, 1 completed, certificate `SDP-2026-0001` |
 
-- **No hard-coded visible text.** Add every string to `src/i18n/lv.ts` and `src/i18n/en.ts`. The build fails if `en` is missing a key.
-- **Content goes in `src/data/`**, as typed constants with comments. Bilingual content uses `{ lv, en }`.
-- **One shared profile.** Read it and change it with `useApp()` (`profile`, `update`). Scoring belongs in `src/lib/skills.ts`, not in components.
-- **New feature?** Create `src/features/<name>/`, add a route in `ROUTES` (`src/lib/state.tsx`) and `PAGES` (`src/App.tsx`), and add a nav link in `src/components/Layout.tsx`.
-- **Colours come from the theme tokens** in `index.css`. Don't use raw hex values in components, so dark mode keeps working.
+The login page has a "Fill in the demo account" button.
 
-## Stack
+### Reset demo data
 
-React + Vite + TypeScript, React Router, Tailwind CSS v4, lucide-react icons.
+Footer → **"Atiestatīt demo datus" (Reset demo data)**. This deletes everything created in this browser and restores the seed data. Clearing the site data in the browser does the same.
+
+### Pages
+
+| Route | Who | What |
+|---|---|---|
+| `/` | everyone | "Ideja" home page: hero, statistics with sources, how it works, benefits, passport, comparison, partners, sample week, FAQ |
+| `/prakses` | guests, students (companies → `/uznemums`) | Catalogue: filters, search, sort |
+| `/prakses/[id]` | everyone | Placement detail; apply button (sticky on mobile) |
+| `/prakses/[id]/pieteikties` | students (guests → registration → back here) | Application form |
+| `/pieslegties?loma=skolens\|uznemums&tab=register` | guests | Login / registration with the role preselected |
+| `/students` | students (companies → `/uznemums`) | My applications, my certificates, profile summary |
+| `/profils` | logged in | Student or company profile |
+| `/uznemums` | companies (students → `/students`) | Dashboard: stats, placements, actions |
+| `/uznemums/prakses/jauna`, `/uznemums/prakses/[id]/rediget` | companies | 7-step builder: live preview, draft autosave, validation |
+| `/uznemums/prakses/[id]/pieteikumi` | companies | Applications: status, details, mentor evaluation, issue certificate |
+| `/sertifikats/[id]` | anyone with the link | Printable A4 certificate with QR code ("Download PDF" = browser print) |
+| `/parbaudit`, `/parbaudit/[id]` | everyone | Certificate verification |
+| `/privatums` | everyone | Privacy notice |
+
+### Project structure
+
+```
+app/                 routes (Latvian URLs), one folder per page
+components/          header, footer, placement card/detail, builder, certificate, ui/ (button, form, dialog, …)
+config/site.ts       name, certificate prefix, colours, contacts, schools, industries, focus areas, other lists
+messages/lv.ts       all UI text in Latvian (source of truth)
+messages/en.ts       English, type-checked against lv.ts (build fails if a key is missing)
+lib/data/            the data layer: types.ts, repository.ts (interface), local-storage.ts (demo), seed.ts, hooks.ts
+lib/                 dates, placement rules (free spots, deadlines, age), builder validation, i18n, session
+DESIGN.md            design tokens and component rules
+```
+
+**Conventions:** no hard-coded UI text (add it to both dictionaries); pages and components touch data only through `getRepository()` / `useQuery()`; colours only through the tokens in `config/site.ts` (`bg-primary`, `text-ink-muted`, …).
+
+### Deploy to Vercel (free)
+
+1. Push this repository to GitHub.
+2. On https://vercel.com, choose **Add New → Project** and import the repository. Vercel detects Next.js; keep the defaults (`npm run build`).
+3. Click **Deploy**. Every push to the main branch redeploys automatically.
+4. Optional: set `siteUrl` in `config/site.ts` to your Vercel URL. QR codes use the current browser address, so this is only a fallback.
+
+### Demo-mode limitations
+
+- **Data lives only in that browser.** Another device, browser or private window starts from the seed data. A company and a student "meet" only if they use the same browser (that's how the demo flow works).
+- **Certificate verification works only in the same browser** where the certificate was issued. A QR code scanned on a phone will say "not found" unless the phone has the same data.
+- Passwords are stored as a simple non-cryptographic hash, which is **not security**. Anyone with access to the browser can read or change the data.
+- CV upload stores only the file name and size. Logos are stored as base64 (max 200 KB).
+- localStorage is limited (~5 MB per site).
+
+### Connecting Supabase (next step)
+
+The UI depends only on the `DataRepository` interface in `lib/data/repository.ts`.
+
+1. Create a Supabase project. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to `.env.local` and to Vercel.
+2. `npm install @supabase/supabase-js`.
+3. Create tables matching `lib/data/types.ts`: `profiles_students`, `companies`, `placements` (JSON columns are fine for `terms`, `day_plan`, `questions`, `company`), `applications`, `certificates`, plus a sequence for certificate numbers.
+4. Use **Supabase Auth** for email + password and drop `passwordHash`. Add Row Level Security:
+   - companies read/write only their own placements and the applications to them;
+   - students read/write only their own profile and applications;
+   - published placements and certificates are readable by everyone, but only the public fields (expose certificates through a view without personal contact data);
+   - a company's `contact` stays private until `confirmed = true`.
+5. Write `lib/data/supabase.ts` implementing `DataRepository` (same method names, same `DataError` codes). Make `subscribe()` use Supabase Realtime or just re-fetch after mutations.
+6. Return it from `getRepository()` in `lib/data/index.ts`, e.g. when `process.env.NEXT_PUBLIC_DATA_BACKEND === "supabase"`.
+7. Move certificate issuing and ID numbering into a database function (RPC), so IDs are unique and can't be forged from the browser.
+
+Out of scope for now (structure only): email notifications, an admin dashboard that approves placements before publishing, and a school/teacher role. Each fits behind the repository interface or as a new role in `Role`.
+
+### Assumptions
+
+Decisions made where the brief was open. Change them if they're wrong.
+
+1. **Rebuilt from scratch on Next.js.** The previous Vite prototype ("SEER") was removed; it is still in git history.
+2. **Colours.** The brief asks for forest green + signal orange, so that's what's used. The previous prototype had just switched to the Saldus coat-of-arms blue/gold; to go back, edit `theme` in `config/site.ts`. No dark mode in v1.
+3. **Free spots** = spots minus *approved + completed* applications per date. New (unreviewed) applications don't hold a spot, so more people can apply than there are spots, and approving is blocked when a date is full.
+4. **One deadline per placement** (as in the builder spec). For sample placements with two date ranges, the deadline is 10 days before the *first* start, so after that the later dates can't be applied for either. Per-date deadlines would fix this.
+5. **Guardian consent** is required when the applicant is under 18 *and* the placement keeps "minors need parental consent" on (default yes).
+6. **Applicant age** must be within the placement's age range (15–24 by default); registration requires 15–24.
+7. **Companies may view** a public placement page (e.g. their own) but can't apply; only the `/prakses` list redirects them to `/uznemums`.
+8. **Contact person** is shown to a student only after approval *and* only if the company is `confirmed`. Companies that register themselves count as confirmed; the 8 sample companies are not.
+9. **Published placements don't autosave** (changes would go live half-finished). They have "Save changes", which validates first. Drafts autosave about 0.7 s after each change.
+10. **Certificates can be issued before the placement's end date**, with a warning, so the full flow can be tested on future dates. The data still shows the planned dates. In production this should be blocked until the end date.
+11. **The demo company has an extra finished placement** (12–14 Oct 2026), so the demo student's completed application and certificate `SDP-2026-0001` have a real source.
+12. **Sample mentors are invented** and marked "Parauga mentors" / "Sample mentor". Sample compensation and opportunities are left as "to be confirmed by the company", except the opportunities the brief lists (SCHWENK, SC GRUPA, Brimer).
+13. **Bilingual content.** Sample data is written in LV and EN. Text that companies and students type is stored as typed and shown in both languages unchanged.
+14. **Address placeholders** like `[TODO: confirm address]` stay in the data but are never shown in the UI.
+15. **"Completed placements"** on the company dashboard counts placements with status *Finished*.
+
+### Statistics on the home page
+
+Figures come from the team's brief, with source links on the page. Checked on 2026-10-28 by web search, where possible:
+
+- ✅ 48.43% vs EU 60.40% basic digital skills; ICT specialists 4.5% (2030 target 10%); CERT.LV record 923 incidents in Q4 2025.
+- ✅ Youth unemployment 9.4% in Q1 2026, lowest in 18 years: consistent with CSB releases (Q2 2026 = 15.0%, +5.6 points).
+- ⚠️ Not independently verified (source sites weren't reachable from the build environment): Saldus 46 registered unemployed youth and the regional comparison, VARAM's 418 trained / +160% IT support requests, 59.2% of SMEs, and CERT.LV's "six times more than before 2022". **Open each source link and check before presenting.**
+- `[TODO]` items to fill in: team email (`config/site.ts`, privacy page), mentor time commitment (FAQ), the full school list (`config/site.ts`).
+
+---
+
+## Latviešu
+
+### Palaišana
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+Atver http://localhost:3000. `npm run build` izveido produkcijas versiju (arī pārbauda tipus), `npm run lint` palaiž ESLint. Vajag Node.js 20+.
+
+### Demo konti
+
+| Loma | E-pasts | Parole | Kas tur ir |
+|---|---|---|---|
+| Uzņēmums | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 publicēta prakse, 1 melnraksts, 1 pabeigta prakse ar izsniegtu sertifikātu |
+| Skolēns | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, 17 gadi: 1 apstiprināts pieteikums, 1 pabeigts, sertifikāts `SDP-2026-0001` |
+
+Pieslēgšanās lapā ir poga "Aizpildīt ar demo kontu".
+
+### Demo datu atiestatīšana
+
+Lapas apakšā → **"Atiestatīt demo datus"**. Tiek dzēsts viss šajā pārlūkā izveidotais un atjaunoti sākuma dati.
+
+### Publicēšana Vercel (bez maksas)
+
+1. Augšupielādē repozitoriju GitHub.
+2. Vietnē https://vercel.com izvēlies **Add New → Project** un importē repozitoriju. Vercel pats atpazīst Next.js; noklusējuma iestatījumi der.
+3. Nospied **Deploy**. Katra izmaiņa galvenajā zarā tiek publicēta automātiski.
+
+### Demo režīma ierobežojumi
+
+- **Dati ir tikai tajā pārlūkā.** Citā ierīcē, pārlūkā vai privātajā logā redzami tikai sākuma dati.
+- **Sertifikāta pārbaude darbojas tikai tajā pašā pārlūkā**, kurā sertifikāts izsniegts.
+- Paroles nav drošas. CV saglabā tikai faila nosaukumu un izmēru.
+
+### Supabase pieslēgšana
+
+Visas lapas izmanto tikai `DataRepository` saskarni (`lib/data/repository.ts`). Izveido `lib/data/supabase.ts` ar tām pašām metodēm, izmanto Supabase Auth un Row Level Security un atgriez to no `getRepository()` (`lib/data/index.ts`). Sīkāk skatīt angļu sadaļu.
+
+### Pieņēmumi
+
+Galvenie pieņēmumi (pilns saraksts angļu sadaļā):
+
+- Brīvās vietas = vietas mīnus apstiprinātie un pabeigtie pieteikumi.
+- Viens pieteikšanās termiņš visai praksei.
+- Vecāku piekrišana vajadzīga, ja jaunietim nav 18 gadu.
+- Kontaktpersona redzama tikai pēc apstiprināšanas un tikai apstiprinātiem uzņēmumiem.
+- Publicētas prakses nesaglabājas automātiski; melnraksti saglabājas.
+- Sertifikātu var izsniegt pirms prakses beigām (ar brīdinājumu), lai demo plūsmu varētu notestēt.
+- 8 parauga uzņēmumi **nav apstiprinājuši dalību**: tiem ir "Ilustratīvs piemērs" emblēma, izdomāti mentori, un kontakti netiek rādīti.
+
+### Statistika
+
+Pirms prezentēšanas atver katru avota saiti un pārbaudi skaitļus. Daļa skaitļu nav neatkarīgi pārbaudīta (skatīt angļu sadaļu "Statistics on the home page").
