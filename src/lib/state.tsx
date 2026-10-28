@@ -56,6 +56,11 @@ interface Saved {
 
 const EMPTY: Saved = { lang: 'lv', role: null, companyId: null, companies: [], placements: [], applications: [], passports: [] }
 
+/** Keep only array items that at least have an id; anything else in storage is ignored. */
+function list<T extends { id: string }>(x: unknown): T[] {
+  return Array.isArray(x) ? x.filter((i): i is T => !!i && typeof i === 'object' && typeof (i as T).id === 'string') : []
+}
+
 function load(): Saved {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -65,10 +70,10 @@ function load(): Saved {
       lang: data.lang === 'en' ? 'en' : 'lv',
       role: data.role === 'student' || data.role === 'company' ? data.role : null,
       companyId: data.companyId ?? null,
-      companies: data.companies ?? [],
-      placements: data.placements ?? [],
-      applications: data.applications ?? [],
-      passports: data.passports ?? [],
+      companies: list(data.companies),
+      placements: list(data.placements),
+      applications: list(data.applications),
+      passports: list(data.passports),
     }
   } catch {
     return EMPTY
