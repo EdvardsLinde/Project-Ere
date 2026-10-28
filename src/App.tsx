@@ -1,57 +1,25 @@
-import type { ComponentType } from 'react'
-import { Navigate, Route, Routes } from 'react-router'
+import { useEffect } from 'react'
+import type { ReactNode } from 'react'
+import { Navigate, Route, Routes, useLocation } from 'react-router'
 import { AppProvider, ROUTES, useApp } from './lib/state'
-import type { Step } from './lib/state'
-import { Footer, Header, StepBar } from './components/Layout'
-// Onboarding (runs once)
-import { Welcome } from './features/onboarding/Welcome'
-import { Interests } from './features/onboarding/Interests'
-import { Profile } from './features/onboarding/ProfileBuilder'
-import { Saldus } from './features/onboarding/Saldus'
-import { Thanks } from './features/onboarding/Thanks'
-// Features (one route each)
-import { Paths } from './features/career-match/Paths'
-import { Training } from './features/career-match/Training'
-import { MyPath } from './features/career-match/MyPath'
-import { SkillsTest } from './features/skills-test/SkillsTest'
-import { Courses } from './features/courses/Courses'
-import { CourseDetail } from './features/courses/CourseDetail'
-import { Jobs } from './features/jobs/Jobs'
-import { News } from './features/news/News'
-import { Article } from './features/news/Article'
-import { MyProfile } from './features/profile/MyProfile'
-import { Privacy } from './features/profile/Privacy'
-import { People } from './features/people/People'
-import { PersonProfile } from './features/people/PersonProfile'
-import { SearchPage } from './features/search/SearchPage'
+import { Footer, Header, RolePicker, Toast } from './components/Layout'
+import { Landing } from './features/landing/Landing'
+import { Board } from './features/placements/Board'
+import { PlacementDetail } from './features/placements/PlacementDetail'
+import { Apply } from './features/placements/Apply'
+import { MyPassport, MyPlacements } from './features/student/MyPlacements'
+import { PassportPage } from './features/passport/PassportPage'
+import { Dashboard } from './features/company/Dashboard'
+import { Constructor } from './features/company/Constructor'
+import { AllApplications, PlacementApplications } from './features/company/Applications'
+import { Privacy } from './features/privacy/Privacy'
 
-const PAGES: Record<Exclude<Step, 'welcome'>, ComponentType> = {
-  interests: Interests,
-  profile: Profile,
-  paths: Paths,
-  training: Training,
-  saldus: Saldus,
-  thanks: Thanks,
-  me: MyProfile,
-  test: SkillsTest,
-  match: MyPath,
-  courses: Courses,
-  course: CourseDetail,
-  jobs: Jobs,
-  news: News,
-  article: Article,
-  people: People,
-  person: PersonProfile,
-  search: SearchPage,
-  privacy: Privacy,
-}
-
-/** Standard page frame: centred container with consistent padding. */
-function Page({ step }: { step: Exclude<Step, 'welcome'> }) {
-  const Screen = PAGES[step]
+/** Standard page frame: centred container with consistent padding; re-mounts per URL. */
+function Page({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation()
   return (
-    <div key={step} className="animate-fade-up mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-      <Screen />
+    <div key={pathname} className="animate-fade-up mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
+      {children}
     </div>
   )
 }
@@ -70,30 +38,41 @@ function SkipLink() {
   )
 }
 
-function Shell() {
-  const { step, stepIndex, onboarded, editing, flowActive, profile } = useApp()
-  // Progress bar: during the sign-up steps, or when editing a step from the profile.
-  const showStepBar = editing || (flowActive && stepIndex > 0 && step !== 'thanks')
-  // Sign-up page for new users and guests; people with a profile go straight to the app.
-  // (not while the sign-up steps are running — a guest who just entered a name is mid-flow)
-  const hasProfile = onboarded && !!profile.name && !flowActive
+const PAGES: [string, ReactNode][] = [
+  [ROUTES.landing, <Landing />],
+  [ROUTES.board, <Board />],
+  [ROUTES.placement, <PlacementDetail />],
+  [ROUTES.apply, <Apply />],
+  [ROUTES.mine, <MyPlacements />],
+  [ROUTES.myPassport, <MyPassport />],
+  [ROUTES.passport, <PassportPage />],
+  [ROUTES.company, <Dashboard />],
+  [ROUTES.newPlacement, <Constructor />],
+  [ROUTES.editPlacement, <Constructor />],
+  [ROUTES.applications, <PlacementApplications />],
+  [ROUTES.allApplications, <AllApplications />],
+  [ROUTES.privacy, <Privacy />],
+]
 
+function Shell() {
+  const { pathname } = useLocation()
+  // Every new page starts at the top.
+  useEffect(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }), [pathname])
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip bg-slate-50 text-slate-900">
       <SkipLink />
       <Header />
-      {showStepBar && <StepBar />}
       <main id="main" tabIndex={-1} className="flex-1 outline-none">
         <Routes>
-          {/* Returning users skip sign-up and land on the news home page. */}
-          <Route path={ROUTES.welcome} element={hasProfile ? <Navigate to={ROUTES.news} replace /> : <Welcome />} />
-          {(Object.keys(PAGES) as Exclude<Step, 'welcome'>[]).map((s) => (
-            <Route key={s} path={ROUTES[s]} element={<Page step={s} />} />
+          {PAGES.map(([path, element]) => (
+            <Route key={path} path={path} element={<Page>{element}</Page>} />
           ))}
-          <Route path="*" element={<Navigate to={onboarded ? ROUTES.news : ROUTES.welcome} replace />} />
+          <Route path="*" element={<Navigate to={ROUTES.landing} replace />} />
         </Routes>
       </main>
       <Footer />
+      <RolePicker />
+      <Toast />
     </div>
   )
 }

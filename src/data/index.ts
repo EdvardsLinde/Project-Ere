@@ -1,13 +1,5 @@
-/** All mock data. Import from '../data' (or '@/data'); each file can be swapped for an API later. */
+/** All seed data. Import from '../data'; each file can be swapped for an API later. */
 export * from './types'
-export * from './profileOptions'
-export * from './careers'
-export * from './providers'
-export * from './courses'
-export * from './people'
-export * from './skillAreas'
-export * from './skillsTest'
-export * from './jobs'
-export * from './news'
-export * from './tasks'
-export * from './heroPhotos'
+export * from './companies'
+export * from './placements'
+export * from './applications'

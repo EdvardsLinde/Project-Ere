@@ -1,177 +1,77 @@
 /**
- * SEER — shared app state: language, theme, navigation helpers and the ONE user
- * profile that every feature reads and writes (test → match → gaps → courses → jobs).
+ * SEER — shared app state: language, theme, role, the company a company user represents,
+ * and all placements / applications / passports (seed data + what users create here).
  *
- * The profile is persisted to localStorage (all access wrapped in try/catch), so
- * it survives a refresh. Swap `loadSaved` / `save` for an API later.
+ * Everything the user creates is saved to localStorage (all access wrapped in
+ * try/catch); seed items are merged underneath by id. Swap `load` / `save` for an API later.
  */
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { matchPath, useLocation, useNavigate } from 'react-router'
-import type { Lang, Localized, SkillAreaId, TrackId } from '../data'
+import { APPLICATIONS, COMPANIES, PASSPORTS, PLACEMENTS } from '../data'
+import type { Application, ApplicationStatus, Company, Lang, Localized, Passport, Placement, Role } from '../data'
 import { translations } from '../i18n'
 import type { Dict } from '../i18n'
+import { canMove, mergeById, nextPassportId } from './placements'
 
 /* -------------------------------------------------------------------------- */
 /*  Routes                                                                     */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Onboarding flow, in order. Runs once at sign-up and is kept short on purpose:
- * the profile details (skills, motivation, experience) are filled in later from "Mans profils".
- */
-export const STEPS = ['welcome', 'interests', 'paths', 'training', 'saldus', 'thanks'] as const
-type FlowStep = (typeof STEPS)[number]
-/** Pages of the app itself (after onboarding). One route per feature. */
-export type AppPage =
-  | 'me'
-  | 'profile'
-  | 'test'
-  | 'match'
-  | 'courses'
-  | 'course'
-  | 'jobs'
-  | 'news'
-  | 'article'
-  | 'people'
-  | 'person'
-  | 'search'
-  | 'privacy'
-export type Step = FlowStep | AppPage
-/** Steps shown in the onboarding progress bar (the thank-you screen is not counted). */
-export const PROGRESS_STEPS = STEPS.length - 1
-
-/** URL for every page. `person` takes an id: /people/:id */
-export const ROUTES: Record<Step, string> = {
-  welcome: '/',
-  interests: '/start/interests',
-  profile: '/profile/edit',
-  paths: '/careers',
-  training: '/careers/learning-path',
-  saldus: '/work-from-saldus',
-  thanks: '/start/done',
-  me: '/profile',
-  test: '/skills-test',
-  match: '/my-path',
-  courses: '/courses',
-  course: '/courses/:id',
-  jobs: '/jobs',
-  news: '/news',
-  article: '/news/:id',
-  people: '/people',
-  person: '/people/:id',
-  search: '/search',
+export const ROUTES = {
+  landing: '/',
+  board: '/placements',
+  placement: '/placements/:id',
+  apply: '/placements/:id/apply',
+  mine: '/me/placements',
+  myPassport: '/me/passport',
+  passport: '/passport/:id',
+  company: '/company',
+  newPlacement: '/company/new',
+  editPlacement: '/company/edit/:id',
+  applications: '/company/placements/:id',
+  allApplications: '/company/applications',
   privacy: '/privacy',
-}
+} as const
 
-/** Link to one news article / event page. */
-export const articlePath = (id: string) => ROUTES.article.replace(':id', encodeURIComponent(id))
-
-function stepFromPath(pathname: string): Step {
-  const hit = (Object.keys(ROUTES) as Step[]).find((s) => matchPath({ path: ROUTES[s], end: true }, pathname))
-  return hit ?? 'welcome'
-}
+/** Fill the `:id` in a route. */
+export const path = (route: string, id: string) => route.replace(':id', encodeURIComponent(id))
 
 /* -------------------------------------------------------------------------- */
-/*  Profile                                                                    */
+/*  Persistence                                                                */
 /* -------------------------------------------------------------------------- */
 
-export interface Experience {
-  id: number
-  /** Experience type ids — one entry can be several (e.g. school project + course). */
-  types: string[]
-  title: string
-  description: string
-}
-
-/** Result of the skills test. `skills` are the BASE levels (0–100) before courses. */
-export interface TestResult {
-  answers: Record<string, number>
-  trackScores: Record<TrackId, number>
-  skills: Record<SkillAreaId, number>
-  takenAt: string
-}
-
-export type CourseStatus = 'started' | 'completed'
-
-export interface Profile {
-  name: string
-  email: string
-  interests: string[]
-  skills: string[]
-  customSkills: string[]
-  motivationText: string
-  motivationTags: string[]
-  experiences: Experience[]
-  /** Chosen career track. */
-  careerId: string | null
-  /** Pressed "Esmu ieinteresēts/-a". */
-  interested: boolean
-  savedCourses: string[]
-  appliedCourses: string[]
-  /** Course progress; completed courses raise skill levels (see lib/skills.ts). */
-  courseProgress: Record<string, CourseStatus>
-  /** Solved training tasks (task id → done); each adds skill points. */
-  taskProgress: Record<string, 'done'>
-  savedJobs: string[]
-  appliedJobs: string[]
-  /** News & events the user marked "Interesē". */
-  savedNews: string[]
-  following: string[]
-  testResult: TestResult | null
-}
-
-export const emptyProfile: Profile = {
-  name: '',
-  email: '',
-  interests: [],
-  skills: [],
-  customSkills: [],
-  motivationText: '',
-  motivationTags: [],
-  experiences: [],
-  careerId: null,
-  interested: false,
-  savedCourses: [],
-  appliedCourses: [],
-  courseProgress: {},
-  taskProgress: {},
-  savedJobs: [],
-  appliedJobs: [],
-  savedNews: [],
-  following: [],
-  testResult: null,
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Persistence (localStorage, always wrapped in try/catch)                    */
-/* -------------------------------------------------------------------------- */
-
-/** Storage keys keep the old "ere" prefix on purpose: renaming them would wipe saved profiles. */
-const STORAGE_KEY = 'ere:v1'
-/** v2: the black/orange theme made dark the default (old saved 'light' choices are ignored). */
+const STORAGE_KEY = 'seer:v2'
+/** Theme key kept from the earlier SEER prototype so the user's choice survives. */
 const THEME_KEY = 'ere:theme:v2'
 
 interface Saved {
-  profile: Profile
-  onboarded: boolean
   lang: Lang
+  role: Role | null
+  companyId: string | null
+  companies: Company[]
+  placements: Placement[]
+  applications: Application[]
+  passports: Passport[]
 }
 
-function loadSaved(): Saved {
-  const fallback: Saved = { profile: emptyProfile, onboarded: false, lang: 'lv' }
+const EMPTY: Saved = { lang: 'lv', role: null, companyId: null, companies: [], placements: [], applications: [], passports: [] }
+
+function load(): Saved {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return fallback
+    if (!raw) return EMPTY
     const data = JSON.parse(raw) as Partial<Saved>
     return {
-      // Merge so profiles saved by older versions get any new fields.
-      profile: { ...emptyProfile, ...(data.profile ?? {}) },
-      onboarded: !!data.onboarded,
       lang: data.lang === 'en' ? 'en' : 'lv',
+      role: data.role === 'student' || data.role === 'company' ? data.role : null,
+      companyId: data.companyId ?? null,
+      companies: data.companies ?? [],
+      placements: data.placements ?? [],
+      applications: data.applications ?? [],
+      passports: data.passports ?? [],
     }
   } catch {
-    return fallback
+    return EMPTY
   }
 }
 
@@ -183,67 +83,66 @@ function save(data: Saved) {
   }
 }
 
+/** Upsert by id. */
+const put = <T extends { id: string }>(list: T[], item: T) =>
+  list.some((x) => x.id === item.id) ? list.map((x) => (x.id === item.id ? item : x)) : [...list, item]
+
+export const newId = (prefix: string) => `${prefix}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
+
+/** Today as an ISO date (local time). */
+export const todayIso = () => {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Context                                                                    */
 /* -------------------------------------------------------------------------- */
 
+interface RolePickerState {
+  open: boolean
+  /** Jump straight to this role's step (e.g. "Apply" asks for student). */
+  preferred?: Role
+  /** Where to go after choosing. */
+  redirect?: string
+}
+
 interface AppState {
   lang: Lang
   setLang: (l: Lang) => void
-  /** Dark by default; the header toggle switches to light. */
   dark: boolean
   toggleDark: () => void
   t: Dict
-  /** Pick the current language from a `{ lv, en }` content object. */
+  /** Pick the current language from a `{ lv, en }` object. */
   l: (text: Localized) => string
-  /** Current page, derived from the URL. */
-  step: Step
-  /** Position in the onboarding flow, or -1 outside it. */
-  stepIndex: number
-  goTo: (s: Step) => void
-  /** Go to the next flow step — or back to "Mans profils" when editing from there. */
-  next: (fallback?: Step) => void
-  back: () => void
-  /** Open a flow step to edit it; "next"/"back" then return to "Mans profils". */
-  edit: (s: Step) => void
-  /** True while editing a step opened from "Mans profils". */
-  editing: boolean
-  /** True once the user can use the app: finished onboarding, or chose to browse as a guest. */
-  onboarded: boolean
-  /** True while the user is going through the sign-up steps (progress bar on, main nav off). */
-  flowActive: boolean
-  /** Main app navigation is visible. */
-  appNav: boolean
-  /** Sign-up form submitted: start the onboarding steps. */
-  startOnboarding: () => void
-  /** Skip sign-up and look around first. */
-  browseAsGuest: () => void
-  query: string
-  setQuery: (q: string) => void
-  /** Run a search from anywhere (header, suggestions) and open the results. */
-  search: (q: string) => void
-  /** Id of the person whose profile is open (from /people/:id). */
-  personId: string | null
-  /** Id of the open course (from /courses/:id). */
-  courseId: string | null
-  /** Id of the open news article (from /news/:id). */
-  articleId: string | null
-  openCourse: (id: string) => void
-  openPerson: (id: string) => void
-  closePerson: () => void
-  profile: Profile
-  update: (patch: Partial<Profile>) => void
-  restart: () => void
+  role: Role | null
+  /** Company the company user represents (null = new company, filled in the builder). */
+  companyId: string | null
+  chooseRole: (role: Role, companyId?: string | null) => void
+  rolePicker: RolePickerState
+  openRolePicker: (preferred?: Role, redirect?: string) => void
+  closeRolePicker: () => void
+  companies: Company[]
+  placements: Placement[]
+  applications: Application[]
+  passports: Passport[]
+  company: Company | undefined
+  companyOf: (p: Placement) => Company | undefined
+  saveCompany: (c: Company) => void
+  savePlacement: (p: Placement) => void
+  submitApplication: (a: Application) => void
+  moveApplication: (id: string, to: ApplicationStatus) => boolean
+  /** Completes the application and issues its passport; returns the passport id. */
+  issuePassport: (applicationId: string, data: Omit<Passport, 'id' | 'applicationId' | 'issuedAt' | 'isExample'>) => string
+  resetAll: () => void
+  toast: string | null
+  notify: (message: string) => void
 }
 
 const AppContext = createContext<AppState | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [initial] = useState(loadSaved)
-
-  const [lang, setLang] = useState<Lang>(initial.lang)
+  const [saved, setSaved] = useState<Saved>(load)
   const [dark, setDark] = useState(() => {
     try {
       return localStorage.getItem(THEME_KEY) !== 'light'
@@ -251,119 +150,85 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return true
     }
   })
-  const [profile, setProfile] = useState<Profile>(initial.profile)
-  const [onboarded, setOnboarded] = useState(initial.onboarded)
-  const [editing, setEditing] = useState(false)
-  const [flowActive, setFlowActive] = useState(false)
-  const [query, setQuery] = useState('')
+  const [rolePicker, setRolePicker] = useState<RolePickerState>({ open: false })
+  const [toast, setToast] = useState<string | null>(null)
+  const toastTimer = useRef<number | undefined>(undefined)
 
-  const step = stepFromPath(location.pathname)
-  const stepIndex = STEPS.indexOf(step as FlowStep)
-  const personId = matchPath(ROUTES.person, location.pathname)?.params.id ?? null
-  const courseId = matchPath(ROUTES.course, location.pathname)?.params.id ?? null
-  const articleId = matchPath(ROUTES.article, location.pathname)?.params.id ?? null
+  const t = translations[saved.lang]
 
   useEffect(() => {
-    document.documentElement.lang = lang
-    document.title = translations[lang].brand.title
-  }, [lang])
+    document.documentElement.lang = saved.lang
+    document.title = t.brand.title
+  }, [saved.lang, t])
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
     try {
       localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light')
     } catch {
-      /* storage unavailable — theme just won't be remembered */
+      /* theme just won't be remembered */
     }
   }, [dark])
 
-  // Reaching the last onboarding screen unlocks the app.
-  useEffect(() => {
-    if (step === 'thanks') {
-      setOnboarded(true)
-      setFlowActive(false)
-    }
-  }, [step])
+  useEffect(() => save(saved), [saved])
 
-  useEffect(() => {
-    save({ profile, onboarded, lang })
-  }, [profile, onboarded, lang])
+  const notify = useCallback((message: string) => {
+    setToast(message)
+    window.clearTimeout(toastTimer.current)
+    toastTimer.current = window.setTimeout(() => setToast(null), 3200)
+  }, [])
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-  }, [location.pathname])
+  const value = useMemo<AppState>(() => {
+    const companies = mergeById(COMPANIES, saved.companies)
+    const placements = mergeById(PLACEMENTS, saved.placements)
+    const applications = mergeById(APPLICATIONS, saved.applications)
+    const passports = mergeById(PASSPORTS, saved.passports)
+    const update = (patch: Partial<Saved>) => setSaved((s) => ({ ...s, ...patch }))
 
-  const show = useCallback((s: Step) => navigate(ROUTES[s]), [navigate])
-
-  const goTo = useCallback(
-    (s: Step) => {
-      setEditing(false)
-      show(s)
-    },
-    [show],
-  )
-
-  const value = useMemo<AppState>(
-    () => ({
-      lang,
-      setLang,
+    return {
+      lang: saved.lang,
+      setLang: (lang) => update({ lang }),
       dark,
       toggleDark: () => setDark((d) => !d),
-      t: translations[lang],
-      l: (text) => text[lang],
-      step,
-      stepIndex,
-      goTo,
-      next: (fallback) =>
-        goTo(editing ? 'me' : (fallback ?? STEPS[Math.min(stepIndex + 1, STEPS.length - 1)])),
-      back: () => goTo(editing ? 'me' : STEPS[Math.max(stepIndex - 1, 0)]),
-      edit: (s) => {
-        setEditing(true)
-        show(s)
+      t,
+      l: (text) => text[saved.lang] || text.lv || text.en,
+      role: saved.role,
+      companyId: saved.companyId,
+      chooseRole: (role, companyId) => update({ role, companyId: role === 'company' ? (companyId ?? null) : saved.companyId }),
+      rolePicker,
+      openRolePicker: (preferred, redirect) => setRolePicker({ open: true, preferred, redirect }),
+      closeRolePicker: () => setRolePicker({ open: false }),
+      companies,
+      placements,
+      applications,
+      passports,
+      company: companies.find((c) => c.id === saved.companyId),
+      companyOf: (p) => companies.find((c) => c.id === p.companyId),
+      saveCompany: (c) => setSaved((s) => ({ ...s, companies: put(s.companies, c) })),
+      savePlacement: (p) => setSaved((s) => ({ ...s, placements: put(s.placements, p) })),
+      submitApplication: (a) => setSaved((s) => ({ ...s, applications: put(s.applications, a) })),
+      moveApplication: (id, to) => {
+        const app = applications.find((a) => a.id === id)
+        if (!app || !canMove(app.status, to)) return false
+        setSaved((s) => ({ ...s, applications: put(s.applications, { ...app, status: to }) }))
+        return true
       },
-      editing,
-      onboarded,
-      flowActive,
-      appNav: onboarded && !flowActive,
-      startOnboarding: () => {
-        setFlowActive(true)
-        goTo('interests')
+      issuePassport: (applicationId, data) => {
+        const app = applications.find((a) => a.id === applicationId)
+        const id = nextPassportId(passports.map((p) => p.id), new Date().getFullYear())
+        const passport: Passport = { ...data, id, applicationId, issuedAt: todayIso(), isExample: false }
+        setSaved((s) => ({
+          ...s,
+          passports: put(s.passports, passport),
+          applications: app ? put(s.applications, { ...app, status: 'completed' }) : s.applications,
+        }))
+        return id
       },
-      browseAsGuest: () => {
-        setOnboarded(true)
-        goTo('news')
-      },
-      query,
-      setQuery,
-      personId,
-      courseId,
-      articleId,
-      openCourse: (id) => {
-        setEditing(false)
-        navigate(ROUTES.course.replace(':id', encodeURIComponent(id)))
-      },
-      openPerson: (id) => {
-        setEditing(false)
-        navigate(ROUTES.person.replace(':id', encodeURIComponent(id)))
-      },
-      // Back to wherever the user came from; deep links fall back to the people list.
-      closePerson: () => (location.key !== 'default' ? navigate(-1) : goTo('people')),
-      search: (q) => {
-        setQuery(q)
-        goTo('search')
-      },
-      profile,
-      update: (patch) => setProfile((p) => ({ ...p, ...patch })),
-      restart: () => {
-        setProfile(emptyProfile)
-        setOnboarded(false)
-        setFlowActive(false)
-        setQuery('')
-        goTo('welcome')
-      },
-    }),
-    [lang, dark, step, stepIndex, goTo, show, navigate, location.key, editing, onboarded, flowActive, query, personId, courseId, articleId, profile],
-  )
+      resetAll: () => setSaved({ ...EMPTY, lang: saved.lang }),
+      toast,
+      notify,
+    }
+  }, [saved, dark, t, rolePicker, toast, notify])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
@@ -372,9 +237,4 @@ export function useApp() {
   const ctx = useContext(AppContext)
   if (!ctx) throw new Error('useApp must be used inside <AppProvider>')
   return ctx
-}
-
-/** Toggle an id in a list (for multi-select tags). */
-export function toggle(list: string[], id: string) {
-  return list.includes(id) ? list.filter((x) => x !== id) : [...list, id]
 }

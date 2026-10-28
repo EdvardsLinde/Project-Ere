@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import type { LucideIcon } from 'lucide-react'
+import { Link } from 'react-router'
 import { useApp } from '../lib/state'
 import { Check } from 'lucide-react'
 
@@ -97,22 +98,18 @@ export function PageHeader({
   /** Small section icon shown in the breadcrumb. */
   icon?: LucideIcon
 }) {
-  const { t, appNav, goTo } = useApp()
+  const { t } = useApp()
   return (
-    // Full-width white band (website-style page header): the box-shadow + clip-path
+    // Full-width band (website-style page header): the box-shadow + clip-path
     // trick paints the band edge to edge while the text stays in the page container.
     <div className="relative -mt-5 mb-6 bg-card py-6 shadow-[0_0_0_100vmax_var(--color-card)] [clip-path:inset(0_-100vmax)] after:absolute after:-inset-x-[100vmax] after:bottom-0 after:h-px after:bg-slate-200 sm:-mt-8 sm:mb-8 sm:py-8">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl min-w-0">
-          <nav aria-label={t.common.breadcrumb} className="mb-2 flex items-center gap-1.5 text-sm text-slate-500">
-            {appNav && (
-              <>
-                <button type="button" onClick={() => goTo('news')} className="cursor-pointer hover:text-brand-700 hover:underline">
-                  {t.common.home}
-                </button>
-                <span aria-hidden>›</span>
-              </>
-            )}
+          <nav aria-label="breadcrumb" className="mb-2 flex items-center gap-1.5 text-sm text-slate-500">
+            <Link to="/" className="hover:text-brand-700 hover:underline">
+              {t.nav.idea}
+            </Link>
+            <span aria-hidden>›</span>
             <span className="inline-flex items-center gap-1.5 font-semibold text-accent-600">
               {Icon && <Icon className="size-4" />}
               {eyebrow}

@@ -1,6 +1,6 @@
 /**
- * SEER — one compact filter bar used by every list page (news, courses, jobs, people).
- * A search box plus dropdowns ("Joma: Visas", "Valoda: Latviešu"…) instead of rows of buttons.
+ * SEER — one compact filter bar for list pages: a search box plus dropdowns
+ * ("Joma: Visi", "Ilgums: 3 dienas"…) instead of rows of buttons.
  */
 import { ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import { useApp } from '../lib/state'
@@ -39,7 +39,7 @@ export function FilterBar({
       <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:items-center">
         {search && (
           <div className="col-span-2 md:min-w-56 md:flex-1">
-            <SearchBox value={search.value} onChange={search.onChange} placeholder={search.placeholder} size="md" />
+            <SearchBox value={search.value} onChange={search.onChange} placeholder={search.placeholder} />
           </div>
         )}
         {filters.map((f) => {
@@ -56,7 +56,7 @@ export function FilterBar({
                 )}
               >
                 <option value="">
-                  {f.label}: {t.filters.all}
+                  {f.label}: {t.board.all}
                 </option>
                 {f.options.map((o) => (
                   <option key={o.value} value={o.value}>
@@ -80,7 +80,7 @@ export function FilterBar({
               onClick={onClear}
               className="inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-1 font-semibold text-brand-700 hover:bg-brand-50"
             >
-              <X className="size-3.5" /> {t.filters.clear}
+              <X className="size-3.5" /> {t.board.clear}
             </button>
           )}
         </div>
