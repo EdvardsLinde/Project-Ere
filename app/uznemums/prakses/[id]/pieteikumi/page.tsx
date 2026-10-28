@@ -6,11 +6,11 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
-import { Field, Select, Textarea } from "@/components/ui/form";
+import { Field, Select, Textarea, RequiredMark } from "@/components/ui/form";
 import { Badge, Card, Container, EmptyState, Loading, Notice } from "@/components/ui/misc";
 import { ApplicationStatusBadge, PlacementStatusBadge } from "@/components/placement/display";
 import { useToast } from "@/components/toast";
-import { ageOn, formatDateTime, formatRange } from "@/lib/dates";
+import { ageOn, formatDate, formatDateTime, formatRange, todayISO } from "@/lib/dates";
 import { DataError, getRepository } from "@/lib/data";
 import { useQuery } from "@/lib/data/hooks";
 import type { Application, ApplicationStatus, Placement } from "@/lib/data/types";
@@ -235,6 +235,7 @@ function ApplicationDialog({
   };
 
   const name = `${app.applicant.firstName} ${app.applicant.lastName}`;
+  const term = placement.terms.find((x) => x.id === app.termId);
   const age = app.applicant.birthDate ? ageOn(app.applicant.birthDate) : null;
 
   const footer =
@@ -387,14 +388,15 @@ function ApplicationDialog({
       ) : (
         <div className="space-y-5">
           <p className="text-ink-muted">{a.evaluationLead}</p>
+          {term && term.end > todayISO() && (
+            <Notice tone="warning">
+              <p className="text-sm">{fmt(a.earlyWarning, { date: formatDate(term.end, locale) })}</p>
+            </Notice>
+          )}
           {CRITERIA.map((c) => (
             <fieldset key={c}>
               <legend className="text-sm font-bold">
-                {a.criteria[c]}
-                <span className="ml-0.5 text-danger" aria-hidden="true">
-                  *
-                </span>
-              </legend>
+                {a.criteria[c]}<RequiredMark /></legend>
               <div className="mt-2 flex gap-2">
                 {[1, 2, 3, 4, 5].map((n) => (
                   <label

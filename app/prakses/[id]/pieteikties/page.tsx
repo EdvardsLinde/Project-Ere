@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { siteConfig } from "@/config/site";
 import { Button, LinkButton } from "@/components/ui/button";
-import { Checkbox, ChoiceGroup, Field, FieldError, Input, Textarea } from "@/components/ui/form";
+import { Checkbox, ChoiceGroup, Field, FieldError, Input, Textarea, RequiredMark } from "@/components/ui/form";
 import { Card, Container, EmptyState, Loading, Notice } from "@/components/ui/misc";
 import { ageOn, formatRange } from "@/lib/dates";
 import { DataError, getRepository } from "@/lib/data";
@@ -284,11 +284,7 @@ function ApplyForm({
         <Card as="section" className="p-5 sm:p-6">
           <fieldset>
             <legend className="text-lg font-extrabold">
-              {a.chooseDate}
-              <span className="ml-0.5 text-danger" aria-hidden="true">
-                *
-              </span>
-            </legend>
+              {a.chooseDate}<RequiredMark /></legend>
             <div className="mt-4 space-y-2">
               {terms.map((term) => {
                 const free = freeSpots(term, applications);

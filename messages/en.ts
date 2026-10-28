@@ -775,6 +775,8 @@ const en: Messages = {
     scoreOf: "{n} of 5",
     noPlacement: "Placement not found.",
     minor: "Minor",
+    earlyWarning:
+      "The placement end date ({date}) hasn't been reached yet. Only issue the certificate once the placement has actually taken place — these dates will appear on it.",
   },
 
   certificate: {

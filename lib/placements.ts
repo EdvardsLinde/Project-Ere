@@ -83,6 +83,10 @@ export function averageScore(e: {
   return Math.round(v * 10) / 10;
 }
 
+export function formatScore(value: number, locale: Locale): string {
+  return new Intl.NumberFormat(locale === "lv" ? "lv-LV" : "en-GB", { maximumFractionDigits: 1 }).format(value);
+}
+
 export function formatCertificateId(year: number, seq: number): string {
   return `${siteConfig.certificatePrefix}-${year}-${String(seq).padStart(4, "0")}`;
 }

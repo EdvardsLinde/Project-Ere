@@ -777,6 +777,8 @@ const lv = {
     scoreOf: "{n} no 5",
     noPlacement: "Prakse nav atrasta.",
     minor: "Nepilngadīgs",
+    earlyWarning:
+      "Prakses beigu datums ({date}) vēl nav pienācis. Izsniedziet sertifikātu tikai pēc tam, kad prakse ir tiešām notikusi — sertifikātā būs norādīti šie datumi.",
   },
 
   certificate: {

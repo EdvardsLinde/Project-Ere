@@ -7,7 +7,7 @@ import { LogoMark } from "@/components/logo";
 import { formatDate, formatRange } from "@/lib/dates";
 import type { Certificate } from "@/lib/data/types";
 import { fmt, useI18n } from "@/lib/i18n";
-import { averageScore, focusLabel, outputLabel, tx } from "@/lib/placements";
+import { averageScore, focusLabel, formatScore, outputLabel, tx } from "@/lib/placements";
 
 const CRITERIA = ["problemSolving", "data", "communication", "independence", "responsibility"] as const;
 
@@ -44,7 +44,7 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
           </div>
           <div className="text-right">
             <p className="text-[0.65rem] font-bold uppercase tracking-[0.12em] text-ink-muted">{ct.id}</p>
-            <p className="font-mono text-sm font-bold">{c.id}</p>
+            <p className="whitespace-nowrap font-mono text-sm font-bold">{c.id}</p>
           </div>
         </header>
 
@@ -86,8 +86,8 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
         <section className="mt-8">
           <div className="flex items-end justify-between gap-4">
             <h2 className="text-sm font-bold uppercase tracking-[0.1em] text-ink-muted">{ct.evaluation}</h2>
-            <p className="text-sm">
-              {ct.average}: <span className="text-2xl font-extrabold text-primary tabular-nums">{avg}</span>
+            <p className="whitespace-nowrap text-sm">
+              {ct.average}: <span className="text-2xl font-extrabold text-primary tabular-nums">{formatScore(avg, locale)}</span>
               <span className="text-ink-muted"> / 5</span>
             </p>
           </div>

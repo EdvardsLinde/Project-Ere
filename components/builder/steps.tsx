@@ -4,7 +4,7 @@ import { CalendarPlus, Lightbulb, Plus, ShieldCheck, Trash2, Wand2 } from "lucid
 import { siteConfig } from "@/config/site";
 import { CompanyFields } from "@/components/company-fields";
 import { Button } from "@/components/ui/button";
-import { Checkbox, ChoiceGroup, Field, Input, Select, Textarea } from "@/components/ui/form";
+import { Checkbox, ChoiceGroup, Field, Input, Select, Textarea, RequiredMark } from "@/components/ui/form";
 import { TagInput } from "@/components/ui/tag-input";
 import { recalcTerms, resizeDayPlan, samplePlan } from "@/lib/builder";
 import { newId } from "@/lib/data/util";
@@ -136,11 +136,7 @@ export function StepBasics({ data, update, err }: StepProps) {
 
         <fieldset>
           <legend className="text-sm font-semibold">
-            {s.dates}
-            <span className="ml-0.5 text-danger" aria-hidden="true">
-              *
-            </span>
-          </legend>
+            {s.dates}<RequiredMark /></legend>
           <div className="mt-1">
             <Tip>{s.datesHint}</Tip>
           </div>

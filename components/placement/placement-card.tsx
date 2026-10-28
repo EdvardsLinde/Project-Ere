@@ -69,6 +69,7 @@ export function PlacementCard({ placement: p, applications, preview, headingLeve
             )}
           </dd>
         </div>
+        {terms.length > 0 && (
         <div className="flex items-center gap-2">
           <dt className="sr-only">{t.common.spotsFree}</dt>
           <Users className="size-4 shrink-0 text-primary" aria-hidden="true" />
@@ -76,6 +77,7 @@ export function PlacementCard({ placement: p, applications, preview, headingLeve
             {free === 0 ? t.common.noSpots : fmt(t.common.spotsFree, { n: free })}
           </dd>
         </div>
+        )}
       </dl>
 
       {tags.length > 0 && (

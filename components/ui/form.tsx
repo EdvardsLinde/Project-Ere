@@ -2,6 +2,7 @@
 
 import { AlertCircle } from "lucide-react";
 import { useId } from "react";
+import { useI18n } from "@/lib/i18n";
 
 const control =
   "w-full rounded-md border bg-surface px-3 text-ink placeholder:text-ink-muted/70 transition-colors focus-visible:outline-2 focus-visible:outline-offset-0 disabled:bg-surface-muted";
@@ -33,11 +34,7 @@ export function Field({ label, hint, error, required, example, exampleLabel, cou
       <div className="flex items-baseline justify-between gap-3">
         <label htmlFor={id} className="text-sm font-semibold text-ink">
           {label}
-          {required && (
-            <span className="ml-0.5 text-danger" aria-hidden="true">
-              *
-            </span>
-          )}
+          {required && <RequiredMark />}
         </label>
         {counter && <span className="text-xs tabular-nums text-ink-muted">{counter}</span>}
       </div>
@@ -54,6 +51,19 @@ export function Field({ label, hint, error, required, example, exampleLabel, cou
       )}
       {error && <FieldError id={errorId}>{error}</FieldError>}
     </div>
+  );
+}
+
+/** Visible "*" plus "(required)" for screen readers. */
+export function RequiredMark() {
+  const { t } = useI18n();
+  return (
+    <>
+      <span className="ml-0.5 text-danger" aria-hidden="true">
+        *
+      </span>
+      <span className="sr-only"> ({t.common.required})</span>
+    </>
   );
 }
 
@@ -158,11 +168,7 @@ export function ChoiceGroup<T extends string | number>({
     <fieldset className="flex flex-col gap-2">
       <legend className="mb-1.5 text-sm font-semibold text-ink">
         {legend}
-        {required && (
-          <span className="ml-0.5 text-danger" aria-hidden="true">
-            *
-          </span>
-        )}
+        {required && <RequiredMark />}
       </legend>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => {

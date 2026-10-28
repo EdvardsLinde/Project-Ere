@@ -4,9 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import en from "@/messages/en";
 import lv, { type Messages } from "@/messages/lv";
 import type { Locale } from "@/lib/data/types";
-
-export const LOCALE_COOKIE = "sdp-locale";
-export const DEFAULT_LOCALE: Locale = "lv";
+import { LOCALE_COOKIE } from "@/lib/locale";
 
 const dictionaries: Record<Locale, Messages> = { lv, en };
 

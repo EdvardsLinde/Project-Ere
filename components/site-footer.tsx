@@ -2,7 +2,6 @@
 
 import { RotateCcw } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
@@ -11,18 +10,18 @@ import { LogoMark } from "@/components/logo";
 import { useToast } from "@/components/toast";
 import { getRepository } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
+import { useSession } from "@/lib/session";
 
 export function SiteFooter() {
   const { t, locale } = useI18n();
-  const router = useRouter();
+  const { leaveHome } = useSession();
   const toast = useToast();
   const [confirming, setConfirming] = useState(false);
 
   const reset = async () => {
-    await getRepository().resetDemoData();
     setConfirming(false);
+    await leaveHome(() => getRepository().resetDemoData());
     toast(t.footer.resetDone);
-    router.push("/");
   };
 
   const link = "text-bg/85 underline-offset-2 hover:text-bg hover:underline";

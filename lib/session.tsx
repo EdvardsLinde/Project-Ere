@@ -10,12 +10,37 @@ interface SessionValue {
   ready: boolean;
   session: Session | null;
   refresh: () => Promise<void>;
+  /** Log out and go home without the page guard bouncing to the login page. */
+  logout: () => Promise<void>;
+  /** Go home, then run `fn` (e.g. reset demo data) — guards stay quiet meanwhile. */
+  leaveHome: (fn: () => Promise<void>) => Promise<void>;
+  loggingOut: boolean;
 }
 
 const SessionContext = createContext<SessionValue | null>(null);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<{ ready: boolean; session: Session | null }>({ ready: false, session: null });
+  const [loggingOut, setLoggingOut] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Once we're back on the home page the logout is finished.
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    if (loggingOut && pathname === "/") setLoggingOut(false);
+  }
+
+  const leaveHome = useCallback(
+    async (fn: () => Promise<void>) => {
+      if (window.location.pathname !== "/") setLoggingOut(true);
+      router.push("/");
+      await fn();
+    },
+    [router],
+  );
+  const logout = useCallback(() => leaveHome(() => getRepository().logout()), [leaveHome]);
 
   const refresh = useCallback(async () => {
     const session = await getRepository().getSession();
@@ -39,7 +64,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  return <SessionContext.Provider value={{ ...state, refresh }}>{children}</SessionContext.Provider>;
+  return <SessionContext.Provider value={{ ...state, refresh, logout, leaveHome, loggingOut }}>{children}</SessionContext.Provider>;
 }
 
 export function useSession(): SessionValue {
@@ -65,21 +90,21 @@ export function loginPath(role: Role, next?: string): string {
  * - Companies on student pages go to `/uznemums`; students on company pages go to `/students`.
  */
 export function useRoleGuard(allow: (Role | "guest")[], loginRole: Role = "student"): boolean {
-  const { ready, session } = useSession();
+  const { ready, session, loggingOut } = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const role = session?.user.role;
   const allowed = ready && (role ? allow.includes(role) : allow.includes("guest"));
 
   useEffect(() => {
-    if (!ready || allowed) return;
+    if (!ready || allowed || loggingOut) return;
     if (!role) {
       const search = typeof window !== "undefined" ? window.location.search : "";
       router.replace(loginPath(loginRole, `${pathname}${search}`));
     } else {
       router.replace(dashboardPath(role));
     }
-  }, [ready, allowed, role, router, pathname, loginRole]);
+  }, [ready, allowed, role, router, pathname, loginRole, loggingOut]);
 
   return allowed;
 }

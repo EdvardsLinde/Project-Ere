@@ -7,7 +7,7 @@ import { Card, Container, Loading, Notice } from "@/components/ui/misc";
 import { formatDate, formatRange } from "@/lib/dates";
 import { useQuery } from "@/lib/data/hooks";
 import { useI18n } from "@/lib/i18n";
-import { averageScore, focusLabel, tx } from "@/lib/placements";
+import { averageScore, focusLabel, formatScore, tx } from "@/lib/placements";
 
 export default function VerifyResultPage() {
   const { id: rawId } = useParams<{ id: string }>();
@@ -38,7 +38,7 @@ export default function VerifyResultPage() {
                 [v.placement, `${tx(c.placementTitle, locale)} (${focusLabel(c.focusArea, locale)})`],
                 [v.dates, formatRange(c.start, c.end, locale)],
                 [v.issued, formatDate(c.issuedAt.slice(0, 10), locale)],
-                [v.average, `${averageScore(c.evaluation)} / 5`],
+                [v.average, `${formatScore(averageScore(c.evaluation), locale)} / 5`],
                 [t.certificate.mentor, c.mentor.name],
               ].map(([k, val], i) => (
                 <div key={i}>

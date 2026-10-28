@@ -3,7 +3,7 @@
 import { ImageUp, Trash2 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, Input, Select, Textarea } from "@/components/ui/form";
+import { Field, FieldError, Input, Select, Textarea, RequiredMark } from "@/components/ui/form";
 import type { PlacementCompany } from "@/lib/data/types";
 import { fmt, formatBytes, useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/placements";
@@ -161,11 +161,7 @@ export function CompanyFields({
 
       <fieldset>
         <legend className="text-lg font-extrabold">
-          {s.addressTitle}
-          <span className="ml-0.5 text-danger" aria-hidden="true">
-            *
-          </span>
-        </legend>
+          {s.addressTitle}<RequiredMark /></legend>
         <div className="mt-3 grid gap-4 sm:grid-cols-2">
           {text(s.street, value.address.street.startsWith("[TODO") ? "" : value.address.street, (v) => setAddress("street", v), {
             autoComplete: "street-address",
@@ -184,11 +180,7 @@ export function CompanyFields({
 
       <fieldset>
         <legend className="text-lg font-extrabold">
-          {s.contactTitle}
-          <span className="ml-0.5 text-danger" aria-hidden="true">
-            *
-          </span>
-        </legend>
+          {s.contactTitle}<RequiredMark /></legend>
         <p className="text-sm text-ink-muted">{s.contactHint}</p>
         <div className="mt-3 grid gap-4 sm:grid-cols-2">
           {text(s.contactName, value.contactPerson.name, (v) => setContact("name", v), { required: true, error: errors.contactName, autoComplete: "name" })}

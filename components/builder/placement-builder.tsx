@@ -237,7 +237,7 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
       </div>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] xl:grid-cols-[13rem_minmax(0,1fr)_24rem]">
-        <nav aria-label={b.stepsNav}>
+        <nav aria-label={b.stepsNav} className="min-w-0">
           <ol className="flex gap-1.5 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible">
             {b.steps.map((label, i) => {
               const miss = attempted ? missingByStep(i) : 0;

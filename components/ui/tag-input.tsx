@@ -2,7 +2,7 @@
 
 import { Plus, X } from "lucide-react";
 import { useId, useState } from "react";
-import { FieldError } from "./form";
+import { FieldError, RequiredMark } from "./form";
 
 interface TagInputProps {
   label: React.ReactNode;
@@ -47,11 +47,7 @@ export function TagInput({
     <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className="text-sm font-semibold text-ink">
         {label}
-        {required && (
-          <span className="ml-0.5 text-danger" aria-hidden="true">
-            *
-          </span>
-        )}
+        {required && <RequiredMark />}
       </label>
       <div
         className={`flex min-h-11 flex-wrap items-center gap-1.5 rounded-md border bg-surface px-2 py-1.5 focus-within:outline-2 focus-within:outline-primary ${

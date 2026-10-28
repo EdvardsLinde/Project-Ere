@@ -2,12 +2,11 @@
 
 import { Building2, ChevronDown, GraduationCap, LayoutDashboard, LogOut, Menu, Plus, User, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { LinkButton } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
-import { getRepository } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
 import { dashboardPath, loginPath, useSession } from "@/lib/session";
 
@@ -46,7 +45,7 @@ export function SiteHeader() {
       >
         {t.nav.skipToContent}
       </a>
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-4 sm:gap-3 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label={siteConfig.name[locale]}>
           <LogoMark />
           <span className="flex flex-col leading-none">
@@ -84,7 +83,7 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           <LanguageToggle />
           {ready && !session && (
             <div className="hidden items-center gap-2 lg:flex">
@@ -177,7 +176,7 @@ function LanguageToggle() {
           aria-pressed={locale === l}
           aria-label={l === "lv" ? t.nav.switchToLv : t.nav.switchToEn}
           onClick={() => setLocale(l)}
-          className={`h-full rounded-[5px] px-2.5 uppercase transition-colors ${
+          className={`h-full rounded-[5px] px-2 uppercase transition-colors sm:px-2.5 ${
             locale === l ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"
           }`}
         >
@@ -190,8 +189,7 @@ function LanguageToggle() {
 
 function UserMenu() {
   const { t } = useI18n();
-  const { session } = useSession();
-  const router = useRouter();
+  const { session, logout: endSession } = useSession();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -219,8 +217,7 @@ function UserMenu() {
 
   const logout = async () => {
     setOpen(false);
-    await getRepository().logout();
-    router.push("/");
+    await endSession();
   };
 
   const item = "flex w-full items-center gap-2.5 rounded-md px-3 py-2.5 text-left text-[0.95rem] font-semibold text-ink hover:bg-surface-muted";
@@ -233,7 +230,7 @@ function UserMenu() {
         aria-haspopup="true"
         aria-label={`${t.nav.userMenu}: ${name}`}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-10 max-w-[14rem] items-center gap-2 rounded-md border border-line bg-surface pl-2 pr-2 text-sm font-semibold hover:bg-surface-muted"
+        className="flex h-10 max-w-[14rem] items-center gap-2 rounded-md border border-line bg-surface px-1.5 text-sm font-semibold hover:bg-surface-muted sm:px-2"
       >
         <span className={`inline-flex size-7 shrink-0 items-center justify-center rounded-full ${isCompany ? "bg-accent text-on-accent" : "bg-primary text-white"}`}>
           {isCompany ? <Building2 className="size-4" aria-hidden="true" /> : <GraduationCap className="size-4" aria-hidden="true" />}
@@ -244,7 +241,7 @@ function UserMenu() {
             {isCompany ? t.roles.company : t.roles.student}
           </span>
         </span>
-        <ChevronDown className="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+        <ChevronDown className="hidden size-4 shrink-0 text-ink-muted sm:block" aria-hidden="true" />
       </button>
       {open && (
         <div className="absolute right-0 top-12 z-50 w-60 rounded-lg border border-line bg-surface p-1.5 shadow-lift">

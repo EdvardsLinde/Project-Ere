@@ -8,7 +8,7 @@ import { ApplicationStatusBadge } from "@/components/placement/display";
 import { formatDate, formatDateTime, formatRange } from "@/lib/dates";
 import { useQuery } from "@/lib/data/hooks";
 import { fmt, useI18n } from "@/lib/i18n";
-import { averageScore, focusLabel, schoolLabel, tx } from "@/lib/placements";
+import { averageScore, focusLabel, formatScore, schoolLabel, tx } from "@/lib/placements";
 import { useRoleGuard, useSession } from "@/lib/session";
 
 export default function StudentDashboard() {
@@ -162,7 +162,7 @@ export default function StudentDashboard() {
                         <p className="mt-3 text-sm">
                           {formatDate(c.issuedAt.slice(0, 10), locale)} ·{" "}
                           <span className="font-bold text-primary">
-                            {t.certificate.average}: {averageScore(c.evaluation)}
+                            {t.certificate.average}: {formatScore(averageScore(c.evaluation), locale)}
                           </span>
                         </p>
                       </div>
