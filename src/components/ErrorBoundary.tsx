@@ -42,7 +42,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, { error: E
           <button
             type="button"
             onClick={this.reset}
-            style={{ marginTop: 16, padding: '10px 16px', borderRadius: 10, background: '#ff7a1a', color: '#140a03', fontWeight: 700, border: 0, cursor: 'pointer' }}
+            style={{ marginTop: 16, padding: '10px 16px', borderRadius: 10, background: '#a38443', color: '#231f1e', fontWeight: 700, border: 0, cursor: 'pointer' }}
           >
             Sākt no jauna / Start again
           </button>

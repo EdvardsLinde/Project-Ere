@@ -19,7 +19,7 @@ const variants: Record<Variant, string> = {
   secondary:
     'bg-card text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:ring-slate-400 disabled:text-slate-400',
   // White button on the dark hero gradient — same look in light and dark mode.
-  light: 'bg-white text-[#9a3412] shadow-lg shadow-black/20 hover:bg-[#fff4ec] active:bg-[#ffe4d1]',
+  light: 'bg-white text-[#004a8a] shadow-lg shadow-black/20 hover:bg-[#eaf3fb] active:bg-[#d3e6f6]',
   ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:text-slate-400',
 }
 

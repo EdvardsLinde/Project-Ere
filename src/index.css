@@ -4,11 +4,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * SEER colour system — black and orange.
+ * SEER colour system — the Saldus coat of arms: blue, gold and a dark outline.
  *
  *   Background #F7F5F3 / dark #0B0A09   Text #171412 / dark #F5F2EF
- *   Primary    #C2410C (deep orange — buttons with white text)
- *   Accent     #FF7A1A (bright orange — chips, tiles, badges with black text)
+ *   Primary    #005DAB (Saldus blue — buttons with white text, links)
+ *   Accent     #A38443 (Saldus gold — chips, tiles, icons; #231F1E text on it;
+ *              darker #7D6326 when gold is used as text on light backgrounds)
  *   Sun        #EEC05B   Error #E62B34
  *
  * Components use Tailwind's colour names (slate/brand/accent/amber/red), so the
@@ -31,30 +32,30 @@
   --color-slate-900: #171412;
   --color-slate-950: #0c0a09;
 
-  /* Primary: deep orange (600 = #C2410C), white text on it. */
-  --color-brand-50: #fff4ec;
-  --color-brand-100: #ffe4d1;
-  --color-brand-200: #ffc59e;
-  --color-brand-300: #ff9f63;
-  --color-brand-400: #f97a2e;
-  --color-brand-500: #dc5410;
-  --color-brand-600: #c2410c;
-  --color-brand-700: #9a3412;
-  --color-brand-800: #7c2d12;
-  --color-brand-900: #5a200c;
-  --color-brand-950: #3b1407;
+  /* Primary: Saldus blue (600 = #005DAB), white text on it. */
+  --color-brand-50: #eaf3fb;
+  --color-brand-100: #d3e6f6;
+  --color-brand-200: #a7cdee;
+  --color-brand-300: #6fa9dc;
+  --color-brand-400: #2f83c8;
+  --color-brand-500: #0068bd;
+  --color-brand-600: #005dab;
+  --color-brand-700: #004a8a;
+  --color-brand-800: #003a6d;
+  --color-brand-900: #002a50;
+  --color-brand-950: #001a33;
 
-  /* Bright orange accent (500 = #FF7A1A), black text on it. 600+ = orange text on light. */
-  --color-accent-50: #fff6ed;
-  --color-accent-100: #ffead5;
-  --color-accent-200: #ffd0a8;
-  --color-accent-300: #ffb170;
-  --color-accent-400: #ff9440;
-  --color-accent-500: #ff7a1a;
-  --color-accent-600: #b34700;
-  --color-accent-700: #963c00;
-  --color-accent-800: #7a3100;
-  --color-accent-900: #5c2500;
+  /* Saldus gold accent (500 = #A38443), dark text on it. 600+ = gold text on light. */
+  --color-accent-50: #f8f4ea;
+  --color-accent-100: #f1e9d4;
+  --color-accent-200: #e2d3ae;
+  --color-accent-300: #cdb47f;
+  --color-accent-400: #b8995a;
+  --color-accent-500: #a38443;
+  --color-accent-600: #7d6326;
+  --color-accent-700: #67511d;
+  --color-accent-800: #523f16;
+  --color-accent-900: #3d2f10;
 
   /* Sun-yellow (500 = #EEC05B) — used sparingly: example badges, "recommended". */
   --color-amber-50: #fdf7e8;
@@ -82,11 +83,11 @@
   --color-card: #ffffff;
   --color-card-raised: #ffffff;
   --color-ink: #0c0a09; /* footer */
-  --color-on-accent: #140a03; /* text on solid bright orange */
+  --color-on-accent: #231f1e; /* text on solid gold (the coat of arms outline) */
   --color-on-sun: #171412; /* text on solid sun-yellow */
-  --color-hero-from: #1a1310;
-  --color-hero-via: #5a200c;
-  --color-hero-to: #c2410c;
+  --color-hero-from: #001a33;
+  --color-hero-via: #003a6d;
+  --color-hero-to: #005dab;
 
   /* Rounded everywhere: cards 16px, buttons/inputs 14px. */
   --radius-md: 0.625rem;
@@ -102,7 +103,7 @@
   --shadow-lift: 0 4px 8px -2px rgb(23 20 18 / 0.08), 0 18px 36px -10px rgb(23 20 18 / 0.22);
 }
 
-/* Dark mode (default): near-black surfaces, orange accents. */
+/* Dark mode (default): near-black surfaces, blue and gold accents. */
 html.dark {
   color-scheme: dark;
 
@@ -118,29 +119,29 @@ html.dark {
   --color-slate-900: #f5f2ef;
   --color-slate-950: #fbf9f7;
 
-  --color-brand-50: #26150a;
-  --color-brand-100: #36190a;
-  --color-brand-200: #57290f;
-  --color-brand-300: #8a4116;
-  --color-brand-400: #e2661f;
+  --color-brand-50: #0a1724;
+  --color-brand-100: #0d2033;
+  --color-brand-200: #12304d;
+  --color-brand-300: #1b4a78;
+  --color-brand-400: #3b8fd6;
   /* 500/600 are button fills: dark enough for white text (≥4.5:1) */
-  --color-brand-500: #b33d0b;
-  --color-brand-600: #c2410c;
-  --color-brand-700: #ff8a3d;
-  --color-brand-800: #ffab73;
-  --color-brand-900: #ffd1b0;
-  --color-brand-950: #ffe8d6;
+  --color-brand-500: #0057a0;
+  --color-brand-600: #005dab;
+  --color-brand-700: #6cb2ec;
+  --color-brand-800: #9ccbf2;
+  --color-brand-900: #c8e2f8;
+  --color-brand-950: #e4f1fc;
 
-  --color-accent-50: #24160b;
-  --color-accent-100: #331d0c;
-  --color-accent-200: #4d2a10;
-  --color-accent-300: #7a3f15;
-  --color-accent-400: #e66a17;
-  --color-accent-500: #ff7a1a;
-  --color-accent-600: #ff8c3a;
-  --color-accent-700: #ffa463;
-  --color-accent-800: #ffc193;
-  --color-accent-900: #ffdcc0;
+  --color-accent-50: #1d180e;
+  --color-accent-100: #2a2213;
+  --color-accent-200: #3f331b;
+  --color-accent-300: #5e4c27;
+  --color-accent-400: #a38443;
+  --color-accent-500: #b8964d;
+  --color-accent-600: #c9a960;
+  --color-accent-700: #d8bd80;
+  --color-accent-800: #e6d3a8;
+  --color-accent-900: #f2e7cf;
 
   --color-amber-50: #2a2512;
   --color-amber-100: #3a3216;
@@ -160,10 +161,10 @@ html.dark {
   --color-card: #151210;
   --color-card-raised: #1c1815;
   --color-ink: #050403;
-  --color-on-accent: #140a03;
-  --color-hero-from: #120d0a;
-  --color-hero-via: #4a1b08;
-  --color-hero-to: #b33d0b;
+  --color-on-accent: #231f1e;
+  --color-hero-from: #07111c;
+  --color-hero-via: #00315c;
+  --color-hero-to: #00559c;
 
   --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.3);
   --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.35);
@@ -200,7 +201,7 @@ body {
   color: var(--color-slate-900);
 }
 
-/* Subtle orange radial glows for hero backgrounds. */
+/* Subtle blue and gold radial glows for hero backgrounds. */
 .hero-glow {
   background:
     radial-gradient(42rem 28rem at 88% -10%, color-mix(in oklab, var(--color-brand-300) 35%, transparent), transparent 70%),

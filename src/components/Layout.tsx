@@ -338,7 +338,7 @@ export function Footer() {
           <Logo inverted />
           <p className="mt-4 text-sm leading-relaxed text-[#a8a29e]">{t.footer.about}</p>
           <p className="mt-4 flex items-center gap-1.5 text-sm text-[#a8a29e]">
-            <MapPin className="size-4 text-[#ff8c3a]" /> {t.footer.location}
+            <MapPin className="size-4 text-[#c9a960]" /> {t.footer.location}
           </p>
         </div>
         <ul className="space-y-3">

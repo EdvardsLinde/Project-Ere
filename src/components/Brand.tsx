@@ -1,5 +1,5 @@
 /**
- * SEER brand: a letter mark (orange tile with a white "S", inline SVG so it stays
+ * SEER brand: a letter mark (Saldus-blue tile with a white "S", inline SVG so it stays
  * sharp from favicon to header) next to the name in bold text.
  * public/favicon.svg is a static copy of SeerMark — keep the two in sync.
  */
@@ -7,15 +7,15 @@ import { useId } from 'react'
 import { useApp } from '../lib/state'
 import { cx } from './ui'
 
-/** Icon-only mark: rounded orange tile with a white "S". */
+/** Icon-only mark: rounded Saldus-blue tile with a white "S". */
 export function SeerMark({ className }: { className?: string }) {
   const id = useId()
   return (
     <svg viewBox="0 0 32 32" className={className} aria-hidden>
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#f97316" />
-          <stop offset="1" stopColor="#9a3412" />
+          <stop offset="0" stopColor="#1f7fd0" />
+          <stop offset="1" stopColor="#003a6d" />
         </linearGradient>
       </defs>
       <rect width="32" height="32" rx="8" fill={`url(#${id})`} />
