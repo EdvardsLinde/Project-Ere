@@ -37,6 +37,7 @@ export function PassportPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
+      <h1 className="sr-only">{`${t.passport.title} ${data.passport.id}`}</h1>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3 print:hidden">
         <Link to={role === 'student' ? ROUTES.myPassport : role === 'company' ? ROUTES.allApplications : ROUTES.landing} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline">
           <ArrowLeft className="size-4" /> {t.common.back}
