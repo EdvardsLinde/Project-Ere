@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens (see DESIGN.md). Values come from `config/site.ts` and are
+ * injected as CSS variables on <html> in app/layout.tsx. The fallbacks here
+ * keep things readable if that ever fails.
+ */
+@theme inline {
+  --font-sans: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --color-bg: var(--c-bg, #faf7f2);
+  --color-surface: var(--c-surface, #ffffff);
+  --color-surface-muted: var(--c-surface-muted, #f2eee6);
+  --color-line: var(--c-line, #e2dcd0);
+  --color-ink: var(--c-ink, #1f2421);
+  --color-ink-muted: var(--c-ink-muted, #5a615c);
+  --color-primary: var(--c-primary, #1e5a3c);
+  --color-primary-hover: var(--c-primary-hover, #16472f);
+  --color-primary-soft: var(--c-primary-soft, #e6f0ea);
+  --color-accent: var(--c-accent, #f26a1b);
+  --color-accent-hover: var(--c-accent-hover, #db5a0f);
+  --color-accent-ink: var(--c-accent-ink, #a8430a);
+  --color-accent-soft: var(--c-accent-soft, #fdebdd);
+  --color-on-accent: var(--c-on-accent, #1f2421);
+  --color-success: var(--c-success, #17663f);
+  --color-success-soft: var(--c-success-soft, #e3f3e9);
+  --color-warning: var(--c-warning, #8a5a00);
+  --color-warning-soft: var(--c-warning-soft, #fff4d6);
+  --color-danger: var(--c-danger, #b42318);
+  --color-danger-soft: var(--c-danger-soft, #fdecea);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --shadow-card: 0 1px 2px rgb(31 36 33 / 0.06), 0 1px 1px rgb(31 36 33 / 0.04);
+  --shadow-lift: 0 10px 30px -12px rgb(31 36 33 / 0.25);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* One focus style everywhere: 2px primary ring with offset. */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Subtle dot grid used behind the hero and certificate. */
+.bg-dots {
+  background-image: radial-gradient(rgb(31 36 33 / 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Hazard band: used at most once per screen as a divider. */
+.hazard {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-accent) 0 12px,
+    var(--color-ink) 12px 24px
+  );
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-step {
+  animation: step-in 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print: only the certificate sheet, on A4. */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    border-radius: 0 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
