@@ -8,19 +8,13 @@ import {
   CalendarDays,
   Check,
   ClipboardList,
-  Clock,
   Coins,
   Globe,
-  GraduationCap,
   HardHat,
-  Languages,
-  ListChecks,
-  ListOrdered,
   MapPin,
   Rocket,
   ShieldCheck,
   User,
-  Users,
   Wrench,
 } from "lucide-react";
 import { ExternalLink, Notice } from "@/components/ui/misc";
@@ -52,51 +46,15 @@ interface Props {
   preview?: boolean;
 }
 
-/**
- * A closed-by-default panel: only its title shows until the student opens it, so
- * the page leads with the task and the dates instead of a wall of text.
- */
-function Fold({
-  icon,
-  title,
-  open,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  open?: boolean;
-  children: React.ReactNode;
-}) {
+function Section({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
-    <details
-      open={open}
-      className="group rounded-lg border-2 border-edge bg-surface shadow-card [&_summary::-webkit-details-marker]:hidden"
-    >
-      <summary className="flex cursor-pointer list-none items-center gap-3 rounded-lg px-4 py-3.5 sm:px-5">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">{icon}</span>
-        <h2 className="flex-1 text-lg font-extrabold tracking-tight">{title}</h2>
-        <span
-          className="flex size-8 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent font-sans text-xl leading-none text-on-accent transition-transform group-open:rotate-45"
-          aria-hidden="true"
-        >
-          +
-        </span>
-      </summary>
-      <div className="space-y-5 border-t-2 border-line px-4 pb-5 pt-4 sm:px-5">{children}</div>
-    </details>
-  );
-}
-
-/** One fact in the sidebar: icon and value; the label is for screen readers and the hover title. */
-function Fact({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div className="flex items-start gap-2.5" title={label}>
-      <dt className="mt-0.5 text-primary">
-        {icon}
-        <span className="sr-only">{label}</span>
-      </dt>
-      <dd className="font-semibold">{value}</dd>
-    </div>
+    <section className="border-t border-line pt-8 first:border-0 first:pt-0">
+      <h2 className="flex items-center gap-2.5 text-xl font-extrabold tracking-tight">
+        <span className="text-primary">{icon}</span>
+        {title}
+      </h2>
+      <div className="mt-4 space-y-5">{children}</div>
+    </section>
   );
 }
 
@@ -156,21 +114,17 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
           </div>
           <p className="mt-4 font-bold text-ink-muted">{c.name || "—"}</p>
           <h1 className="mt-1 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">{title}</h1>
-          <ul className="mt-4 flex flex-wrap gap-2 text-sm font-bold">
-            {p.focusArea && (
-              <li className="rounded-full bg-accent-soft px-3 py-1 text-accent-ink">{focusLabel(p.focusArea, locale)}</li>
+          <p className="mt-3 flex flex-wrap gap-x-2 text-ink-muted">
+            {p.focusArea && <span className="font-bold text-accent-ink">{focusLabel(p.focusArea, locale)}</span>}
+            {p.focusArea && <span aria-hidden="true">·</span>}
+            <span>{fmt(t.common.workingDays, { n: p.lengthDays })}</span>
+            {c.industry && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{industryLabel(c.industry, locale)}</span>
+              </>
             )}
-            <li className="flex items-center gap-1.5 rounded-full border-2 border-line bg-surface px-3 py-1">
-              <Clock className="size-4 text-primary" aria-hidden="true" />
-              {fmt(t.common.workingDays, { n: p.lengthDays })}
-            </li>
-            {publicText(c.address.town) && (
-              <li className="flex items-center gap-1.5 rounded-full border-2 border-line bg-surface px-3 py-1">
-                <MapPin className="size-4 text-primary" aria-hidden="true" />
-                {publicText(c.address.town)}
-              </li>
-            )}
-          </ul>
+          </p>
           {p.isSample && (
             <Notice className="mt-5" icon={<AlertTriangle className="size-5 text-warning" aria-hidden="true" />}>
               {d.sampleNotice}
@@ -178,49 +132,45 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
           )}
         </header>
 
-        <section className="mt-8" aria-labelledby="task-title">
-          <h2 id="task-title" className="flex items-center gap-2.5 text-xl font-extrabold tracking-tight">
-            <ClipboardList className="size-5 text-primary" aria-hidden="true" />
-            {d.task}
-          </h2>
-          <div className="mt-4 space-y-5">
+        <div className="mt-10 space-y-10">
+          <Section icon={<ClipboardList className="size-5" aria-hidden="true" />} title={d.task}>
             <Sub title={d.problem}>{tx(p.problem, locale) || dash}</Sub>
             <Sub title={d.output}>
-              {p.outputType && (
-                <p className="mb-1.5 w-fit rounded-full bg-primary-fill px-3 py-1 text-sm font-bold text-white">
-                  {outputLabel(p.outputType, locale)}
-                </p>
-              )}
+              {p.outputType && <p className="font-bold">{outputLabel(p.outputType, locale)}</p>}
               <p>{tx(p.outputDescription, locale) || (!p.outputType && dash)}</p>
             </Sub>
+            {p.dayPlan.length > 0 && (
+              <Sub title={d.dayPlan}>
+                <ol className="mt-2 space-y-3">
+                  {p.dayPlan.map((day, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-extrabold text-accent-ink">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p className="font-bold">{tx(day.title, locale) || fmt(d.dayN, { n: i + 1 })}</p>
+                        {tx(day.description, locale) && <p className="text-ink-muted">{tx(day.description, locale)}</p>}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </Sub>
+            )}
             {p.tools.length > 0 && (
               <Sub title={d.tools}>
                 <TagList items={p.tools} />
               </Sub>
             )}
-          </div>
-        </section>
+            {tx(p.dataSystems, locale) && <Sub title={d.dataSystems}>{tx(p.dataSystems, locale)}</Sub>}
+            {p.ndaRequired && (
+              <p className="flex items-center gap-2 text-sm font-semibold">
+                <ShieldCheck className="size-4 text-primary" aria-hidden="true" />
+                {d.nda}
+              </p>
+            )}
+          </Section>
 
-        <div className="mt-8 space-y-3">
-          {p.dayPlan.length > 0 && (
-            <Fold icon={<ListOrdered className="size-5" aria-hidden="true" />} title={d.dayPlan} open={preview}>
-              <ol className="space-y-3">
-                {p.dayPlan.map((day, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-extrabold text-accent-ink">
-                      {i + 1}
-                    </span>
-                    <div>
-                      <p className="font-bold">{tx(day.title, locale) || fmt(d.dayN, { n: i + 1 })}</p>
-                      {tx(day.description, locale) && <p className="text-ink-muted">{tx(day.description, locale)}</p>}
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </Fold>
-          )}
-
-          <Fold icon={<Wrench className="size-5" aria-hidden="true" />} title={d.requirements} open={preview}>
+          <Section icon={<Wrench className="size-5" aria-hidden="true" />} title={d.requirements}>
             <div className="grid gap-5 sm:grid-cols-2">
               <Sub title={d.skillsRequired}>
                 {p.skillsRequired.length ? <TagList items={p.skillsRequired.map((s) => tx(s, locale))} /> : dash}
@@ -230,13 +180,6 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
               </Sub>
             </div>
             <Sub title={d.level}>{t.options.skillLevel[p.skillLevel]}</Sub>
-            {tx(p.dataSystems, locale) && <Sub title={d.dataSystems}>{tx(p.dataSystems, locale)}</Sub>}
-            {p.ndaRequired && (
-              <p className="flex items-center gap-2 text-sm font-semibold">
-                <ShieldCheck className="size-4 text-primary" aria-hidden="true" />
-                {d.nda}
-              </p>
-            )}
             {p.bring.length > 0 && (
               <Sub title={d.bring}>
                 <ul className="space-y-1">
@@ -249,7 +192,7 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
                 </ul>
               </Sub>
             )}
-            <div className="rounded-md border-2 border-line bg-surface-muted p-4">
+            <div className="rounded-lg border border-line bg-surface-muted p-4">
               <h3 className="flex items-center gap-2 font-bold">
                 <HardHat className="size-5 text-accent-ink" aria-hidden="true" />
                 {d.safety}
@@ -271,10 +214,10 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
                 {p.parentalConsentRequired && <li>{d.parentalConsent}</li>}
               </ul>
             </div>
-          </Fold>
+          </Section>
 
-          <Fold icon={<Award className="size-5" aria-hidden="true" />} title={d.whatYouGet} open={preview}>
-            <div className="flex gap-4 rounded-md border-2 border-primary/25 bg-primary-soft p-4">
+          <Section icon={<Award className="size-5" aria-hidden="true" />} title={d.whatYouGet}>
+            <div className="flex gap-4 rounded-lg border border-primary/25 bg-primary-soft p-4">
               <BadgeCheck className="size-7 shrink-0 text-primary" aria-hidden="true" />
               <div>
                 <p className="font-extrabold text-primary">{d.credential}</p>
@@ -292,7 +235,7 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
                     <p className="font-bold">
                       {p.mentor.name}
                       {p.mentor.isSample && (
-                        <span className="ml-2 rounded-full bg-warning-soft px-2 py-0.5 align-middle text-xs font-bold text-warning">
+                        <span className="ml-2 rounded-sm bg-warning-soft px-1.5 py-0.5 align-middle text-xs font-bold text-warning">
                           {t.common.sampleMentor}
                         </span>
                       )}
@@ -319,9 +262,9 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
                 </span>
               </Sub>
             </div>
-          </Fold>
+          </Section>
 
-          <Fold icon={<Building2 className="size-5" aria-hidden="true" />} title={d.aboutCompany} open={preview}>
+          <Section icon={<Building2 className="size-5" aria-hidden="true" />} title={d.aboutCompany}>
             <p className="text-[0.98rem] leading-relaxed">{tx(c.description, locale) || dash}</p>
             <dl className="grid gap-4 sm:grid-cols-2">
               {c.industry && (
@@ -385,7 +328,7 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
             ) : (
               !p.isSample && <p className="text-sm text-ink-muted">{d.contactAfterApproval}</p>
             )}
-          </Fold>
+          </Section>
         </div>
       </div>
 
@@ -420,22 +363,21 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
           ) : (
             <p className="mt-3 text-ink-muted">{t.catalogue.noUpcoming}</p>
           )}
-          {/* The deadline rule is left out: each date above already shows its own deadline. */}
-          <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2.5 border-t-2 border-line pt-4 text-sm">
-            <Fact icon={<Clock className="size-4" aria-hidden="true" />} label={d.hours} value={p.hoursFrom && p.hoursTo ? `${p.hoursFrom}–${p.hoursTo}` : "—"} />
-            <Fact icon={<Users className="size-4" aria-hidden="true" />} label={d.age} value={`${p.ageFrom}–${p.ageTo}`} />
-            <Fact icon={<Building2 className="size-4" aria-hidden="true" />} label={d.format} value={t.options.format[p.format]} />
-            <Fact
-              icon={<Languages className="size-4" aria-hidden="true" />}
-              label={d.languages}
-              value={p.languages.map((l) => t.options.languages[l]).join(", ") || "—"}
-            />
-            <Fact
-              icon={<GraduationCap className="size-4" aria-hidden="true" />}
-              label={d.education}
-              value={p.educationLevels.map((e) => t.options.education[e]).join(", ") || "—"}
-            />
-            <Fact icon={<ListChecks className="size-4" aria-hidden="true" />} label={d.selection} value={t.options.selection[p.selectionMethod]} />
+          <dl className="mt-4 space-y-2.5 border-t border-line pt-4 text-sm">
+            {[
+              [d.deadline, fmt(d.deadlineRule, { n: p.deadlineDays })],
+              [d.hours, p.hoursFrom && p.hoursTo ? `${p.hoursFrom}–${p.hoursTo}` : "—"],
+              [d.format, t.options.format[p.format]],
+              [d.languages, p.languages.map((l) => t.options.languages[l]).join(", ") || "—"],
+              [d.age, `${p.ageFrom}–${p.ageTo}`],
+              [d.education, p.educationLevels.map((e) => t.options.education[e]).join(", ") || "—"],
+              [d.selection, t.options.selection[p.selectionMethod]],
+            ].map(([k, v]) => (
+              <div key={k} className="flex justify-between gap-4">
+                <dt className="text-ink-muted">{k}</dt>
+                <dd className="text-right font-semibold">{v}</dd>
+              </div>
+            ))}
           </dl>
           <div className={preview ? "mt-5" : "mt-5 hidden lg:block"}>{action}</div>
         </div>
