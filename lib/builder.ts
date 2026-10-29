@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 import type { PlacementInput } from "@/lib/data/repository";
 import type { CompanyProfile, DayPlanItem, Locale, Placement } from "@/lib/data/types";
 import { endAfterWorkingDays, todayISO } from "@/lib/dates";
-import { tx } from "@/lib/placements";
+import { isTermOpen, tx } from "@/lib/placements";
 import { isEmail } from "@/lib/validation";
 import type { Messages } from "@/messages/lv";
 
@@ -54,7 +54,7 @@ export function emptyPlacementInput(company: CompanyProfile | null): PlacementIn
     compensation: { none: false, stipend: false, stipendAmount: null, meals: false, travel: false },
     opportunities: [],
     opportunitiesOther: "",
-    deadline: "",
+    deadlineDays: 10,
     requireCv: false,
     requireMotivation: true,
     questions: [],
@@ -131,11 +131,8 @@ export function validatePlacement(p: PlacementInput, locale: Locale, today = tod
   if (blank(p.mentor.position, locale)) add(4, "mentorPosition");
   if (p.compensation.stipend && !(p.compensation.stipendAmount && p.compensation.stipendAmount > 0)) add(4, "stipendAmount");
 
-  if (!p.deadline) add(5, "deadline");
-  else {
-    const first = [...p.terms].map((t) => t.start).filter(Boolean).sort()[0];
-    if (first && p.deadline >= first) add(5, "deadlineAfterStart", "deadline");
-  }
+  if (!Number.isInteger(p.deadlineDays) || p.deadlineDays < 0 || p.deadlineDays > 60) add(5, "deadline");
+  else if (p.terms.length && p.terms.every((t) => t.start && !isTermOpen(t, p, today))) add(5, "deadlineAfterStart", "deadline");
   p.questions.forEach((q, i) => {
     if (blank(q.text, locale)) add(5, "questionText", `question-${i}`);
   });

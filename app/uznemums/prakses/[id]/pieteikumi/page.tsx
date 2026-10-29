@@ -4,6 +4,7 @@ import { ArrowLeft, Award, Check, FileText, Mail, Phone, RotateCcw, ShieldCheck,
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { siteConfig } from "@/config/site";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Field, Select, Textarea, RequiredMark } from "@/components/ui/form";
@@ -236,6 +237,8 @@ function ApplicationDialog({
 
   const name = `${app.applicant.firstName} ${app.applicant.lastName}`;
   const term = placement.terms.find((x) => x.id === app.termId);
+  const notEnded = !!term && term.end > todayISO();
+  const blockedEarly = notEnded && !siteConfig.allowCertificateBeforeEnd;
   const age = app.applicant.birthDate ? ageOn(app.applicant.birthDate) : null;
 
   const footer =
@@ -270,7 +273,7 @@ function ApplicationDialog({
           </Button>
         )}
         {app.status === "approved" && (
-          <Button variant="accent" onClick={() => setMode("evaluate")}>
+          <Button variant="accent" onClick={() => setMode("evaluate")} disabled={blockedEarly}>
             <Award className="size-4" aria-hidden="true" />
             {a.complete}
           </Button>
@@ -383,12 +386,17 @@ function ApplicationDialog({
             </section>
           )}
 
+          {app.status === "approved" && blockedEarly && term && (
+            <Notice tone="neutral">
+              <p className="text-sm">{fmt(a.notEndedYet, { date: formatDate(term.end, locale) })}</p>
+            </Notice>
+          )}
           {error && <Notice tone="danger">{error}</Notice>}
         </div>
       ) : (
         <div className="space-y-5">
           <p className="text-ink-muted">{a.evaluationLead}</p>
-          {term && term.end > todayISO() && (
+          {notEnded && (
             <Notice tone="warning">
               <p className="text-sm">{fmt(a.earlyWarning, { date: formatDate(term.end, locale) })}</p>
             </Notice>

@@ -340,7 +340,7 @@ function PhoneVerification() {
               </div>
             ))}
             <div className="flex justify-center pt-1">
-              <Seal text={t.certificate.sealText} className="h-20 w-[4.3rem]" ribbons={false} />
+              <Seal top={t.certificate.sealTop} bottom={t.certificate.sealBottom} className="h-20 w-[4.3rem]" ribbons={false} />
             </div>
           </div>
         </div>

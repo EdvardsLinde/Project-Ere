@@ -25,6 +25,8 @@ import {
   focusLabel,
   freeSpots,
   industryLabel,
+  isTermOpen,
+  termDeadline,
   mapsUrl,
   opportunityLabel,
   outputLabel,
@@ -340,9 +342,17 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
             <ul className="mt-3 divide-y divide-line">
               {terms.map((term) => {
                 const free = preview ? term.spots : freeSpots(term, applications);
+                const open = preview || isTermOpen(term, p);
                 return (
-                  <li key={term.id} className="flex items-center justify-between gap-3 py-2.5 text-[0.95rem]">
-                    <span className="font-semibold">{formatRange(term.start, term.end, locale)}</span>
+                  <li key={term.id} className="flex items-start justify-between gap-3 py-2.5 text-[0.95rem]">
+                    <span>
+                      <span className="block font-semibold">{term.start ? formatRange(term.start, term.end, locale) : "—"}</span>
+                      {term.start && (
+                        <span className={`block text-xs ${open ? "text-ink-muted" : "font-semibold text-danger"}`}>
+                          {open ? fmt(d.applyBy, { date: formatDate(termDeadline(term, p), locale) }) : d.termClosed}
+                        </span>
+                      )}
+                    </span>
                     <span className={`shrink-0 text-sm ${free === 0 ? "font-bold text-danger" : "text-ink-muted"}`}>
                       {free === 0 ? t.common.noSpots : fmt(t.common.spotsFree, { n: free })}
                     </span>
@@ -355,7 +365,7 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
           )}
           <dl className="mt-4 space-y-2.5 border-t border-line pt-4 text-sm">
             {[
-              [d.deadline, p.deadline ? formatDate(p.deadline, locale) : "—"],
+              [d.deadline, fmt(d.deadlineRule, { n: p.deadlineDays })],
               [d.hours, p.hoursFrom && p.hoursTo ? `${p.hoursFrom}–${p.hoursTo}` : "—"],
               [d.format, t.options.format[p.format]],
               [d.languages, p.languages.map((l) => t.options.languages[l]).join(", ") || "—"],

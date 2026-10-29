@@ -108,13 +108,13 @@ Decisions made where the brief was open. Change them if they're wrong.
 1. **Rebuilt from scratch on Next.js.** The previous Vite prototype ("SEER") was removed; it is still in git history.
 2. **Colours.** The brief asks for forest green + signal orange, so that's what's used. The previous prototype had just switched to the Saldus coat-of-arms blue/gold; to go back, edit `theme` in `config/site.ts`. No dark mode in v1.
 3. **Free spots** = spots minus *approved + completed* applications per date. New (unreviewed) applications don't hold a spot, so more people can apply than there are spots, and approving is blocked when a date is full.
-4. **One deadline per placement** (as in the builder spec). For sample placements with two date ranges, the deadline is 10 days before the *first* start, so after that the later dates can't be applied for either. Per-date deadlines would fix this.
+4. **Deadlines are per set of dates.** The brief asks for one "application deadline"; a single date would close *all* dates of a placement at once (e.g. a February date would close in November). Instead the company sets "days before the start" (default 10, as the brief suggests) and each set of dates closes that many days before it begins. The detail page and application form show each date's own deadline.
 5. **Guardian consent** is required when the applicant is under 18 *and* the placement keeps "minors need parental consent" on (default yes).
 6. **Applicant age** must be within the placement's age range (15–24 by default); registration requires 15–24.
 7. **Companies may view** a public placement page (e.g. their own) but can't apply; only the `/prakses` list redirects them to `/uznemums`.
 8. **Contact person** is shown to a student only after approval *and* only if the company is `confirmed`. Companies that register themselves count as confirmed; the 8 sample companies are not.
 9. **Published placements don't autosave** (changes would go live half-finished). They have "Save changes", which validates first. Drafts autosave about 0.7 s after each change.
-10. **Certificates can be issued before the placement's end date**, with a warning, so the full flow can be tested on future dates. The data still shows the planned dates. In production this should be blocked until the end date.
+10. **Certificates before the end date.** In the demo a company can issue a certificate before the placement's end date (with a warning), so the whole flow can be tried on future dates. Set `allowCertificateBeforeEnd: false` in `config/site.ts` for real use: then the button is disabled until the end date and the data layer refuses it too.
 11. **The demo company has an extra finished placement** (12–14 Oct 2026), so the demo student's completed application and certificate `SDS-2026-0001` have a real source.
 12. **Sample mentors are invented** and marked "Parauga mentors" / "Sample mentor". Sample compensation and opportunities are left as "to be confirmed by the company", except the opportunities the brief lists (SCHWENK, SC GRUPA, Brimer).
 13. **Bilingual content.** Sample data is written in LV and EN. Text that companies and students type is stored as typed and shown in both languages unchanged.
@@ -181,11 +181,11 @@ Visas lapas izmanto tikai `DataRepository` saskarni (`lib/data/repository.ts`). 
 Galvenie pieņēmumi (pilns saraksts angļu sadaļā):
 
 - Brīvās vietas = vietas mīnus apstiprinātie un pabeigtie pieteikumi.
-- Viens pieteikšanās termiņš visai praksei.
+- Pieteikšanās termiņš ir “N dienas pirms sākuma” katriem datumiem atsevišķi (noklusējums 10).
 - Vecāku piekrišana vajadzīga, ja jaunietim nav 18 gadu.
 - Kontaktpersona redzama tikai pēc apstiprināšanas un tikai apstiprinātiem uzņēmumiem.
 - Publicētas prakses nesaglabājas automātiski; melnraksti saglabājas.
-- Sertifikātu var izsniegt pirms prakses beigām (ar brīdinājumu), lai demo plūsmu varētu notestēt.
+- Demo režīmā sertifikātu var izsniegt pirms prakses beigām (ar brīdinājumu). Īstai lietošanai `config/site.ts` iestati `allowCertificateBeforeEnd: false`.
 - 8 parauga uzņēmumi **nav apstiprinājuši dalību**: tiem ir "Ilustratīvs piemērs" emblēma, izdomāti mentori, un kontakti netiek rādīti.
 
 ### Statistika

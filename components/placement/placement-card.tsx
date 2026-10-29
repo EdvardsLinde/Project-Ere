@@ -5,7 +5,7 @@ import Link from "next/link";
 import { formatDate, formatRange } from "@/lib/dates";
 import type { Application, Placement } from "@/lib/data/types";
 import { fmt, useI18n } from "@/lib/i18n";
-import { focusLabel, freeSpots, industryLabel, totalFreeSpots, tx, upcomingTerms } from "@/lib/placements";
+import { focusLabel, freeSpots, industryLabel, nextDeadline, termDeadline, totalFreeSpots, tx, upcomingTerms } from "@/lib/placements";
 import { BeginnerBadge, placementLocation, SampleBadge } from "./display";
 
 interface Props {
@@ -22,6 +22,7 @@ export function PlacementCard({ placement: p, applications, preview, headingLeve
   const free = preview ? terms.reduce((s, x) => s + x.spots, 0) : totalFreeSpots(p, applications);
   const title = tx(p.title, locale) || "—";
   const location = placementLocation(p);
+  const deadline = preview ? (terms[0]?.start ? termDeadline(terms[0], p) : null) : nextDeadline(p);
   const tags = [...p.tools, ...p.skillsRequired.map((s) => tx(s, locale))].slice(0, 5);
 
   const body = (
@@ -90,9 +91,9 @@ export function PlacementCard({ placement: p, applications, preview, headingLeve
         </ul>
       )}
 
-      {p.deadline && (
+      {deadline && (
         <p className="mt-auto border-t border-dashed border-line pt-3 text-sm text-ink-muted">
-          {fmt(t.catalogue.deadline, { date: formatDate(p.deadline, locale) })}
+          {fmt(t.catalogue.deadline, { date: formatDate(deadline, locale) })}
         </p>
       )}
     </>

@@ -1,12 +1,24 @@
 import { useId } from "react";
 
 /**
- * Round certificate seal: ring text, the logo's factory roofline in the middle
- * and two orange ribbon tails. Purely decorative (aria-hidden).
+ * Round certificate seal: text along the top and bottom of the ring, the logo's
+ * factory roofline in the middle and two orange ribbon tails. Decorative (aria-hidden).
  */
-export function Seal({ text, year, className = "size-28", ribbons = true }: { text: string; year?: string | number; className?: string; ribbons?: boolean }) {
+export function Seal({
+  top,
+  bottom,
+  year,
+  className = "size-28",
+  ribbons = true,
+}: {
+  top: string;
+  bottom: string;
+  year?: string | number;
+  className?: string;
+  ribbons?: boolean;
+}) {
   const id = useId().replace(/:/g, "");
-  const ring = `${text} · `;
+  const font = { fontFamily: "var(--font-sans)" };
   return (
     <svg viewBox="0 0 120 140" className={className} aria-hidden="true">
       {ribbons && (
@@ -16,20 +28,29 @@ export function Seal({ text, year, className = "size-28", ribbons = true }: { te
         </g>
       )}
       <circle cx="60" cy="60" r="56" fill="var(--color-primary)" />
-      <circle cx="60" cy="60" r="50" fill="none" stroke="#fff" strokeOpacity=".55" strokeWidth="1" strokeDasharray="2 3" />
+      <circle cx="60" cy="60" r="51" fill="none" stroke="#fff" strokeOpacity=".5" strokeWidth="0.8" />
       <circle cx="60" cy="60" r="34" fill="#fff" />
       <defs>
-        <path id={`ring-${id}`} d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0" />
+        {/* Top arc runs left→right over the top; bottom arc left→right under the bottom so both read upright. */}
+        <path id={`top-${id}`} d="M17,60 a43,43 0 0,1 86,0" />
+        <path id={`bottom-${id}`} d="M13,60 a47,47 0 0,0 94,0" />
       </defs>
-      <text fill="#fff" fontSize="7.4" fontWeight="800" letterSpacing="1" style={{ fontFamily: "var(--font-sans)" }}>
-        <textPath href={`#ring-${id}`} textLength="263" lengthAdjust="spacing">
-          {ring.toUpperCase()}
+      <text fill="#fff" fontSize="8" fontWeight="800" letterSpacing="1.4" style={font}>
+        <textPath href={`#top-${id}`} startOffset="50%" textAnchor="middle">
+          {top.toUpperCase()}
         </textPath>
       </text>
+      <text fill="#fff" fontSize="8" fontWeight="800" letterSpacing="1.4" style={font}>
+        <textPath href={`#bottom-${id}`} startOffset="50%" textAnchor="middle">
+          {bottom.toUpperCase()}
+        </textPath>
+      </text>
+      <circle cx="13" cy="60" r="1.6" fill="var(--color-accent)" />
+      <circle cx="107" cy="60" r="1.6" fill="var(--color-accent)" />
       <path d="M41 70V58l6 4v-4l6 4v-4l6 4V48h8v22z" fill="var(--color-primary)" />
       <circle cx="73" cy="46" r="4" fill="var(--color-accent)" />
       {year !== undefined && (
-        <text x="60" y="84" textAnchor="middle" fontSize="8" fontWeight="800" fill="var(--color-primary)" style={{ fontFamily: "var(--font-sans)" }}>
+        <text x="60" y="84" textAnchor="middle" fontSize="8" fontWeight="800" fill="var(--color-primary)" style={font}>
           {year}
         </text>
       )}

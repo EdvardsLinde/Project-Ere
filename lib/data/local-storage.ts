@@ -5,8 +5,9 @@
  * by anyone with access to the browser. This exists only to demonstrate the
  * product. Swap it for a real backend (see `lib/data/index.ts` and README).
  */
+import { siteConfig } from "@/config/site";
 import { todayISO } from "@/lib/dates";
-import { applyBlockReason, formatCertificateId } from "@/lib/placements";
+import { applyBlockReason, formatCertificateId, isTermOpen } from "@/lib/placements";
 import {
   DataError,
   type DataRepository,
@@ -357,6 +358,7 @@ export class LocalStorageRepository implements DataRepository {
       if (block === "not-published") throw new DataError("notPublished");
       const term = placement.terms.find((t) => t.id === input.termId);
       if (!term || term.start < todayISO()) throw new DataError("invalidState");
+      if (!isTermOpen(term, placement)) throw new DataError("deadlinePassed");
       const taken = existing.filter(
         (a) => a.termId === term.id && (a.status === "approved" || a.status === "completed"),
       ).length;
@@ -403,6 +405,7 @@ export class LocalStorageRepository implements DataRepository {
       const placement = db.placements.find((p) => p.id === app.placementId);
       if (!placement) throw new DataError("notFound");
       const term = placement.terms.find((t) => t.id === app.termId) ?? placement.terms[0];
+      if (!siteConfig.allowCertificateBeforeEnd && term.end > todayISO()) throw new DataError("notEnded");
       const now = new Date();
       const year = now.getFullYear();
       const seq = (db.certificateCounters[year] ?? 0) + 1;

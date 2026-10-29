@@ -193,7 +193,8 @@ export interface Placement {
   opportunitiesOther: Text;
 
   // Step 6 — applications
-  deadline: ISODate | "";
+  /** Applications for each date range close this many days before its start. */
+  deadlineDays: number;
   requireCv: boolean;
   requireMotivation: boolean;
   questions: ScreeningQuestion[];

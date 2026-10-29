@@ -51,7 +51,7 @@ export function CertificateIllustration() {
             </div>
           </div>
         </div>
-        <Seal text={t.certificate.sealText} year={2026} className="absolute -bottom-6 left-1/2 h-28 w-24 -translate-x-1/2" />
+        <Seal top={t.certificate.sealTop} bottom={t.certificate.sealBottom} year={2026} className="absolute -bottom-6 left-1/2 h-28 w-24 -translate-x-1/2" />
       </div>
     </div>
   );

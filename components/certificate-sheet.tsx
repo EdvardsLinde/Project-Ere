@@ -166,7 +166,7 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
                 {tx(c.mentor.position, locale) && `, ${tx(c.mentor.position, locale)}`}
               </p>
             </div>
-            <Seal text={ct.sealText} year={c.issuedAt.slice(0, 4)} className="h-28 w-24 sm:h-32 sm:w-28 print:h-28 print:w-24" />
+            <Seal top={ct.sealTop} bottom={ct.sealBottom} year={c.issuedAt.slice(0, 4)} className="h-28 w-24 sm:h-32 sm:w-28 print:h-28 print:w-24" />
             <div className="text-right">
               <div className="h-px bg-ink/50" />
               <p className="mt-1.5 font-bold leading-tight">{c.companyName}</p>

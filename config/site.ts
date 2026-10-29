@@ -133,6 +133,12 @@ export const siteConfig = {
     "Warmeston",
   ],
 
+  /**
+   * Demo convenience: allow issuing a certificate before the placement's end date,
+   * so the whole flow can be tried on future dates. Set to `false` for real use.
+   */
+  allowCertificateBeforeEnd: true,
+
   /** Size limits for demo-mode uploads (stored in localStorage). */
   uploads: {
     logoMaxBytes: 200 * 1024,

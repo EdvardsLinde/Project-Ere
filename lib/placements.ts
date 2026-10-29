@@ -1,5 +1,5 @@
 import { siteConfig, type Bilingual } from "@/config/site";
-import { ageOn, todayISO } from "@/lib/dates";
+import { addDays, ageOn, todayISO } from "@/lib/dates";
 import type { Application, Locale, Placement, PlacementTerm, Text } from "@/lib/data/types";
 
 /** Resolve bilingual text. Plain strings (typed by a company) are shown as-is. */
@@ -34,8 +34,13 @@ export function freeSpots(term: PlacementTerm, applications: Application[]): num
   return Math.max(0, term.spots - takenSpots(term.id, applications));
 }
 
-export function isDeadlinePassed(placement: Pick<Placement, "deadline">, today = todayISO()): boolean {
-  return !!placement.deadline && placement.deadline < today;
+/** Last day to apply for a date range: `deadlineDays` before its start. */
+export function termDeadline(term: Pick<PlacementTerm, "start">, placement: Pick<Placement, "deadlineDays">): string {
+  return addDays(term.start, -Math.max(0, placement.deadlineDays || 0));
+}
+
+export function isTermOpen(term: PlacementTerm, placement: Pick<Placement, "deadlineDays">, today = todayISO()): boolean {
+  return !!term.start && termDeadline(term, placement) >= today;
 }
 
 /** Terms that have not started yet, soonest first. */
@@ -51,6 +56,17 @@ export function nextStart(placement: Placement, today = todayISO()): string | nu
   return upcomingTerms(placement, today)[0]?.start ?? null;
 }
 
+/** Date ranges that can still be applied for, soonest first. */
+export function openTerms(placement: Placement, today = todayISO()): PlacementTerm[] {
+  return upcomingTerms(placement, today).filter((t) => isTermOpen(t, placement, today));
+}
+
+/** The soonest application deadline that hasn't passed, if any. */
+export function nextDeadline(placement: Placement, today = todayISO()): string | null {
+  const term = openTerms(placement, today)[0];
+  return term ? termDeadline(term, placement) : null;
+}
+
 export type ApplyBlock = "not-published" | "deadline" | "full" | "duplicate" | null;
 
 /** Why a student can't apply (or `null` if they can). */
@@ -62,8 +78,9 @@ export function applyBlockReason(
 ): ApplyBlock {
   if (placement.status !== "published") return "not-published";
   if (studentId && placementApplications.some((a) => a.studentId === studentId)) return "duplicate";
-  if (isDeadlinePassed(placement, today)) return "deadline";
-  if (totalFreeSpots(placement, placementApplications, today) === 0) return "full";
+  const open = openTerms(placement, today);
+  if (open.length === 0) return "deadline";
+  if (open.every((t) => freeSpots(t, placementApplications) === 0)) return "full";
   return null;
 }
 

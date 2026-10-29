@@ -109,7 +109,8 @@ export type DataErrorCode =
   | "noSpots"
   | "notPublished"
   | "storageFull"
-  | "invalidState";
+  | "invalidState"
+  | "notEnded";
 
 export class DataError extends Error {
   constructor(public code: DataErrorCode) {

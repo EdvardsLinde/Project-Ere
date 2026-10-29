@@ -7,7 +7,7 @@
  * - exact street addresses are unknown (`[TODO: confirm address]`);
  * - mentors are invented and marked `isSample: true`.
  */
-import { addDays, endAfterWorkingDays } from "@/lib/dates";
+import { endAfterWorkingDays } from "@/lib/dates";
 import { formatCertificateId } from "@/lib/placements";
 import type {
   Application,
@@ -23,7 +23,7 @@ import type {
 import { demoHash } from "./util";
 
 /** Bump when seed data or the stored shape changes: browsers with an older version reseed. */
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 export const DEMO_ACCOUNTS = {
   company: { email: "demo@uznemums.lv", password: "demo1234" },
@@ -236,7 +236,6 @@ type SampleInput = Pick<
 
 function samplePlacement(input: SampleInput): Placement {
   const company = companies.find((c) => c.id === input.companyId)!;
-  const firstStart = [...input.terms].sort((a, z) => a.start.localeCompare(z.start))[0].start;
   return {
     status: "published",
     isSample: true,
@@ -266,7 +265,7 @@ function samplePlacement(input: SampleInput): Placement {
     compensation: { none: false, stipend: false, stipendAmount: null, meals: false, travel: false },
     opportunities: [],
     opportunitiesOther: "",
-    deadline: addDays(firstStart, -10),
+    deadlineDays: 10,
     requireCv: false,
     requireMotivation: true,
     questions: [],
@@ -604,7 +603,6 @@ const demoCompany: CompanyProfile = {
 };
 
 function demoPlacement(p: Partial<Placement> & Pick<Placement, "id" | "status" | "title" | "terms">): Placement {
-  const firstStart = [...p.terms].sort((a, z) => a.start.localeCompare(z.start))[0]?.start;
   return {
     companyId: demoCompany.id,
     isSample: false,
@@ -647,7 +645,7 @@ function demoPlacement(p: Partial<Placement> & Pick<Placement, "id" | "status" |
     compensation: { none: false, stipend: false, stipendAmount: null, meals: true, travel: true },
     opportunities: ["summer-job", "tour"],
     opportunitiesOther: "",
-    deadline: firstStart ? addDays(firstStart, -10) : "",
+    deadlineDays: 10,
     requireCv: false,
     requireMotivation: true,
     questions: [
@@ -710,7 +708,6 @@ const demoPlacements: Placement[] = [
     lengthDays: 4,
     outputType: "audit",
     terms: [],
-    deadline: "",
     problem: b("Biroja datoriem nav vienotu drošības iestatījumu.", "Office computers have no consistent security settings."),
   }),
 ];

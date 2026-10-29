@@ -10,9 +10,9 @@ import { recalcTerms, resizeDayPlan, samplePlan } from "@/lib/builder";
 import { newId } from "@/lib/data/util";
 import type { PlacementInput } from "@/lib/data/repository";
 import type { EducationLevel, Text, WorkLanguage } from "@/lib/data/types";
-import { endAfterWorkingDays, formatDate } from "@/lib/dates";
+import { endAfterWorkingDays, formatDate, formatRange } from "@/lib/dates";
 import { fmt, useI18n } from "@/lib/i18n";
-import { tx } from "@/lib/placements";
+import { isTermOpen, termDeadline, tx } from "@/lib/placements";
 
 export interface StepProps {
   data: PlacementInput;
@@ -487,11 +487,38 @@ export function StepApplications({ data, update, err }: StepProps) {
     <>
       <StepHeading title={s.title} />
       <div className="space-y-6">
-        <Field label={s.deadline} required hint={s.deadlineHint} error={err("deadline")} className="sm:max-w-xs">
-          {({ id, describedBy, invalid }) => (
-            <Input id={id} type="date" value={data.deadline} onChange={(e) => update({ deadline: e.target.value })} aria-describedby={describedBy} invalid={invalid} />
+        <div>
+          <Field label={s.deadline} required hint={s.deadlineHint} error={err("deadline")} className="sm:max-w-sm">
+            {({ id, describedBy, invalid }) => (
+              <Input
+                id={id}
+                type="number"
+                min={0}
+                max={60}
+                inputMode="numeric"
+                value={Number.isFinite(data.deadlineDays) ? data.deadlineDays : ""}
+                onChange={(e) => update({ deadlineDays: e.target.value === "" ? NaN : Number(e.target.value) })}
+                aria-describedby={describedBy}
+                invalid={invalid}
+                className="sm:max-w-[8rem]"
+              />
+            )}
+          </Field>
+          {data.terms.some((x) => x.start) && Number.isFinite(data.deadlineDays) && (
+            <div className="mt-3 rounded-md bg-surface-muted px-3 py-2 text-sm" aria-live="polite">
+              <p className="font-semibold">{s.deadlinePreview}</p>
+              <ul className="mt-1 space-y-0.5">
+                {data.terms
+                  .filter((x) => x.start)
+                  .map((x) => (
+                    <li key={x.id} className={isTermOpen(x, data) ? "" : "text-danger"}>
+                      {formatRange(x.start, x.end, locale)} → {formatDate(termDeadline(x, data), locale)}
+                    </li>
+                  ))}
+              </ul>
+            </div>
           )}
-        </Field>
+        </div>
         <div className="space-y-3">
           <Checkbox label={s.requireCv} checked={data.requireCv} onChange={(e) => update({ requireCv: e.target.checked })} />
           <Checkbox label={s.requireMotivation} checked={data.requireMotivation} onChange={(e) => update({ requireMotivation: e.target.checked })} />

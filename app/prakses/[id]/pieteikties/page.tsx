@@ -8,12 +8,12 @@ import { siteConfig } from "@/config/site";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Checkbox, ChoiceGroup, Field, FieldError, Input, Textarea, RequiredMark } from "@/components/ui/form";
 import { Card, Container, EmptyState, Loading, Notice } from "@/components/ui/misc";
-import { ageOn, formatRange } from "@/lib/dates";
+import { ageOn, formatDate, formatRange } from "@/lib/dates";
 import { DataError, getRepository } from "@/lib/data";
 import { useQuery } from "@/lib/data/hooks";
 import type { ApplicantDetails, Application, Placement, StudentProfile } from "@/lib/data/types";
 import { fmt, formatBytes, useI18n } from "@/lib/i18n";
-import { applyBlockReason, freeSpots, isMinor, schoolLabel, tx, upcomingTerms } from "@/lib/placements";
+import { applyBlockReason, freeSpots, isMinor, isTermOpen, schoolLabel, termDeadline, tx, upcomingTerms } from "@/lib/placements";
 import { useRoleGuard, useSession } from "@/lib/session";
 import { focusFirstError, isEmail, isISODate, isPhone, type Errors } from "@/lib/validation";
 
@@ -127,7 +127,8 @@ function ApplyForm({
   const a = t.apply;
   const v = t.validation;
   const terms = upcomingTerms(p);
-  const firstFree = terms.find((term) => freeSpots(term, applications) > 0);
+  const canPick = (term: (typeof terms)[number]) => isTermOpen(term, p) && freeSpots(term, applications) > 0;
+  const pickable = terms.filter(canPick);
 
   const [applicant, setApplicant] = useState<ApplicantDetails>({
     firstName: profile.firstName,
@@ -138,7 +139,7 @@ function ApplyForm({
     school: schoolLabel(profile.schoolId, profile.schoolOther, locale),
     grade: profile.grade,
   });
-  const [termId, setTermId] = useState(terms.length === 1 && firstFree ? firstFree.id : "");
+  const [termId, setTermId] = useState(pickable.length === 1 ? pickable[0].id : "");
   const [motivation, setMotivation] = useState("");
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [cv, setCv] = useState<{ name: string; size: number } | null>(null);
@@ -288,11 +289,13 @@ function ApplyForm({
             <div className="mt-4 space-y-2">
               {terms.map((term) => {
                 const free = freeSpots(term, applications);
+                const open = isTermOpen(term, p);
+                const disabled = !canPick(term);
                 return (
                   <label
                     key={term.id}
                     className={`flex items-center justify-between gap-3 rounded-md border px-4 py-3 ${
-                      free === 0
+                      disabled
                         ? "cursor-not-allowed border-line bg-surface-muted text-ink-muted"
                         : termId === term.id
                           ? "cursor-pointer border-primary bg-primary-soft"
@@ -305,12 +308,17 @@ function ApplyForm({
                         name="term"
                         value={term.id}
                         checked={termId === term.id}
-                        disabled={free === 0}
+                        disabled={disabled}
                         onChange={() => setTermId(term.id)}
                         data-invalid={errors.termId ? "true" : undefined}
                         className="size-4 accent-[var(--color-primary)]"
                       />
-                      <span className="font-semibold">{formatRange(term.start, term.end, locale)}</span>
+                      <span>
+                        <span className="block font-semibold">{formatRange(term.start, term.end, locale)}</span>
+                        <span className="block text-xs">
+                          {open ? fmt(t.detail.applyBy, { date: formatDate(termDeadline(term, p), locale) }) : t.detail.termClosed}
+                        </span>
+                      </span>
                     </span>
                     <span className="text-sm">{free === 0 ? t.common.noSpots : fmt(t.common.spotsFree, { n: free })}</span>
                   </label>
