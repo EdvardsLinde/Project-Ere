@@ -9,13 +9,12 @@
 export type Bilingual = { lv: string; en: string };
 
 export const siteConfig = {
-  name: { lv: "Saldus Industriālā digitālā pase", en: "Saldus Industrial Digital Passport" },
-  shortName: { lv: "Digitālā pase", en: "Digital Passport" },
-  passportName: { lv: "Industriālā digitālā pase", en: "Industrial Digital Passport" },
-  /** Certificate IDs look like `SDP-2026-0001`. */
-  certificatePrefix: "SDP",
+  name: { lv: "Saldus Industriālais digitālais sertifikāts", en: "Saldus Industrial Digital Certificate" },
+  shortName: { lv: "Digitālais sertifikāts", en: "Digital Certificate" },
+  /** Certificate IDs look like `SDS-2026-0001` (Saldus Digitālais Sertifikāts). */
+  certificatePrefix: "SDS",
   /** Used to build absolute links (QR code) when `window.location` is not available. */
-  siteUrl: "https://saldus-digital-passport.vercel.app",
+  siteUrl: "https://saldus-digital-certificate.vercel.app",
 
   contacts: {
     email: "[TODO: team email]",

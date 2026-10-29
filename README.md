@@ -1,8 +1,8 @@
-# Saldus Industrial Digital Passport · Saldus Industriālā digitālā pase
+# Saldus Industrial Digital Certificate · Saldus Industriālais digitālais sertifikāts
 
-**EN** · 3–5 day placements for 15–24-year-olds from Saldus municipality at local companies. The young person solves a real, small digital task on the company's actual data and systems with a mentor, and earns the **Industrial Digital Passport**, a certificate the partner companies recognise.
+**EN** · 3–5 day placements for 15–24-year-olds from Saldus municipality at local companies. The young person solves a real, small digital task on the company's actual data and systems with a mentor, and earns the **Industrial Digital Certificate**, a diploma-style document the partner companies recognise.
 
-**LV** · 3–5 dienu prakses Saldus novada uzņēmumos 15–24 gadus veciem jauniešiem. Jaunietis kopā ar mentoru atrisina īstu, nelielu digitālu uzdevumu ar uzņēmuma datiem un sistēmām un saņem **Industriālo digitālo pasi** — sertifikātu, ko atzīst partneruzņēmumi.
+**LV** · 3–5 dienu prakses Saldus novada uzņēmumos 15–24 gadus veciem jauniešiem. Jaunietis kopā ar mentoru atrisina īstu, nelielu digitālu uzdevumu ar uzņēmuma datiem un sistēmām un saņem **Industriālo digitālo sertifikātu**, ko atzīst partneruzņēmumi.
 
 > ⚠️ **Demo mode / Demo režīms.** There is no server. Accounts, placements, applications and certificates live in the browser's `localStorage`. Login is **not secure** and exists for demonstration only. / Servera nav. Konti, prakses, pieteikumi un sertifikāti glabājas pārlūka `localStorage`. Pieslēgšanās **nav droša** un paredzēta tikai demonstrācijai.
 
@@ -27,7 +27,7 @@ Open http://localhost:3000. `npm run build` makes a production build (type-check
 | Role | Email | Password | What's there |
 |---|---|---|---|
 | Company | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 published placement, 1 draft, 1 finished placement with an issued certificate |
-| Student | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, aged 17: 1 approved application, 1 completed, certificate `SDP-2026-0001` |
+| Student | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, aged 17: 1 approved application, 1 completed, certificate `SDS-2026-0001` |
 
 The login page has a "Fill in the demo account" button.
 
@@ -39,7 +39,7 @@ Footer → **"Atiestatīt demo datus" (Reset demo data)**. This deletes everythi
 
 | Route | Who | What |
 |---|---|---|
-| `/` | everyone | "Ideja" home page: hero, statistics with sources, how it works, benefits, passport, comparison, partners, sample week, FAQ |
+| `/` | everyone | "Ideja" home page: hero, statistics with sources, how it works, benefits, certificate, comparison, partners, sample week, FAQ |
 | `/prakses` | guests, students (companies → `/uznemums`) | Catalogue: filters, search, sort |
 | `/prakses/[id]` | everyone | Placement detail; apply button (sticky on mobile) |
 | `/prakses/[id]/pieteikties` | students (guests → registration → back here) | Application form |
@@ -115,11 +115,12 @@ Decisions made where the brief was open. Change them if they're wrong.
 8. **Contact person** is shown to a student only after approval *and* only if the company is `confirmed`. Companies that register themselves count as confirmed; the 8 sample companies are not.
 9. **Published placements don't autosave** (changes would go live half-finished). They have "Save changes", which validates first. Drafts autosave about 0.7 s after each change.
 10. **Certificates can be issued before the placement's end date**, with a warning, so the full flow can be tested on future dates. The data still shows the planned dates. In production this should be blocked until the end date.
-11. **The demo company has an extra finished placement** (12–14 Oct 2026), so the demo student's completed application and certificate `SDP-2026-0001` have a real source.
+11. **The demo company has an extra finished placement** (12–14 Oct 2026), so the demo student's completed application and certificate `SDS-2026-0001` have a real source.
 12. **Sample mentors are invented** and marked "Parauga mentors" / "Sample mentor". Sample compensation and opportunities are left as "to be confirmed by the company", except the opportunities the brief lists (SCHWENK, SC GRUPA, Brimer).
 13. **Bilingual content.** Sample data is written in LV and EN. Text that companies and students type is stored as typed and shown in both languages unchanged.
 14. **Address placeholders** like `[TODO: confirm address]` stay in the data but are never shown in the UI.
 15. **"Completed placements"** on the company dashboard counts placements with status *Finished*.
+16. **Name: "sertifikāts", not "diploms".** The credential was renamed from "Industriālā digitālā pase" to "Industriālais digitālais sertifikāts" and is laid out like a diploma. "Diploms" is avoided on purpose: in Latvia it usually means an official education document from an accredited institution. Certificate IDs now start with `SDS` (Saldus Digitālais Sertifikāts); the prefix is in `config/site.ts`.
 
 ### Statistics on the home page
 
@@ -151,7 +152,7 @@ Atver http://localhost:3000. `npm run build` izveido produkcijas versiju (arī p
 | Loma | E-pasts | Parole | Kas tur ir |
 |---|---|---|---|
 | Uzņēmums | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 publicēta prakse, 1 melnraksts, 1 pabeigta prakse ar izsniegtu sertifikātu |
-| Skolēns | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, 17 gadi: 1 apstiprināts pieteikums, 1 pabeigts, sertifikāts `SDP-2026-0001` |
+| Skolēns | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, 17 gadi: 1 apstiprināts pieteikums, 1 pabeigts, sertifikāts `SDS-2026-0001` |
 
 Pieslēgšanās lapā ir poga "Aizpildīt ar demo kontu".
 

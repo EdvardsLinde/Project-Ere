@@ -1,4 +1,4 @@
-/** Passport mark: a green card with a saw-tooth factory roofline and an orange stamp. */
+/** Logo mark: a green tile with a saw-tooth factory roofline and an orange seal dot. */
 export function LogoMark({ className = "size-9" }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden="true">

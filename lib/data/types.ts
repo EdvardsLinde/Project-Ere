@@ -242,7 +242,7 @@ export interface Application {
 }
 
 export interface Certificate {
-  /** e.g. `SDP-2026-0001` */
+  /** e.g. `SDS-2026-0001` */
   id: string;
   applicationId: string;
   placementId: string;

@@ -427,7 +427,7 @@ export function StepBenefits({ data, update, err }: StepProps) {
 
         <fieldset className="space-y-3 rounded-md border border-primary/25 bg-primary-soft p-4">
           <legend className="px-1 text-sm font-bold">{s.certificateTitle}</legend>
-          <Checkbox label={t.detail.passport} hint={s.certificateAlways} checked disabled readOnly />
+          <Checkbox label={t.detail.credential} hint={s.certificateAlways} checked disabled readOnly />
           <Checkbox label={s.recognises} checked={data.recognisesCertificate} onChange={(e) => update({ recognisesCertificate: e.target.checked })} />
         </fieldset>
 

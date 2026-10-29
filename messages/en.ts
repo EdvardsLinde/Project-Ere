@@ -3,7 +3,7 @@ import type { Messages } from "./lv";
 /** English UI text. Must match the shape of `messages/lv.ts` (type-checked). */
 const en: Messages = {
   meta: {
-    title: "Saldus Industrial Digital Passport",
+    title: "Saldus Industrial Digital Certificate",
     description:
       "3–5 day placements at Saldus municipality companies for 15–24-year-olds: a real digital task, a mentor and a certificate employers recognise.",
   },
@@ -83,7 +83,7 @@ const en: Messages = {
 
   footer: {
     about:
-      "Short digital placements at Saldus municipality companies for young people aged 15–24 — with a real task, a mentor and the Industrial Digital Passport.",
+      "Short digital placements at Saldus municipality companies for young people aged 15–24 — with a real task, a mentor and the Industrial Digital Certificate.",
     contacts: "Contacts",
     email: "Email",
     survey: "Fill in our survey",
@@ -102,16 +102,15 @@ const en: Messages = {
       eyebrow: "Saldus municipality · ages 15–24",
       title: "Real experience at Saldus companies — in 3–5 days",
       lead:
-        "You don't just watch: with a mentor, you solve a real, small digital task using the company's actual data and systems. The result stays with the company, and you earn the Industrial Digital Passport — a certificate the companies themselves recognise.",
+        "You don't just watch: with a mentor, you solve a real, small digital task using the company's actual data and systems. The result stays with the company, and you earn the Industrial Digital Certificate, which the companies themselves recognise.",
       findCta: "Find a placement",
       offerCta: "Offer a placement",
-      passportLabel: "Industrial Digital Passport",
-      passportSample: "Sample",
-      passportDays: "Placement days",
-      passportTask: "Task",
-      passportTaskValue: "Downtime data dashboard",
-      passportMentor: "Mentor evaluation",
-      dayShort: "D{n}",
+      certTitle: "Certificate",
+      certKicker: "Industrial Digital",
+      certSample: "Sample",
+      certAwardedTo: "Awarded to",
+      certTaskValue: "Downtime data dashboard · 5 working days",
+      certMentor: "Mentor evaluation",
     },
     why: {
       eyebrow: "Why now",
@@ -174,7 +173,7 @@ const en: Messages = {
         { title: "You pick one and apply", text: "Find a placement by field, dates and location and fill in the application." },
         { title: "The company approves", text: "The company reviews applications and approves the participant." },
         { title: "3–5 days at the company", text: "Work on the task together with a mentor from the company." },
-        { title: "Result and passport", text: "Present your result, get the mentor's evaluation and the Industrial Digital Passport." },
+        { title: "Result and certificate", text: "Present your result, get the mentor's evaluation and the Industrial Digital Certificate." },
       ],
     },
     students: {
@@ -183,7 +182,7 @@ const en: Messages = {
       items: [
         { title: "Real work, not just watching", text: "Work with the company's actual data and systems." },
         { title: "A mentor from the company", text: "Someone who helps you, plus personal feedback." },
-        { title: "Industrial Digital Passport", text: "A certificate recognised by partner companies." },
+        { title: "Industrial Digital Certificate", text: "Proof of your work, recognised by partner companies." },
         { title: "A result for your portfolio", text: "A dashboard, checklist or audit you can show." },
         { title: "A short format", text: "Fits into a project week or school holidays." },
         { title: "A career right here in Saldus", text: "See what opportunities exist in Saldus municipality." },
@@ -203,11 +202,11 @@ const en: Messages = {
       ],
       cta: "Offer a placement",
     },
-    passport: {
+    credential: {
       eyebrow: "Certificate",
-      title: "What the Industrial Digital Passport is",
+      title: "What the Industrial Digital Certificate is",
       lead:
-        "The passport is a certificate the company issues after the placement. It shows what the young person did, what the result was and how the mentor rated their work.",
+        "The certificate is a document the company issues after the placement. It shows what the young person did, what the result was and how the mentor rated their work.",
       certifiesTitle: "What it certifies",
       certifies: [
         "The task and the company where it was solved",
@@ -217,9 +216,10 @@ const en: Messages = {
       ],
       verifyTitle: "How a company verifies it",
       verifyText:
-        "Every passport has a unique ID and a QR code. Scan the code or enter the ID on the “Verify a certificate” page to see whether it is valid.",
+        "Every certificate has a unique ID and a QR code. Scan the code or enter the ID on the “Verify a certificate” page to see whether it is valid.",
       verifyCta: "Verify a certificate",
-      sampleCta: "See a sample passport",
+      sampleCta: "See a sample certificate",
+      phoneLabel: "Verifying a certificate on a phone",
     },
     comparison: {
       eyebrow: "Comparison",
@@ -253,7 +253,7 @@ const en: Messages = {
         name: "Our project",
         length: "3–5 working days",
         does: "Solves a live micro-problem on the firm's real data and systems",
-        output: "A dashboard, checklist or audit the firm keeps + Industrial Digital Passport",
+        output: "A dashboard, checklist or audit the firm keeps + Industrial Digital Certificate",
       },
       sources: "Sources",
     },
@@ -350,8 +350,8 @@ const en: Messages = {
     minors: "For minors",
     parentalConsent: "Minors need consent from a parent or guardian.",
     whatYouGet: "What you get",
-    passport: "Industrial Digital Passport",
-    passportText: "A certificate with the task, the result and the mentor's evaluation.",
+    credential: "Industrial Digital Certificate",
+    credentialText: "A document with the task, the result and the mentor's evaluation.",
     recognises: "The company takes this certificate into account when reviewing applications for jobs or internships.",
     mentor: "Mentor",
     compensation: "Compensation",
@@ -417,7 +417,7 @@ const en: Messages = {
 
   auth: {
     title: "Log in",
-    leadStudent: "For students: apply for placements and earn the Industrial Digital Passport.",
+    leadStudent: "For students: apply for placements and earn the Industrial Digital Certificate.",
     leadCompany: "For companies: publish placements and get to know your future employees.",
     roleLabel: "I am a",
     login: "Log in",
@@ -681,7 +681,7 @@ const en: Messages = {
       mentorBio: "Short bio",
       mentorBioExample: "Production engineer with 8 years' experience, responsible for line data.",
       certificateTitle: "Certificate",
-      certificateAlways: "The Industrial Digital Passport is always included — it can't be turned off.",
+      certificateAlways: "The Industrial Digital Certificate is always included — it can't be turned off.",
       recognises: "Our company recognises this certificate when reviewing applications for jobs or internships",
       compensation: "Compensation",
       compensationHint: "You can pick several.",
@@ -780,8 +780,12 @@ const en: Messages = {
   },
 
   certificate: {
-    title: "Industrial Digital Passport",
-    subtitle: "Certificate of a digital placement at a company",
+    title: "Certificate",
+    fullName: "Industrial Digital Certificate",
+    kicker: "Saldus municipality · Industrial digital placement",
+    subtitle: "for a digital placement at a company",
+    sealText: "Saldus · Industrial digital placement",
+    companySignature: "Company",
     awardedTo: "This certifies that",
     completed: "has successfully completed a digital placement",
     at: "at",
@@ -806,9 +810,9 @@ const en: Messages = {
 
   verify: {
     title: "Verify a certificate",
-    lead: "Enter an Industrial Digital Passport ID to confirm it is genuine.",
+    lead: "Enter an Industrial Digital Certificate ID to confirm it is genuine.",
     idLabel: "Certificate ID",
-    idPlaceholder: "SDP-2026-0001",
+    idPlaceholder: "SDS-2026-0001",
     idInvalid: "The ID must look like {format}.",
     submit: "Verify",
     valid: "This certificate is valid",

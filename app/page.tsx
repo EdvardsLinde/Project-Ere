@@ -18,6 +18,7 @@ import {
   MessageSquare,
   QrCode,
   Search,
+  ShieldCheck,
   Sparkles,
   TrendingUp,
   UserCheck,
@@ -28,8 +29,10 @@ import {
 import { siteConfig } from "@/config/site";
 import { LinkButton } from "@/components/ui/button";
 import { Chip, Container, Eyebrow, ExternalLink } from "@/components/ui/misc";
-import { PassportIllustration } from "@/components/passport-illustration";
+import { CertificateIllustration } from "@/components/certificate-illustration";
+import { Seal } from "@/components/seal";
 import { useI18n } from "@/lib/i18n";
+import { formatCertificateId, formatScore } from "@/lib/placements";
 import { loginPath } from "@/lib/session";
 
 const companyRegister = `${loginPath("company")}&tab=register`;
@@ -41,7 +44,7 @@ export default function HomePage() {
       <WhyNow />
       <HowItWorks />
       <Benefits />
-      <Passport />
+      <Credential />
       <Comparison />
       <Partners />
       <Week />
@@ -90,7 +93,7 @@ function Hero() {
             </LinkButton>
           </div>
         </div>
-        <PassportIllustration />
+        <CertificateIllustration />
       </Container>
       <Roofline />
     </section>
@@ -265,15 +268,15 @@ function Benefits() {
   );
 }
 
-function Passport() {
+function Credential() {
   const { t } = useI18n();
-  const p = t.home.passport;
+  const p = t.home.credential;
   return (
-    <section className="border-y border-line bg-surface py-16 sm:py-24" aria-labelledby="passport-title">
+    <section className="overflow-hidden border-y border-line bg-surface py-16 sm:py-24" aria-labelledby="credential-title">
       <Container className="grid items-center gap-12 lg:grid-cols-2">
-        <CertificateThumbnail />
+        <PhoneVerification />
         <div>
-          <SectionTitle id="passport-title" eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+          <SectionTitle id="credential-title" eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
           <h3 className="mt-8 font-bold">{p.certifiesTitle}</h3>
           <ul className="mt-3 space-y-2">
             {p.certifies.map((c) => (
@@ -292,7 +295,7 @@ function Passport() {
                 <LinkButton href="/parbaudit" variant="primary" size="sm">
                   {p.verifyCta}
                 </LinkButton>
-                <LinkButton href="/sertifikats/SDP-2026-0001" variant="secondary" size="sm">
+                <LinkButton href={`/sertifikats/${formatCertificateId(2026, 1)}`} variant="secondary" size="sm">
                   {p.sampleCta}
                 </LinkButton>
               </div>
@@ -304,53 +307,41 @@ function Passport() {
   );
 }
 
-/** A miniature, static rendering of the A4 certificate used on the home page. */
-function CertificateThumbnail() {
+/** Illustration of a company checking a certificate on a phone. Static and decorative. */
+function PhoneVerification() {
   const { t, locale } = useI18n();
-  const c = t.certificate;
-  const crit = t.applications.criteria;
-  const rows: [string, number][] = [
-    [crit.problemSolving, 5],
-    [crit.data, 4],
-    [crit.communication, 4],
-    [crit.independence, 4],
-    [crit.responsibility, 5],
-  ];
+  const v = t.verify;
   return (
-    <figure className="mx-auto w-full max-w-md" aria-label={t.home.passport.title}>
-      <div className="relative aspect-[210/297] overflow-hidden rounded-md border border-line bg-surface shadow-lift">
-        <div className="hazard h-1.5" aria-hidden="true" />
-        <div className="flex h-full flex-col px-[8%] py-[7%]">
-          <div className="flex items-center justify-between">
-            <span className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-ink-muted">{siteConfig.name[locale]}</span>
-            <span className="rounded-sm bg-warning-soft px-1.5 py-0.5 text-[0.55rem] font-bold uppercase text-warning">
-              {t.home.hero.passportSample}
-            </span>
+    <figure className="relative mx-auto w-full max-w-xs" aria-label={t.home.credential.phoneLabel}>
+      <div className="bg-dots absolute -inset-6 rounded-[2.5rem] opacity-70" aria-hidden="true" />
+      <div className="relative rounded-[2.2rem] bg-ink p-2.5 shadow-lift" aria-hidden="true">
+        <div className="mx-auto mb-2 h-1.5 w-16 rounded-full bg-bg/25" />
+        <div className="overflow-hidden rounded-[1.7rem] bg-bg">
+          <div className="flex items-center gap-2 border-b border-line bg-surface px-4 py-3">
+            <ShieldCheck className="size-4 text-primary" />
+            <span className="text-xs font-bold">{v.title}</span>
           </div>
-          <p className="mt-[8%] text-[clamp(1.1rem,3.4vw,1.6rem)] font-extrabold leading-tight text-primary">{c.title}</p>
-          <p className="mt-1 text-xs text-ink-muted">{c.subtitle}</p>
-          <p className="mt-[7%] text-[0.65rem] uppercase tracking-[0.1em] text-ink-muted">{c.awardedTo}</p>
-          <p className="mt-1 text-[clamp(1rem,3vw,1.35rem)] font-extrabold">Elza Paraudziņa</p>
-          <p className="mt-1 text-xs text-ink-muted">
-            {c.completed} {c.at} <strong className="text-ink">Demo Ražotne SIA</strong>
-          </p>
-          <div className="mt-[7%] space-y-1.5">
-            {rows.map(([label, v]) => (
-              <div key={label} className="flex items-center gap-2 text-[0.65rem]">
-                <span className="w-[42%] truncate text-ink-muted">{label}</span>
-                <span className="h-1.5 flex-1 rounded-full bg-surface-muted">
-                  <span className="block h-full rounded-full bg-primary" style={{ width: `${v * 20}%` }} />
-                </span>
-                <span className="w-4 text-right font-bold tabular-nums">{v}</span>
+          <div className="space-y-3 p-4">
+            <div className="flex items-start gap-2.5 rounded-md bg-success-soft p-3">
+              <BadgeCheck className="size-6 shrink-0 text-success" />
+              <div>
+                <p className="text-sm font-extrabold text-success">{v.valid}</p>
+                <p className="font-mono text-[0.65rem] font-bold text-ink-muted">{formatCertificateId(2026, 1)}</p>
+              </div>
+            </div>
+            {[
+              [v.participant, "Elza Paraudziņa"],
+              [v.company, "Demo Ražotne SIA"],
+              [v.average, `${formatScore(4.4, locale)} / 5`],
+            ].map(([k, val]) => (
+              <div key={k} className="rounded-md border border-line bg-surface px-3 py-2">
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.1em] text-ink-muted">{k}</p>
+                <p className="text-sm font-bold">{val}</p>
               </div>
             ))}
-          </div>
-          <div className="mt-auto flex items-end justify-between border-t border-dashed border-line pt-3">
-            <div>
-              <p className="text-[0.55rem] uppercase tracking-[0.1em] text-ink-muted">{c.id}</p>
-              <p className="font-mono text-xs font-bold">SDP-2026-0001</p>
+            <div className="flex justify-center pt-1">
+              <Seal text={t.certificate.sealText} className="h-20 w-[4.3rem]" ribbons={false} />
             </div>
-            <QrCode className="size-10 text-ink" aria-hidden="true" />
           </div>
         </div>
       </div>

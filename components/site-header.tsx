@@ -84,7 +84,8 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          <LanguageToggle />
+          {/* On phones the language toggle lives in the menu, so the name fits at 360px. */}
+          <LanguageToggle className="hidden sm:flex" />
           {ready && !session && (
             <div className="hidden items-center gap-2 lg:flex">
               <LinkButton href={loginPath("company")} variant="secondary" size="sm" className="h-10">
@@ -149,6 +150,10 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li className="flex items-center justify-between gap-3 px-3 py-3 sm:hidden">
+              <span className="font-semibold">{t.nav.language}</span>
+              <LanguageToggle />
+            </li>
             {role === "company" && (
               <li>
                 <Link href="/uznemums/prakses/jauna" className="flex items-center gap-2 rounded-md px-3 py-3 font-semibold text-primary">
@@ -164,10 +169,10 @@ export function SiteHeader() {
   );
 }
 
-function LanguageToggle() {
+function LanguageToggle({ className = "flex" }: { className?: string }) {
   const { locale, setLocale, t } = useI18n();
   return (
-    <div role="group" aria-label={t.nav.language} className="flex h-10 items-center rounded-md border border-line p-0.5 text-sm font-bold">
+    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-md border border-line p-0.5 text-sm font-bold`}>
       {(["lv", "en"] as const).map((l) => (
         <button
           key={l}

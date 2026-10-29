@@ -218,8 +218,8 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
             <div className="flex gap-4 rounded-lg border border-primary/25 bg-primary-soft p-4">
               <BadgeCheck className="size-7 shrink-0 text-primary" aria-hidden="true" />
               <div>
-                <p className="font-extrabold text-primary">{d.passport}</p>
-                <p className="text-[0.95rem]">{d.passportText}</p>
+                <p className="font-extrabold text-primary">{d.credential}</p>
+                <p className="text-[0.95rem]">{d.credentialText}</p>
                 {p.recognisesCertificate && <p className="mt-1 text-[0.95rem] font-semibold">{d.recognises}</p>}
               </div>
             </div>

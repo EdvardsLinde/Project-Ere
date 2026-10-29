@@ -1,10 +1,10 @@
-# DESIGN.md — Saldus Industrial Digital Passport
+# DESIGN.md — Saldus Industrial Digital Certificate
 
 Direction: **workshop, not boardroom.** Trustworthy like a safety sign and a
 work permit, friendly enough for a 16-year-old. Forest green carries the
 actions, signal orange marks what matters (like a safety vest in a forest),
 everything else is warm off-white and graphite. One recurring object — the
-**passport** with day stamps — is the visual idea the site is built around.
+**diploma-style certificate** with a round seal — is the visual idea the site is built around.
 
 > Not based on comparing real reference sites (the UXKIN library was not
 > reachable when this was written). Decisions follow the brief and the rules
@@ -90,7 +90,8 @@ Radius: `sm` 6px (badges, inputs), `md` 10px (buttons, small cards), `lg` 16px
 
 - Icons: **lucide-react**, 1.75 stroke, 20px in text, 24px in feature tiles.
 - No stock photos of people, no company logos (partners appear as text chips).
-- Illustration: simple geometric SVG — the passport card with day stamps, a
+- Illustration: simple geometric SVG — the certificate with double frame, orange
+  corner diamonds and the round seal (`components/seal.tsx`), a
   saw-tooth factory roofline, a 24px dot grid behind the hero, and a thin
   orange/graphite **hazard band** used at most once per screen as a divider.
 - Motion: 150–200ms ease-out on hover/focus; 200ms fade/slide between builder

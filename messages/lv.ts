@@ -5,7 +5,7 @@
  */
 const lv = {
   meta: {
-    title: "Saldus Industriālā digitālā pase",
+    title: "Saldus Industriālais digitālais sertifikāts",
     description:
       "3–5 dienu prakses Saldus novada uzņēmumos 15–24 gadus veciem jauniešiem: īsts digitāls uzdevums, mentors un sertifikāts, ko atzīst darba devēji.",
   },
@@ -85,7 +85,7 @@ const lv = {
 
   footer: {
     about:
-      "Īsas digitālās prakses Saldus novada uzņēmumos jauniešiem no 15 līdz 24 gadiem — ar īstu uzdevumu, mentoru un Industriālo digitālo pasi.",
+      "Īsas digitālās prakses Saldus novada uzņēmumos jauniešiem no 15 līdz 24 gadiem — ar īstu uzdevumu, mentoru un Industriālo digitālo sertifikātu.",
     contacts: "Kontakti",
     email: "E-pasts",
     survey: "Aizpildi mūsu aptauju",
@@ -104,16 +104,15 @@ const lv = {
       eyebrow: "Saldus novads · 15–24 gadi",
       title: "Īsta pieredze Saldus uzņēmumos — 3–5 dienās",
       lead:
-        "Tu ne tikai vēro: kopā ar mentoru atrisini īstu, nelielu digitālu uzdevumu ar uzņēmuma datiem un sistēmām. Rezultāts paliek uzņēmumam, bet tu saņem Industriālo digitālo pasi — sertifikātu, ko atzīst paši uzņēmumi.",
+        "Tu ne tikai vēro: kopā ar mentoru atrisini īstu, nelielu digitālu uzdevumu ar uzņēmuma datiem un sistēmām. Rezultāts paliek uzņēmumam, bet tu saņem Industriālo digitālo sertifikātu, ko atzīst paši uzņēmumi.",
       findCta: "Atrast praksi",
       offerCta: "Piedāvāt praksi",
-      passportLabel: "Industriālā digitālā pase",
-      passportSample: "Paraugs",
-      passportDays: "Prakses dienas",
-      passportTask: "Uzdevums",
-      passportTaskValue: "Dīkstāvju datu panelis",
-      passportMentor: "Mentora vērtējums",
-      dayShort: "D{n}",
+      certTitle: "Sertifikāts",
+      certKicker: "Industriālais digitālais",
+      certSample: "Paraugs",
+      certAwardedTo: "Piešķirts",
+      certTaskValue: "Dīkstāvju datu panelis · 5 darba dienas",
+      certMentor: "Mentora vērtējums",
     },
     why: {
       eyebrow: "Kāpēc tieši tagad",
@@ -176,7 +175,7 @@ const lv = {
         { title: "Tu izvēlies un piesakies", text: "Atrodi praksi pēc jomas, datumiem un vietas un aizpildi pieteikumu." },
         { title: "Uzņēmums apstiprina", text: "Uzņēmums izskata pieteikumus un apstiprina dalībnieku." },
         { title: "3–5 dienas uzņēmumā", text: "Strādā pie uzdevuma kopā ar mentoru no uzņēmuma." },
-        { title: "Rezultāts un pase", text: "Prezentē rezultātu, saņem mentora vērtējumu un Industriālo digitālo pasi." },
+        { title: "Rezultāts un sertifikāts", text: "Prezentē rezultātu, saņem mentora vērtējumu un Industriālo digitālo sertifikātu." },
       ],
     },
     students: {
@@ -185,7 +184,7 @@ const lv = {
       items: [
         { title: "Īsts darbs, ne tikai vērošana", text: "Strādā ar uzņēmuma īstajiem datiem un sistēmām." },
         { title: "Mentors no uzņēmuma", text: "Cilvēks, kas palīdz, un personīga atgriezeniskā saite." },
-        { title: "Industriālā digitālā pase", text: "Sertifikāts, ko atzīst partneruzņēmumi." },
+        { title: "Industriālais digitālais sertifikāts", text: "Apliecinājums tavam darbam, ko atzīst partneruzņēmumi." },
         { title: "Rezultāts portfolio", text: "Datu panelis, kontrolsaraksts vai audits, ko vari parādīt." },
         { title: "Īss formāts", text: "Iederas projektu nedēļā vai brīvlaikā." },
         { title: "Karjera tepat Saldū", text: "Ieraugi, kādas iespējas ir Saldus novadā." },
@@ -205,11 +204,11 @@ const lv = {
       ],
       cta: "Piedāvāt praksi",
     },
-    passport: {
+    credential: {
       eyebrow: "Sertifikāts",
-      title: "Kas ir Industriālā digitālā pase",
+      title: "Kas ir Industriālais digitālais sertifikāts",
       lead:
-        "Pase ir sertifikāts, ko uzņēmums izsniedz pēc prakses. Tajā redzams, ko jaunietis darīja, kāds bija rezultāts un kā mentors novērtēja viņa darbu.",
+        "Sertifikāts ir dokuments, ko uzņēmums izsniedz pēc prakses. Tajā redzams, ko jaunietis darīja, kāds bija rezultāts un kā mentors novērtēja viņa darbu.",
       certifiesTitle: "Ko tā apliecina",
       certifies: [
         "Uzdevumu un uzņēmumu, kurā tas atrisināts",
@@ -219,9 +218,10 @@ const lv = {
       ],
       verifyTitle: "Kā uzņēmums to pārbauda",
       verifyText:
-        "Katrai pasei ir unikāls ID un QR kods. Noskenē kodu vai ievadi ID lapā “Pārbaudīt sertifikātu” — redzēsi, vai pase ir derīga.",
+        "Katram sertifikātam ir unikāls ID un QR kods. Noskenē kodu vai ievadi ID lapā “Pārbaudīt sertifikātu” — redzēsi, vai sertifikāts ir derīgs.",
       verifyCta: "Pārbaudīt sertifikātu",
-      sampleCta: "Skatīt parauga pasi",
+      sampleCta: "Skatīt parauga sertifikātu",
+      phoneLabel: "Sertifikāta pārbaude telefonā",
     },
     comparison: {
       eyebrow: "Salīdzinājums",
@@ -255,7 +255,7 @@ const lv = {
         name: "Mūsu projekts",
         length: "3–5 darba dienas",
         does: "Atrisina īstu mikroproblēmu ar uzņēmuma datiem un sistēmām",
-        output: "Datu panelis, kontrolsaraksts vai audits, kas paliek uzņēmumam + Industriālā digitālā pase",
+        output: "Datu panelis, kontrolsaraksts vai audits, kas paliek uzņēmumam + Industriālais digitālais sertifikāts",
       },
       sources: "Avoti",
     },
@@ -352,8 +352,8 @@ const lv = {
     minors: "Nepilngadīgajiem",
     parentalConsent: "Nepilngadīgajiem vajag vecāku vai aizbildņa piekrišanu.",
     whatYouGet: "Ko tu iegūsi",
-    passport: "Industriālā digitālā pase",
-    passportText: "Sertifikāts ar uzdevumu, rezultātu un mentora vērtējumu.",
+    credential: "Industriālais digitālais sertifikāts",
+    credentialText: "Dokuments ar uzdevumu, rezultātu un mentora vērtējumu.",
     recognises: "Uzņēmums ņem vērā šo sertifikātu, izskatot pieteikumus darbam vai praksei.",
     mentor: "Mentors",
     compensation: "Atlīdzība",
@@ -419,7 +419,7 @@ const lv = {
 
   auth: {
     title: "Pieslēgšanās",
-    leadStudent: "Skolēniem un studentiem: piesakies praksēm un saņem Industriālo digitālo pasi.",
+    leadStudent: "Skolēniem un studentiem: piesakies praksēm un saņem Industriālo digitālo sertifikātu.",
     leadCompany: "Uzņēmumiem: publicējiet prakses un iepazīstiet nākamos darbiniekus.",
     roleLabel: "Es esmu",
     login: "Pieslēgties",
@@ -683,7 +683,7 @@ const lv = {
       mentorBio: "Īsi par mentoru",
       mentorBioExample: "Ražošanas inženieris ar 8 gadu pieredzi, atbild par līnijas datiem.",
       certificateTitle: "Sertifikāts",
-      certificateAlways: "Industriālā digitālā pase vienmēr ir iekļauta — to nevar izslēgt.",
+      certificateAlways: "Industriālais digitālais sertifikāts vienmēr ir iekļauts — to nevar izslēgt.",
       recognises: "Mūsu uzņēmums ņem vērā šo sertifikātu, izskatot pieteikumus darbam vai praksei",
       compensation: "Atlīdzība",
       compensationHint: "Var izvēlēties vairākas.",
@@ -782,8 +782,12 @@ const lv = {
   },
 
   certificate: {
-    title: "Industriālā digitālā pase",
-    subtitle: "Sertifikāts par digitālo praksi uzņēmumā",
+    title: "Sertifikāts",
+    fullName: "Industriālais digitālais sertifikāts",
+    kicker: "Saldus novads · Industriālā digitālā prakse",
+    subtitle: "par digitālo praksi uzņēmumā",
+    sealText: "Saldus · Industriālā digitālā prakse",
+    companySignature: "Uzņēmums",
     awardedTo: "Šis sertifikāts apliecina, ka",
     completed: "ir sekmīgi pabeidzis(-usi) digitālo praksi",
     at: "uzņēmumā",
@@ -808,9 +812,9 @@ const lv = {
 
   verify: {
     title: "Pārbaudīt sertifikātu",
-    lead: "Ievadiet Industriālās digitālās pases ID, lai pārliecinātos, ka tā ir īsta.",
+    lead: "Ievadiet Industriālā digitālā sertifikāta ID, lai pārliecinātos, ka tas ir īsts.",
     idLabel: "Sertifikāta ID",
-    idPlaceholder: "SDP-2026-0001",
+    idPlaceholder: "SDS-2026-0001",
     idInvalid: "ID jābūt formātā {format}.",
     submit: "Pārbaudīt",
     valid: "Sertifikāts ir derīgs",

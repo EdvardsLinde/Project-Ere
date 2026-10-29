@@ -22,7 +22,8 @@ import type {
 } from "./types";
 import { demoHash } from "./util";
 
-export const DB_VERSION = 1;
+/** Bump when seed data or the stored shape changes: browsers with an older version reseed. */
+export const DB_VERSION = 2;
 
 export const DEMO_ACCOUNTS = {
   company: { email: "demo@uznemums.lv", password: "demo1234" },
@@ -51,8 +52,8 @@ const DAY1 = (taskLv: string, taskEn: string): [string, string, string, string] 
 const LAST = (resultLv: string, resultEn: string): [string, string, string, string] => [
   "Rezultāta prezentācija",
   "Presenting the result",
-  `Rezultāta (${resultLv}) prezentācija komandai, mentora vērtējums un Industriālās digitālās pases izsniegšana.`,
-  `Presenting the result (${resultEn}) to the team, mentor evaluation and the Industrial Digital Passport.`,
+  `Rezultāta (${resultLv}) prezentācija komandai, mentora vērtējums un Industriālā digitālā sertifikāta izsniegšana.`,
+  `Presenting the result (${resultEn}) to the team, mentor evaluation and the Industrial Digital Certificate.`,
 ];
 
 const UNCONFIRMED_DIRECTIONS = b(
