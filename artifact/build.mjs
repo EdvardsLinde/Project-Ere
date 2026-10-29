@@ -33,10 +33,7 @@ const result = await build({
   logLevel: "warning",
 });
 
-// Embed the hero photo: the preview host only allows data: images.
-const photo = `data:image/webp;base64,${readFileSync("public/saldus-square.webp").toString("base64")}`;
 const js = result.outputFiles[0].text
-  .replaceAll('"/saldus-square.webp"', JSON.stringify(photo))
   .replace(/<\/script/gi, "<\\/script")
   .replace(/<!--/g, "<\\!--");
 const css = readFileSync(cssFile, "utf8");

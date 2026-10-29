@@ -95,11 +95,6 @@ export const siteConfig = {
   tagline: { lv: "Ieraugi, kur var aizvest tava karjera", en: "See where your career can go" },
   name: { lv: "SEER — Saldus industriālā digitālā prakse", en: "SEER — Saldus Industrial Digital Immersion" },
   subtitle: { lv: "Saldus industriālā digitālā prakse", en: "Saldus Industrial Digital Immersion" },
-  /**
-   * Hero photo: Saldus town square, supplied by the team.
-   * TODO: credit the photographer before going public.
-   */
-  heroPhoto: "/saldus-square.webp",
   /** Certificate IDs look like `SEER-2026-0001`. */
   certificatePrefix: "SEER",
   /** Used to build absolute links (QR code) when `window.location` is not available. */

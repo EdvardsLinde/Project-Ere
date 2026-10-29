@@ -71,12 +71,7 @@ function Hero() {
   const h = t.home.hero;
   return (
     <section className="relative overflow-hidden border-b border-line" aria-labelledby="hero-title">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element -- decorative background, also used by the single-file build */}
-        <img src={siteConfig.heroPhoto} alt="" className="absolute inset-0 size-full object-cover object-[center_45%] saturate-150" />
-        <div className="absolute inset-0 bg-bg/80 lg:hidden" />
-        <div className="absolute inset-0 hidden bg-linear-to-r from-bg/95 via-bg/75 to-bg/30 lg:block" />
-      </div>
+      <div className="bg-dots absolute inset-0 opacity-60" aria-hidden="true" />
       <Container className="relative grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:py-24">
         <div>
           <Eyebrow>{h.eyebrow}</Eyebrow>
