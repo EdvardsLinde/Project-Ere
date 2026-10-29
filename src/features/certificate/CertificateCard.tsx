@@ -136,7 +136,7 @@ export function CertificateCard({ data, compact = false }: { data: CertificateDa
             </span>
             <div className="text-xs">
               <p className="font-bold tracking-wide text-slate-900 uppercase">{t.certificate.verifyTitle}</p>
-              <p className="mt-0.5 max-w-64 text-slate-600">{t.certificate.verifyText(certificate.id)}</p>
+              <p className="mt-0.5 max-w-52 text-slate-600">{t.certificate.verifyText(certificate.id)}</p>
             </div>
           </div>
         </div>
