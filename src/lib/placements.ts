@@ -1,5 +1,5 @@
 /**
- * SEER — pure logic for placements, applications and certificates (no React, easy to test).
+ * SEER — pure logic for placements, applications and passports (no React, easy to test).
  */
 import type { Application, ApplicationStatus, Company, DateRange, Duration, Field, Level, Placement } from '../data'
 
@@ -85,7 +85,7 @@ export function canMove(from: ApplicationStatus, to: ApplicationStatus): boolean
 }
 
 /** "SEER-2026-0043": next free number for the year, starting at 0001. */
-export function nextCertificateId(existing: string[], year: number): string {
+export function nextPassportId(existing: string[], year: number): string {
   const prefix = `SEER-${year}-`
   const max = existing
     .filter((id) => id.startsWith(prefix))
@@ -157,8 +157,8 @@ export function validateDraft({ company, placement: p }: PlacementDraft): Errors
   req('title', p.title.lv || p.title.en)
   req('task', p.task.lv || p.task.en)
   req('deliverable', p.deliverable.lv || p.deliverable.en)
-  const skills = p.certificateSkills.filter((s) => (s.lv || s.en).trim())
-  if (skills.length < 3 || skills.length > 5) e.certificateSkills = 'skills'
+  const skills = p.passportSkills.filter((s) => (s.lv || s.en).trim())
+  if (skills.length < 3 || skills.length > 5) e.passportSkills = 'skills'
   if (!p.dates.length || p.dates.some((d) => !d.start || !d.end || d.end < d.start)) e.dates = 'dates'
   if (!Number.isInteger(p.spots) || p.spots < 1 || p.spots > 20) e.spots = 'spots'
   if (!p.deadline) e.deadline = 'required'

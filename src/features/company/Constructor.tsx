@@ -15,7 +15,7 @@ import { NeedCompany } from './Dashboard'
 const EMPTY_TEXT: Localized = { lv: '', en: '' }
 const L = (lv: string, en: string): Localized => ({ lv, en })
 
-/** Common skills a company can put on the certificate (plus its own). */
+/** Common skills a company can put on the passport (plus its own). */
 const SKILL_SUGGESTIONS: Localized[] = [
   L('Datu tīrīšana', 'Data cleaning'),
   L('Datu vizualizācija', 'Data visualisation'),
@@ -37,7 +37,7 @@ const SECTION_ICON = { company: Building2, placement: ClipboardList, requirement
 /** Which section each error key lives in (to jump there on publish). */
 const ERROR_SECTION: Record<string, SectionId> = {
   companyName: 'company', address: 'company', industry: 'company', description: 'company', contactName: 'company', contactEmail: 'company', logo: 'company',
-  title: 'placement', task: 'placement', deliverable: 'placement', certificateSkills: 'placement',
+  title: 'placement', task: 'placement', deliverable: 'placement', passportSkills: 'placement',
   dates: 'logistics', spots: 'logistics', deadline: 'logistics', mentorName: 'logistics', mentorRole: 'logistics',
 }
 
@@ -48,7 +48,7 @@ const blankCompany = (): Company => ({
 
 const blankPlacement = (companyId: string): Placement => ({
   id: '', companyId, title: EMPTY_TEXT, task: EMPTY_TEXT, field: 'sensors', tools: [],
-  dayPlan: fitDayPlan([], 3, () => EMPTY_TEXT), deliverable: EMPTY_TEXT, certificateSkills: [],
+  dayPlan: fitDayPlan([], 3, () => EMPTY_TEXT), deliverable: EMPTY_TEXT, passportSkills: [],
   prerequisites: EMPTY_TEXT, level: 'beginner', minAge: 15, languages: ['lv'], bring: EMPTY_TEXT,
   laptopNeeded: false, safety: EMPTY_TEXT, ppeProvided: true, safetyBriefing: true, dataNote: EMPTY_TEXT,
   dataKind: 'sample', nda: false, durationDays: 3, dates: [{ start: '', end: '' }], hours: '9:00–15:00',
@@ -117,11 +117,11 @@ export function Constructor() {
 
   const toggleSkill = (s: Localized) =>
     setP({
-      certificateSkills: pl.certificateSkills.some((x) => x.lv === s.lv)
-        ? pl.certificateSkills.filter((x) => x.lv !== s.lv)
-        : pl.certificateSkills.length < 5
-          ? [...pl.certificateSkills, s]
-          : pl.certificateSkills,
+      passportSkills: pl.passportSkills.some((x) => x.lv === s.lv)
+        ? pl.passportSkills.filter((x) => x.lv !== s.lv)
+        : pl.passportSkills.length < 5
+          ? [...pl.passportSkills, s]
+          : pl.passportSkills,
     })
 
   const save = (status: Placement['status']) => {
@@ -248,10 +248,10 @@ export function Constructor() {
               </div>
             </fieldset>
             <T errors={errors} k="deliverable" label={t.form.deliverable} required area rows={2} value={text(pl.deliverable)} onChange={(v) => setP({ deliverable: setText(pl.deliverable, v, lang) })} />
-            <Field id="f-certificateSkills" label={`${t.form.certificateSkills} · ${pl.certificateSkills.length}/5`} required hint={t.form.certificateSkillsHint} error={err('certificateSkills')}>
-              <div id="f-certificateSkills" tabIndex={-1} className="flex flex-wrap gap-2 outline-none">
-                {[...SKILL_SUGGESTIONS, ...pl.certificateSkills.filter((s) => !SKILL_SUGGESTIONS.some((x) => x.lv === s.lv))].map((s) => {
-                  const on = pl.certificateSkills.some((x) => x.lv === s.lv)
+            <Field id="f-passportSkills" label={`${t.form.passportSkills} · ${pl.passportSkills.length}/5`} required hint={t.form.passportSkillsHint} error={err('passportSkills')}>
+              <div id="f-passportSkills" tabIndex={-1} className="flex flex-wrap gap-2 outline-none">
+                {[...SKILL_SUGGESTIONS, ...pl.passportSkills.filter((s) => !SKILL_SUGGESTIONS.some((x) => x.lv === s.lv))].map((s) => {
+                  const on = pl.passportSkills.some((x) => x.lv === s.lv)
                   return (
                     <button key={s.lv} type="button" aria-pressed={on} onClick={() => toggleSkill(s)} className={cx('inline-flex min-h-9 cursor-pointer items-center rounded-full px-3 text-sm font-medium ring-1 transition', on ? 'bg-brand-600 text-white ring-brand-600' : 'bg-card text-slate-700 ring-slate-300 hover:ring-brand-300')}>
                       {l(s)}
@@ -263,7 +263,7 @@ export function Constructor() {
                 <TextInput aria-label={t.form.customSkill} placeholder={t.form.customSkill} value={customSkill} onChange={(e) => setCustomSkill(e.target.value)} />
                 <Button
                   variant="secondary"
-                  disabled={!customSkill.trim() || pl.certificateSkills.length >= 5}
+                  disabled={!customSkill.trim() || pl.passportSkills.length >= 5}
                   onClick={() => {
                     toggleSkill({ lv: customSkill.trim(), en: customSkill.trim() })
                     setCustomSkill('')

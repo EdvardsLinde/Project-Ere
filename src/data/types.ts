@@ -1,7 +1,7 @@
 /**
  * SEER — shared data types for the immersion model:
  * companies post short placements, students apply, mentors give feedback,
- * and a completed placement issues an Industrial Digital Certificate.
+ * and a completed placement issues an Industrial Digital Passport.
  */
 export type Lang = 'lv' | 'en'
 
@@ -55,8 +55,8 @@ export interface Placement {
   dayPlan: Localized[]
   /** What the company keeps at the end. */
   deliverable: Localized
-  /** Skills the mentor will rate on the certificate (3–5). */
-  certificateSkills: Localized[]
+  /** Skills the mentor will rate on the passport (3–5). */
+  passportSkills: Localized[]
   prerequisites: Localized
   level: Level
   minAge: number
@@ -121,7 +121,7 @@ export interface Application {
 
 export type SkillLevel = 1 | 2 | 3 | 4
 
-export interface Certificate {
+export interface Passport {
   /** e.g. "SEER-2026-0042" */
   id: string
   applicationId: string

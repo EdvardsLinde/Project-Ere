@@ -1,17 +1,17 @@
 /**
  * SEER — shared app state: language, theme, role, the company a company user represents,
- * and all placements / applications / certificates (seed data + what users create here).
+ * and all placements / applications / passports (seed data + what users create here).
  *
  * Everything the user creates is saved to localStorage (all access wrapped in
  * try/catch); seed items are merged underneath by id. Swap `load` / `save` for an API later.
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { APPLICATIONS, COMPANIES, CERTIFICATES, PLACEMENTS } from '../data'
-import type { Application, ApplicationStatus, Company, Lang, Localized, Certificate, Placement, Role } from '../data'
+import { APPLICATIONS, COMPANIES, PASSPORTS, PLACEMENTS } from '../data'
+import type { Application, ApplicationStatus, Company, Lang, Localized, Passport, Placement, Role } from '../data'
 import { translations } from '../i18n'
 import type { Dict } from '../i18n'
-import { canMove, mergeById, nextCertificateId } from './placements'
+import { canMove, mergeById, nextPassportId } from './placements'
 
 /* -------------------------------------------------------------------------- */
 /*  Routes                                                                     */
@@ -23,8 +23,8 @@ export const ROUTES = {
   placement: '/placements/:id',
   apply: '/placements/:id/apply',
   mine: '/me/placements',
-  myCertificate: '/me/certificates',
-  certificate: '/certificate/:id',
+  myPassport: '/me/passport',
+  passport: '/passport/:id',
   company: '/company',
   newPlacement: '/company/new',
   editPlacement: '/company/edit/:id',
@@ -51,10 +51,10 @@ interface Saved {
   companies: Company[]
   placements: Placement[]
   applications: Application[]
-  certificates: Certificate[]
+  passports: Passport[]
 }
 
-const EMPTY: Saved = { lang: 'lv', role: null, companyId: null, companies: [], placements: [], applications: [], certificates: [] }
+const EMPTY: Saved = { lang: 'lv', role: null, companyId: null, companies: [], placements: [], applications: [], passports: [] }
 
 /** Keep only array items that at least have an id; anything else in storage is ignored. */
 function list<T extends { id: string }>(x: unknown): T[] {
@@ -73,8 +73,7 @@ function load(): Saved {
       companies: list(data.companies),
       placements: list(data.placements),
       applications: list(data.applications),
-      // Saved before the rename from "passport" to "certificate".
-      certificates: list(data.certificates ?? (data as { passports?: unknown }).passports),
+      passports: list(data.passports),
     }
   } catch {
     return EMPTY
@@ -131,15 +130,15 @@ interface AppState {
   companies: Company[]
   placements: Placement[]
   applications: Application[]
-  certificates: Certificate[]
+  passports: Passport[]
   company: Company | undefined
   companyOf: (p: Placement) => Company | undefined
   saveCompany: (c: Company) => void
   savePlacement: (p: Placement) => void
   submitApplication: (a: Application) => void
   moveApplication: (id: string, to: ApplicationStatus) => boolean
-  /** Completes the application and issues its certificate; returns the certificate id. */
-  issueCertificate: (applicationId: string, data: Omit<Certificate, 'id' | 'applicationId' | 'issuedAt' | 'isExample'>) => string
+  /** Completes the application and issues its passport; returns the passport id. */
+  issuePassport: (applicationId: string, data: Omit<Passport, 'id' | 'applicationId' | 'issuedAt' | 'isExample'>) => string
   resetAll: () => void
   toast: string | null
   notify: (message: string) => void
@@ -188,7 +187,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const companies = mergeById(COMPANIES, saved.companies)
     const placements = mergeById(PLACEMENTS, saved.placements)
     const applications = mergeById(APPLICATIONS, saved.applications)
-    const certificates = mergeById(CERTIFICATES, saved.certificates)
+    const passports = mergeById(PASSPORTS, saved.passports)
     const update = (patch: Partial<Saved>) => setSaved((s) => ({ ...s, ...patch }))
 
     return {
@@ -207,7 +206,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       companies,
       placements,
       applications,
-      certificates,
+      passports,
       company: companies.find((c) => c.id === saved.companyId),
       companyOf: (p) => companies.find((c) => c.id === p.companyId),
       saveCompany: (c) => setSaved((s) => ({ ...s, companies: put(s.companies, c) })),
@@ -219,13 +218,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setSaved((s) => ({ ...s, applications: put(s.applications, { ...app, status: to }) }))
         return true
       },
-      issueCertificate: (applicationId, data) => {
+      issuePassport: (applicationId, data) => {
         const app = applications.find((a) => a.id === applicationId)
-        const id = nextCertificateId(certificates.map((p) => p.id), new Date().getFullYear())
-        const certificate: Certificate = { ...data, id, applicationId, issuedAt: todayIso(), isExample: false }
+        const id = nextPassportId(passports.map((p) => p.id), new Date().getFullYear())
+        const passport: Passport = { ...data, id, applicationId, issuedAt: todayIso(), isExample: false }
         setSaved((s) => ({
           ...s,
-          certificates: put(s.certificates, certificate),
+          passports: put(s.passports, passport),
           applications: app ? put(s.applications, { ...app, status: 'completed' }) : s.applications,
         }))
         return id
