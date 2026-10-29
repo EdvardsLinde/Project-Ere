@@ -30,6 +30,7 @@ export const lv = {
   },
   roles: {
     studentCta: 'Esmu skolēns / students',
+    studentCtaShort: 'Esmu skolēns',
     studentHint: 'Piesakies praksei',
     companyCta: 'Esmu uzņēmums',
     companyHint: 'Piedāvā praksi',
@@ -104,7 +105,6 @@ export const lv = {
       'Ceļš uz tehnoloģiju darbu tepat novadā',
       'Iemesls palikt Saldū — darbs ir arī šeit',
     ],
-    studentsCta: 'Skatīt prakses',
     companiesTitle: 'Uzņēmumiem',
     companies: [
       'Iepazīsti un novērtē nākamos darbiniekus, pirms viņus pieņem darbā',
@@ -113,7 +113,6 @@ export const lv = {
       'Daudz lētāk nekā nepareiza darbinieka pieņemšana vai ārējs konsultants',
       'Maz pūļu: viens mentors un dažas stundas dienā',
     ],
-    companiesCta: 'Piedāvāt praksi',
     tasksTitle: 'Uzdevumu piemēri pa jomām',
     tasksText: 'Katrs uzdevums ir mazs, drošs un noderīgs uzņēmumam.',
     fieldTasks: {
@@ -143,7 +142,6 @@ export const lv = {
       { q: 'Kas atzīst pasi?', a: 'Uzņēmums, kurā notika prakse, to paraksta. Mērķis ir, lai pasi atzītu visi SEER partneruzņēmumi novadā.' },
       { q: 'Kas uzņēmumam jāsagatavo?', a: 'Viens mentors, mazs uzdevums ar parauga datiem, darba vieta un drošības instruktāža. Pārējo palīdz sagatavot SEER.' },
     ],
-    finalTitle: 'Sāc ar savu lomu',
   },
   board: {
     title: 'Prakses',

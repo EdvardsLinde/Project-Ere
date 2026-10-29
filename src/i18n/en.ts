@@ -28,6 +28,7 @@ export const en: Dict = {
   },
   roles: {
     studentCta: 'I’m a student',
+    studentCtaShort: 'I’m a student',
     studentHint: 'Apply for a placement',
     companyCta: 'I’m a company',
     companyHint: 'Post a placement',
@@ -102,7 +103,6 @@ export const en: Dict = {
       'A path into tech jobs right here in the region',
       'A reason to stay in Saldus — the work is here too',
     ],
-    studentsCta: 'See placements',
     companiesTitle: 'For companies',
     companies: [
       'Get to know and evaluate future employees before hiring',
@@ -111,7 +111,6 @@ export const en: Dict = {
       'Far cheaper than a wrong hire or an external consultant',
       'Low effort: one mentor and a few hours a day',
     ],
-    companiesCta: 'Post a placement',
     tasksTitle: 'Example tasks by field',
     tasksText: 'Every task is small, safe and useful to the company.',
     fieldTasks: {
@@ -141,7 +140,6 @@ export const en: Dict = {
       { q: 'Who recognises the passport?', a: 'The host company signs it. The goal is for all SEER partner companies in the region to recognise it.' },
       { q: 'What does a company need to prepare?', a: 'One mentor, a small task with sample data, a workspace and a safety briefing. SEER helps with the rest.' },
     ],
-    finalTitle: 'Start with your role',
   },
   board: {
     title: 'Placements',

@@ -78,13 +78,13 @@ function RoleControl({ compact = false }: { compact?: boolean }) {
   const { t, role, company, openRolePicker } = useApp()
   if (!role)
     return (
-      <div className={cx('items-center gap-2', compact ? 'flex' : 'hidden md:flex')}>
+      <div className={cx('items-center gap-2', compact ? 'flex *:flex-1 *:justify-center *:whitespace-nowrap' : 'hidden md:flex')}>
         <button
           type="button"
           onClick={() => openRolePicker('student')}
           className="inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg bg-accent-500 px-3 text-sm font-semibold text-on-accent hover:bg-accent-600"
         >
-          <GraduationCap className="size-4" /> {t.roles.studentCta}
+          <GraduationCap className="size-4" /> {compact ? t.roles.studentCtaShort : t.roles.studentCta}
         </button>
         <button
           type="button"
@@ -117,7 +117,7 @@ function RoleControl({ compact = false }: { compact?: boolean }) {
 }
 
 export function Header() {
-  const { t } = useApp()
+  const { t, role } = useApp()
   const nav = useNavItems()
   const [open, setOpen] = useState(false)
   const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -162,6 +162,13 @@ export function Header() {
         </div>
       </div>
 
+      {/* Phones: the two entry buttons get their own row (no room next to the logo) */}
+      {!role && (
+        <div className="px-4 pb-3 sm:px-6 md:hidden">
+          <RoleControl compact />
+        </div>
+      )}
+
       {/* Phones & tablets: the main sections as a scrollable tab row */}
       <nav aria-label={t.nav.mainNav} className="border-t border-slate-200/80 lg:hidden">
         <ul className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-2 [scrollbar-width:none] sm:px-4">
@@ -188,7 +195,7 @@ export function Header() {
 
       {open && (
         <div className="animate-fade-up space-y-3 border-t border-slate-200 bg-card px-4 pt-3 pb-4 lg:hidden">
-          <RoleControl compact />
+          {role && <RoleControl compact />}
           <ThemeToggleRow />
           <Link to={ROUTES.privacy} onClick={() => setOpen(false)} className="block rounded-lg px-1 py-2 text-base font-medium text-slate-700">
             {t.nav.privacy}
@@ -305,9 +312,12 @@ function PickerBody() {
                 </button>
               </li>
             </ul>
-            <button type="button" onClick={() => setStep('role')} className="mt-4 cursor-pointer text-sm font-semibold text-brand-700 hover:underline">
-              ← {t.common.back}
-            </button>
+            {/* Opened from "I am a company": stay on the company choice, no way back to both roles. */}
+            {rolePicker.preferred !== 'company' && (
+              <button type="button" onClick={() => setStep('role')} className="mt-4 cursor-pointer text-sm font-semibold text-brand-700 hover:underline">
+                ← {t.common.back}
+              </button>
+            )}
           </>
         )}
     </div>

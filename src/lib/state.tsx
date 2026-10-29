@@ -7,6 +7,7 @@
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { useNavigate } from 'react-router'
 import { APPLICATIONS, COMPANIES, PASSPORTS, PLACEMENTS } from '../data'
 import type { Application, ApplicationStatus, Company, Lang, Localized, Passport, Placement, Role } from '../data'
 import { translations } from '../i18n'
@@ -155,6 +156,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return true
     }
   })
+  const navigate = useNavigate()
   const [rolePicker, setRolePicker] = useState<RolePickerState>({ open: false })
   const [toast, setToast] = useState<string | null>(null)
   const toastTimer = useRef<number | undefined>(undefined)
@@ -201,7 +203,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
       companyId: saved.companyId,
       chooseRole: (role, companyId) => update({ role, companyId: role === 'company' ? (companyId ?? null) : saved.companyId }),
       rolePicker,
-      openRolePicker: (preferred, redirect) => setRolePicker({ open: true, preferred, redirect }),
+      openRolePicker: (preferred, redirect) => {
+        // "I am a student" needs no choice: sign in as a student and go on.
+        if (preferred === 'student') {
+          update({ role: 'student' })
+          navigate(redirect ?? ROUTES.board)
+          return
+        }
+        setRolePicker({ open: true, preferred, redirect })
+      },
       closeRolePicker: () => setRolePicker({ open: false }),
       companies,
       placements,
@@ -233,7 +243,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       toast,
       notify,
     }
-  }, [saved, dark, t, rolePicker, toast, notify])
+  }, [saved, dark, t, rolePicker, toast, notify, navigate])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

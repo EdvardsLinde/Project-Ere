@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { Link } from 'react-router'
-import { ArrowRight, BadgeCheck, Building2, CalendarDays, ChevronDown, CircleCheck, Factory, GraduationCap, ShieldCheck } from 'lucide-react'
+import { BadgeCheck, Building2, CalendarDays, ChevronDown, CircleCheck, Factory, GraduationCap, ShieldCheck } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { FIELDS } from '../../data'
 import square from '../../assets/saldus/square.webp'
-import { ROUTES, useApp } from '../../lib/state'
+import { useApp } from '../../lib/state'
 import { FIELD_ICON } from '../../components/cards'
 import { cx } from '../../components/ui'
 import { PassportCard, usePassport } from '../passport/PassportCard'
@@ -44,8 +43,8 @@ export function Landing() {
         </Section>
 
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <ValueCard icon={GraduationCap} title={t.landing.studentsTitle} items={t.landing.students} role="student" cta={t.landing.studentsCta} />
-          <ValueCard icon={Building2} title={t.landing.companiesTitle} items={t.landing.companies} role="company" cta={t.landing.companiesCta} />
+          <ValueCard icon={GraduationCap} title={t.landing.studentsTitle} items={t.landing.students} />
+          <ValueCard icon={Building2} title={t.landing.companiesTitle} items={t.landing.companies} />
         </div>
 
         <Section icon={ShieldCheck} title={t.landing.tasksTitle} text={t.landing.tasksText}>
@@ -68,13 +67,6 @@ export function Landing() {
         <PassportSection />
         <CompaniesSection />
         <Faq />
-
-        <section className="rounded-3xl bg-card p-6 text-center ring-1 ring-slate-200 sm:p-10">
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{t.landing.finalTitle}</h2>
-          <div className="mt-6 flex justify-center">
-            <RoleButtons />
-          </div>
-        </section>
       </div>
     </>
   )
@@ -93,53 +85,8 @@ function Hero() {
       <div className="relative max-w-3xl">
         <h1 className="text-4xl leading-[1.05] font-extrabold tracking-tight text-balance text-slate-900 sm:text-6xl">{t.landing.heroTitle}</h1>
         <p className="mt-4 max-w-2xl text-lg font-medium text-slate-800 sm:text-xl">{t.landing.heroText}</p>
-        <div className="mt-8">
-          <RoleButtons large />
-        </div>
       </div>
     </section>
-  )
-}
-
-/** The two entry points: student / company. */
-function RoleButtons({ large = false }: { large?: boolean }) {
-  const { t, role, openRolePicker } = useApp()
-  const items: { r: 'student' | 'company'; icon: LucideIcon; title: string; hint: string; to: string }[] = [
-    { r: 'student', icon: GraduationCap, title: t.roles.studentCta, hint: t.roles.studentHint, to: ROUTES.board },
-    { r: 'company', icon: Building2, title: t.roles.companyCta, hint: t.roles.companyHint, to: ROUTES.company },
-  ]
-  return (
-    <div className="grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
-      {items.map((it) => {
-        const content = (
-          <>
-            <span className={cx('flex shrink-0 items-center justify-center rounded-xl', large ? 'size-12' : 'size-10', it.r === 'student' ? 'bg-on-accent/10' : 'bg-accent-500 text-on-accent')}>
-              <it.icon className={large ? 'size-6' : 'size-5'} />
-            </span>
-            <span className="min-w-0 text-left">
-              <span className="block font-bold">{it.title}</span>
-              <span className={cx('block text-sm', it.r === 'student' ? 'text-on-accent/80' : 'text-slate-600')}>{it.hint}</span>
-            </span>
-            <ArrowRight className="ml-auto size-5 shrink-0" />
-          </>
-        )
-        const cls = cx(
-          'flex cursor-pointer items-center gap-3 rounded-2xl text-left shadow-card transition hover:-translate-y-0.5',
-          large ? 'p-4' : 'p-3.5',
-          it.r === 'student' ? 'bg-accent-500 text-on-accent hover:bg-accent-400' : 'bg-card text-slate-900 ring-1 ring-slate-200 hover:ring-brand-300',
-        )
-        // Already in this role: go straight to its main page.
-        return role === it.r ? (
-          <Link key={it.r} to={it.to} className={cls}>
-            {content}
-          </Link>
-        ) : (
-          <button key={it.r} type="button" onClick={() => openRolePicker(it.r)} className={cls}>
-            {content}
-          </button>
-        )
-      })}
-    </div>
   )
 }
 
@@ -160,12 +107,9 @@ function Section({ icon: Icon, title, text, children }: { icon: LucideIcon; titl
   )
 }
 
-function ValueCard({ icon: Icon, title, items, role, cta }: { icon: LucideIcon; title: string; items: string[]; role: 'student' | 'company'; cta: string }) {
-  const { role: current, openRolePicker } = useApp()
-  const to = role === 'student' ? ROUTES.board : ROUTES.company
-  const btn = 'mt-6 inline-flex h-11 items-center gap-2 rounded-xl bg-brand-600 px-5 font-semibold text-white hover:bg-brand-700'
+function ValueCard({ icon: Icon, title, items }: { icon: LucideIcon; title: string; items: string[] }) {
   return (
-    <section className="flex flex-col rounded-3xl bg-card p-6 ring-1 ring-slate-200 sm:p-8">
+    <section className="rounded-3xl bg-card p-6 ring-1 ring-slate-200 sm:p-8">
       <span className="flex size-12 items-center justify-center rounded-xl bg-accent-500 text-on-accent">
         <Icon className="size-6" />
       </span>
@@ -177,17 +121,6 @@ function ValueCard({ icon: Icon, title, items, role, cta }: { icon: LucideIcon; 
           </li>
         ))}
       </ul>
-      <div className="mt-auto">
-        {current === role ? (
-          <Link to={to} className={btn}>
-            {cta} <ArrowRight className="size-4" />
-          </Link>
-        ) : (
-          <button type="button" className={cx(btn, 'cursor-pointer')} onClick={() => openRolePicker(role)}>
-            {cta} <ArrowRight className="size-4" />
-          </button>
-        )}
-      </div>
     </section>
   )
 }
