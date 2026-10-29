@@ -127,6 +127,8 @@ Decisions made where the brief was open. Change them if they're wrong.
 14. **Address placeholders** like `[TODO: confirm address]` stay in the data but are never shown in the UI.
 15. **"Completed placements"** on the company dashboard counts placements with status *Finished*.
 16. **Name: "sertifikāts", not "diploms".** The credential was renamed from "Industriālā digitālā pase" to "Industriālais digitālais sertifikāts" and is laid out like a diploma. "Diploms" is avoided on purpose: in Latvia it usually means an official education document from an accredited institution. Certificate IDs start with `SEER` (e.g. `SEER-2026-0001`); the prefix is in `config/site.ts`.
+17. **Desktop first.** The team decided the site is for computers, so phone layouts are no longer a target; new work is checked at desktop width.
+18. **Fewer words on the home page.** Statistics are shown as small charts (bars to scale, the 2030 targets as dashed gold lines, the point of each chart in blue), steps and benefits as icons with short titles, the comparison as a ✓/– matrix and the placement week as a day strip. Each chart has a text summary for screen readers.
 
 ### Statistics on the home page
 

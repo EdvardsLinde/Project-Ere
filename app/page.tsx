@@ -6,9 +6,10 @@ import {
   BadgeCheck,
   BookOpen,
   Building2,
-  CalendarRange,
+  CalendarDays,
   Check,
   ClipboardList,
+  Clock,
   Compass,
   FileCheck2,
   GraduationCap,
@@ -16,13 +17,14 @@ import {
   Hourglass,
   MapPin,
   MessageSquare,
+  Minus,
   QrCode,
   Search,
   ShieldCheck,
-  Sparkles,
+  Star,
   TrendingUp,
   UserCheck,
-  Users,
+  UserRound,
   Wrench,
   Zap,
 } from "lucide-react";
@@ -30,8 +32,10 @@ import { siteConfig } from "@/config/site";
 import { LinkButton } from "@/components/ui/button";
 import { Chip, Container, Eyebrow, ExternalLink } from "@/components/ui/misc";
 import { CertificateIllustration } from "@/components/certificate-illustration";
+import { IctMeter, SkillsChart, SupportStat, YouthChart } from "@/components/home-charts";
+import { LogoMark } from "@/components/logo";
 import { Seal } from "@/components/seal";
-import { useI18n } from "@/lib/i18n";
+import { fmt, useI18n } from "@/lib/i18n";
 import { formatCertificateId, formatScore } from "@/lib/placements";
 import { loginPath } from "@/lib/session";
 
@@ -81,7 +85,18 @@ function Hero() {
           >
             {h.title}
           </h1>
-          <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
+          <p className="mt-5 max-w-[48ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {h.chips.map((chip, i) => {
+              const Icon = [Clock, UserRound, Award][i];
+              return (
+                <li key={chip} className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-bold">
+                  <Icon className="size-4 text-accent" aria-hidden="true" />
+                  {chip}
+                </li>
+              );
+            })}
+          </ul>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <LinkButton href="/prakses" variant="accent" size="lg">
               <Search className="size-5" aria-hidden="true" />
@@ -115,41 +130,27 @@ function Roofline() {
 function WhyNow() {
   const { t } = useI18n();
   const w = t.home.why;
-  const icons = [Users, Zap, TrendingUp, Sparkles];
   return (
     <section className="bg-surface-muted py-16 sm:py-24" aria-labelledby="why-title">
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
-          <SectionTitle id="why-title" eyebrow={w.eyebrow} title={w.title} lead={w.lead} />
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {w.cards.map((c, i) => {
-              const Icon = icons[i];
-              return (
-                <li key={c.url} className="flex flex-col rounded-lg border border-line bg-surface p-5 shadow-card">
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="text-4xl font-extrabold tracking-tight text-primary tabular-nums">{c.value}</p>
-                    <Icon className="size-6 text-accent" aria-hidden="true" />
-                  </div>
-                  <p className="mt-2 font-semibold leading-snug">{c.label}</p>
-                  <p className="mt-2 text-sm text-ink-muted">{c.note}</p>
-                  <p className="mt-auto pt-4 text-sm">
-                    <span className="text-ink-muted">{w.source}: </span>
-                    <ExternalLink href={c.url} newTabLabel={t.common.opensInNewTab}>
-                      {c.source}
-                    </ExternalLink>
-                  </p>
-                </li>
-              );
-            })}
-          </ul>
+        <SectionTitle id="why-title" eyebrow={w.eyebrow} title={w.title} />
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <SkillsChart />
+          <YouthChart />
+          <IctMeter />
+          <SupportStat />
         </div>
-        <ul className="mt-10 grid gap-3 border-t border-line pt-6 text-sm text-ink-muted md:grid-cols-3">
+        <ul className="mt-4 grid gap-4 sm:grid-cols-3">
           {w.more.map((m) => (
-            <li key={m.url}>
-              {m.text}{" "}
-              <ExternalLink href={m.url} newTabLabel={t.common.opensInNewTab} className="whitespace-nowrap">
-                {m.source}
-              </ExternalLink>
+            <li key={m.url} className="rounded-lg border border-line bg-surface px-5 py-4">
+              <p className="text-2xl font-extrabold tracking-tight text-primary tabular-nums">{m.value}</p>
+              <p className="mt-1 text-sm font-semibold leading-snug">{m.label}</p>
+              <p className="mt-2 text-xs text-ink-muted">
+                {w.source}:{" "}
+                <ExternalLink href={m.url} newTabLabel={t.common.opensInNewTab}>
+                  {m.source}
+                </ExternalLink>
+              </p>
             </li>
           ))}
         </ul>
@@ -166,22 +167,24 @@ function HowItWorks() {
     <section className="py-16 sm:py-24" aria-labelledby="how-title">
       <Container>
         <SectionTitle id="how-title" eyebrow={h.eyebrow} title={h.title} />
-        <ol className="relative mt-12 grid gap-8 md:grid-cols-5 md:gap-4">
-          <div className="absolute left-[1.375rem] top-0 h-full w-0.5 bg-line md:left-0 md:top-[1.375rem] md:h-0.5 md:w-full" aria-hidden="true" />
-          {h.steps.map((s, i) => {
+        <ol className="relative mt-12 grid gap-6 sm:grid-cols-5 sm:gap-3">
+          <div className="absolute left-7 top-0 h-full w-0.5 bg-line sm:left-[10%] sm:right-[10%] sm:top-7 sm:h-0.5 sm:w-auto" aria-hidden="true" />
+          {h.steps.map((step, i) => {
             const Icon = icons[i];
+            const last = i === h.steps.length - 1;
             return (
-              <li key={s.title} className="relative flex gap-4 md:flex-col">
-                <span className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-surface bg-primary-fill text-white ring-1 ring-line">
-                  <Icon className="size-5" aria-hidden="true" />
-                  <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-accent text-[0.7rem] font-extrabold text-on-accent">
+              <li key={step} className="relative flex items-center gap-4 sm:flex-col sm:text-center">
+                <span
+                  className={`relative z-10 flex size-14 shrink-0 items-center justify-center rounded-full border-4 border-bg ${
+                    last ? "bg-accent text-on-accent" : "bg-primary-fill text-white"
+                  }`}
+                >
+                  <Icon className="size-6" aria-hidden="true" />
+                  <span className="absolute -right-1 -top-1 flex size-6 items-center justify-center rounded-full bg-surface text-xs font-extrabold text-ink ring-1 ring-line">
                     {i + 1}
                   </span>
                 </span>
-                <div>
-                  <h3 className="font-bold leading-snug">{s.title}</h3>
-                  <p className="mt-1 text-[0.95rem] text-ink-muted">{s.text}</p>
-                </div>
+                <p className="font-bold leading-snug sm:max-w-[10rem]">{step}</p>
               </li>
             );
           })}
@@ -191,18 +194,37 @@ function HowItWorks() {
   );
 }
 
+function BenefitTiles({ items, icons, dark }: { items: string[]; icons: typeof Award[]; dark?: boolean }) {
+  return (
+    <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      {items.map((item, i) => {
+        const Icon = icons[i];
+        return (
+          <li
+            key={item}
+            className={`flex flex-col items-start gap-3 rounded-md p-3.5 ${dark ? "bg-on-night/[0.06] ring-1 ring-on-night/10" : "bg-bg ring-1 ring-line"}`}
+          >
+            <span className={`flex size-10 items-center justify-center rounded-md ${dark ? "bg-accent text-on-accent" : "bg-primary-soft text-primary"}`}>
+              <Icon className="size-5" aria-hidden="true" />
+            </span>
+            <span className="text-sm font-bold leading-snug">{item}</span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 function Benefits() {
   const { t } = useI18n();
   const s = t.home.students;
   const c = t.home.companies;
-  const studentIcons = [Wrench, MessageSquare, BadgeCheck, FileCheck2, Hourglass, MapPin];
-  const companyIcons = [UserCheck, FileCheck2, Hourglass, TrendingUp, Handshake, Zap];
   return (
     <section className="pb-16 sm:pb-24" aria-label={`${s.title} / ${c.title}`}>
       <Container className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-lg border border-line bg-surface p-6 shadow-card sm:p-8" aria-labelledby="students-title">
           <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-md bg-primary-soft text-primary">
+            <span className="flex size-11 items-center justify-center rounded-md bg-primary-fill text-white">
               <GraduationCap className="size-6" aria-hidden="true" />
             </span>
             <div>
@@ -212,21 +234,8 @@ function Benefits() {
               </h2>
             </div>
           </div>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-            {s.items.map((item, i) => {
-              const Icon = studentIcons[i];
-              return (
-                <li key={item.title} className="flex gap-3">
-                  <Icon className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
-                  <div>
-                    <p className="font-bold leading-snug">{item.title}</p>
-                    <p className="text-[0.95rem] text-ink-muted">{item.text}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-          <LinkButton href="/prakses" className="mt-8">
+          <BenefitTiles items={s.items} icons={[Wrench, MessageSquare, BadgeCheck, FileCheck2, CalendarDays, MapPin]} />
+          <LinkButton href="/prakses" className="mt-6">
             {s.cta}
             <ArrowRight className="size-4" aria-hidden="true" />
           </LinkButton>
@@ -244,21 +253,8 @@ function Benefits() {
               </h2>
             </div>
           </div>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-            {c.items.map((item, i) => {
-              const Icon = companyIcons[i];
-              return (
-                <li key={item.title} className="flex gap-3">
-                  <Icon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
-                  <div>
-                    <p className="font-bold leading-snug">{item.title}</p>
-                    <p className="text-[0.95rem] text-on-night/75">{item.text}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-          <LinkButton href={companyRegister} variant="accent" className="mt-8">
+          <BenefitTiles items={c.items} icons={[UserCheck, FileCheck2, Hourglass, TrendingUp, Handshake, Zap]} dark />
+          <LinkButton href={companyRegister} variant="accent" className="mt-6">
             {c.cta}
             <ArrowRight className="size-4" aria-hidden="true" />
           </LinkButton>
@@ -271,35 +267,55 @@ function Benefits() {
 function Credential() {
   const { t } = useI18n();
   const p = t.home.credential;
+  const certIcons = [ClipboardList, FileCheck2, Star, CalendarDays];
+  const flowIcons = [Award, QrCode, BadgeCheck];
   return (
     <section className="overflow-hidden border-y border-line bg-surface py-16 sm:py-24" aria-labelledby="credential-title">
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <PhoneVerification />
         <div>
-          <SectionTitle id="credential-title" eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
-          <h3 className="mt-8 font-bold">{p.certifiesTitle}</h3>
-          <ul className="mt-3 space-y-2">
-            {p.certifies.map((c) => (
-              <li key={c} className="flex gap-2.5">
-                <Check className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
-                <span>{c}</span>
-              </li>
-            ))}
+          <SectionTitle id="credential-title" eyebrow={p.eyebrow} title={p.title} />
+          <h3 className="mt-8 text-sm font-bold uppercase tracking-[0.08em] text-ink-muted">{p.certifiesTitle}</h3>
+          <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {p.certifies.map((c, i) => {
+              const Icon = certIcons[i];
+              return (
+                <li key={c} className="flex flex-col items-center gap-2 rounded-md bg-bg px-2 py-3 text-center ring-1 ring-line">
+                  <Icon className="size-6 text-primary" aria-hidden="true" />
+                  <span className="text-sm font-bold leading-tight">{c}</span>
+                </li>
+              );
+            })}
           </ul>
-          <div className="mt-8 flex gap-4 rounded-lg border border-line bg-bg p-5">
-            <QrCode className="size-8 shrink-0 text-accent" aria-hidden="true" />
-            <div>
-              <h3 className="font-bold">{p.verifyTitle}</h3>
-              <p className="mt-1 text-[0.95rem] text-ink-muted">{p.verifyText}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <LinkButton href="/parbaudit" variant="primary" size="sm">
-                  {p.verifyCta}
-                </LinkButton>
-                <LinkButton href={`/sertifikats/${formatCertificateId(2026, 1)}`} variant="secondary" size="sm">
-                  {p.sampleCta}
-                </LinkButton>
-              </div>
-            </div>
+          <h3 className="mt-8 text-sm font-bold uppercase tracking-[0.08em] text-ink-muted">{p.flowTitle}</h3>
+          <ol className="mt-3 flex items-start gap-1">
+            {p.flow.map((step, i) => {
+              const Icon = flowIcons[i];
+              return (
+                <li key={step} className="flex flex-1 items-start gap-1">
+                  <div className="flex flex-1 flex-col items-center gap-2 text-center">
+                    <span
+                      className={`flex size-12 items-center justify-center rounded-full ${
+                        i === 2 ? "bg-success-soft text-success" : "bg-primary-soft text-primary"
+                      }`}
+                    >
+                      <Icon className="size-6" aria-hidden="true" />
+                    </span>
+                    <span className="text-sm font-semibold leading-tight">{step}</span>
+                  </div>
+                  {i < p.flow.length - 1 && <ArrowRight className="mt-3.5 size-5 shrink-0 text-ink-muted" aria-hidden="true" />}
+                </li>
+              );
+            })}
+          </ol>
+          <div className="mt-8 flex flex-wrap gap-2">
+            <LinkButton href="/parbaudit" variant="primary">
+              <ShieldCheck className="size-4" aria-hidden="true" />
+              {p.verifyCta}
+            </LinkButton>
+            <LinkButton href={`/sertifikats/${formatCertificateId(2026, 1)}`} variant="secondary">
+              {p.sampleCta}
+            </LinkButton>
           </div>
         </div>
       </Container>
@@ -307,7 +323,6 @@ function Credential() {
   );
 }
 
-/** Illustration of a company checking a certificate on a phone. Static and decorative. */
 function PhoneVerification() {
   const { t, locale } = useI18n();
   const v = t.verify;
@@ -352,82 +367,80 @@ function PhoneVerification() {
 function Comparison() {
   const { t } = useI18n();
   const c = t.home.comparison;
-  const rows = c.rows;
+  const ours = c.programs.length - 1;
+  // From the programmes' own descriptions: only SEER has a real task, a result the company keeps and a credential.
+  const has = (col: number) => col === ours;
   return (
     <section className="py-16 sm:py-24" aria-labelledby="compare-title">
       <Container>
         <SectionTitle id="compare-title" eyebrow={c.eyebrow} title={c.title} />
-
-        {/* Desktop: table */}
-        <div className="mt-10 hidden overflow-hidden rounded-lg border border-line bg-surface shadow-card md:block">
-          <table className="w-full text-left text-[0.95rem]">
+        <div className="relative mt-10 overflow-x-auto rounded-lg border border-line bg-surface shadow-card">
+          <table className="w-full min-w-[36rem] table-fixed text-sm">
             <caption className="sr-only">{c.caption}</caption>
-            <thead className="bg-surface-muted text-sm">
+            <colgroup>
+              <col className="w-[30%]" />
+              {c.programs.map((p) => (
+                <col key={p} />
+              ))}
+            </colgroup>
+            <thead>
               <tr>
-                {c.headers.map((h) => (
-                  <th key={h} scope="col" className="px-5 py-3.5 font-bold">
-                    {h}
+                <td />
+                {c.programs.map((p, i) => (
+                  <th key={p} scope="col" className={`px-3 pb-3 pt-5 text-center align-bottom ${i === ours ? "bg-primary-soft" : ""}`}>
+                    {i === ours && <LogoMark className="mx-auto mb-1.5 size-8" />}
+                    <span className={`block font-extrabold ${i === ours ? "text-primary" : ""}`}>{p}</span>
+                    <span className="block text-xs font-medium text-ink-muted">{c.programNotes[i]}</span>
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
-                <tr key={r.name} className="border-t border-line align-top">
-                  <th scope="row" className="px-5 py-4 font-semibold">
-                    {r.name}
+              <tr className="border-t border-line">
+                <th scope="row" className="px-4 py-3.5 text-left font-semibold">
+                  <span className="flex items-center gap-2">
+                    <Clock className="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+                    {c.lengthLabel}
+                  </span>
+                </th>
+                {c.lengths.map((l, i) => (
+                  <td key={i} className={`px-3 py-3.5 text-center ${i === ours ? "bg-primary-soft font-extrabold text-primary" : "text-ink-muted"}`}>
+                    {l}
+                  </td>
+                ))}
+              </tr>
+              {c.rows.map((row) => (
+                <tr key={row} className="border-t border-line">
+                  <th scope="row" className="px-4 py-3.5 text-left font-semibold">
+                    {row}
                   </th>
-                  <td className="px-5 py-4 text-ink-muted">{r.length}</td>
-                  <td className="px-5 py-4 text-ink-muted">{r.does}</td>
-                  <td className="px-5 py-4 text-ink-muted">{r.output}</td>
+                  {c.programs.map((p, i) => (
+                    <td key={p} className={`px-3 py-3.5 text-center ${i === ours ? "bg-primary-soft" : ""}`}>
+                      {has(i) ? (
+                        <span className="inline-flex size-8 items-center justify-center rounded-full bg-success-soft text-success">
+                          <Check className="size-5" strokeWidth={3} aria-hidden="true" />
+                          <span className="sr-only">{c.yes}</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex size-8 items-center justify-center rounded-full bg-surface-muted text-ink-muted">
+                          <Minus className="size-4" aria-hidden="true" />
+                          <span className="sr-only">{c.no}</span>
+                        </span>
+                      )}
+                    </td>
+                  ))}
                 </tr>
               ))}
-              <tr className="border-t-2 border-primary bg-primary-soft align-top">
-                <th scope="row" className="relative px-5 py-4 font-extrabold text-primary">
-                  <span className="absolute inset-y-0 left-0 w-1 bg-accent" aria-hidden="true" />
-                  {c.ours.name}
-                </th>
-                <td className="px-5 py-4 font-bold">{c.ours.length}</td>
-                <td className="px-5 py-4 font-bold">{c.ours.does}</td>
-                <td className="px-5 py-4 font-bold">{c.ours.output}</td>
-              </tr>
             </tbody>
           </table>
         </div>
-
-        {/* Mobile: stacked cards */}
-        <ul className="mt-8 space-y-3 md:hidden">
-          {[...rows.map((r) => ({ ...r, ours: false })), { ...c.ours, url: "", ours: true }].map((r) => (
-            <li
-              key={r.name}
-              className={`rounded-lg border p-4 ${r.ours ? "border-primary bg-primary-soft" : "border-line bg-surface"}`}
-            >
-              <p className={`font-extrabold ${r.ours ? "text-primary" : ""}`}>{r.name}</p>
-              <dl className="mt-2 space-y-1.5 text-[0.95rem]">
-                {[
-                  [c.headers[1], r.length],
-                  [c.headers[2], r.does],
-                  [c.headers[3], r.output],
-                ].map(([k, v]) => (
-                  <div key={k}>
-                    <dt className="text-xs font-bold uppercase tracking-wide text-ink-muted">{k}</dt>
-                    <dd className={r.ours ? "font-semibold" : ""}>{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </li>
-          ))}
-        </ul>
-
-        <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-muted">
+        <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-muted">
           <span>{c.sources}:</span>
-          {rows
-            .filter((r) => r.url)
-            .map((r) => (
-              <ExternalLink key={r.url} href={r.url} newTabLabel={t.common.opensInNewTab}>
-                {r.name.split(" (")[0]}
-              </ExternalLink>
-            ))}
+          {c.sourceLinks.map((l) => (
+            <ExternalLink key={l.url} href={l.url} newTabLabel={t.common.opensInNewTab}>
+              {l.name}
+            </ExternalLink>
+          ))}
         </p>
       </Container>
     </section>
@@ -458,32 +471,43 @@ function Week() {
   const { t } = useI18n();
   const w = t.home.week;
   const icons = [BookOpen, Wrench, Award];
+  const spans = ["sm:col-span-1", "sm:col-span-3", "sm:col-span-1"];
+  const days = ["1", "2–4", "5"];
   return (
     <section className="py-16 sm:py-24" aria-labelledby="week-title">
       <Container>
         <SectionTitle id="week-title" eyebrow={w.eyebrow} title={w.title} />
-        <ol className="mt-10 grid gap-4 md:grid-cols-[1fr_1.6fr_1fr]">
-          {w.days.map((d, i) => {
+        <div className="mt-10 hidden grid-cols-5 gap-2 sm:grid" aria-hidden="true">
+          {[1, 2, 3, 4, 5].map((d) => (
+            <span key={d} className="rounded-sm bg-surface-muted py-1.5 text-center text-xs font-bold uppercase tracking-wide text-ink-muted">
+              {fmt(w.dayShort, { n: d })}
+            </span>
+          ))}
+        </div>
+        <ol className="mt-4 grid gap-2 sm:grid-cols-5">
+          {w.phases.map((phase, i) => {
             const Icon = icons[i];
             const middle = i === 1;
             return (
               <li
-                key={d.label}
-                className={`flex flex-col rounded-lg border p-5 ${middle ? "border-primary bg-primary-fill text-white" : "border-line bg-surface"}`}
+                key={phase}
+                className={`${spans[i]} flex items-center gap-3 rounded-lg p-4 sm:flex-col sm:items-start ${
+                  middle ? "bg-primary-fill text-white" : "border border-line bg-surface"
+                }`}
               >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`rounded-sm px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
-                      middle ? "bg-white/15 text-white" : "bg-accent-soft text-accent-ink"
-                    }`}
-                  >
-                    <CalendarRange className="mr-1 inline size-3.5 align-[-2px]" aria-hidden="true" />
-                    {d.label}
+                <span
+                  className={`flex size-11 shrink-0 items-center justify-center rounded-md ${
+                    middle ? "bg-white/15 text-white" : i === 2 ? "bg-accent text-on-accent" : "bg-primary-soft text-primary"
+                  }`}
+                >
+                  <Icon className="size-6" aria-hidden="true" />
+                </span>
+                <div>
+                  <span className={`text-xs font-bold uppercase tracking-wide sm:hidden ${middle ? "text-white/80" : "text-ink-muted"}`}>
+                    {fmt(w.dayShort, { n: days[i] })}
                   </span>
-                  <Icon className={`size-6 ${middle ? "text-accent" : "text-primary"}`} aria-hidden="true" />
+                  <p className="font-bold leading-snug">{phase}</p>
                 </div>
-                <h3 className="mt-4 text-xl font-extrabold">{d.title}</h3>
-                <p className={`mt-1 ${middle ? "text-white/85" : "text-ink-muted"}`}>{d.text}</p>
               </li>
             );
           })}
