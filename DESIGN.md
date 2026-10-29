@@ -1,44 +1,45 @@
-# DESIGN.md — Saldus Industrial Digital Certificate
+# DESIGN.md — SEER
 
-Direction: **workshop, not boardroom.** Trustworthy like a safety sign and a
-work permit, friendly enough for a 16-year-old. Forest green carries the
-actions, signal orange marks what matters (like a safety vest in a forest),
-everything else is warm off-white and graphite. One recurring object — the
-**diploma-style certificate** with a round seal — is the visual idea the site is built around.
+**SEER — see where your career can go.** The identity of the earlier SEER
+prototype: the Saldus coat of arms (blue and gold), a blue "S" mark, warm
+neutrals, and **dark mode by default** with a light-mode toggle. One recurring
+object — the **diploma-style certificate** with a round seal — is the visual
+idea the placement site is built around; it is always paper-white.
 
-> Not based on comparing real reference sites (the UXKIN library was not
-> reachable when this was written). Decisions follow the brief and the rules
-> below. Values live in `config/site.ts` (`theme`) and are exposed as CSS
-> variables in `app/globals.css`; components use the token names, never hex.
+> Values live in `config/site.ts` (`theme.light`, `theme.dark`) and become CSS
+> variables via `lib/theme-css.ts`; components use the token names, never hex.
 
 ## Colour
 
-| Token | Light value | Role |
-|---|---|---|
-| `bg` | `#FAF7F2` | Page background (warm white) |
-| `surface` | `#FFFFFF` | Cards, inputs, header |
-| `surface-muted` | `#F2EEE6` | Alternate sections, table heads, chips |
-| `line` | `#E2DCD0` | Borders and dividers |
-| `ink` | `#1F2421` | Body text, headings (graphite) — 14.7:1 on bg |
-| `ink-muted` | `#5A615C` | Secondary text — 6.0:1 on bg |
-| `primary` | `#1E5A3C` | Primary buttons (white text 8.1:1), links, focus ring |
-| `primary-hover` | `#16472F` | Hover/active on primary |
-| `primary-soft` | `#E6F0EA` | Selected states, soft badges with `primary` text |
-| `accent` | `#F26A1B` | Signal orange: highlights, stamps, step numbers, hazard band. **Never small text on light bg** |
-| `accent-ink` | `#A8430A` | Orange used as text (5.7:1 on bg) |
-| `accent-soft` | `#FDEBDD` | Orange-tinted badge background (text `accent-ink`) |
-| `on-accent` | `#1F2421` | Text on orange buttons (5.1:1) |
-| `success` / `success-soft` | `#17663F` / `#E3F3E9` | Approved, valid certificate |
-| `warning` / `warning-soft` | `#8A5A00` / `#FFF4D6` | Illustrative-example badge, pending, deadlines |
-| `danger` / `danger-soft` | `#B42318` / `#FDECEA` | Errors, rejected, delete |
+| Token | Light | Dark | Role |
+|---|---|---|---|
+| `bg` | `#F7F5F3` | `#0B0A09` | Page background |
+| `surface` | `#FFFFFF` | `#151210` | Cards, inputs, header |
+| `surface-muted` | `#EFEBE7` | `#1C1917` | Alternate sections, table heads, chips |
+| `line` | `#E3DED9` | `#2A2522` | Borders and dividers |
+| `ink` | `#171412` | `#F5F2EF` | Text (16.9:1 / 17.7:1 on bg) |
+| `ink-muted` | `#655E58` | `#B6AFA9` | Secondary text (5.9:1 / 9.1:1) |
+| `primary` | `#005DAB` | `#6CB2EC` | Links, focus ring, blue text, borders (6.1:1 / 8.7:1) |
+| `primary-fill` | `#005DAB` | `#005DAB` | Button and badge fills with white text (6.7:1) |
+| `primary-hover` | `#004A8A` | `#0068BD` | Hover on fills |
+| `primary-soft` | `#EAF3FB` | `#0D2033` | Selected states, soft badges |
+| `accent` | `#A38443` | `#B8964D` | Saldus gold: highlight buttons (with `on-accent` text), icons, hazard band |
+| `accent-ink` | `#7D6326` | `#D8BD80` | Gold as text (5.2:1 / 10.8:1) |
+| `accent-soft` | `#F8F4EA` | `#2A2213` | Gold-tinted backgrounds |
+| `on-accent` | `#231F1E` | `#231F1E` | Text on gold (4.6:1 / 5.8:1) |
+| `night` / `on-night` | `#0C0A09` / `#F5F2EF` | `#050403` / `#F5F2EF` | Always-dark surfaces: footer, company panel, phone mock |
+| `success`, `warning`, `danger` (+ `-soft`) | | | Status colours, all ≥ 5:1 on their soft background |
 
-Dark mode: not in v1 (printable certificate and a light, paper-like feel are
-core). Tokens are variables, so a dark set can be added in one place.
+- **Certificates are paper.** `.paper` re-applies the light tokens, so the
+  certificate (and its hero miniature) look the same in both themes; printing
+  is always light.
+- **Inverted chips** (`bg-ink text-bg`: active language, toasts, "Finished"
+  badge) flip with the theme on purpose.
 
 ## Typography
 
-One family: **Manrope Variable** (self-hosted via `@fontsource-variable/manrope`,
-includes latin-ext: ā č ē ģ ī ķ ļ ņ š ū ž). Monospace (`ui-monospace`) only for
+One family: **Inter Variable** (as in SEER; self-hosted via
+`@fontsource-variable/inter`, includes latin-ext: ā č ē ģ ī ķ ļ ņ š ū ž). Monospace (`ui-monospace`) only for
 certificate IDs.
 
 | Step | Size / line height | Weight | Use |

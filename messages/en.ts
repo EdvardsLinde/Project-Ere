@@ -3,7 +3,7 @@ import type { Messages } from "./lv";
 /** English UI text. Must match the shape of `messages/lv.ts` (type-checked). */
 const en: Messages = {
   meta: {
-    title: "Saldus Industrial Digital Certificate",
+    title: "SEER — Saldus Industrial Digital Immersion",
     description:
       "3–5 day placements at Saldus municipality companies for 15–24-year-olds: a real digital task, a mentor and a certificate employers recognise.",
   },
@@ -71,6 +71,9 @@ const en: Messages = {
     closeMenu: "Close menu",
     userMenu: "User menu",
     language: "Language",
+    theme: "Appearance",
+    darkMode: "Dark mode",
+    lightMode: "Light mode",
     switchToEn: "English",
     switchToLv: "Latviešu",
     mainNav: "Main navigation",
@@ -787,9 +790,9 @@ const en: Messages = {
   certificate: {
     title: "Certificate",
     fullName: "Industrial Digital Certificate",
-    kicker: "Saldus municipality · Industrial digital placement",
+    kicker: "SEER · Saldus Industrial Digital Immersion",
     subtitle: "for a digital placement at a company",
-    sealTop: "Saldus",
+    sealTop: "SEER · Saldus",
     sealBottom: "Digital placement",
     companySignature: "Company",
     awardedTo: "This certifies that",

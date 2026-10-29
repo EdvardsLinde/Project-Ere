@@ -64,7 +64,7 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
     <article
       ref={sheetRef}
       aria-label={`${ct.fullName}: ${c.participantName}`}
-      className="print-sheet mx-auto w-full max-w-[210mm] rounded-lg border border-line bg-surface p-3 shadow-lift sm:min-h-[297mm] sm:p-[8mm] print:p-[5mm]"
+      className="paper print-sheet mx-auto w-full max-w-[210mm] rounded-lg border border-line bg-surface p-3 shadow-lift sm:min-h-[297mm] sm:p-[8mm] print:p-[5mm]"
     >
       {/* Double frame */}
       <div className="flex flex-col rounded-sm border-[3px] border-primary p-1.5 sm:min-h-[calc(297mm-16mm)] print:min-h-[calc(297mm-12mm)]">
@@ -85,9 +85,9 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
           </h1>
           <p className="mt-2 text-sm font-bold uppercase tracking-[0.16em] text-accent-ink">{ct.fullName}</p>
           <div className="mt-4 flex items-center gap-2 print:mt-3" aria-hidden="true">
-            <span className="h-px w-12 bg-primary/40" />
+            <span className="h-px w-12 bg-primary-fill/40" />
             <span className="size-1.5 rotate-45 bg-accent" />
-            <span className="h-px w-12 bg-primary/40" />
+            <span className="h-px w-12 bg-primary-fill/40" />
           </div>
 
           <p className="mt-8 text-sm font-bold uppercase tracking-[0.12em] text-ink-muted print:mt-5">{ct.awardedTo}</p>
@@ -134,7 +134,7 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
                     <span className="font-semibold print:min-h-[2lh] print:leading-tight">{t.applications.criteria[k]}</span>
                     <span className="flex gap-1 print:w-full print:order-last" aria-hidden="true">
                       {[1, 2, 3, 4, 5].map((n) => (
-                        <span key={n} className={`h-2 flex-1 rounded-[2px] ${n <= v ? "bg-primary" : "bg-surface-muted"}`} />
+                        <span key={n} className={`h-2 flex-1 rounded-[2px] ${n <= v ? "bg-primary-fill" : "bg-surface-muted"}`} />
                       ))}
                     </span>
                     <span className="text-right font-extrabold tabular-nums print:text-center print:text-lg">

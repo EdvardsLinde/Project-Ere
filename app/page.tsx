@@ -71,7 +71,12 @@ function Hero() {
   const h = t.home.hero;
   return (
     <section className="relative overflow-hidden border-b border-line" aria-labelledby="hero-title">
-      <div className="bg-dots absolute inset-0 opacity-60" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative background, also used by the single-file build */}
+        <img src={siteConfig.heroPhoto} alt="" className="absolute inset-0 size-full object-cover object-[center_45%] saturate-150" />
+        <div className="absolute inset-0 bg-bg/80 lg:hidden" />
+        <div className="absolute inset-0 hidden bg-linear-to-r from-bg/95 via-bg/75 to-bg/30 lg:block" />
+      </div>
       <Container className="relative grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:py-24">
         <div>
           <Eyebrow>{h.eyebrow}</Eyebrow>
@@ -172,7 +177,7 @@ function HowItWorks() {
             const Icon = icons[i];
             return (
               <li key={s.title} className="relative flex gap-4 md:flex-col">
-                <span className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-surface bg-primary text-white ring-1 ring-line">
+                <span className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-surface bg-primary-fill text-white ring-1 ring-line">
                   <Icon className="size-5" aria-hidden="true" />
                   <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-accent text-[0.7rem] font-extrabold text-on-accent">
                     {i + 1}
@@ -232,7 +237,7 @@ function Benefits() {
           </LinkButton>
         </div>
 
-        <div className="rounded-lg bg-ink p-6 text-bg sm:p-8" aria-labelledby="companies-title">
+        <div className="rounded-lg bg-night p-6 text-on-night ring-1 ring-on-night/10 sm:p-8" aria-labelledby="companies-title">
           <div className="flex items-center gap-3">
             <span className="flex size-11 items-center justify-center rounded-md bg-accent text-on-accent">
               <Building2 className="size-6" aria-hidden="true" />
@@ -252,7 +257,7 @@ function Benefits() {
                   <Icon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
                   <div>
                     <p className="font-bold leading-snug">{item.title}</p>
-                    <p className="text-[0.95rem] text-bg/75">{item.text}</p>
+                    <p className="text-[0.95rem] text-on-night/75">{item.text}</p>
                   </div>
                 </li>
               );
@@ -314,8 +319,8 @@ function PhoneVerification() {
   return (
     <figure className="relative mx-auto w-full max-w-xs" aria-label={t.home.credential.phoneLabel}>
       <div className="bg-dots absolute -inset-6 rounded-[2.5rem] opacity-70" aria-hidden="true" />
-      <div className="relative rounded-[2.2rem] bg-ink p-2.5 shadow-lift" aria-hidden="true">
-        <div className="mx-auto mb-2 h-1.5 w-16 rounded-full bg-bg/25" />
+      <div className="relative rounded-[2.2rem] bg-night p-2.5 shadow-lift ring-1 ring-on-night/15" aria-hidden="true">
+        <div className="mx-auto mb-2 h-1.5 w-16 rounded-full bg-on-night/25" />
         <div className="overflow-hidden rounded-[1.7rem] bg-bg">
           <div className="flex items-center gap-2 border-b border-line bg-surface px-4 py-3">
             <ShieldCheck className="size-4 text-primary" />
@@ -469,7 +474,7 @@ function Week() {
             return (
               <li
                 key={d.label}
-                className={`flex flex-col rounded-lg border p-5 ${middle ? "border-primary bg-primary text-white" : "border-line bg-surface"}`}
+                className={`flex flex-col rounded-lg border p-5 ${middle ? "border-primary bg-primary-fill text-white" : "border-line bg-surface"}`}
               >
                 <div className="flex items-center justify-between">
                   <span
@@ -525,7 +530,7 @@ function ClosingCta() {
   const { t } = useI18n();
   const h = t.home.hero;
   return (
-    <section className="bg-primary text-white" aria-labelledby="cta-title">
+    <section className="bg-primary-fill text-white" aria-labelledby="cta-title">
       <Container className="flex flex-col items-start gap-8 py-14 sm:py-16 md:flex-row md:items-center md:justify-between">
         <div className="flex items-start gap-4">
           <Compass className="mt-1 hidden size-10 text-accent sm:block" aria-hidden="true" />

@@ -410,7 +410,7 @@ function ApplicationDialog({
                   <label
                     key={n}
                     className={`flex size-11 cursor-pointer items-center justify-center rounded-md border text-base font-extrabold transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${
-                      scores[c] === n ? "border-primary bg-primary text-white" : "border-line bg-surface hover:border-ink/30"
+                      scores[c] === n ? "border-primary bg-primary-fill text-white" : "border-line bg-surface hover:border-ink/30"
                     }`}
                   >
                     <input

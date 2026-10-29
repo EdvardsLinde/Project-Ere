@@ -46,7 +46,7 @@ export function Dialog({
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
-      className={`m-0 mt-auto max-h-[92vh] w-full max-w-none rounded-t-lg border border-line bg-surface p-0 text-ink shadow-lift backdrop:bg-ink/50 sm:m-auto sm:rounded-lg ${width}`}
+      className={`m-0 mt-auto max-h-[92vh] w-full max-w-none rounded-t-lg border border-line bg-surface p-0 text-ink shadow-lift backdrop:bg-night/50 sm:m-auto sm:rounded-lg ${width}`}
     >
       {open && (
         <div className="flex max-h-[92vh] flex-col">

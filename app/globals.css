@@ -6,36 +6,48 @@
  * keep things readable if that ever fails.
  */
 @theme inline {
-  --font-sans: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  --color-bg: var(--c-bg, #faf7f2);
+  /* Fallbacks = SEER light palette. */
+  --color-bg: var(--c-bg, #f7f5f3);
   --color-surface: var(--c-surface, #ffffff);
-  --color-surface-muted: var(--c-surface-muted, #f2eee6);
-  --color-line: var(--c-line, #e2dcd0);
-  --color-ink: var(--c-ink, #1f2421);
-  --color-ink-muted: var(--c-ink-muted, #5a615c);
-  --color-primary: var(--c-primary, #1e5a3c);
-  --color-primary-hover: var(--c-primary-hover, #16472f);
-  --color-primary-soft: var(--c-primary-soft, #e6f0ea);
-  --color-accent: var(--c-accent, #f26a1b);
-  --color-accent-hover: var(--c-accent-hover, #db5a0f);
-  --color-accent-ink: var(--c-accent-ink, #a8430a);
-  --color-accent-soft: var(--c-accent-soft, #fdebdd);
-  --color-on-accent: var(--c-on-accent, #1f2421);
+  --color-surface-muted: var(--c-surface-muted, #efebe7);
+  --color-line: var(--c-line, #e3ded9);
+  --color-ink: var(--c-ink, #171412);
+  --color-ink-muted: var(--c-ink-muted, #655e58);
+  --color-primary: var(--c-primary, #005dab);
+  --color-primary-fill: var(--c-primary-fill, #005dab);
+  --color-primary-hover: var(--c-primary-hover, #004a8a);
+  --color-primary-soft: var(--c-primary-soft, #eaf3fb);
+  --color-accent: var(--c-accent, #a38443);
+  --color-accent-hover: var(--c-accent-hover, #8f7339);
+  --color-accent-ink: var(--c-accent-ink, #7d6326);
+  --color-accent-soft: var(--c-accent-soft, #f8f4ea);
+  --color-on-accent: var(--c-on-accent, #231f1e);
+  --color-night: var(--c-night, #0c0a09);
+  --color-on-night: var(--c-on-night, #f5f2ef);
   --color-success: var(--c-success, #17663f);
   --color-success-soft: var(--c-success-soft, #e3f3e9);
-  --color-warning: var(--c-warning, #8a5a00);
-  --color-warning-soft: var(--c-warning-soft, #fff4d6);
-  --color-danger: var(--c-danger, #b42318);
-  --color-danger-soft: var(--c-danger-soft, #fdecea);
+  --color-warning: var(--c-warning, #7a5600);
+  --color-warning-soft: var(--c-warning-soft, #fbedc9);
+  --color-danger: var(--c-danger, #c21e26);
+  --color-danger-soft: var(--c-danger-soft, #fdeced);
+}
 
+/* Not inline, so html.dark can swap the shadows. */
+@theme {
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
 
-  --shadow-card: 0 1px 2px rgb(31 36 33 / 0.06), 0 1px 1px rgb(31 36 33 / 0.04);
-  --shadow-lift: 0 10px 30px -12px rgb(31 36 33 / 0.25);
+  --shadow-card: 0 1px 2px rgb(23 20 18 / 0.06), 0 1px 1px rgb(23 20 18 / 0.04);
+  --shadow-lift: 0 10px 30px -12px rgb(23 20 18 / 0.3);
+}
+
+html.dark {
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 1px rgb(0 0 0 / 0.2);
+  --shadow-lift: 0 14px 36px -12px rgb(0 0 0 / 0.65);
 }
 
 html {
@@ -47,7 +59,7 @@ body {
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-feature-settings: "ss01";
+  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
 }
 
@@ -59,7 +71,7 @@ body {
 
 /* Subtle dot grid used behind the hero and certificate. */
 .bg-dots {
-  background-image: radial-gradient(rgb(31 36 33 / 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(color-mix(in srgb, var(--color-ink) 13%, transparent) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -68,7 +80,7 @@ body {
   background: repeating-linear-gradient(
     -45deg,
     var(--color-accent) 0 12px,
-    var(--color-ink) 12px 24px
+    var(--color-night) 12px 24px
   );
 }
 

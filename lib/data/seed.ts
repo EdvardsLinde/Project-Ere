@@ -23,7 +23,7 @@ import type {
 import { demoHash } from "./util";
 
 /** Bump when seed data or the stored shape changes: browsers with an older version reseed. */
-export const DB_VERSION = 3;
+export const DB_VERSION = 4;
 
 export const DEMO_ACCOUNTS = {
   company: { email: "demo@uznemums.lv", password: "demo1234" },

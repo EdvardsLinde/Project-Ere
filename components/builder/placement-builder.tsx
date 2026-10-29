@@ -249,7 +249,7 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
                     onClick={() => goTo(i)}
                     aria-current={active ? "step" : undefined}
                     className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm font-semibold transition-colors ${
-                      active ? "bg-primary text-white" : "text-ink hover:bg-surface-muted"
+                      active ? "bg-primary-fill text-white" : "text-ink hover:bg-surface-muted"
                     }`}
                   >
                     <span

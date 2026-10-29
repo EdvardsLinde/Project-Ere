@@ -26,8 +26,11 @@ import { SiteHeader } from "@/components/site-header";
 import { ToastProvider } from "@/components/toast";
 import type { Locale } from "@/lib/data/types";
 import { I18nProvider } from "@/lib/i18n";
-import { DEFAULT_LOCALE, LOCALE_COOKIE } from "@/lib/locale";
+import { siteConfig } from "@/config/site";
+import { DEFAULT_LOCALE, LOCALE_COOKIE, THEME_COOKIE, type Theme } from "@/lib/locale";
 import { SessionProvider } from "@/lib/session";
+import { ThemeProvider } from "@/lib/theme";
+import { themeCss } from "@/lib/theme-css";
 import { matchRoute, ParamsContext, router, splitHref, startHashSync, useHref } from "./router";
 
 declare const __ARTIFACT_URL__: string;
@@ -85,22 +88,40 @@ function readLocale(): Locale {
   return DEFAULT_LOCALE;
 }
 
+function readTheme(): Theme {
+  try {
+    const v = window.localStorage.getItem(THEME_COOKIE);
+    if (v === "dark" || v === "light") return v;
+  } catch {
+    /* storage blocked */
+  }
+  return siteConfig.defaultTheme;
+}
+
+const style = document.createElement("style");
+style.textContent = themeCss();
+document.head.appendChild(style);
+const initialTheme = readTheme();
+document.documentElement.classList.toggle("dark", initialTheme === "dark");
+
 startHashSync();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <I18nProvider initialLocale={readLocale()}>
-      <SessionProvider>
-        <ToastProvider>
-          <div className="flex min-h-dvh flex-col">
-            <SiteHeader />
-            <main id="main" className="flex-1">
-              <RouterView />
-            </main>
-            <SiteFooter />
-          </div>
-        </ToastProvider>
-      </SessionProvider>
+      <ThemeProvider initialTheme={initialTheme}>
+        <SessionProvider>
+          <ToastProvider>
+            <div className="flex min-h-dvh flex-col">
+              <SiteHeader />
+              <main id="main" className="flex-1">
+                <RouterView />
+              </main>
+              <SiteFooter />
+            </div>
+          </ToastProvider>
+        </SessionProvider>
+      </ThemeProvider>
     </I18nProvider>
   </StrictMode>,
 );

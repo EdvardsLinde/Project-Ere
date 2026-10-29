@@ -60,7 +60,7 @@ export function TagInput({
             <button
               type="button"
               onClick={() => onChange(value.filter((v) => v !== tag))}
-              className="rounded-sm p-0.5 hover:bg-primary/10"
+              className="rounded-sm p-0.5 hover:bg-primary-fill/10"
               aria-label={`${removeLabel}: ${display(tag)}`}
             >
               <X className="size-3.5" aria-hidden="true" />

@@ -1,8 +1,9 @@
 import { useId } from "react";
+import { S_PATH } from "@/components/logo";
 
 /**
- * Round certificate seal: text along the top and bottom of the ring, the logo's
- * factory roofline in the middle and two orange ribbon tails. Decorative (aria-hidden).
+ * Round certificate seal: text along the top and bottom of the ring, the SEER "S"
+ * in the middle and two orange ribbon tails. Decorative (aria-hidden).
  */
 export function Seal({
   top,
@@ -27,7 +28,7 @@ export function Seal({
           <path d="M82 92 L94 136 L80 128 L72 138 L64 98 Z" />
         </g>
       )}
-      <circle cx="60" cy="60" r="56" fill="var(--color-primary)" />
+      <circle cx="60" cy="60" r="56" fill="var(--color-primary-fill)" />
       <circle cx="60" cy="60" r="51" fill="none" stroke="#fff" strokeOpacity=".5" strokeWidth="0.8" />
       <circle cx="60" cy="60" r="34" fill="#fff" />
       <defs>
@@ -47,10 +48,11 @@ export function Seal({
       </text>
       <circle cx="13" cy="60" r="1.6" fill="var(--color-accent)" />
       <circle cx="107" cy="60" r="1.6" fill="var(--color-accent)" />
-      <path d="M41 70V58l6 4v-4l6 4v-4l6 4V48h8v22z" fill="var(--color-primary)" />
-      <circle cx="73" cy="46" r="4" fill="var(--color-accent)" />
+      <g transform="translate(43 40) scale(1.06)">
+        <path d={S_PATH} fill="none" stroke="var(--color-primary-fill)" strokeWidth="3.6" strokeLinecap="round" />
+      </g>
       {year !== undefined && (
-        <text x="60" y="84" textAnchor="middle" fontSize="8" fontWeight="800" fill="var(--color-primary)" style={font}>
+        <text x="60" y="84" textAnchor="middle" fontSize="8" fontWeight="800" fill="var(--color-accent-ink)" style={font}>
           {year}
         </text>
       )}

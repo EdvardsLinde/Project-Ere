@@ -33,14 +33,19 @@ const result = await build({
   logLevel: "warning",
 });
 
-const js = result.outputFiles[0].text.replace(/<\/script/gi, "<\\/script").replace(/<!--/g, "<\\!--");
+// Embed the hero photo: the preview host only allows data: images.
+const photo = `data:image/webp;base64,${readFileSync("public/saldus-square.webp").toString("base64")}`;
+const js = result.outputFiles[0].text
+  .replaceAll('"/saldus-square.webp"', JSON.stringify(photo))
+  .replace(/<\/script/gi, "<\\/script")
+  .replace(/<!--/g, "<\\!--");
 const css = readFileSync(cssFile, "utf8");
 
-const html = `<title>Saldus Industriālais digitālais sertifikāts</title>
-<meta name="description" content="3–5 dienu digitālās prakses Saldus novada uzņēmumos jauniešiem 15–24 gadu vecumā. Demo versija.">
+const html = `<title>SEER — Saldus industriālā digitālā prakse</title>
+<meta name="description" content="SEER: 3–5 dienu digitālās prakses Saldus novada uzņēmumos jauniešiem 15–24 gadu vecumā. Demo versija.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap">
 <style>${css}
 /* Preview host: keep the sticky header and bottom bars clear of phone system bars. */
 header.sticky{top:env(safe-area-inset-top,0px)}

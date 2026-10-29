@@ -12,7 +12,7 @@ export function CertificateIllustration() {
   return (
     <div className="relative mx-auto w-full max-w-sm" aria-hidden="true">
       <div className="absolute -right-3 -top-3 h-full w-full rotate-3 rounded-md border border-line bg-surface-muted" />
-      <div className="relative -rotate-1 rounded-md border border-line bg-surface p-3 shadow-lift">
+      <div className="paper relative -rotate-1 rounded-md border border-line bg-surface p-3 shadow-lift">
         <div className="rounded-sm border-2 border-primary p-1">
           <div className="relative rounded-[2px] border border-primary/35 px-6 pb-10 pt-6 text-center">
             <Corner className="left-1.5 top-1.5" />
@@ -33,7 +33,7 @@ export function CertificateIllustration() {
               {bars.map((v, i) => (
                 <div key={i} className="flex gap-0.5">
                   {[1, 2, 3, 4, 5].map((n) => (
-                    <span key={n} className={`h-1.5 flex-1 rounded-[1px] ${n <= v ? "bg-primary" : "bg-surface-muted"}`} />
+                    <span key={n} className={`h-1.5 flex-1 rounded-[1px] ${n <= v ? "bg-primary-fill" : "bg-surface-muted"}`} />
                   ))}
                 </div>
               ))}

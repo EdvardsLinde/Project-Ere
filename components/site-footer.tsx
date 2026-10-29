@@ -24,25 +24,29 @@ export function SiteFooter() {
     toast(t.footer.resetDone);
   };
 
-  const link = "text-bg/85 underline-offset-2 hover:text-bg hover:underline";
+  const link = "text-on-night/85 underline-offset-2 hover:text-on-night hover:underline";
 
   return (
-    <footer className="no-print mt-auto bg-ink text-bg">
+    <footer className="no-print mt-auto bg-night text-on-night">
       <div className="hazard h-2" aria-hidden="true" />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">
             <LogoMark />
-            <span className="font-extrabold">{siteConfig.name[locale]}</span>
+            <span className="flex flex-col leading-none">
+              <span className="text-xl font-extrabold tracking-tight">{siteConfig.brand}</span>
+              <span className="mt-1 text-xs text-on-night/70">{siteConfig.subtitle[locale]}</span>
+            </span>
           </div>
-          <p className="mt-4 max-w-sm text-bg/80">{t.footer.about}</p>
-          <p className="mt-4 text-sm text-bg/60">{t.footer.team}</p>
+          <p className="mt-4 text-sm font-semibold text-accent">{siteConfig.tagline[locale]}</p>
+          <p className="mt-4 max-w-sm text-on-night/80">{t.footer.about}</p>
+          <p className="mt-4 text-sm text-on-night/60">{t.footer.team}</p>
         </div>
         <div>
           <h2 className="text-xs font-bold uppercase tracking-[0.08em] text-accent">{t.footer.contacts}</h2>
           <ul className="mt-4 space-y-2.5">
             <li>
-              <span className="text-bg/60">{t.footer.email}: </span>
+              <span className="text-on-night/60">{t.footer.email}: </span>
               {siteConfig.contacts.email.startsWith("[") ? (
                 <span>{siteConfig.contacts.email}</span>
               ) : (
@@ -76,7 +80,7 @@ export function SiteFooter() {
               <button
                 type="button"
                 onClick={() => setConfirming(true)}
-                className="mt-1 inline-flex items-center gap-2 rounded-md border border-bg/25 px-3 py-2 text-sm font-semibold text-bg hover:bg-bg/10"
+                className="mt-1 inline-flex items-center gap-2 rounded-md border border-on-night/25 px-3 py-2 text-sm font-semibold text-on-night hover:bg-on-night/10"
               >
                 <RotateCcw className="size-4" aria-hidden="true" />
                 {t.footer.reset}
@@ -85,8 +89,8 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-bg/10">
-        <p className="mx-auto max-w-6xl px-4 py-4 text-sm text-bg/60 sm:px-6">{t.footer.demo}</p>
+      <div className="border-t border-on-night/10">
+        <p className="mx-auto max-w-6xl px-4 py-4 text-sm text-on-night/60 sm:px-6">{t.footer.demo}</p>
       </div>
 
       <Dialog

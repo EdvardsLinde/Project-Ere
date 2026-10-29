@@ -5,7 +5,7 @@
  */
 const lv = {
   meta: {
-    title: "Saldus Industriālais digitālais sertifikāts",
+    title: "SEER — Saldus industriālā digitālā prakse",
     description:
       "3–5 dienu prakses Saldus novada uzņēmumos 15–24 gadus veciem jauniešiem: īsts digitāls uzdevums, mentors un sertifikāts, ko atzīst darba devēji.",
   },
@@ -73,6 +73,9 @@ const lv = {
     closeMenu: "Aizvērt izvēlni",
     userMenu: "Lietotāja izvēlne",
     language: "Valoda",
+    theme: "Izskats",
+    darkMode: "Tumšais režīms",
+    lightMode: "Gaišais režīms",
     switchToEn: "English",
     switchToLv: "Latviešu",
     mainNav: "Galvenā navigācija",
@@ -789,9 +792,9 @@ const lv = {
   certificate: {
     title: "Sertifikāts",
     fullName: "Industriālais digitālais sertifikāts",
-    kicker: "Saldus novads · Industriālā digitālā prakse",
+    kicker: "SEER · Saldus industriālā digitālā prakse",
     subtitle: "par digitālo praksi uzņēmumā",
-    sealTop: "Saldus novads",
+    sealTop: "SEER · Saldus",
     sealBottom: "Digitālā prakse",
     companySignature: "Uzņēmums",
     awardedTo: "Šis sertifikāts apliecina, ka",

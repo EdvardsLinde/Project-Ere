@@ -1,4 +1,6 @@
-# Saldus Industrial Digital Certificate · Saldus Industriālais digitālais sertifikāts
+# SEER — see where your career can go · Ieraugi, kur var aizvest tava karjera
+
+**SEER — Saldus Industrial Digital Immersion / Saldus industriālā digitālā prakse**
 
 **EN** · 3–5 day placements for 15–24-year-olds from Saldus municipality at local companies. The young person solves a real, small digital task on the company's actual data and systems with a mentor, and earns the **Industrial Digital Certificate**, a diploma-style document the partner companies recognise.
 
@@ -27,7 +29,7 @@ Open http://localhost:3000. `npm run build` makes a production build (type-check
 | Role | Email | Password | What's there |
 |---|---|---|---|
 | Company | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 published placement, 1 draft, 1 finished placement with an issued certificate |
-| Student | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, aged 17: 1 approved application, 1 completed, certificate `SDS-2026-0001` |
+| Student | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, aged 17: 1 approved application, 1 completed, certificate `SEER-2026-0001` |
 
 The login page has a "Fill in the demo account" button.
 
@@ -110,7 +112,7 @@ Out of scope for now (structure only): email notifications, an admin dashboard t
 Decisions made where the brief was open. Change them if they're wrong.
 
 1. **Rebuilt from scratch on Next.js.** The previous Vite prototype ("SEER") was removed; it is still in git history.
-2. **Colours.** The brief asks for forest green + signal orange, so that's what's used. The previous prototype had just switched to the Saldus coat-of-arms blue/gold; to go back, edit `theme` in `config/site.ts`. No dark mode in v1.
+2. **SEER identity.** The app uses the SEER prototype's identity: the SEER name, tagline and "S" mark, the Saldus coat-of-arms blue/gold palette, Inter, the Saldus town-square photo in the hero, and dark mode by default with a toggle (remembered in a cookie, so the server renders the right theme with no flash). Certificates always render and print light. Colours are in `theme.light` / `theme.dark` in `config/site.ts`. The earlier Vite SEER prototype stays on branch `claude/ere-career-discovery-app-gk6v7q`. The hero photo was supplied by the team; **its photographer still needs to be credited** (`[TODO]` in `config/site.ts`).
 3. **Free spots** = spots minus *approved + completed* applications per date. New (unreviewed) applications don't hold a spot, so more people can apply than there are spots, and approving is blocked when a date is full.
 4. **Deadlines are per set of dates.** The brief asks for one "application deadline"; a single date would close *all* dates of a placement at once (e.g. a February date would close in November). Instead the company sets "days before the start" (default 10, as the brief suggests) and each set of dates closes that many days before it begins. The detail page and application form show each date's own deadline.
 5. **Guardian consent** is required when the applicant is under 18 *and* the placement keeps "minors need parental consent" on (default yes).
@@ -119,12 +121,12 @@ Decisions made where the brief was open. Change them if they're wrong.
 8. **Contact person** is shown to a student only after approval *and* only if the company is `confirmed`. Companies that register themselves count as confirmed; the 8 sample companies are not.
 9. **Published placements don't autosave** (changes would go live half-finished). They have "Save changes", which validates first. Drafts autosave about 0.7 s after each change.
 10. **Certificates before the end date.** In the demo a company can issue a certificate before the placement's end date (with a warning), so the whole flow can be tried on future dates. Set `allowCertificateBeforeEnd: false` in `config/site.ts` for real use: then the button is disabled until the end date and the data layer refuses it too.
-11. **The demo company has an extra finished placement** (12–14 Oct 2026), so the demo student's completed application and certificate `SDS-2026-0001` have a real source.
+11. **The demo company has an extra finished placement** (12–14 Oct 2026), so the demo student's completed application and certificate `SEER-2026-0001` have a real source.
 12. **Sample mentors are invented** and marked "Parauga mentors" / "Sample mentor". Sample compensation and opportunities are left as "to be confirmed by the company", except the opportunities the brief lists (SCHWENK, SC GRUPA, Brimer).
 13. **Bilingual content.** Sample data is written in LV and EN. Text that companies and students type is stored as typed and shown in both languages unchanged.
 14. **Address placeholders** like `[TODO: confirm address]` stay in the data but are never shown in the UI.
 15. **"Completed placements"** on the company dashboard counts placements with status *Finished*.
-16. **Name: "sertifikāts", not "diploms".** The credential was renamed from "Industriālā digitālā pase" to "Industriālais digitālais sertifikāts" and is laid out like a diploma. "Diploms" is avoided on purpose: in Latvia it usually means an official education document from an accredited institution. Certificate IDs now start with `SDS` (Saldus Digitālais Sertifikāts); the prefix is in `config/site.ts`.
+16. **Name: "sertifikāts", not "diploms".** The credential was renamed from "Industriālā digitālā pase" to "Industriālais digitālais sertifikāts" and is laid out like a diploma. "Diploms" is avoided on purpose: in Latvia it usually means an official education document from an accredited institution. Certificate IDs start with `SEER` (e.g. `SEER-2026-0001`); the prefix is in `config/site.ts`.
 
 ### Statistics on the home page
 
@@ -156,7 +158,7 @@ Atver http://localhost:3000. `npm run build` izveido produkcijas versiju (arī p
 | Loma | E-pasts | Parole | Kas tur ir |
 |---|---|---|---|
 | Uzņēmums | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 publicēta prakse, 1 melnraksts, 1 pabeigta prakse ar izsniegtu sertifikātu |
-| Skolēns | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, 17 gadi: 1 apstiprināts pieteikums, 1 pabeigts, sertifikāts `SDS-2026-0001` |
+| Skolēns | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, 17 gadi: 1 apstiprināts pieteikums, 1 pabeigts, sertifikāts `SEER-2026-0001` |
 
 Pieslēgšanās lapā ir poga "Aizpildīt ar demo kontu".
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, ChevronDown, GraduationCap, LayoutDashboard, LogOut, Menu, Plus, User, X } from "lucide-react";
+import { Building2, ChevronDown, GraduationCap, LayoutDashboard, LogOut, Menu, Moon, Plus, Sun, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -9,6 +9,7 @@ import { LinkButton } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
 import { useI18n } from "@/lib/i18n";
 import { dashboardPath, loginPath, useSession } from "@/lib/session";
+import { useTheme } from "@/lib/theme";
 
 export function SiteHeader() {
   const { t, locale } = useI18n();
@@ -49,8 +50,8 @@ export function SiteHeader() {
         <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label={siteConfig.name[locale]}>
           <LogoMark />
           <span className="flex flex-col leading-none">
-            <span className="text-[0.7rem] font-bold uppercase tracking-[0.12em] text-ink-muted">Saldus</span>
-            <span className="text-[0.95rem] font-extrabold tracking-tight text-ink">{siteConfig.shortName[locale]}</span>
+            <span className="text-xl font-extrabold tracking-tight text-ink">{siteConfig.brand}</span>
+            <span className="mt-1 hidden text-[11px] font-medium text-ink-muted lg:block">{siteConfig.tagline[locale]}</span>
           </span>
         </Link>
 
@@ -85,6 +86,7 @@ export function SiteHeader() {
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           {/* On phones the language toggle lives in the menu, so the name fits at 360px. */}
+          <ThemeToggle className="hidden sm:inline-flex" />
           <LanguageToggle className="hidden sm:flex" />
           {ready && !session && (
             <div className="hidden items-center gap-2 lg:flex">
@@ -154,6 +156,10 @@ export function SiteHeader() {
               <span className="font-semibold">{t.nav.language}</span>
               <LanguageToggle />
             </li>
+            <li className="flex items-center justify-between gap-3 px-3 py-2 sm:hidden">
+              <span className="font-semibold">{t.nav.theme}</span>
+              <ThemeToggle withLabel />
+            </li>
             {role === "company" && (
               <li>
                 <Link href="/uznemums/prakses/jauna" className="flex items-center gap-2 rounded-md px-3 py-3 font-semibold text-primary">
@@ -166,6 +172,24 @@ export function SiteHeader() {
         </nav>
       )}
     </header>
+  );
+}
+
+function ThemeToggle({ className = "inline-flex", withLabel = false }: { className?: string; withLabel?: boolean }) {
+  const { t } = useI18n();
+  const { theme, toggle } = useTheme();
+  const label = theme === "dark" ? t.nav.lightMode : t.nav.darkMode;
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={withLabel ? undefined : label}
+      title={label}
+      className={`${className} h-10 items-center justify-center gap-2 rounded-md border border-line px-2.5 text-sm font-semibold text-ink hover:bg-surface-muted`}
+    >
+      {theme === "dark" ? <Sun className="size-5 text-accent" aria-hidden="true" /> : <Moon className="size-5" aria-hidden="true" />}
+      {withLabel && <span>{label}</span>}
+    </button>
   );
 }
 
@@ -237,7 +261,7 @@ function UserMenu() {
         onClick={() => setOpen((o) => !o)}
         className="flex h-10 max-w-[14rem] items-center gap-2 rounded-md border border-line bg-surface px-1.5 text-sm font-semibold hover:bg-surface-muted sm:px-2"
       >
-        <span className={`inline-flex size-7 shrink-0 items-center justify-center rounded-full ${isCompany ? "bg-accent text-on-accent" : "bg-primary text-white"}`}>
+        <span className={`inline-flex size-7 shrink-0 items-center justify-center rounded-full ${isCompany ? "bg-accent text-on-accent" : "bg-primary-fill text-white"}`}>
           {isCompany ? <Building2 className="size-4" aria-hidden="true" /> : <GraduationCap className="size-4" aria-hidden="true" />}
         </span>
         <span className="hidden min-w-0 flex-col items-start leading-tight sm:flex">
