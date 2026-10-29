@@ -60,7 +60,7 @@ export function CertificateIllustration() {
   );
 }
 
-/** Small blue dot with a yellow centre in a frame corner. */
+/** Small primary dot with an accent centre in a frame corner. */
 function Corner({ className }: { className: string }) {
   return (
     <span className={`absolute flex size-2.5 items-center justify-center rounded-full bg-primary-fill ${className}`}>

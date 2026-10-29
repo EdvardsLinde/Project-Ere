@@ -3,7 +3,7 @@ import { S_PATH } from "@/components/logo";
 
 /**
  * Round certificate seal: text along the top and bottom of the ring, the SEER "S"
- * in the middle and two yellow ribbon tails with ink outlines. Decorative (aria-hidden).
+ * in the middle and two accent-coloured ribbon tails with ink outlines. Decorative (aria-hidden).
  */
 export function Seal({
   top,

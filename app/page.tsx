@@ -113,7 +113,7 @@ function Hero() {
   );
 }
 
-/** Big blue circle, a yellow dot and a round "3–5 days" sticker behind the sample certificate. */
+/** Big primary circle, an accent dot and a round "3–5 days" sticker behind the sample certificate. */
 function HeroVisual() {
   const { t } = useI18n();
   return (
@@ -129,7 +129,7 @@ function HeroVisual() {
   );
 }
 
-/** Blue and yellow alternate. */
+/** Primary and accent alternate. */
 const BUBBLES = ["bg-primary-fill text-white", "bg-accent text-on-accent"];
 
 /** The four statistics: equal round bubbles with the number, a short label and the source inside. */

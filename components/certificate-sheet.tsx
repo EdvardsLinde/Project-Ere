@@ -13,7 +13,7 @@ import { averageScore, focusLabel, formatScore, outputLabel, tx } from "@/lib/pl
 const CRITERIA = ["problemSolving", "data", "communication", "independence", "responsibility"] as const;
 
 
-/** Small blue dot with a yellow centre in a frame corner. */
+/** Small primary dot with an accent centre in a frame corner. */
 function Corner({ className }: { className: string }) {
   return (
     <span className={`absolute flex size-3.5 items-center justify-center rounded-full bg-primary-fill ${className}`} aria-hidden="true">
@@ -30,7 +30,7 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
   const url = certificateVerifyUrl(c.id);
 
   useEffect(() => {
-    QRCode.toDataURL(url, { margin: 0, width: 240, color: { dark: "#16152B", light: "#FFFFFF" } })
+    QRCode.toDataURL(url, { margin: 0, width: 240, color: { dark: "#13241A", light: "#FFFFFF" } })
       .then(setQr)
       .catch(() => setQr(""));
   }, [url]);
