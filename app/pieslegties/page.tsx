@@ -4,6 +4,7 @@ import { Building2, GraduationCap, KeyRound, ShieldAlert } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
+import { CircuitLeaf, PineBranch, WheatEar } from "@/components/nature";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Field, Input, Select } from "@/components/ui/form";
 import { Card, Container, Loading, Notice } from "@/components/ui/misc";
@@ -105,6 +106,11 @@ function AuthScreen() {
           <Notice tone="neutral" className="mt-6" icon={<ShieldAlert className="size-5 text-ink-muted" aria-hidden="true" />}>
             <p className="text-sm">{t.auth.securityNote}</p>
           </Notice>
+          <div className="mt-10 hidden items-end gap-2 lg:flex" aria-hidden="true">
+            <PineBranch className="w-44" />
+            <WheatEar className="h-36" />
+            <CircuitLeaf className="w-20" />
+          </div>
         </div>
 
         <Card className="p-5 sm:p-7">
