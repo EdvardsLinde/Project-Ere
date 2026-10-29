@@ -39,7 +39,8 @@
 
 /*
  * Rounded, sticker-like shapes: generous radii and hard offset shadows in the
- * edge colour (no blur). Not inline, so html.dark can swap the shadows.
+ * edge colour (no blur). Tailwind inlines these values into the utilities, so
+ * the shadows follow `--c-edge` in both themes.
  */
 @theme {
   --radius-sm: 8px;
@@ -49,12 +50,6 @@
   --shadow-card: 3px 3px 0 0 var(--c-edge, #16152b);
   --shadow-pop: 4px 4px 0 0 var(--c-edge, #16152b);
   --shadow-lift: 6px 6px 0 0 var(--c-edge, #16152b);
-}
-
-html.dark {
-  --shadow-card: 3px 3px 0 0 #000;
-  --shadow-pop: 4px 4px 0 0 #000;
-  --shadow-lift: 6px 6px 0 0 #000;
 }
 
 html {

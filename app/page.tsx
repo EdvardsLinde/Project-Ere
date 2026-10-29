@@ -2,7 +2,6 @@
 
 import {
   ArrowRight,
-  Asterisk,
   Award,
   BadgeCheck,
   BookOpen,
@@ -20,10 +19,8 @@ import {
   QrCode,
   Search,
   ShieldCheck,
-  Sparkles,
   TrendingUp,
   UserCheck,
-  Users,
   Wrench,
   Zap,
 } from "lucide-react";
@@ -42,7 +39,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Tape />
       <WhyNow />
       <HowItWorks />
       <Benefits />
@@ -84,7 +80,7 @@ function Hero() {
         className="bg-dots absolute inset-0 opacity-70 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
         aria-hidden="true"
       />
-      <Container className="relative grid items-center gap-14 pb-4 pt-12 sm:pt-16 lg:grid-cols-[1.2fr_1fr] lg:pb-12 lg:pt-20">
+      <Container className="relative grid items-center gap-14 pb-14 pt-12 sm:pt-16 lg:grid-cols-[1.2fr_1fr] lg:pb-20 lg:pt-20">
         <div>
           <Eyebrow>{h.eyebrow}</Eyebrow>
           <h1
@@ -133,77 +129,49 @@ function HeroVisual() {
   );
 }
 
-/** Two crossed tape bands listing focus areas and industries. Decorative: the same lists are filters in the catalogue. */
-function Tape() {
-  const { locale } = useI18n();
-  const focus = siteConfig.focusAreas.filter((f) => f.id !== "other").map((f) => f.label[locale]);
-  const industries = siteConfig.industries.filter((f) => f.id !== "other").map((f) => f.label[locale]);
-  const band = (items: string[], cls: string, star: string) => (
-    <div className={`-ml-[5%] w-[110%] border-y-2 border-edge py-3 ${cls}`}>
-      <ul className="flex w-max items-center gap-5 whitespace-nowrap font-display text-lg font-extrabold sm:text-2xl">
-        {[...items, ...items].map((x, i) => (
-          <li key={i} className="flex items-center gap-5">
-            {x}
-            <Asterisk className={`size-6 ${star}`} strokeWidth={3} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-  return (
-    <div className="relative overflow-hidden py-8 sm:py-12" aria-hidden="true">
-      <div className="rotate-[2.5deg]">{band(industries, "bg-accent text-on-accent", "text-on-accent")}</div>
-      <div className="-mt-3 -rotate-2 sm:-mt-14">{band(focus, "bg-primary-fill text-white", "text-accent")}</div>
-    </div>
-  );
-}
+/** Blue and yellow alternate; each bubble gets a small "satellite" bubble in the other colour. */
+const BUBBLES = [
+  { fill: "bg-primary-fill text-white", dot: "bg-accent" },
+  { fill: "bg-accent text-on-accent", dot: "bg-primary-fill" },
+];
 
+/** The four statistics: equal round bubbles with just the number, a short label underneath. */
 function WhyNow() {
   const { t } = useI18n();
   const w = t.home.why;
-  const icons = [Users, Zap, TrendingUp, Sparkles];
   return (
-    <section className="pb-16 pt-8 sm:pb-24 sm:pt-12" aria-labelledby="why-title">
+    <section className="pb-16 pt-4 sm:pb-24 sm:pt-8" aria-labelledby="why-title">
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
-          <SectionTitle id="why-title" eyebrow={w.eyebrow} title={w.title} lead={w.lead} />
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {w.cards.map((c, i) => {
-              const Icon = icons[i];
-              return (
-                <li key={c.url} className="flex flex-col rounded-lg border-2 border-edge bg-surface p-6 shadow-card">
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="font-display text-5xl font-extrabold tracking-tight text-primary tabular-nums">{c.value}</p>
-                    <span
-                      className={`flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-edge ${
-                        i % 2 ? "bg-primary-fill text-white" : "bg-accent text-on-accent"
-                      }`}
-                    >
-                      <Icon className="size-5" aria-hidden="true" />
-                    </span>
-                  </div>
-                  <p className="mt-2 font-semibold leading-snug">{c.label}</p>
-                  <p className="mt-2 text-sm text-ink-muted">{c.note}</p>
-                  <p className="mt-auto pt-4 text-sm">
-                    <span className="text-ink-muted">{w.source}: </span>
-                    <ExternalLink href={c.url} newTabLabel={t.common.opensInNewTab}>
-                      {c.source}
-                    </ExternalLink>
+        <SectionTitle id="why-title" eyebrow={w.eyebrow} title={w.title} lead={w.lead} />
+        <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
+          {w.cards.map((c, i) => {
+            const b = BUBBLES[i % BUBBLES.length];
+            return (
+              <li key={c.url} className="flex flex-col items-center text-center">
+                <div className="relative">
+                  <p
+                    className={`flex size-36 items-center justify-center rounded-full border-2 border-edge font-display text-[1.7rem] font-extrabold tracking-tight shadow-card sm:size-44 sm:text-[2.1rem] ${b.fill}`}
+                  >
+                    {c.value}
                   </p>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <ul className="mt-10 grid gap-3 border-t-2 border-dashed border-line pt-6 text-sm text-ink-muted md:grid-cols-3">
-          {w.more.map((m) => (
-            <li key={m.url}>
-              {m.text}{" "}
-              <ExternalLink href={m.url} newTabLabel={t.common.opensInNewTab} className="whitespace-nowrap">
-                {m.source}
-              </ExternalLink>
-            </li>
-          ))}
+                  <span
+                    className={`absolute -right-1 top-1 size-7 rounded-full border-2 border-edge sm:size-9 ${b.dot}`}
+                    aria-hidden="true"
+                  />
+                </div>
+                <p className="mt-4 max-w-[13rem] text-[0.95rem] font-bold leading-snug sm:text-base">{c.label}</p>
+                <a
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${w.source}: ${c.source} ${t.common.opensInNewTab}`}
+                  className="mt-1.5 text-xs font-semibold text-ink-muted underline underline-offset-2 hover:text-primary"
+                >
+                  {w.source} ↗
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </Container>
     </section>

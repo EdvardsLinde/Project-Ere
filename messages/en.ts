@@ -123,48 +123,27 @@ const en: Messages = {
       cards: [
         {
           value: "46",
-          label: "registered unemployed people aged 15–24 in Saldus municipality",
-          note: "Dienvidkurzeme 43, Dobele 65, Tukums 79, Latvia total 3,677.",
+          label: "young people (15–24) out of work in Saldus",
           source: "CSB / SEA",
           url: "https://data.stat.gov.lv/pxweb/lv/OSP_PUB/START__EMP__NBBA__NVA/NVA040m/table/tableViewLayout1/",
         },
         {
           value: "48.43%",
-          label: "of people in Latvia have at least basic digital skills",
-          note: "EU average 60.40%; Digital Decade 2030 target 80%.",
+          label: "of people have basic digital skills",
           source: "Digital Skills & Jobs Platform",
           url: "https://digital-skills-jobs.europa.eu/en/european-interactive-map/latvia",
         },
         {
           value: "+160%",
-          label: "rise in IT support requests in Saldus municipality in 2025",
-          note: "418 residents were trained in AI, cybersecurity and cloud tools.",
+          label: "IT support requests in Saldus",
           source: "VARAM",
           url: "https://www.varam.gov.lv/lv/media/50751/download",
         },
         {
           value: "4.5%",
-          label: "of all employment in Latvia are ICT specialists (2025)",
-          note: "2030 target: 10%.",
+          label: "of workers are ICT specialists",
           source: "Digital Skills & Jobs Platform",
           url: "https://digital-skills-jobs.europa.eu/en/latest/insights/latvia-snapshot-digital-skills",
-        },
-      ],
-      more: [
-        {
-          text: "Youth unemployment (15–24) in Latvia in Q1 2026 was 9.4%, the lowest in 18 years (6.2 thousand young people).",
-          source: "CSB",
-          url: "https://stat.gov.lv/lv/statistikas-temas/darbs/nodarbinatiba/preses-relizes/27625-nodarbinatiba-un-bezdarbs-2026-gada-1?themeCode=NBB",
-        },
-        {
-          text: "Only 59.2% of Latvian SMEs reached a basic level of digital intensity in 2024.",
-          source: "Better Internet for Kids",
-          url: "https://better-internet-for-kids.europa.eu/sites/default/files/2026-06/LV%20Country%20Profile%202026_final.pdf",
-        },
-        {
-          text: "CERT.LV handled a record 923 cyber incidents in Q4 2025 (six times more than before 2022).",
-          source: "CERT.LV",
-          url: "https://www.cert.lv/uploads/parskati/CERT_LV_parsk_C4_2025.pdf",
         },
       ],
     },

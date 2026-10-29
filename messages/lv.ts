@@ -125,48 +125,27 @@ const lv = {
       cards: [
         {
           value: "46",
-          label: "reģistrēti bezdarbnieki 15–24 gadu vecumā Saldus novadā",
-          note: "Dienvidkurzemē 43, Dobelē 65, Tukumā 79, Latvijā kopā 3677.",
+          label: "jaunieši (15–24) bez darba Saldus novadā",
           source: "CSP / NVA",
           url: "https://data.stat.gov.lv/pxweb/lv/OSP_PUB/START__EMP__NBBA__NVA/NVA040m/table/tableViewLayout1/",
         },
         {
           value: "48,43%",
-          label: "Latvijas iedzīvotāju ir vismaz digitālās pamatprasmes",
-          note: "ES vidēji 60,40%; Digitālās desmitgades mērķis 2030. gadam — 80%.",
+          label: "iedzīvotāju ar digitālām pamatprasmēm",
           source: "Digital Skills & Jobs Platform",
           url: "https://digital-skills-jobs.europa.eu/en/european-interactive-map/latvia",
         },
         {
           value: "+160%",
-          label: "IT atbalsta pieprasījumu pieaugums Saldus novadā 2025. gadā",
-          note: "Novadā 418 iedzīvotāji apmācīti MI, kiberdrošībā un mākoņrīkos.",
+          label: "IT atbalsta pieprasījumu Saldus novadā",
           source: "VARAM",
           url: "https://www.varam.gov.lv/lv/media/50751/download",
         },
         {
           value: "4,5%",
-          label: "no visiem nodarbinātajiem Latvijā ir IKT speciālisti (2025)",
-          note: "Mērķis 2030. gadam — 10%.",
+          label: "strādājošo ir IKT speciālisti",
           source: "Digital Skills & Jobs Platform",
           url: "https://digital-skills-jobs.europa.eu/en/latest/insights/latvia-snapshot-digital-skills",
-        },
-      ],
-      more: [
-        {
-          text: "Jauniešu (15–24) bezdarbs Latvijā 2026. gada 1. ceturksnī — 9,4%, zemākais pēdējos 18 gados (6,2 tūkst. jauniešu).",
-          source: "CSP",
-          url: "https://stat.gov.lv/lv/statistikas-temas/darbs/nodarbinatiba/preses-relizes/27625-nodarbinatiba-un-bezdarbs-2026-gada-1?themeCode=NBB",
-        },
-        {
-          text: "Tikai 59,2% Latvijas MVU 2024. gadā sasniedza digitālās intensitātes pamatlīmeni.",
-          source: "Better Internet for Kids",
-          url: "https://better-internet-for-kids.europa.eu/sites/default/files/2026-06/LV%20Country%20Profile%202026_final.pdf",
-        },
-        {
-          text: "CERT.LV 2025. gada 4. ceturksnī apstrādāja rekordlielu skaitu — 923 kiberincidentus (sešas reizes vairāk nekā pirms 2022. gada).",
-          source: "CERT.LV",
-          url: "https://www.cert.lv/uploads/parskati/CERT_LV_parsk_C4_2025.pdf",
         },
       ],
     },

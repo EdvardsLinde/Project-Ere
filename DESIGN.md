@@ -22,7 +22,7 @@ paper-white.
 | `surface` | `#FFFFFF` | `#181829` | Cards, inputs, dialogs |
 | `surface-muted` | `#F0EDE4` | `#21223A` | Alternate sections, table heads, segmented controls |
 | `line` | `#E2DED3` | `#2E2F4A` | Quiet dividers and input borders |
-| `edge` | `#16152B` | `#5A5B80` | Sticker outlines: cards, buttons, header rule (hard shadows are `edge` in light, black in dark) |
+| `edge` | `#16152B` | `#5A5B80` | Sticker outlines and hard shadows: cards, buttons, header rule |
 | `ink` | `#16152B` | `#F6F4EE` | Text (16.8:1 / 17.4:1 on bg) |
 | `ink-muted` | `#5A5870` | `#B4B3C9` | Secondary text (6.5:1 / 9.3:1 on bg, ≥ 5.8:1 on every surface) |
 | `primary` | `#2337E8` | `#9AA6FF` | Electric blue: links, focus ring, blue text (7.1:1 / 8.4:1) |
@@ -51,7 +51,7 @@ paper-white.
 
 | Family | Use | Source |
 |---|---|---|
-| **Bricolage Grotesque Variable** (`font-display`) | All `h1`–`h3`, big numbers, brand name, partner chips, tape bands | `@fontsource-variable/bricolage-grotesque` (latin-ext: ā č ē ģ ī ķ ļ ņ š ū ž) |
+| **Bricolage Grotesque Variable** (`font-display`) | All `h1`–`h3`, big numbers, brand name, partner chips | `@fontsource-variable/bricolage-grotesque` (latin-ext: ā č ē ģ ī ķ ļ ņ š ū ž) |
 | **Inter Variable** (`font-sans`) | Body, labels, buttons, tables | `@fontsource-variable/inter` (latin-ext) |
 | `ui-monospace` | Certificate IDs only | system |
 
@@ -63,7 +63,7 @@ Headings get `font-display` automatically (`@layer base` in `app/globals.css`).
 | h1 | 2rem → 3rem / 1.1 | 800 | Page titles |
 | h2 | 2.1rem → 3rem / 1.05 | 800 | Section titles |
 | h3 | 1.125–1.5rem / 1.3 | 800 | Card titles |
-| stat | 3rem | 800 display | Numbers in the statistics cards |
+| stat | 1.65rem (phone) → 3rem | 800 display | Numbers in the stat bubbles |
 | lead | 1.125rem / 1.6 | 400 | Intro paragraphs |
 | body | 1rem / 1.6 | 400–500 | Default |
 | small | 0.875rem / 1.5 | 500 | Meta, help text |
@@ -86,7 +86,7 @@ inside `overflow-hidden` sections).
 - Outlines: 2px `edge` on cards, buttons, dialogs, menus, the header bottom.
 - Shadows are **hard offsets, no blur**: `shadow-card` 3px 3px, `shadow-pop`
   4px 4px (button hover), `shadow-lift` 6px 6px (feature panels, dialogs,
-  menus, the certificate sheet). In dark mode they are black.
+  menus, the certificate sheet), all in the `edge` colour.
 - Press feedback: buttons lift 1px on hover and sink 2px into their shadow on
   click.
 
@@ -127,9 +127,10 @@ Use one or two per screen, never all at once.
   outlined in `edge`, never behind running text.
 - **Round sticker:** a tilted yellow disc with a short label from the
   dictionaries (the hero's "3–5 working days").
-- **Tape bands:** two crossed, slightly rotated bands (yellow and blue) under
-  the hero listing industries and focus areas from `config/site.ts`.
-  Decorative (`aria-hidden`), static on purpose: no marquee motion.
+- **Stat bubbles:** the four "why now" figures are equal round bubbles in a
+  row (2×2 on phones) holding only the number, alternating blue and yellow,
+  each with a small "satellite" bubble in the other colour. A short bold label
+  and a small "Source ↗" link sit underneath, never inside the circle.
 - **Tilts:** step cards and partner chips tilt ±1–2° on large screens like
   stickers on a laptop lid. Never tilt body text blocks.
 - **Dot grid** (`.bg-dots`): 22px blue dots behind the hero, the login page
@@ -148,9 +149,8 @@ one A4 page, always light (`.paper` + print rules in `app/globals.css`).
 
 ## Imagery and icons
 
-- Icons: **lucide-react**, 1.75 stroke (3 for the tape asterisks and check
-  marks), 20px in text, often inside a 40–56px round sticker (blue or yellow
-  with an `edge` outline).
+- Icons: **lucide-react**, 1.75 stroke (3 for check marks), 20px in text,
+  often inside a 40–56px round sticker (blue or yellow with an `edge` outline).
 - No stock photos of people, no company logos (partners appear as text chips),
   no Saldus photo.
 - Logo: an electric-blue rounded tile with a white "S" and a yellow dot, the

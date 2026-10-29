@@ -132,9 +132,10 @@ Decisions made where the brief was open. Change them if they're wrong.
 
 Figures come from the team's brief, with source links on the page. Checked on 2026-10-28 by web search, where possible:
 
-- ✅ 48.43% vs EU 60.40% basic digital skills; ICT specialists 4.5% (2030 target 10%); CERT.LV record 923 incidents in Q4 2025.
-- ✅ Youth unemployment 9.4% in Q1 2026, lowest in 18 years: consistent with CSB releases (Q2 2026 = 15.0%, +5.6 points).
-- ⚠️ Not independently verified (source sites weren't reachable from the build environment): Saldus 46 registered unemployed youth and the regional comparison, VARAM's 418 trained / +160% IT support requests, 59.2% of SMEs, and CERT.LV's "six times more than before 2022". **Open each source link and check before presenting.**
+The page shows four figures as short "bubbles", each with a source link:
+
+- ✅ 48.43% basic digital skills; ICT specialists 4.5% of employment.
+- ⚠️ Not independently verified (source sites weren't reachable from the build environment): Saldus 46 registered unemployed youth and VARAM's +160% IT support requests. **Open each source link and check before presenting.**
 - `[TODO]` items to fill in: team email (`config/site.ts`, privacy page), mentor time commitment (FAQ), the full school list (`config/site.ts`).
 
 ---
