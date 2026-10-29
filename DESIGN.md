@@ -111,6 +111,12 @@ inside `overflow-hidden` sections).
 - **Badges:** micro type, pill. Illustrative example = `warning-soft`;
   beginner-friendly = `primary-soft`; status colours by meaning.
 - **Eyebrows:** small orange pills above section and page titles.
+- **Placement page:** leads with little text. Visible: badges, company, title,
+  three fact chips (focus area, days, town), the illustrative-example notice,
+  the task (problem, result, tools) and the dates card with icon-only facts
+  (labels are for screen readers and hover). Day plan, requirements, what you
+  get and the company sit in closed folds (`<details>`, open in the builder
+  preview). About 60% less visible text; nothing removed.
 - **Header:** off-white, sticky, 2px `edge` bottom rule. Active nav item =
   orange pill. Right side: theme and language pills, then the two role
   buttons (companies = secondary, students = primary) or the user menu.
