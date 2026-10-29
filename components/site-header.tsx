@@ -39,10 +39,10 @@ export function SiteHeader() {
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/85">
+    <header className="no-print sticky top-0 z-40 border-b-2 border-edge bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/85">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-md focus:bg-ink focus:px-3 focus:py-2 focus:text-bg"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-bg"
       >
         {t.nav.skipToContent}
       </a>
@@ -50,7 +50,7 @@ export function SiteHeader() {
         <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label={siteConfig.name[locale]}>
           <LogoMark />
           <span className="flex flex-col leading-none">
-            <span className="text-xl font-extrabold tracking-tight text-ink">{siteConfig.brand}</span>
+            <span className="font-display text-2xl font-extrabold tracking-tight text-ink">{siteConfig.brand}</span>
             <span className="mt-1 hidden text-[11px] font-medium text-ink-muted lg:block">{siteConfig.tagline[locale]}</span>
           </span>
         </Link>
@@ -62,8 +62,8 @@ export function SiteHeader() {
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`relative rounded-md px-3 py-2 text-[0.95rem] font-semibold transition-colors hover:bg-surface-muted ${
-                    isActive(item.href) ? "text-ink after:absolute after:inset-x-3 after:-bottom-[13px] after:h-[3px] after:rounded-full after:bg-accent" : "text-ink-muted"
+                  className={`rounded-full border-2 px-3.5 py-1.5 text-[0.95rem] font-bold transition-colors ${
+                    isActive(item.href) ? "border-edge bg-accent text-on-accent" : "border-transparent text-ink-muted hover:border-line hover:text-ink"
                   }`}
                 >
                   {item.label}
@@ -74,7 +74,7 @@ export function SiteHeader() {
               <li>
                 <Link
                   href="/uznemums/prakses/jauna"
-                  className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-[0.95rem] font-semibold text-primary hover:bg-primary-soft"
+                  className="inline-flex items-center gap-1 rounded-full border-2 border-transparent px-3.5 py-1.5 text-[0.95rem] font-bold text-primary hover:border-primary/30 hover:bg-primary-soft"
                 >
                   <Plus className="size-4" aria-hidden="true" />
                   {t.nav.addPlacement}
@@ -103,7 +103,7 @@ export function SiteHeader() {
           {ready && session && <UserMenu />}
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-md border border-line md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border-2 border-edge bg-surface md:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
@@ -139,14 +139,14 @@ export function SiteHeader() {
       )}
 
       {menuOpen && (
-        <nav id="mobile-nav" aria-label={t.nav.mainNav} className="border-t border-line bg-surface md:hidden">
+        <nav id="mobile-nav" aria-label={t.nav.mainNav} className="border-t-2 border-edge bg-surface md:hidden">
           <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2">
             {nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`block rounded-md px-3 py-3 font-semibold ${isActive(item.href) ? "bg-primary-soft text-primary" : "text-ink"}`}
+                  className={`block rounded-full px-4 py-3 font-bold ${isActive(item.href) ? "bg-accent text-on-accent" : "text-ink"}`}
                 >
                   {item.label}
                 </Link>
@@ -162,7 +162,7 @@ export function SiteHeader() {
             </li>
             {role === "company" && (
               <li>
-                <Link href="/uznemums/prakses/jauna" className="flex items-center gap-2 rounded-md px-3 py-3 font-semibold text-primary">
+                <Link href="/uznemums/prakses/jauna" className="flex items-center gap-2 rounded-full px-4 py-3 font-bold text-primary">
                   <Plus className="size-4" aria-hidden="true" />
                   {t.nav.addPlacement}
                 </Link>
@@ -185,9 +185,9 @@ function ThemeToggle({ className = "inline-flex", withLabel = false }: { classNa
       onClick={toggle}
       aria-label={withLabel ? undefined : label}
       title={label}
-      className={`${className} h-10 items-center justify-center gap-2 rounded-md border border-line px-2.5 text-sm font-semibold text-ink hover:bg-surface-muted`}
+      className={`${className} h-10 items-center justify-center gap-2 rounded-full border-2 border-edge bg-surface px-2.5 text-sm font-bold text-ink hover:bg-accent hover:text-on-accent`}
     >
-      {theme === "dark" ? <Sun className="size-5 text-accent" aria-hidden="true" /> : <Moon className="size-5" aria-hidden="true" />}
+      {theme === "dark" ? <Sun className="size-5" aria-hidden="true" /> : <Moon className="size-5" aria-hidden="true" />}
       {withLabel && <span>{label}</span>}
     </button>
   );
@@ -196,7 +196,7 @@ function ThemeToggle({ className = "inline-flex", withLabel = false }: { classNa
 function LanguageToggle({ className = "flex" }: { className?: string }) {
   const { locale, setLocale, t } = useI18n();
   return (
-    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-md border border-line p-0.5 text-sm font-bold`}>
+    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-full border-2 border-edge bg-surface p-0.5 text-sm font-bold`}>
       {(["lv", "en"] as const).map((l) => (
         <button
           key={l}
@@ -205,7 +205,7 @@ function LanguageToggle({ className = "flex" }: { className?: string }) {
           aria-pressed={locale === l}
           aria-label={l === "lv" ? t.nav.switchToLv : t.nav.switchToEn}
           onClick={() => setLocale(l)}
-          className={`h-full rounded-[5px] px-2 uppercase transition-colors sm:px-2.5 ${
+          className={`h-full rounded-full px-2.5 uppercase transition-colors sm:px-3 ${
             locale === l ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"
           }`}
         >
@@ -249,7 +249,7 @@ function UserMenu() {
     await endSession();
   };
 
-  const item = "flex w-full items-center gap-2.5 rounded-md px-3 py-2.5 text-left text-[0.95rem] font-semibold text-ink hover:bg-surface-muted";
+  const item = "flex w-full items-center gap-2.5 rounded-full px-3 py-2.5 text-left text-[0.95rem] font-semibold text-ink hover:bg-accent hover:text-on-accent";
 
   return (
     <div className="relative" ref={ref}>
@@ -259,7 +259,7 @@ function UserMenu() {
         aria-haspopup="true"
         aria-label={`${t.nav.userMenu}: ${name}`}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-10 max-w-[14rem] items-center gap-2 rounded-md border border-line bg-surface px-1.5 text-sm font-semibold hover:bg-surface-muted sm:px-2"
+        className="flex h-10 max-w-[14rem] items-center gap-2 rounded-full border-2 border-edge bg-surface px-1 text-sm font-semibold hover:bg-surface-muted sm:pr-3"
       >
         <span className={`inline-flex size-7 shrink-0 items-center justify-center rounded-full ${isCompany ? "bg-accent text-on-accent" : "bg-primary-fill text-white"}`}>
           {isCompany ? <Building2 className="size-4" aria-hidden="true" /> : <GraduationCap className="size-4" aria-hidden="true" />}
@@ -273,7 +273,7 @@ function UserMenu() {
         <ChevronDown className="hidden size-4 shrink-0 text-ink-muted sm:block" aria-hidden="true" />
       </button>
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-60 rounded-lg border border-line bg-surface p-1.5 shadow-lift">
+        <div className="absolute right-0 top-12 z-50 w-60 rounded-lg border-2 border-edge bg-surface p-1.5 shadow-lift">
           <div className="border-b border-line px-3 pb-2 pt-1.5 sm:hidden">
             <p className="truncate font-bold">{name}</p>
             <p className="text-xs font-bold uppercase tracking-wide text-ink-muted">{isCompany ? t.roles.company : t.roles.student}</p>

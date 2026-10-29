@@ -9,7 +9,7 @@ const vars = (tokens: Record<string, string>) =>
  * CSS variables for both themes. Shared by the Next.js layout and the
  * single-file preview build — keep this file free of "use client".
  *
- * - `:root` light, `html.dark` dark (SEER's default, set by the toggle);
+ * - `:root` light (the default), `html.dark` dark (set by the header toggle);
  * - `.paper` always light: certificates look like paper in either theme;
  * - printing is always light.
  */

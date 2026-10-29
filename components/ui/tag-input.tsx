@@ -45,22 +45,22 @@ export function TagInput({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-semibold text-ink">
+      <label htmlFor={id} className="text-sm font-bold text-ink">
         {label}
         {required && <RequiredMark />}
       </label>
       <div
-        className={`flex min-h-11 flex-wrap items-center gap-1.5 rounded-md border bg-surface px-2 py-1.5 focus-within:outline-2 focus-within:outline-primary ${
+        className={`flex min-h-11 flex-wrap items-center gap-1.5 rounded-md border-2 bg-surface px-2 py-1.5 focus-within:border-edge focus-within:outline-3 focus-within:outline-offset-1 focus-within:outline-primary ${
           error ? "border-danger" : "border-line"
         }`}
       >
         {value.map((tag) => (
-          <span key={tag} className="inline-flex items-center gap-1 rounded-sm bg-primary-soft py-0.5 pl-2 pr-1 text-sm font-semibold text-primary">
+          <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-primary-soft py-0.5 pl-2.5 pr-1 text-sm font-semibold text-primary">
             {display(tag)}
             <button
               type="button"
               onClick={() => onChange(value.filter((v) => v !== tag))}
-              className="rounded-sm p-0.5 hover:bg-primary-fill/10"
+              className="rounded-full p-0.5 hover:bg-primary-fill/10"
               aria-label={`${removeLabel}: ${display(tag)}`}
             >
               <X className="size-3.5" aria-hidden="true" />

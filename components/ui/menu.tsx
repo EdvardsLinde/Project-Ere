@@ -41,12 +41,12 @@ export function OverflowMenu({ label, items }: { label: string; items: MenuItem[
         aria-expanded={open}
         aria-controls={menuId}
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex size-9 items-center justify-center rounded-md border border-line bg-surface text-ink hover:bg-surface-muted"
+        className="inline-flex size-9 items-center justify-center rounded-full border-2 border-edge bg-surface text-ink hover:bg-accent hover:text-on-accent"
       >
         <MoreHorizontal className="size-5" aria-hidden="true" />
       </button>
       {open && (
-        <ul id={menuId} className="absolute right-0 top-11 z-30 w-56 rounded-lg border border-line bg-surface p-1.5 shadow-lift">
+        <ul id={menuId} className="absolute right-0 top-11 z-30 w-56 rounded-lg border-2 border-edge bg-surface p-1.5 shadow-lift">
           {items.map((item) => (
             <li key={item.label}>
               {"href" in item ? (

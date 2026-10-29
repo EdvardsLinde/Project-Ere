@@ -143,16 +143,16 @@ export default function StudentDashboard() {
               {s.certificates}
             </h2>
             {data.certificates.length === 0 ? (
-              <p className="mt-4 rounded-lg border border-dashed border-line bg-surface p-5 text-ink-muted">{s.noCertificates}</p>
+              <p className="mt-4 rounded-lg border-2 border-dashed border-line bg-surface p-5 text-ink-muted">{s.noCertificates}</p>
             ) : (
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {data.certificates.map((c) => (
                   <li key={c.id}>
                     <Link
                       href={`/sertifikats/${c.id}`}
-                      className="group block overflow-hidden rounded-lg border border-line bg-surface shadow-card transition hover:-translate-y-0.5 hover:shadow-lift"
+                      className="group block overflow-hidden rounded-lg border-2 border-edge bg-surface shadow-card transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift"
                     >
-                      <div className="hazard h-1.5" aria-hidden="true" />
+                      <div className="h-2 bg-accent" aria-hidden="true" />
                       <div className="p-5">
                         <p className="font-mono text-xs font-bold text-ink-muted">{c.id}</p>
                         <p className="mt-1 font-extrabold leading-snug group-hover:text-primary">{tx(c.placementTitle, locale)}</p>

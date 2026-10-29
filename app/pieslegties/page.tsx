@@ -73,14 +73,14 @@ function AuthScreen() {
     <div className="bg-dots">
       <Container className="grid max-w-5xl gap-8 py-10 sm:py-16 lg:grid-cols-[1fr_1.2fr]">
         <div className="lg:pt-6">
-          <p className="text-xs font-bold uppercase tracking-[0.08em] text-accent-ink">{siteConfig.name[locale]}</p>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+          <p className="w-fit rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-on-accent">{siteConfig.name[locale]}</p>
+          <h1 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
             {role === "company" ? t.nav.forCompanies : t.nav.forStudents}
           </h1>
           <p className="mt-3 text-lg text-ink-muted">{role === "company" ? t.auth.leadCompany : t.auth.leadStudent}</p>
 
           <fieldset className="mt-8">
-            <legend className="text-sm font-semibold">{t.auth.roleLabel}</legend>
+            <legend className="text-sm font-bold">{t.auth.roleLabel}</legend>
             <div className="mt-2 grid grid-cols-2 gap-2">
               {(
                 [
@@ -90,8 +90,8 @@ function AuthScreen() {
               ).map(([r, label, Icon]) => (
                 <label
                   key={r}
-                  className={`flex cursor-pointer items-center gap-2.5 rounded-md border px-4 py-3 font-semibold has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${
-                    role === r ? "border-primary bg-primary-soft text-primary" : "border-line bg-surface"
+                  className={`flex cursor-pointer items-center gap-2.5 rounded-md border-2 px-4 py-3 font-bold transition has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${
+                    role === r ? "border-edge bg-accent text-on-accent shadow-card" : "border-line bg-surface hover:border-ink/40"
                   }`}
                 >
                   <input type="radio" name="role" className="sr-only" checked={role === r} onChange={() => setRole(r)} />
@@ -108,7 +108,7 @@ function AuthScreen() {
         </div>
 
         <Card className="p-5 sm:p-7">
-          <div role="tablist" aria-label={t.auth.title} className="grid grid-cols-2 rounded-md bg-surface-muted p-1">
+          <div role="tablist" aria-label={t.auth.title} className="grid grid-cols-2 rounded-full border-2 border-edge bg-surface-muted p-1">
             {tabs.map((x, i) => (
               <button
                 key={x.id}
@@ -123,8 +123,8 @@ function AuthScreen() {
                 tabIndex={tab === x.id ? 0 : -1}
                 onClick={() => setTab(x.id)}
                 onKeyDown={(e) => onTabKey(e, i)}
-                className={`h-10 rounded-[7px] text-[0.95rem] font-bold transition-colors ${
-                  tab === x.id ? "bg-surface text-ink shadow-card" : "text-ink-muted hover:text-ink"
+                className={`h-10 rounded-full text-[0.95rem] font-bold transition-colors ${
+                  tab === x.id ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"
                 }`}
               >
                 {x.label}

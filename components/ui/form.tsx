@@ -5,10 +5,10 @@ import { useId } from "react";
 import { useI18n } from "@/lib/i18n";
 
 const control =
-  "w-full rounded-md border bg-surface px-3 text-ink placeholder:text-ink-muted/70 transition-colors focus-visible:outline-2 focus-visible:outline-offset-0 disabled:bg-surface-muted";
+  "w-full rounded-md border-2 bg-surface px-3.5 text-ink placeholder:text-ink-muted/70 transition-colors focus-visible:border-edge focus-visible:outline-3 focus-visible:outline-offset-1 disabled:bg-surface-muted";
 
 function controlClass(invalid: boolean, extra = "") {
-  return `${control} ${invalid ? "border-danger" : "border-line hover:border-ink/30"} ${extra}`;
+  return `${control} ${invalid ? "border-danger" : "border-line hover:border-ink/40"} ${extra}`;
 }
 
 interface FieldProps {
@@ -32,7 +32,7 @@ export function Field({ label, hint, error, required, example, exampleLabel, cou
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <div className="flex items-baseline justify-between gap-3">
-        <label htmlFor={id} className="text-sm font-semibold text-ink">
+        <label htmlFor={id} className="text-sm font-bold text-ink">
           {label}
           {required && <RequiredMark />}
         </label>
@@ -166,7 +166,7 @@ export function ChoiceGroup<T extends string | number>({
   const selected = (v: T) => (Array.isArray(value) ? value.includes(v) : value === v);
   return (
     <fieldset className="flex flex-col gap-2">
-      <legend className="mb-1.5 text-sm font-semibold text-ink">
+      <legend className="mb-1.5 text-sm font-bold text-ink">
         {legend}
         {required && <RequiredMark />}
       </legend>
@@ -176,8 +176,8 @@ export function ChoiceGroup<T extends string | number>({
           return (
             <label
               key={String(o.value)}
-              className={`relative inline-flex min-h-10 cursor-pointer items-center rounded-md border px-3.5 text-sm font-semibold transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${
-                on ? "border-primary bg-primary-soft text-primary" : "border-line bg-surface text-ink hover:border-ink/30"
+              className={`relative inline-flex min-h-10 cursor-pointer items-center rounded-full border-2 px-4 text-sm font-bold transition has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${
+                on ? "border-edge bg-accent text-on-accent shadow-card" : "border-line bg-surface text-ink hover:border-ink/40"
               }`}
             >
               <input

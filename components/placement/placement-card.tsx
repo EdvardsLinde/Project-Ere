@@ -100,12 +100,12 @@ export function PlacementCard({ placement: p, applications, preview, headingLeve
   );
 
   const cls =
-    "group relative flex h-full flex-col rounded-lg border border-line bg-surface p-5 shadow-card transition duration-150";
+    "group relative flex h-full flex-col rounded-lg border-2 border-edge bg-surface p-5 shadow-card transition duration-150";
 
   if (preview) return <article className={cls}>{body}</article>;
 
   return (
-    <article className={`${cls} hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-lift`}>
+    <article className={`${cls} hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift`}>
       {body}
       <Link
         href={`/prakses/${p.id}`}

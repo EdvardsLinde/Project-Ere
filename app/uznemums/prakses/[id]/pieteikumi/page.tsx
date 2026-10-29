@@ -92,7 +92,7 @@ export default function ApplicationsPage() {
       ) : (
         <>
           {/* Table on wider screens */}
-          <div className="mt-8 hidden overflow-hidden rounded-lg border border-line bg-surface shadow-card md:block">
+          <div className="mt-8 hidden overflow-hidden rounded-lg border-2 border-edge bg-surface shadow-card md:block">
             <table className="w-full text-left text-[0.95rem]">
               <caption className="sr-only">{a.title}</caption>
               <thead className="bg-surface-muted text-sm">

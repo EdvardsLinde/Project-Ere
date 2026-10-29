@@ -7,47 +7,54 @@
  */
 @theme inline {
   --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* Fallbacks = SEER light palette. */
-  --color-bg: var(--c-bg, #f7f5f3);
+  --color-bg: var(--c-bg, #faf8f3);
   --color-surface: var(--c-surface, #ffffff);
-  --color-surface-muted: var(--c-surface-muted, #efebe7);
-  --color-line: var(--c-line, #e3ded9);
-  --color-ink: var(--c-ink, #171412);
-  --color-ink-muted: var(--c-ink-muted, #655e58);
-  --color-primary: var(--c-primary, #005dab);
-  --color-primary-fill: var(--c-primary-fill, #005dab);
-  --color-primary-hover: var(--c-primary-hover, #004a8a);
-  --color-primary-soft: var(--c-primary-soft, #eaf3fb);
-  --color-accent: var(--c-accent, #a38443);
-  --color-accent-hover: var(--c-accent-hover, #8f7339);
-  --color-accent-ink: var(--c-accent-ink, #7d6326);
-  --color-accent-soft: var(--c-accent-soft, #f8f4ea);
-  --color-on-accent: var(--c-on-accent, #231f1e);
-  --color-night: var(--c-night, #0c0a09);
-  --color-on-night: var(--c-on-night, #f5f2ef);
-  --color-success: var(--c-success, #17663f);
-  --color-success-soft: var(--c-success-soft, #e3f3e9);
-  --color-warning: var(--c-warning, #7a5600);
-  --color-warning-soft: var(--c-warning-soft, #fbedc9);
-  --color-danger: var(--c-danger, #c21e26);
-  --color-danger-soft: var(--c-danger-soft, #fdeced);
+  --color-surface-muted: var(--c-surface-muted, #f0ede4);
+  --color-line: var(--c-line, #e2ded3);
+  --color-edge: var(--c-edge, #16152b);
+  --color-ink: var(--c-ink, #16152b);
+  --color-ink-muted: var(--c-ink-muted, #5a5870);
+  --color-primary: var(--c-primary, #2337e8);
+  --color-primary-fill: var(--c-primary-fill, #2337e8);
+  --color-primary-hover: var(--c-primary-hover, #1a2bc4);
+  --color-primary-soft: var(--c-primary-soft, #e8ebff);
+  --color-accent: var(--c-accent, #ffd23f);
+  --color-accent-hover: var(--c-accent-hover, #ffc414);
+  --color-accent-ink: var(--c-accent-ink, #b23e00);
+  --color-accent-soft: var(--c-accent-soft, #fff5d1);
+  --color-on-accent: var(--c-on-accent, #16152b);
+  --color-night: var(--c-night, #16152b);
+  --color-on-night: var(--c-on-night, #faf8f3);
+  --color-success: var(--c-success, #14693f);
+  --color-success-soft: var(--c-success-soft, #ddf4e6);
+  --color-warning: var(--c-warning, #7a4f00);
+  --color-warning-soft: var(--c-warning-soft, #ffefc2);
+  --color-danger: var(--c-danger, #c0182a);
+  --color-danger-soft: var(--c-danger-soft, #fde8ea);
 }
 
-/* Not inline, so html.dark can swap the shadows. */
+/*
+ * Rounded, sticker-like shapes: generous radii and hard offset shadows in the
+ * edge colour (no blur). Not inline, so html.dark can swap the shadows.
+ */
 @theme {
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
 
-  --shadow-card: 0 1px 2px rgb(23 20 18 / 0.06), 0 1px 1px rgb(23 20 18 / 0.04);
-  --shadow-lift: 0 10px 30px -12px rgb(23 20 18 / 0.3);
+  --shadow-card: 3px 3px 0 0 var(--c-edge, #16152b);
+  --shadow-pop: 4px 4px 0 0 var(--c-edge, #16152b);
+  --shadow-lift: 6px 6px 0 0 var(--c-edge, #16152b);
 }
 
 html.dark {
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 1px rgb(0 0 0 / 0.2);
-  --shadow-lift: 0 14px 36px -12px rgb(0 0 0 / 0.65);
+  --shadow-card: 3px 3px 0 0 #000;
+  --shadow-pop: 4px 4px 0 0 #000;
+  --shadow-lift: 6px 6px 0 0 #000;
 }
 
 html {
@@ -63,25 +70,46 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* One focus style everywhere: 2px primary ring with offset. */
+/* Big friendly headings: Bricolage Grotesque, tight tracking. Utilities still override. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+}
+
+/* One focus style everywhere: 3px primary ring with offset; yellow on dark panels. */
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 3px solid var(--color-primary);
   outline-offset: 2px;
 }
-
-/* Subtle dot grid used behind the hero and certificate. */
-.bg-dots {
-  background-image: radial-gradient(color-mix(in srgb, var(--color-ink) 13%, transparent) 1px, transparent 1px);
-  background-size: 24px 24px;
+.bg-night :focus-visible,
+.bg-primary-fill :focus-visible {
+  outline-color: var(--color-accent);
 }
 
-/* Hazard band: used at most once per screen as a divider. */
-.hazard {
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--color-accent) 0 12px,
-    var(--color-night) 12px 24px
-  );
+/* Dot grid used behind the hero, the phone mock and the certificate. */
+.bg-dots {
+  background-image: radial-gradient(color-mix(in srgb, var(--color-primary) 26%, transparent) 1.4px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+
+/* Scalloped edge: a row of yellow half-circles along the top of the footer. */
+.scallop {
+  background: radial-gradient(circle at 12px 0, var(--color-accent) 11px, transparent 11.5px) 0 0 / 24px 12px repeat-x;
+}
+
+/* Marker highlight: a yellow, slightly rounded block behind a few words. */
+.marker {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  border-radius: 0.28em;
+  padding: 0 0.16em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 @keyframes step-in {
@@ -103,6 +131,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

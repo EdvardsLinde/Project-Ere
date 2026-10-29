@@ -159,7 +159,7 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
 
   const preview = (
     <div className="space-y-4">
-      <div role="tablist" aria-label={b.preview} className="grid grid-cols-2 rounded-md bg-surface-muted p-1 text-sm">
+      <div role="tablist" aria-label={b.preview} className="grid grid-cols-2 rounded-full border-2 border-edge bg-surface-muted p-1 text-sm">
         {(["card", "detail"] as const).map((tab) => (
           <button
             key={tab}
@@ -167,13 +167,13 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
             role="tab"
             aria-selected={previewTab === tab}
             onClick={() => setPreviewTab(tab)}
-            className={`h-9 rounded-[7px] font-bold ${previewTab === tab ? "bg-surface shadow-card" : "text-ink-muted hover:text-ink"}`}
+            className={`h-9 rounded-full font-bold ${previewTab === tab ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"}`}
           >
             {tab === "card" ? b.previewCard : b.previewDetail}
           </button>
         ))}
       </div>
-      <div role="tabpanel" className="rounded-lg border border-dashed border-line bg-bg p-3">
+      <div role="tabpanel" className="rounded-lg border-2 border-dashed border-line bg-bg p-3">
         {previewTab === "card" ? (
           <PlacementCard placement={previewPlacement} applications={[]} preview headingLevel="h3" />
         ) : (
@@ -211,7 +211,7 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
           )}
         </p>
       </div>
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">{placementId ? b.titleEdit : b.titleNew}</h1>
+      <h1 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">{placementId ? b.titleEdit : b.titleNew}</h1>
       {!isDraft && (
         <Notice tone="primary" className="mt-4">
           {b.alreadyPublished}
@@ -225,7 +225,7 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
           <span className="text-ink-muted">{b.steps[step]}</span>
         </div>
         <div
-          className="mt-2 h-2 overflow-hidden rounded-full bg-surface-muted"
+          className="mt-2 h-3.5 overflow-hidden rounded-full border-2 border-edge bg-surface"
           role="progressbar"
           aria-valuemin={1}
           aria-valuemax={STEP_COUNT}
@@ -248,8 +248,8 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
                     type="button"
                     onClick={() => goTo(i)}
                     aria-current={active ? "step" : undefined}
-                    className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm font-semibold transition-colors ${
-                      active ? "bg-primary-fill text-white" : "text-ink hover:bg-surface-muted"
+                    className={`flex w-full items-center gap-2.5 rounded-full border-2 px-3 py-2 text-left text-sm font-bold transition-colors ${
+                      active ? "border-edge bg-primary-fill text-white shadow-card" : "border-transparent text-ink hover:border-line hover:bg-surface"
                     }`}
                   >
                     <span
@@ -270,7 +270,7 @@ export function PlacementBuilder({ companyId, initial, placementId, status: init
 
         <div className="min-w-0">
           <div ref={headingRef} tabIndex={-1} className="scroll-mt-24 outline-none" />
-          <section key={step} className="animate-step rounded-lg border border-line bg-surface p-5 shadow-card sm:p-7" aria-label={b.steps[step]}>
+          <section key={step} className="animate-step rounded-lg border-2 border-edge bg-surface p-5 shadow-card sm:p-7" aria-label={b.steps[step]}>
             {step < STEPS.length ? (
               <StepComponent {...stepProps} />
             ) : (

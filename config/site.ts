@@ -13,6 +13,7 @@ type ThemeTokens = Record<
   | "surface"
   | "surface-muted"
   | "line"
+  | "edge"
   | "ink"
   | "ink-muted"
   | "primary"
@@ -35,58 +36,63 @@ type ThemeTokens = Record<
   string
 >;
 
-/** SEER light palette: Saldus coat-of-arms blue and gold on warm white. */
+/**
+ * SEER light palette (the default): bright off-white, electric blue as the one
+ * strong colour, sunny yellow as the warm highlight, deep ink outlines.
+ */
 const light: ThemeTokens = {
-  bg: "#F7F5F3",
+  bg: "#FAF8F3",
   surface: "#FFFFFF",
-  "surface-muted": "#EFEBE7",
-  line: "#E3DED9",
-  ink: "#171412",
-  "ink-muted": "#655E58",
-  primary: "#005DAB",
-  "primary-fill": "#005DAB",
-  "primary-hover": "#004A8A",
-  "primary-soft": "#EAF3FB",
-  accent: "#A38443",
-  "accent-hover": "#8F7339",
-  "accent-ink": "#7D6326",
-  "accent-soft": "#F8F4EA",
-  "on-accent": "#231F1E",
-  night: "#0C0A09",
-  "on-night": "#F5F2EF",
-  success: "#17663F",
-  "success-soft": "#E3F3E9",
-  warning: "#7A5600",
-  "warning-soft": "#FBEDC9",
-  danger: "#C21E26",
-  "danger-soft": "#FDECED",
+  "surface-muted": "#F0EDE4",
+  line: "#E2DED3",
+  edge: "#16152B",
+  ink: "#16152B",
+  "ink-muted": "#5A5870",
+  primary: "#2337E8",
+  "primary-fill": "#2337E8",
+  "primary-hover": "#1A2BC4",
+  "primary-soft": "#E8EBFF",
+  accent: "#FFD23F",
+  "accent-hover": "#FFC414",
+  "accent-ink": "#B23E00",
+  "accent-soft": "#FFF5D1",
+  "on-accent": "#16152B",
+  night: "#16152B",
+  "on-night": "#FAF8F3",
+  success: "#14693F",
+  "success-soft": "#DDF4E6",
+  warning: "#7A4F00",
+  "warning-soft": "#FFEFC2",
+  danger: "#C0182A",
+  "danger-soft": "#FDE8EA",
 };
 
-/** SEER dark palette (the default): near-black surfaces, blue and gold accents. */
+/** SEER dark palette (optional, via the header toggle): ink-navy surfaces, the same blue and yellow. */
 const dark: ThemeTokens = {
-  bg: "#0B0A09",
-  surface: "#151210",
-  "surface-muted": "#1C1917",
-  line: "#2A2522",
-  ink: "#F5F2EF",
-  "ink-muted": "#B6AFA9",
-  primary: "#6CB2EC",
-  "primary-fill": "#005DAB",
-  "primary-hover": "#0068BD",
-  "primary-soft": "#0D2033",
-  accent: "#B8964D",
-  "accent-hover": "#C9A960",
-  "accent-ink": "#D8BD80",
-  "accent-soft": "#2A2213",
-  "on-accent": "#231F1E",
-  night: "#050403",
-  "on-night": "#F5F2EF",
-  success: "#5FD39A",
-  "success-soft": "#0F2A1D",
-  warning: "#F2CC77",
-  "warning-soft": "#2A2512",
-  danger: "#FF8A8F",
-  "danger-soft": "#3A1416",
+  bg: "#0E0E1C",
+  surface: "#181829",
+  "surface-muted": "#21223A",
+  line: "#2E2F4A",
+  edge: "#5A5B80",
+  ink: "#F6F4EE",
+  "ink-muted": "#B4B3C9",
+  primary: "#9AA6FF",
+  "primary-fill": "#3347FF",
+  "primary-hover": "#4A5CFF",
+  "primary-soft": "#1C2150",
+  accent: "#FFD23F",
+  "accent-hover": "#FFDC66",
+  "accent-ink": "#FFD86B",
+  "accent-soft": "#2C2512",
+  "on-accent": "#16152B",
+  night: "#08081A",
+  "on-night": "#F6F4EE",
+  success: "#6FDBA4",
+  "success-soft": "#10291D",
+  warning: "#FFD27A",
+  "warning-soft": "#2B2410",
+  danger: "#FF8E98",
+  "danger-soft": "#3A1519",
 };
 
 export const siteConfig = {
@@ -116,8 +122,8 @@ export const siteConfig = {
    * and `text-ink-muted` read them.
    */
   theme: { light, dark },
-  /** Dark mode is SEER's default; the header toggle remembers the visitor's choice. */
-  defaultTheme: "dark" as "dark" | "light",
+  /** Light mode is the default; the header toggle remembers the visitor's choice. */
+  defaultTheme: "light" as "dark" | "light",
 
   /** `[TODO: team will extend the list]` — "other" shows a free-text field. */
   schools: [

@@ -3,7 +3,7 @@ import { S_PATH } from "@/components/logo";
 
 /**
  * Round certificate seal: text along the top and bottom of the ring, the SEER "S"
- * in the middle and two orange ribbon tails. Decorative (aria-hidden).
+ * in the middle and two yellow ribbon tails with ink outlines. Decorative (aria-hidden).
  */
 export function Seal({
   top,
@@ -19,18 +19,19 @@ export function Seal({
   ribbons?: boolean;
 }) {
   const id = useId().replace(/:/g, "");
-  const font = { fontFamily: "var(--font-sans)" };
+  const font = { fontFamily: "var(--font-display)" };
   return (
     <svg viewBox="0 0 120 140" className={className} aria-hidden="true">
       {ribbons && (
-        <g fill="var(--color-accent)">
+        <g fill="var(--color-accent)" stroke="var(--color-ink)" strokeWidth="2" strokeLinejoin="round">
           <path d="M38 92 L26 136 L40 128 L48 138 L56 98 Z" />
           <path d="M82 92 L94 136 L80 128 L72 138 L64 98 Z" />
         </g>
       )}
-      <circle cx="60" cy="60" r="56" fill="var(--color-primary-fill)" />
-      <circle cx="60" cy="60" r="51" fill="none" stroke="#fff" strokeOpacity=".5" strokeWidth="0.8" />
-      <circle cx="60" cy="60" r="34" fill="#fff" />
+      <circle cx="60" cy="60" r="56" fill="var(--color-primary-fill)" stroke="var(--color-ink)" strokeWidth="2" />
+      <circle cx="60" cy="60" r="51" fill="none" stroke="#fff" strokeOpacity=".55" strokeWidth="0.8" strokeDasharray="1.5 2" />
+      <circle cx="60" cy="60" r="34" fill="#fff" stroke="var(--color-ink)" strokeWidth="1.5" />
+      <circle cx="60" cy="60" r="29" fill="var(--color-accent)" opacity=".35" />
       <defs>
         {/* Top arc runs left→right over the top; bottom arc left→right under the bottom so both read upright. */}
         <path id={`top-${id}`} d="M17,60 a43,43 0 0,1 86,0" />
@@ -52,7 +53,7 @@ export function Seal({
         <path d={S_PATH} fill="none" stroke="var(--color-primary-fill)" strokeWidth="3.6" strokeLinecap="round" />
       </g>
       {year !== undefined && (
-        <text x="60" y="84" textAnchor="middle" fontSize="8" fontWeight="800" fill="var(--color-accent-ink)" style={font}>
+        <text x="60" y="84" textAnchor="middle" fontSize="8" fontWeight="800" fill="var(--color-ink)" style={font}>
           {year}
         </text>
       )}

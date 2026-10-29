@@ -333,7 +333,7 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
       </div>
 
       <aside className="@4xl:sticky @4xl:top-24 @4xl:self-start" aria-label={d.datesTitle}>
-        <div className="rounded-lg border border-line bg-surface p-5 shadow-card">
+        <div className="rounded-lg border-2 border-edge bg-surface p-5 shadow-card">
           <h2 className="flex items-center gap-2 font-extrabold">
             <CalendarDays className="size-5 text-primary" aria-hidden="true" />
             {d.datesTitle}
@@ -385,7 +385,7 @@ export function PlacementDetailView({ placement: p, applications, showContact, a
 
       {/* Sticky apply bar on small screens. */}
       {!preview && (
-        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 px-4 py-3 shadow-lift backdrop-blur lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-edge bg-surface/95 px-4 py-3 backdrop-blur lg:hidden">
           {action}
         </div>
       )}

@@ -2,6 +2,7 @@
 
 import {
   ArrowRight,
+  Asterisk,
   Award,
   BadgeCheck,
   BookOpen,
@@ -31,7 +32,7 @@ import { LinkButton } from "@/components/ui/button";
 import { Chip, Container, Eyebrow, ExternalLink } from "@/components/ui/misc";
 import { CertificateIllustration } from "@/components/certificate-illustration";
 import { Seal } from "@/components/seal";
-import { useI18n } from "@/lib/i18n";
+import { fmt, useI18n } from "@/lib/i18n";
 import { formatCertificateId, formatScore } from "@/lib/placements";
 import { loginPath } from "@/lib/session";
 
@@ -41,6 +42,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Tape />
       <WhyNow />
       <HowItWorks />
       <Benefits />
@@ -58,7 +60,7 @@ function SectionTitle({ eyebrow, title, lead, id }: { eyebrow: string; title: st
   return (
     <div className="max-w-2xl">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 id={id} className="mt-2 text-3xl font-extrabold tracking-tight sm:text-[2.25rem] sm:leading-[1.15]">
+      <h2 id={id} className="mt-4 text-[2.1rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl">
         {title}
       </h2>
       {lead && <p className="mt-3 text-lg text-ink-muted">{lead}</p>}
@@ -66,23 +68,39 @@ function SectionTitle({ eyebrow, title, lead, id }: { eyebrow: string; title: st
   );
 }
 
+/** Splits "Headline — highlighted part" so the part after the dash gets the marker. */
+function splitTitle(title: string): [string, string] {
+  const i = title.lastIndexOf(" — ");
+  return i < 0 ? [title, ""] : [`${title.slice(0, i)} —`, title.slice(i + 3)];
+}
+
 function Hero() {
   const { t } = useI18n();
   const h = t.home.hero;
+  const [headline, highlight] = splitTitle(h.title);
   return (
-    <section className="relative overflow-hidden border-b border-line" aria-labelledby="hero-title">
-      <div className="bg-dots absolute inset-0 opacity-60" aria-hidden="true" />
-      <Container className="relative grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:py-24">
+    <section className="relative overflow-hidden" aria-labelledby="hero-title">
+      <div
+        className="bg-dots absolute inset-0 opacity-70 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
+        aria-hidden="true"
+      />
+      <Container className="relative grid items-center gap-14 pb-4 pt-12 sm:pt-16 lg:grid-cols-[1.2fr_1fr] lg:pb-12 lg:pt-20">
         <div>
           <Eyebrow>{h.eyebrow}</Eyebrow>
           <h1
             id="hero-title"
-            className="mt-4 text-[clamp(2.25rem,5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink"
+            className="mt-5 text-[clamp(2.5rem,7vw,4.75rem)] font-extrabold leading-[1] tracking-[-0.03em] text-ink"
           >
-            {h.title}
+            {headline}
+            {highlight && (
+              <>
+                {" "}
+                <span className="marker whitespace-nowrap">{highlight}</span>
+              </>
+            )}
           </h1>
-          <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
+          <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <LinkButton href="/prakses" variant="accent" size="lg">
               <Search className="size-5" aria-hidden="true" />
               {h.findCta}
@@ -93,22 +111,50 @@ function Hero() {
             </LinkButton>
           </div>
         </div>
-        <CertificateIllustration />
+        <HeroVisual />
       </Container>
-      <Roofline />
     </section>
   );
 }
 
-/** Saw-tooth factory roofline along the bottom of the hero. */
-function Roofline() {
+/** Big blue circle, a yellow dot and a round "3–5 days" sticker behind the sample certificate. */
+function HeroVisual() {
+  const { t } = useI18n();
   return (
-    <svg viewBox="0 0 1200 40" preserveAspectRatio="none" className="relative block h-6 w-full text-surface-muted sm:h-10" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M0 40V24l60-20v20l60-20v20l60-20v20l60-20v20l60-20v20h80V10h24v14l60-20v20l60-20v20l60-20v20l60-20v20l60-20v20h80V14h20v10l60-20v20l60-20v20l60-20v20l52-20v36z"
-      />
-    </svg>
+    <div className="relative mx-auto w-full max-w-md py-6" aria-hidden="true">
+      <div className="absolute left-1/2 top-1/2 aspect-square w-[118%] max-w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-edge bg-primary-fill" />
+      <div className="absolute -right-2 top-0 size-16 rounded-full border-2 border-edge bg-accent sm:size-20" />
+      <div className="absolute bottom-6 left-0 size-6 rounded-full bg-ink sm:size-8" />
+      <CertificateIllustration />
+      <p className="absolute -left-1 -top-5 z-10 flex size-20 -rotate-12 items-center justify-center rounded-full border-2 border-edge bg-accent p-2 text-center font-display text-[0.8rem] font-extrabold leading-tight text-on-accent shadow-card sm:-left-6 sm:top-2 sm:size-28 sm:text-lg">
+        {fmt(t.common.workingDays, { n: "3–5" })}
+      </p>
+    </div>
+  );
+}
+
+/** Two crossed tape bands listing focus areas and industries. Decorative: the same lists are filters in the catalogue. */
+function Tape() {
+  const { locale } = useI18n();
+  const focus = siteConfig.focusAreas.filter((f) => f.id !== "other").map((f) => f.label[locale]);
+  const industries = siteConfig.industries.filter((f) => f.id !== "other").map((f) => f.label[locale]);
+  const band = (items: string[], cls: string, star: string) => (
+    <div className={`-ml-[5%] w-[110%] border-y-2 border-edge py-3 ${cls}`}>
+      <ul className="flex w-max items-center gap-5 whitespace-nowrap font-display text-lg font-extrabold sm:text-2xl">
+        {[...items, ...items].map((x, i) => (
+          <li key={i} className="flex items-center gap-5">
+            {x}
+            <Asterisk className={`size-6 ${star}`} strokeWidth={3} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+  return (
+    <div className="relative overflow-hidden py-8 sm:py-12" aria-hidden="true">
+      <div className="rotate-[2.5deg]">{band(industries, "bg-accent text-on-accent", "text-on-accent")}</div>
+      <div className="-mt-3 -rotate-2 sm:-mt-14">{band(focus, "bg-primary-fill text-white", "text-accent")}</div>
+    </div>
   );
 }
 
@@ -117,7 +163,7 @@ function WhyNow() {
   const w = t.home.why;
   const icons = [Users, Zap, TrendingUp, Sparkles];
   return (
-    <section className="bg-surface-muted py-16 sm:py-24" aria-labelledby="why-title">
+    <section className="pb-16 pt-8 sm:pb-24 sm:pt-12" aria-labelledby="why-title">
       <Container>
         <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
           <SectionTitle id="why-title" eyebrow={w.eyebrow} title={w.title} lead={w.lead} />
@@ -125,10 +171,16 @@ function WhyNow() {
             {w.cards.map((c, i) => {
               const Icon = icons[i];
               return (
-                <li key={c.url} className="flex flex-col rounded-lg border border-line bg-surface p-5 shadow-card">
+                <li key={c.url} className="flex flex-col rounded-lg border-2 border-edge bg-surface p-6 shadow-card">
                   <div className="flex items-start justify-between gap-3">
-                    <p className="text-4xl font-extrabold tracking-tight text-primary tabular-nums">{c.value}</p>
-                    <Icon className="size-6 text-accent" aria-hidden="true" />
+                    <p className="font-display text-5xl font-extrabold tracking-tight text-primary tabular-nums">{c.value}</p>
+                    <span
+                      className={`flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-edge ${
+                        i % 2 ? "bg-primary-fill text-white" : "bg-accent text-on-accent"
+                      }`}
+                    >
+                      <Icon className="size-5" aria-hidden="true" />
+                    </span>
                   </div>
                   <p className="mt-2 font-semibold leading-snug">{c.label}</p>
                   <p className="mt-2 text-sm text-ink-muted">{c.note}</p>
@@ -143,7 +195,7 @@ function WhyNow() {
             })}
           </ul>
         </div>
-        <ul className="mt-10 grid gap-3 border-t border-line pt-6 text-sm text-ink-muted md:grid-cols-3">
+        <ul className="mt-10 grid gap-3 border-t-2 border-dashed border-line pt-6 text-sm text-ink-muted md:grid-cols-3">
           {w.more.map((m) => (
             <li key={m.url}>
               {m.text}{" "}
@@ -163,25 +215,32 @@ function HowItWorks() {
   const h = t.home.how;
   const icons = [ClipboardList, Search, UserCheck, Wrench, Award];
   return (
-    <section className="py-16 sm:py-24" aria-labelledby="how-title">
+    <section className="border-y-2 border-edge bg-surface-muted py-16 sm:py-24" aria-labelledby="how-title">
       <Container>
         <SectionTitle id="how-title" eyebrow={h.eyebrow} title={h.title} />
-        <ol className="relative mt-12 grid gap-8 md:grid-cols-5 md:gap-4">
-          <div className="absolute left-[1.375rem] top-0 h-full w-0.5 bg-line md:left-0 md:top-[1.375rem] md:h-0.5 md:w-full" aria-hidden="true" />
+        <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
           {h.steps.map((s, i) => {
             const Icon = icons[i];
+            const last = i === h.steps.length - 1;
             return (
-              <li key={s.title} className="relative flex gap-4 md:flex-col">
-                <span className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-surface bg-primary-fill text-white ring-1 ring-line">
-                  <Icon className="size-5" aria-hidden="true" />
-                  <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-accent text-[0.7rem] font-extrabold text-on-accent">
-                    {i + 1}
+              <li
+                key={s.title}
+                className={`flex flex-col rounded-lg border-2 border-edge p-5 shadow-card lg:odd:-rotate-1 lg:even:rotate-1 ${
+                  last ? "bg-accent text-on-accent" : "bg-surface"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-display text-4xl font-extrabold leading-none tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                  <span
+                    className={`flex size-10 items-center justify-center rounded-full ${
+                      last ? "bg-ink text-bg" : "bg-primary-fill text-white"
+                    }`}
+                  >
+                    <Icon className="size-5" aria-hidden="true" />
                   </span>
-                </span>
-                <div>
-                  <h3 className="font-bold leading-snug">{s.title}</h3>
-                  <p className="mt-1 text-[0.95rem] text-ink-muted">{s.text}</p>
                 </div>
+                <h3 className="mt-5 text-lg font-extrabold leading-snug">{s.title}</h3>
+                <p className={`mt-1 text-[0.95rem] ${last ? "" : "text-ink-muted"}`}>{s.text}</p>
               </li>
             );
           })}
@@ -198,16 +257,16 @@ function Benefits() {
   const studentIcons = [Wrench, MessageSquare, BadgeCheck, FileCheck2, Hourglass, MapPin];
   const companyIcons = [UserCheck, FileCheck2, Hourglass, TrendingUp, Handshake, Zap];
   return (
-    <section className="pb-16 sm:pb-24" aria-label={`${s.title} / ${c.title}`}>
+    <section className="py-16 sm:py-24" aria-label={`${s.title} / ${c.title}`}>
       <Container className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-lg border border-line bg-surface p-6 shadow-card sm:p-8" aria-labelledby="students-title">
-          <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-md bg-primary-soft text-primary">
-              <GraduationCap className="size-6" aria-hidden="true" />
+        <div className="rounded-lg border-2 border-edge bg-surface p-6 shadow-lift sm:p-8" aria-labelledby="students-title">
+          <div className="flex items-center gap-4">
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+              <GraduationCap className="size-7" aria-hidden="true" />
             </span>
             <div>
               <Eyebrow>{s.eyebrow}</Eyebrow>
-              <h2 id="students-title" className="text-2xl font-extrabold tracking-tight">
+              <h2 id="students-title" className="mt-2 text-3xl font-extrabold tracking-tight">
                 {s.title}
               </h2>
             </div>
@@ -226,20 +285,20 @@ function Benefits() {
               );
             })}
           </ul>
-          <LinkButton href="/prakses" className="mt-8">
+          <LinkButton href="/prakses" size="lg" className="mt-8">
             {s.cta}
             <ArrowRight className="size-4" aria-hidden="true" />
           </LinkButton>
         </div>
 
-        <div className="rounded-lg bg-night p-6 text-on-night ring-1 ring-on-night/10 sm:p-8" aria-labelledby="companies-title">
-          <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-md bg-accent text-on-accent">
-              <Building2 className="size-6" aria-hidden="true" />
+        <div className="rounded-lg border-2 border-edge bg-primary-fill p-6 text-white shadow-lift sm:p-8" aria-labelledby="companies-title">
+          <div className="flex items-center gap-4">
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+              <Building2 className="size-7" aria-hidden="true" />
             </span>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.08em] text-accent">{c.eyebrow}</p>
-              <h2 id="companies-title" className="text-2xl font-extrabold tracking-tight">
+              <p className="w-fit rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-primary-fill">{c.eyebrow}</p>
+              <h2 id="companies-title" className="mt-2 text-3xl font-extrabold tracking-tight">
                 {c.title}
               </h2>
             </div>
@@ -252,13 +311,13 @@ function Benefits() {
                   <Icon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
                   <div>
                     <p className="font-bold leading-snug">{item.title}</p>
-                    <p className="text-[0.95rem] text-on-night/75">{item.text}</p>
+                    <p className="text-[0.95rem] text-white/85">{item.text}</p>
                   </div>
                 </li>
               );
             })}
           </ul>
-          <LinkButton href={companyRegister} variant="accent" className="mt-8">
+          <LinkButton href={companyRegister} variant="accent" size="lg" className="mt-8">
             {c.cta}
             <ArrowRight className="size-4" aria-hidden="true" />
           </LinkButton>
@@ -272,7 +331,7 @@ function Credential() {
   const { t } = useI18n();
   const p = t.home.credential;
   return (
-    <section className="overflow-hidden border-y border-line bg-surface py-16 sm:py-24" aria-labelledby="credential-title">
+    <section className="overflow-hidden border-y-2 border-edge bg-surface py-16 sm:py-24" aria-labelledby="credential-title">
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <PhoneVerification />
         <div>
@@ -281,13 +340,17 @@ function Credential() {
           <ul className="mt-3 space-y-2">
             {p.certifies.map((c) => (
               <li key={c} className="flex gap-2.5">
-                <Check className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
+                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary-fill text-white">
+                  <Check className="size-3.5" strokeWidth={3} aria-hidden="true" />
+                </span>
                 <span>{c}</span>
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex gap-4 rounded-lg border border-line bg-bg p-5">
-            <QrCode className="size-8 shrink-0 text-accent" aria-hidden="true" />
+          <div className="mt-8 flex gap-4 rounded-lg border-2 border-edge bg-accent-soft p-5">
+            <span className="flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+              <QrCode className="size-6" aria-hidden="true" />
+            </span>
             <div>
               <h3 className="font-bold">{p.verifyTitle}</h3>
               <p className="mt-1 text-[0.95rem] text-ink-muted">{p.verifyText}</p>
@@ -313,8 +376,8 @@ function PhoneVerification() {
   const v = t.verify;
   return (
     <figure className="relative mx-auto w-full max-w-xs" aria-label={t.home.credential.phoneLabel}>
-      <div className="bg-dots absolute -inset-6 rounded-[2.5rem] opacity-70" aria-hidden="true" />
-      <div className="relative rounded-[2.2rem] bg-night p-2.5 shadow-lift ring-1 ring-on-night/15" aria-hidden="true">
+      <div className="absolute left-1/2 top-1/2 aspect-square w-[125%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-edge bg-accent" aria-hidden="true" />
+      <div className="relative rotate-2 rounded-[2.2rem] border-2 border-edge bg-night p-2.5 shadow-lift" aria-hidden="true">
         <div className="mx-auto mb-2 h-1.5 w-16 rounded-full bg-on-night/25" />
         <div className="overflow-hidden rounded-[1.7rem] bg-bg">
           <div className="flex items-center gap-2 border-b border-line bg-surface px-4 py-3">
@@ -322,7 +385,7 @@ function PhoneVerification() {
             <span className="text-xs font-bold">{v.title}</span>
           </div>
           <div className="space-y-3 p-4">
-            <div className="flex items-start gap-2.5 rounded-md bg-success-soft p-3">
+            <div className="flex items-start gap-2.5 rounded-md border-2 border-success/30 bg-success-soft p-3">
               <BadgeCheck className="size-6 shrink-0 text-success" />
               <div>
                 <p className="text-sm font-extrabold text-success">{v.valid}</p>
@@ -359,10 +422,10 @@ function Comparison() {
         <SectionTitle id="compare-title" eyebrow={c.eyebrow} title={c.title} />
 
         {/* Desktop: table */}
-        <div className="mt-10 hidden overflow-hidden rounded-lg border border-line bg-surface shadow-card md:block">
+        <div className="mt-10 hidden overflow-hidden rounded-lg border-2 border-edge bg-surface shadow-lift md:block">
           <table className="w-full text-left text-[0.95rem]">
             <caption className="sr-only">{c.caption}</caption>
-            <thead className="bg-surface-muted text-sm">
+            <thead className="border-b-2 border-edge bg-surface-muted text-sm">
               <tr>
                 {c.headers.map((h) => (
                   <th key={h} scope="col" className="px-5 py-3.5 font-bold">
@@ -382,10 +445,9 @@ function Comparison() {
                   <td className="px-5 py-4 text-ink-muted">{r.output}</td>
                 </tr>
               ))}
-              <tr className="border-t-2 border-primary bg-primary-soft align-top">
-                <th scope="row" className="relative px-5 py-4 font-extrabold text-primary">
-                  <span className="absolute inset-y-0 left-0 w-1 bg-accent" aria-hidden="true" />
-                  {c.ours.name}
+              <tr className="border-t-2 border-edge bg-accent-soft align-top">
+                <th scope="row" className="px-5 py-4 font-display text-lg font-extrabold">
+                  <span className="marker">{c.ours.name}</span>
                 </th>
                 <td className="px-5 py-4 font-bold">{c.ours.length}</td>
                 <td className="px-5 py-4 font-bold">{c.ours.does}</td>
@@ -400,9 +462,9 @@ function Comparison() {
           {[...rows.map((r) => ({ ...r, ours: false })), { ...c.ours, url: "", ours: true }].map((r) => (
             <li
               key={r.name}
-              className={`rounded-lg border p-4 ${r.ours ? "border-primary bg-primary-soft" : "border-line bg-surface"}`}
+              className={`rounded-lg border-2 p-4 ${r.ours ? "border-edge bg-accent-soft shadow-card" : "border-line bg-surface"}`}
             >
-              <p className={`font-extrabold ${r.ours ? "text-primary" : ""}`}>{r.name}</p>
+              <p className="font-display text-lg font-extrabold">{r.ours ? <span className="marker">{r.name}</span> : r.name}</p>
               <dl className="mt-2 space-y-1.5 text-[0.95rem]">
                 {[
                   [c.headers[1], r.length],
@@ -434,17 +496,20 @@ function Comparison() {
   );
 }
 
+/** Slight alternating tilts, like stickers on a laptop lid. */
+const TILTS = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2"];
+
 function Partners() {
   const { t } = useI18n();
   const p = t.home.partners;
   return (
-    <section className="bg-surface-muted py-16 sm:py-20" aria-labelledby="partners-title">
+    <section className="border-y-2 border-edge bg-surface-muted py-16 sm:py-20" aria-labelledby="partners-title">
       <Container>
         <SectionTitle id="partners-title" eyebrow={p.eyebrow} title={p.title} />
-        <ul className="mt-8 flex flex-wrap gap-2.5">
-          {siteConfig.potentialPartners.map((name) => (
-            <li key={name}>
-              <Chip className="px-4 py-2 text-base font-bold">{name}</Chip>
+        <ul className="mt-10 flex flex-wrap gap-3 sm:gap-4">
+          {siteConfig.potentialPartners.map((name, i) => (
+            <li key={name} className={TILTS[i % TILTS.length]}>
+              <Chip className="px-5 py-2.5 font-display text-lg font-extrabold shadow-card">{name}</Chip>
             </li>
           ))}
         </ul>
@@ -469,12 +534,12 @@ function Week() {
             return (
               <li
                 key={d.label}
-                className={`flex flex-col rounded-lg border p-5 ${middle ? "border-primary bg-primary-fill text-white" : "border-line bg-surface"}`}
+                className={`flex flex-col rounded-lg border-2 border-edge p-6 shadow-card ${middle ? "bg-primary-fill text-white" : "bg-surface"}`}
               >
                 <div className="flex items-center justify-between">
                   <span
-                    className={`rounded-sm px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
-                      middle ? "bg-white/15 text-white" : "bg-accent-soft text-accent-ink"
+                    className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${
+                      middle ? "bg-accent text-on-accent" : "bg-primary-soft text-primary"
                     }`}
                   >
                     <CalendarRange className="mr-1 inline size-3.5 align-[-2px]" aria-hidden="true" />
@@ -482,7 +547,7 @@ function Week() {
                   </span>
                   <Icon className={`size-6 ${middle ? "text-accent" : "text-primary"}`} aria-hidden="true" />
                 </div>
-                <h3 className="mt-4 text-xl font-extrabold">{d.title}</h3>
+                <h3 className="mt-5 text-2xl font-extrabold">{d.title}</h3>
                 <p className={`mt-1 ${middle ? "text-white/85" : "text-ink-muted"}`}>{d.text}</p>
               </li>
             );
@@ -497,16 +562,16 @@ function Faq() {
   const { t } = useI18n();
   const f = t.home.faq;
   return (
-    <section className="border-t border-line bg-surface py-16 sm:py-24" aria-labelledby="faq-title">
+    <section className="py-16 sm:py-24" aria-labelledby="faq-title">
       <Container className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
         <SectionTitle id="faq-title" eyebrow={f.eyebrow} title={f.title} />
-        <div className="divide-y divide-line rounded-lg border border-line">
+        <div className="divide-y-2 divide-line rounded-lg border-2 border-edge bg-surface shadow-card">
           {f.items.map((item) => (
             <details key={item.q} className="group px-5 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-bold">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-lg font-bold">
                 {item.q}
                 <span
-                  className="flex size-7 shrink-0 items-center justify-center rounded-full border border-line text-lg leading-none text-primary transition-transform group-open:rotate-45"
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent font-sans text-xl leading-none text-on-accent transition-transform group-open:rotate-45"
                   aria-hidden="true"
                 >
                   +
@@ -525,18 +590,17 @@ function ClosingCta() {
   const { t } = useI18n();
   const h = t.home.hero;
   return (
-    <section className="bg-primary-fill text-white" aria-labelledby="cta-title">
-      <Container className="flex flex-col items-start gap-8 py-14 sm:py-16 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-start gap-4">
-          <Compass className="mt-1 hidden size-10 text-accent sm:block" aria-hidden="true" />
-          <div>
-            <h2 id="cta-title" className="text-3xl font-extrabold tracking-tight">
-              {t.home.cta.title}
-            </h2>
-            <p className="mt-2 text-lg text-white/85">{t.home.cta.text}</p>
-          </div>
+    <section className="relative overflow-hidden border-t-2 border-edge bg-primary-fill text-white" aria-labelledby="cta-title">
+      <div className="absolute -right-24 -top-32 size-56 rounded-full border-2 border-edge bg-accent lg:-right-20 lg:-top-24 lg:size-96" aria-hidden="true" />
+      <Container className="relative flex flex-col items-start gap-8 py-16 sm:py-24">
+        <Compass className="size-12 text-accent" aria-hidden="true" />
+        <div className="max-w-2xl">
+          <h2 id="cta-title" className="text-[2.4rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
+            {t.home.cta.title}
+          </h2>
+          <p className="mt-4 text-lg text-white/85 sm:text-xl">{t.home.cta.text}</p>
         </div>
-        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+        <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
           <LinkButton href="/prakses" variant="accent" size="lg">
             {h.findCta}
           </LinkButton>
