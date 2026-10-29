@@ -5,7 +5,7 @@ import { ROUTES, path, useApp } from '../../lib/state'
 import { formatRange } from '../../lib/format'
 import { Avatar, ExampleBadge } from '../../components/cards'
 import { PageHeader, cx } from '../../components/ui'
-import { PassportCard, usePassport } from '../passport/PassportCard'
+import { CertificateCard, useCertificate } from '../certificate/CertificateCard'
 
 const ORDER: ApplicationStatus[] = ['applied', 'accepted', 'in_progress', 'completed', 'declined']
 
@@ -24,7 +24,7 @@ export function StatusPill({ status }: { status: ApplicationStatus }) {
 
 /** Student: everything they applied for, grouped by status. */
 export function MyPlacements() {
-  const { t, l, lang, applications, placements, passports, companyOf } = useApp()
+  const { t, l, lang, applications, placements, certificates, companyOf } = useApp()
   const mine = applications.filter((a) => a.mine).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 
   return (
@@ -51,7 +51,7 @@ export function MyPlacements() {
                 {group.map((a) => {
                   const p = placements.find((x) => x.id === a.placementId)
                   const c = p && companyOf(p)
-                  const passport = passports.find((x) => x.applicationId === a.id)
+                  const certificate = certificates.find((x) => x.applicationId === a.id)
                   return (
                     <li key={a.id} className="flex flex-col gap-4 rounded-2xl bg-card p-4 ring-1 ring-slate-200 sm:flex-row sm:items-center sm:p-5">
                       <Avatar name={c?.name ?? '?'} logo={c?.logoDataUrl} square />
@@ -69,13 +69,13 @@ export function MyPlacements() {
                         <p className="mt-1 text-sm text-slate-500">{t.mine.next[a.status]}</p>
                       </div>
                       {a.status === 'completed' &&
-                        (passport ? (
-                          <Link to={path(ROUTES.passport, passport.id)} className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700">
-                            <Award className="size-4" /> {t.mine.openPassport}
+                        (certificate ? (
+                          <Link to={path(ROUTES.certificate, certificate.id)} className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700">
+                            <Award className="size-4" /> {t.mine.openCertificate}
                           </Link>
                         ) : (
                           <p className="flex items-center gap-1.5 text-sm text-slate-500">
-                            <Hourglass className="size-4" /> {t.mine.waitingPassport}
+                            <Hourglass className="size-4" /> {t.mine.waitingCertificate}
                           </p>
                         ))}
                     </li>
@@ -90,18 +90,18 @@ export function MyPlacements() {
   )
 }
 
-/** Student: their passports, newest first, shown as compact certificates. */
-export function MyPassport() {
-  const { t, passports, applications } = useApp()
-  const mine = passports
+/** Student: their certificates, newest first, shown as compact certificates. */
+export function MyCertificate() {
+  const { t, certificates, applications } = useApp()
+  const mine = certificates
     .filter((p) => applications.some((a) => a.id === p.applicationId && a.mine))
     .sort((a, b) => b.issuedAt.localeCompare(a.issuedAt))
   return (
     <>
-      <PageHeader icon={Award} eyebrow={t.nav.myPassport} title={t.passport.myTitle} subtitle={t.passport.myText} />
+      <PageHeader icon={Award} eyebrow={t.nav.myCertificate} title={t.certificate.myTitle} subtitle={t.certificate.myText} />
       {!mine.length && (
         <div className="py-12 text-center">
-          <p className="text-slate-600">{t.passport.myEmpty}</p>
+          <p className="text-slate-600">{t.certificate.myEmpty}</p>
           <Link to={ROUTES.board} className="mt-4 inline-flex font-semibold text-brand-700 hover:underline">
             {t.mine.emptyCta} →
           </Link>
@@ -109,23 +109,23 @@ export function MyPassport() {
       )}
       <div className="mx-auto max-w-3xl space-y-8">
         {mine.map((p) => (
-          <PassportPreview key={p.id} id={p.id} />
+          <CertificatePreview key={p.id} id={p.id} />
         ))}
       </div>
     </>
   )
 }
 
-function PassportPreview({ id }: { id: string }) {
+function CertificatePreview({ id }: { id: string }) {
   const { t } = useApp()
-  const data = usePassport(id)
+  const data = useCertificate(id)
   if (!data) return null
   return (
     <div>
-      <PassportCard data={data} compact />
+      <CertificateCard data={data} compact />
       <div className="mt-3 flex justify-end">
-        <Link to={path(ROUTES.passport, id)} className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700">
-          <Award className="size-4" /> {t.passport.open}
+        <Link to={path(ROUTES.certificate, id)} className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700">
+          <Award className="size-4" /> {t.certificate.open}
         </Link>
       </div>
     </div>

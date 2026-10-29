@@ -53,7 +53,7 @@ export function PlacementApplications() {
       {fallback && (
         <div className="mb-4 rounded-xl bg-card p-3 ring-1 ring-slate-200">
           <label htmlFor="placement-link" className="text-sm font-medium text-slate-700">
-            {t.passport.copyFallback}
+            {t.certificate.copyFallback}
           </label>
           <input id="placement-link" readOnly value={fallback} onFocus={(e) => e.currentTarget.select()} autoFocus className="mt-1 w-full rounded-lg bg-slate-50 px-3 py-2 font-mono text-sm text-slate-900 ring-1 ring-slate-300" />
         </div>
@@ -78,7 +78,7 @@ export function AllApplications() {
 }
 
 function ApplicantList({ apps, placements, showPlacement = false }: { apps: Application[]; placements: Placement[]; showPlacement?: boolean }) {
-  const { t, l, lang, passports, moveApplication, notify } = useApp()
+  const { t, l, lang, certificates, moveApplication, notify } = useApp()
   const [completing, setCompleting] = useState<Application | null>(null)
 
   if (!apps.length) return <Card className="p-8 text-center text-slate-600">{t.applications.empty}</Card>
@@ -90,7 +90,7 @@ function ApplicantList({ apps, placements, showPlacement = false }: { apps: Appl
       <ul className="space-y-3">
         {apps.map((a) => {
           const p = placements.find((x) => x.id === a.placementId)
-          const passport = passports.find((x) => x.applicationId === a.id)
+          const certificate = certificates.find((x) => x.applicationId === a.id)
           const minor = a.student.age < 18
           return (
             <li key={a.id} className="rounded-2xl bg-card p-4 ring-1 ring-slate-200 sm:p-5">
@@ -139,9 +139,9 @@ function ApplicantList({ apps, placements, showPlacement = false }: { apps: Appl
                       <CircleX className="size-4" /> {t.applications.decline}
                     </Button>
                   )}
-                  {passport && (
-                    <Link to={path(ROUTES.passport, passport.id)} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-brand-600 px-3.5 text-sm font-semibold text-white hover:bg-brand-700">
-                      <Award className="size-4" /> {t.applications.viewPassport}
+                  {certificate && (
+                    <Link to={path(ROUTES.certificate, certificate.id)} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-brand-600 px-3.5 text-sm font-semibold text-white hover:bg-brand-700">
+                      <Award className="size-4" /> {t.applications.viewCertificate}
                     </Link>
                   )}
                 </div>
@@ -161,10 +161,10 @@ function ApplicantList({ apps, placements, showPlacement = false }: { apps: Appl
   )
 }
 
-/** Mentor feedback: rate each passport skill (1–4), write a comment → issues the passport. */
+/** Mentor feedback: rate each certificate skill (1–4), write a comment → issues the certificate. */
 function FeedbackModal({ application, placement, onClose }: { application: Application; placement?: Placement; onClose: () => void }) {
-  const { t, l, issuePassport, notify } = useApp()
-  const skills = placement?.passportSkills ?? []
+  const { t, l, issueCertificate, notify } = useApp()
+  const skills = placement?.certificateSkills ?? []
   const [levels, setLevels] = useState<SkillLevel[]>(skills.map(() => 2))
   const [comment, setComment] = useState('')
   const [mentor, setMentor] = useState(placement?.mentor.name ?? '')
@@ -176,7 +176,7 @@ function FeedbackModal({ application, placement, onClose }: { application: Appli
   const issue = () => {
     setTried(true)
     if (!valid || !placement) return
-    const id = issuePassport(application.id, {
+    const id = issueCertificate(application.id, {
       skills: skills.map((label, i) => ({ label, level: levels[i] })),
       feedback: comment.trim(),
       mentorName: mentor.trim(),
@@ -193,8 +193,8 @@ function FeedbackModal({ application, placement, onClose }: { application: Appli
       title={t.applications.feedbackTitle}
       footer={
         issued ? (
-          <Link to={path(ROUTES.passport, issued)} className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700">
-            <Award className="size-4" /> {t.applications.viewPassport}
+          <Link to={path(ROUTES.certificate, issued)} className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700">
+            <Award className="size-4" /> {t.applications.viewCertificate}
           </Link>
         ) : (
           <Button onClick={issue}>
@@ -217,7 +217,7 @@ function FeedbackModal({ application, placement, onClose }: { application: Appli
         ) : (
           <>
             <fieldset className="space-y-3">
-              <legend className="mb-2 text-sm font-medium text-slate-800">{t.passport.skills}</legend>
+              <legend className="mb-2 text-sm font-medium text-slate-800">{t.certificate.skills}</legend>
               {skills.map((s, i) => (
                 <div key={i} className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-sm font-semibold text-slate-800">{l(s)}</span>
@@ -228,14 +228,14 @@ function FeedbackModal({ application, placement, onClose }: { application: Appli
                         type="button"
                         role="radio"
                         aria-checked={levels[i] === n}
-                        title={t.passport.levels[n - 1]}
+                        title={t.certificate.levels[n - 1]}
                         onClick={() => setLevels((ls) => ls.map((x, j) => (j === i ? n : x)))}
                         className={cx(
                           'h-9 cursor-pointer rounded-lg px-2.5 text-xs font-semibold ring-1 transition',
                           levels[i] === n ? 'bg-accent-500 text-on-accent ring-accent-500' : n < levels[i] ? 'bg-accent-100 text-accent-800 ring-accent-200' : 'bg-card text-slate-600 ring-slate-300 hover:ring-slate-400',
                         )}
                       >
-                        {t.passport.levels[n - 1]}
+                        {t.certificate.levels[n - 1]}
                       </button>
                     ))}
                   </div>

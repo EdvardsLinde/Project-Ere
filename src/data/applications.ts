@@ -1,9 +1,9 @@
 /**
- * SEER — example applications and one example passport (all fictional people).
+ * SEER — example applications and one example certificate (all fictional people).
  * `mine: true` = shown in the student's "My placements" in this browser, so the
- * passport is visible on first load. The others give companies applicants to review.
+ * certificate is visible on first load. The others give companies applicants to review.
  */
-import type { Application, Passport } from './types'
+import type { Application, Certificate } from './types'
 
 const L = (lv: string, en: string) => ({ lv, en })
 
@@ -55,7 +55,7 @@ export const APPLICATIONS: Application[] = [
   },
 ]
 
-export const PASSPORTS: Passport[] = [
+export const CERTIFICATES: Certificate[] = [
   {
     id: 'SEER-2026-0042',
     applicationId: 'app-demo-completed',

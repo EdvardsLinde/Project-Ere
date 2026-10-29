@@ -27,7 +27,7 @@ export function FieldBadge({ field, className }: { field: Field; className?: str
   )
 }
 
-/** "PIEMĒRS" tag on every example company, placement and passport. */
+/** "PIEMĒRS" tag on every example company, placement and certificate. */
 export function ExampleBadge({ withNote = false }: { withNote?: boolean }) {
   const { t } = useApp()
   return (

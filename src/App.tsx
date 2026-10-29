@@ -7,8 +7,8 @@ import { Landing } from './features/landing/Landing'
 import { Board } from './features/placements/Board'
 import { PlacementDetail } from './features/placements/PlacementDetail'
 import { Apply } from './features/placements/Apply'
-import { MyPassport, MyPlacements } from './features/student/MyPlacements'
-import { PassportPage } from './features/passport/PassportPage'
+import { MyCertificate, MyPlacements } from './features/student/MyPlacements'
+import { CertificatePage } from './features/certificate/CertificatePage'
 import { Dashboard } from './features/company/Dashboard'
 import { Constructor } from './features/company/Constructor'
 import { AllApplications, PlacementApplications } from './features/company/Applications'
@@ -44,8 +44,8 @@ const PAGES: [string, ReactNode][] = [
   [ROUTES.placement, <PlacementDetail />],
   [ROUTES.apply, <Apply />],
   [ROUTES.mine, <MyPlacements />],
-  [ROUTES.myPassport, <MyPassport />],
-  [ROUTES.passport, <PassportPage />],
+  [ROUTES.myCertificate, <MyCertificate />],
+  [ROUTES.certificate, <CertificatePage />],
   [ROUTES.company, <Dashboard />],
   [ROUTES.newPlacement, <Constructor />],
   [ROUTES.editPlacement, <Constructor />],

@@ -8,7 +8,7 @@ import {
   fitDayPlan,
   mergeById,
   nextDates,
-  nextPassportId,
+  nextCertificateId,
   spotsLeft,
   spotsLeftIn,
   validateApplication,
@@ -26,7 +26,7 @@ describe('seed data', () => {
     for (const p of PLACEMENTS) {
       expect(p.isExample && p.status === 'published').toBe(true)
       expect(p.dayPlan).toHaveLength(p.durationDays)
-      expect(p.passportSkills.length).toBeGreaterThanOrEqual(3)
+      expect(p.certificateSkills.length).toBeGreaterThanOrEqual(3)
       expect(COMPANIES.some((c) => c.id === p.companyId)).toBe(true)
     }
   })
@@ -70,16 +70,16 @@ describe('filterPlacements', () => {
   })
 })
 
-describe('status and passports', () => {
+describe('status and certificates', () => {
   it('only allows the company workflow order', () => {
     expect(canMove('applied', 'accepted')).toBe(true)
     expect(canMove('applied', 'completed')).toBe(false)
     expect(canMove('in_progress', 'completed')).toBe(true)
     expect(canMove('completed', 'declined')).toBe(false)
   })
-  it('numbers passports per year', () => {
-    expect(nextPassportId(['SEER-2026-0042', 'SEER-2025-0100'], 2026)).toBe('SEER-2026-0043')
-    expect(nextPassportId([], 2027)).toBe('SEER-2027-0001')
+  it('numbers certificates per year', () => {
+    expect(nextCertificateId(['SEER-2026-0042', 'SEER-2025-0100'], 2026)).toBe('SEER-2026-0043')
+    expect(nextCertificateId([], 2027)).toBe('SEER-2027-0001')
   })
 })
 
@@ -98,10 +98,10 @@ describe('validation', () => {
     expect(validateApplication({ ...ok, age: '15', guardianConsent: true, guardianContact: 'x' }, jets).age).toBe('tooYoung')
     expect(validateApplication({ ...ok, email: 'nope' }, pata).email).toBe('email')
   })
-  it('checks the constructor: 3–5 passport skills, valid dates and deadline before start', () => {
+  it('checks the constructor: 3–5 certificate skills, valid dates and deadline before start', () => {
     const company = COMPANIES[0]
     expect(validateDraft({ company, placement: pata })).toEqual({})
-    expect(validateDraft({ company, placement: { ...pata, passportSkills: pata.passportSkills.slice(0, 2) } }).passportSkills).toBe('skills')
+    expect(validateDraft({ company, placement: { ...pata, certificateSkills: pata.certificateSkills.slice(0, 2) } }).certificateSkills).toBe('skills')
     expect(validateDraft({ company, placement: { ...pata, deadline: '2026-12-31' } }).deadline).toBe('deadline')
   })
   it('keeps the day plan the same length as the duration', () => {

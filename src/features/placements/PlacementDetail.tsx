@@ -81,9 +81,9 @@ export function PlacementDetail() {
             <p className="flex gap-2 text-slate-800">
               <PackageCheck className="mt-0.5 size-5 shrink-0 text-accent-600" /> {l(p.deliverable)}
             </p>
-            <h3 className="mt-5 text-sm font-bold text-slate-900">{t.detail.passportSkills}</h3>
+            <h3 className="mt-5 text-sm font-bold text-slate-900">{t.detail.certificateSkills}</h3>
             <ul className="mt-2 flex flex-wrap gap-1.5">
-              {p.passportSkills.map((s, i) => (
+              {p.certificateSkills.map((s, i) => (
                 <li key={i} className="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2.5 py-1 text-sm font-medium text-brand-800 ring-1 ring-brand-200">
                   <BadgeCheck className="size-4" /> {l(s)}
                 </li>

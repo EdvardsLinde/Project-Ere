@@ -21,7 +21,7 @@ export function NeedCompany() {
 }
 
 export function Dashboard() {
-  const { t, l, role, company, companyId, placements, applications, passports, savePlacement, notify } = useApp()
+  const { t, l, role, company, companyId, placements, applications, certificates, savePlacement, notify } = useApp()
   const navigate = useNavigate()
   if (role !== 'company') return <NeedCompany />
 
@@ -31,7 +31,7 @@ export function Dashboard() {
     { icon: Building2, label: t.company.stats.active, value: ours.filter((p) => p.status === 'published').length },
     { icon: Users, label: t.company.stats.spots, value: ours.filter((p) => p.status === 'published').reduce((s, p) => s + spotsLeft(p, applications), 0) },
     { icon: Inbox, label: t.company.stats.applications, value: ourApps.filter((a) => a.status === 'applied').length },
-    { icon: Award, label: t.company.stats.passports, value: passports.filter((p) => ourApps.some((a) => a.id === p.applicationId)).length },
+    { icon: Award, label: t.company.stats.certificates, value: certificates.filter((p) => ourApps.some((a) => a.id === p.applicationId)).length },
   ]
 
   const duplicate = (p: Placement) => {

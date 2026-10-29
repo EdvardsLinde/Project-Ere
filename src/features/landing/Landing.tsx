@@ -8,7 +8,7 @@ import square from '../../assets/saldus/square.webp'
 import { ROUTES, useApp } from '../../lib/state'
 import { FIELD_ICON } from '../../components/cards'
 import { cx } from '../../components/ui'
-import { PassportCard, usePassport } from '../passport/PassportCard'
+import { CertificateCard, useCertificate } from '../certificate/CertificateCard'
 
 /** Page 1 — the idea, for both roles. */
 export function Landing() {
@@ -65,7 +65,7 @@ export function Landing() {
           </div>
         </Section>
 
-        <PassportSection />
+        <CertificateSection />
         <CompaniesSection />
         <Faq />
 
@@ -192,17 +192,17 @@ function ValueCard({ icon: Icon, title, items, role, cta }: { icon: LucideIcon; 
   )
 }
 
-function PassportSection() {
+function CertificateSection() {
   const { t } = useApp()
-  const example = usePassport('SEER-2026-0042')
+  const example = useCertificate('SEER-2026-0042')
   return (
     <section className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <div>
         <span className="flex size-11 items-center justify-center rounded-xl bg-accent-500 text-on-accent">
           <BadgeCheck className="size-5" />
         </span>
-        <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{t.landing.passportTitle}</h2>
-        <p className="mt-2 text-slate-600">{t.landing.passportText}</p>
+        <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{t.landing.certificateTitle}</h2>
+        <p className="mt-2 text-slate-600">{t.landing.certificateText}</p>
         <ul className="mt-5 space-y-3">
           {t.landing.proves.map((x) => (
             <li key={x} className="flex gap-3 text-slate-700">
@@ -213,7 +213,7 @@ function PassportSection() {
       </div>
       {example && (
         <div className="min-w-0 lg:rotate-1">
-          <PassportCard data={example} compact />
+          <CertificateCard data={example} compact />
         </div>
       )}
     </section>

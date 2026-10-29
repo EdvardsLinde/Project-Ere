@@ -62,7 +62,7 @@ function useNavItems(): NavItem[] {
   const { t, role } = useApp()
   const idea = { to: ROUTES.landing, label: t.nav.idea, end: true }
   if (role === 'student')
-    return [idea, { to: ROUTES.board, label: t.nav.placements }, { to: ROUTES.mine, label: t.nav.myPlacements }, { to: ROUTES.myPassport, label: t.nav.myPassport }]
+    return [idea, { to: ROUTES.board, label: t.nav.placements }, { to: ROUTES.mine, label: t.nav.myPlacements }, { to: ROUTES.myCertificate, label: t.nav.myCertificate }]
   if (role === 'company')
     return [
       idea,
