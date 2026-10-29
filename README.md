@@ -75,6 +75,10 @@ DESIGN.md            design tokens and component rules
 3. Click **Deploy**. Every push to the main branch redeploys automatically.
 4. Optional: set `siteUrl` in `config/site.ts` to your Vercel URL. QR codes use the current browser address, so this is only a fallback.
 
+### Single-file preview
+
+`npm run build:artifact -- <out.html> [publicUrl]` bundles the whole app into one HTML file (an in-memory router replaces Next's routing; see `artifact/`). It's handy for sharing a clickable demo without a server, e.g. as a claude.ai artifact. `publicUrl` is where the file will be hosted, so certificate QR codes link to its verification view. Printing to PDF is hidden there because the host blocks the print dialog.
+
 ### Demo-mode limitations
 
 - **Data lives only in that browser.** Another device, browser or private window starts from the seed data. A company and a student "meet" only if they use the same browser (that's how the demo flow works).

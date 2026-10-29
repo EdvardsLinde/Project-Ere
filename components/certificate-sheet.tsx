@@ -2,8 +2,8 @@
 
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
-import { siteConfig } from "@/config/site";
 import { LogoMark } from "@/components/logo";
+import { certificateVerifyUrl } from "@/lib/env";
 import { Seal } from "@/components/seal";
 import { formatDate, formatRange } from "@/lib/dates";
 import type { Certificate } from "@/lib/data/types";
@@ -12,10 +12,6 @@ import { averageScore, focusLabel, formatScore, outputLabel, tx } from "@/lib/pl
 
 const CRITERIA = ["problemSolving", "data", "communication", "independence", "responsibility"] as const;
 
-export function verifyUrl(id: string): string {
-  const origin = typeof window !== "undefined" ? window.location.origin : siteConfig.siteUrl;
-  return `${origin}/parbaudit/${encodeURIComponent(id)}`;
-}
 
 /** Small orange diamond in a frame corner. */
 function Corner({ className }: { className: string }) {
@@ -27,7 +23,7 @@ export function CertificateSheet({ certificate: c }: { certificate: Certificate 
   const { t, locale } = useI18n();
   const ct = t.certificate;
   const [qr, setQr] = useState("");
-  const url = verifyUrl(c.id);
+  const url = certificateVerifyUrl(c.id);
 
   useEffect(() => {
     QRCode.toDataURL(url, { margin: 0, width: 240, color: { dark: "#1F2421", light: "#FFFFFF" } })

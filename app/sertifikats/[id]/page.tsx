@@ -6,6 +6,7 @@ import { Button, LinkButton } from "@/components/ui/button";
 import { Container, EmptyState, Loading } from "@/components/ui/misc";
 import { CertificateSheet } from "@/components/certificate-sheet";
 import { useQuery } from "@/lib/data/hooks";
+import { canPrint } from "@/lib/env";
 import { useI18n } from "@/lib/i18n";
 
 export default function CertificatePage() {
@@ -36,12 +37,14 @@ export default function CertificatePage() {
             <ShieldCheck className="size-4" aria-hidden="true" />
             {t.verify.submit}
           </LinkButton>
-          <Button variant="accent" onClick={() => window.print()}>
-            <Download className="size-4" aria-hidden="true" />
-            {c.download}
-          </Button>
+          {canPrint() && (
+            <Button variant="accent" onClick={() => window.print()}>
+              <Download className="size-4" aria-hidden="true" />
+              {c.download}
+            </Button>
+          )}
         </div>
-        <p className="w-full text-right text-sm text-ink-muted">{c.downloadHint}</p>
+        {canPrint() && <p className="w-full text-right text-sm text-ink-muted">{c.downloadHint}</p>}
       </Container>
       <div className="px-4 print:px-0">
         <CertificateSheet certificate={certificate} />

@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getRepository } from "@/lib/data";
+import { locationSearch } from "@/lib/env";
 import type { Role, Session } from "@/lib/data/types";
 
 interface SessionValue {
@@ -34,11 +35,11 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 
   const leaveHome = useCallback(
     async (fn: () => Promise<void>) => {
-      if (window.location.pathname !== "/") setLoggingOut(true);
+      if (pathname !== "/") setLoggingOut(true);
       router.push("/");
       await fn();
     },
-    [router],
+    [router, pathname],
   );
   const logout = useCallback(() => leaveHome(() => getRepository().logout()), [leaveHome]);
 
@@ -99,7 +100,7 @@ export function useRoleGuard(allow: (Role | "guest")[], loginRole: Role = "stude
   useEffect(() => {
     if (!ready || allowed || loggingOut) return;
     if (!role) {
-      const search = typeof window !== "undefined" ? window.location.search : "";
+      const search = locationSearch();
       router.replace(loginPath(loginRole, `${pathname}${search}`));
     } else {
       router.replace(dashboardPath(role));

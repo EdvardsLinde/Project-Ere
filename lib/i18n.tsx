@@ -21,7 +21,16 @@ export function I18nProvider({ initialLocale, children }: { initialLocale: Local
 
   const setLocale = useCallback((l: Locale) => {
     setLocaleState(l);
-    document.cookie = `${LOCALE_COOKIE}=${l}; path=/; max-age=31536000; samesite=lax`;
+    try {
+      document.cookie = `${LOCALE_COOKIE}=${l}; path=/; max-age=31536000; samesite=lax`;
+    } catch {
+      /* cookies blocked (e.g. sandboxed preview) */
+    }
+    try {
+      window.localStorage.setItem(LOCALE_COOKIE, l);
+    } catch {
+      /* storage blocked */
+    }
   }, []);
 
   useEffect(() => {
