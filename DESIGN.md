@@ -128,9 +128,8 @@ Use one or two per screen, never all at once.
 - **Round sticker:** a tilted yellow disc with a short label from the
   dictionaries (the hero's "3–5 working days").
 - **Stat bubbles:** the four "why now" figures are equal round bubbles in a
-  row (2×2 on phones) holding only the number, alternating blue and yellow,
-  each with a small "satellite" bubble in the other colour. A short bold label
-  and a small "Source ↗" link sit underneath, never inside the circle.
+  row (2×2 on phones), alternating blue and yellow, each holding the number,
+  a short bold label and a small "Source ↗" link.
 - **Tilts:** step cards and partner chips tilt ±1–2° on large screens like
   stickers on a laptop lid. Never tilt body text blocks.
 - **Dot grid** (`.bg-dots`): 22px blue dots behind the hero, the login page

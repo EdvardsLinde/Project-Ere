@@ -129,13 +129,10 @@ function HeroVisual() {
   );
 }
 
-/** Blue and yellow alternate; each bubble gets a small "satellite" bubble in the other colour. */
-const BUBBLES = [
-  { fill: "bg-primary-fill text-white", dot: "bg-accent" },
-  { fill: "bg-accent text-on-accent", dot: "bg-primary-fill" },
-];
+/** Blue and yellow alternate. */
+const BUBBLES = ["bg-primary-fill text-white", "bg-accent text-on-accent"];
 
-/** The four statistics: equal round bubbles with just the number, a short label underneath. */
+/** The four statistics: equal round bubbles with the number, a short label and the source inside. */
 function WhyNow() {
   const { t } = useI18n();
   const w = t.home.why;
@@ -143,35 +140,27 @@ function WhyNow() {
     <section className="pb-16 pt-4 sm:pb-24 sm:pt-8" aria-labelledby="why-title">
       <Container>
         <SectionTitle id="why-title" eyebrow={w.eyebrow} title={w.title} lead={w.lead} />
-        <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
-          {w.cards.map((c, i) => {
-            const b = BUBBLES[i % BUBBLES.length];
-            return (
-              <li key={c.url} className="flex flex-col items-center text-center">
-                <div className="relative">
-                  <p
-                    className={`flex size-36 items-center justify-center rounded-full border-2 border-edge font-display text-[1.7rem] font-extrabold tracking-tight shadow-card sm:size-44 sm:text-[2.1rem] ${b.fill}`}
-                  >
-                    {c.value}
-                  </p>
-                  <span
-                    className={`absolute -right-1 top-1 size-7 rounded-full border-2 border-edge sm:size-9 ${b.dot}`}
-                    aria-hidden="true"
-                  />
-                </div>
-                <p className="mt-4 max-w-[13rem] text-[0.95rem] font-bold leading-snug sm:text-base">{c.label}</p>
-                <a
-                  href={c.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${w.source}: ${c.source} ${t.common.opensInNewTab}`}
-                  className="mt-1.5 text-xs font-semibold text-ink-muted underline underline-offset-2 hover:text-primary"
-                >
-                  {w.source} ↗
-                </a>
-              </li>
-            );
-          })}
+        <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
+          {w.cards.map((c, i) => (
+            <li
+              key={c.url}
+              className={`mx-auto flex aspect-square w-full max-w-[16rem] flex-col items-center justify-center rounded-full border-2 border-edge px-4 text-center shadow-card sm:px-8 ${
+                BUBBLES[i % BUBBLES.length]
+              }`}
+            >
+              <p className="font-display text-[1.6rem] font-extrabold leading-none tracking-tight sm:text-[2.4rem]">{c.value}</p>
+              <p className="mt-2 text-xs font-bold leading-snug sm:mt-3 sm:text-[0.95rem]">{c.label}</p>
+              <a
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${w.source}: ${c.source} ${t.common.opensInNewTab}`}
+                className="mt-1.5 text-[0.7rem] font-semibold underline underline-offset-2 hover:no-underline sm:mt-2 sm:text-xs"
+              >
+                {w.source} ↗
+              </a>
+            </li>
+          ))}
         </ul>
       </Container>
     </section>
