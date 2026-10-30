@@ -5,7 +5,7 @@
  * colour-graded towards the palette; the cut-outs got a white die-cut border.
  */
 
-export type PhotoKey = "pine" | "field" | "leafGreen" | "leafOrange" | "wheat";
+export type PhotoKey = "pine" | "field" | "leafGreen" | "leafOrange" | "wheat" | "bgField" | "bgPine";
 
 export const photoSrc: Record<PhotoKey, string> = {
   pine: "/photos/pine.webp",
@@ -13,6 +13,9 @@ export const photoSrc: Record<PhotoKey, string> = {
   leafGreen: "/photos/leafgreen.webp",
   leafOrange: "/photos/leaforange.webp",
   wheat: "/photos/wheat.webp",
+  /** Softened, wider versions of the field and pine shots for the page and footer backgrounds. */
+  bgField: "/photos/bg-field.webp",
+  bgPine: "/photos/bg-pine.webp",
 };
 
 /** Where the photos come from (a proper name, the same in every language). */

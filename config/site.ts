@@ -55,7 +55,7 @@ const light: ThemeTokens = {
   "primary-soft": "#E6EFE8",
   accent: "#E17235",
   "accent-hover": "#E8834D",
-  "accent-ink": "#A84B17",
+  "accent-ink": "#944012",
   "accent-soft": "#FCEADF",
   "on-accent": "#13241A",
   night: "#13241A",

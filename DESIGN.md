@@ -31,7 +31,7 @@ paper-white.
 | `primary-hover` | `#24462F` | `#3A6B4B` | Hover on green fills (white text 10.5:1 / 6.2:1) |
 | `primary-soft` | `#E6EFE8` | `#17301F` | Soft badges, tags |
 | `accent` | `#E17235` | `#E17235` | Orange: the main CTA, marker highlight, eyebrows, selected chips, stickers |
-| `accent-ink` | `#A84B17` | `#F2A174` | Orange as text (focus-area labels, small icons) (≥ 4.8:1 / 7.1:1) |
+| `accent-ink` | `#944012` | `#F2A174` | Orange as text (focus-area labels, small icons) (≥ 5.0:1 even over the background photo / 7.1:1) |
 | `accent-soft` | `#FCEADF` | `#2E1E14` | Orange-tinted panels ("our" row, QR panel) |
 | `on-accent` | `#13241A` | `#13241A` | Text on orange (5.1:1; 6.0:1 on hover) |
 | `night` / `on-night` | `#13241A` / `#F8F6F1` | `#08100B` / `#F2F0EA` | Always-dark surfaces: footer, phone mock |
@@ -143,6 +143,14 @@ Use one or two per screen, never all at once.
   so different photographers' shots sit together. Sources: Wikimedia Commons,
   CC BY-SA; the footer credits authors and licences and says they were edited.
   The single-file preview inlines them as data URLs.
+- **Site background** (`components/site-background.tsx`): every page sits on
+  a softened wheat-field photo, fixed behind the content, under an 88% veil of
+  `bg`. Contrast was checked per pixel of the photo in both themes: all text
+  colours stay at least 4.5:1 (that is why `accent-ink` is the darker
+  `#944012`). Cards and panels stay solid; a few home sections use 80–85%
+  translucent fills so the field shows faintly through them. The footer's
+  tagline band sits on a pine photo under a 78% `night` veil (large text, at
+  least 7.9:1); the rest of the footer is solid. Hidden when printing.
 - **Circuit leaf** (`components/nature.tsx`): the one drawn plant, a leaf whose
   veins are circuit traces, standing for IT, AI and cybersecurity meeting
   nature. Beside the "why now" title, in the closing CTA and on the login page.

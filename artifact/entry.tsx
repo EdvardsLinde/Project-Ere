@@ -21,6 +21,7 @@ import CompanyDashboard from "@/app/uznemums/page";
 import NewPlacementPage from "@/app/uznemums/prakses/jauna/page";
 import EditPlacementPage from "@/app/uznemums/prakses/[id]/rediget/page";
 import ApplicationsPage from "@/app/uznemums/prakses/[id]/pieteikumi/page";
+import { SiteBackground } from "@/components/site-background";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ToastProvider } from "@/components/toast";
@@ -113,6 +114,7 @@ createRoot(document.getElementById("root")!).render(
         <SessionProvider>
           <ToastProvider>
             <div className="flex min-h-dvh flex-col">
+              <SiteBackground />
               <SiteHeader />
               <main id="main" className="flex-1">
                 <RouterView />

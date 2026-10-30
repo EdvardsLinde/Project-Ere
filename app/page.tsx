@@ -185,7 +185,7 @@ function HowItWorks() {
   const h = t.home.how;
   const icons = [ClipboardList, Search, UserCheck, Wrench, Award];
   return (
-    <section className="relative overflow-hidden border-y-2 border-edge bg-surface-muted py-16 sm:py-24" aria-labelledby="how-title">
+    <section className="relative overflow-hidden border-y-2 border-edge bg-surface-muted/80 py-16 sm:py-24" aria-labelledby="how-title">
       <Photo name="leafOrange" className="pointer-events-none absolute right-10 top-8 hidden w-28 rotate-[24deg] lg:block" />
       <Container>
         <SectionTitle id="how-title" eyebrow={h.eyebrow} title={h.title} />
@@ -302,7 +302,7 @@ function Credential() {
   const { t } = useI18n();
   const p = t.home.credential;
   return (
-    <section className="overflow-hidden border-y-2 border-edge bg-surface py-16 sm:py-24" aria-labelledby="credential-title">
+    <section className="overflow-hidden border-y-2 border-edge bg-surface/85 py-16 sm:py-24" aria-labelledby="credential-title">
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <PhoneVerification />
         <div>
@@ -474,7 +474,7 @@ function Partners() {
   const { t } = useI18n();
   const p = t.home.partners;
   return (
-    <section className="border-y-2 border-edge bg-surface-muted py-16 sm:py-20" aria-labelledby="partners-title">
+    <section className="border-y-2 border-edge bg-surface-muted/80 py-16 sm:py-20" aria-labelledby="partners-title">
       <Container>
         <SectionTitle id="partners-title" eyebrow={p.eyebrow} title={p.title} />
         <ul className="mt-10 flex flex-wrap gap-3 sm:gap-4">
