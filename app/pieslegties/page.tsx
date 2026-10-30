@@ -4,7 +4,8 @@ import { Building2, GraduationCap, KeyRound, ShieldAlert } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
-import { CircuitLeaf, PineBranch, WheatEar } from "@/components/nature";
+import { CircuitLeaf } from "@/components/nature";
+import { Photo } from "@/components/photo";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Field, Input, Select } from "@/components/ui/form";
 import { Card, Container, Loading, Notice } from "@/components/ui/misc";
@@ -107,8 +108,8 @@ function AuthScreen() {
             <p className="text-sm">{t.auth.securityNote}</p>
           </Notice>
           <div className="mt-10 hidden items-end gap-2 lg:flex" aria-hidden="true">
-            <PineBranch className="w-44" />
-            <WheatEar className="h-36" />
+            <Photo name="leafGreen" className="w-20 -rotate-12" />
+            <Photo name="wheat" className="w-44 rotate-6" />
             <CircuitLeaf className="w-20" />
           </div>
         </div>

@@ -28,7 +28,8 @@ import { siteConfig } from "@/config/site";
 import { LinkButton } from "@/components/ui/button";
 import { Chip, Container, Eyebrow, ExternalLink } from "@/components/ui/misc";
 import { CertificateIllustration } from "@/components/certificate-illustration";
-import { CircuitLeaf, LeafSprig, PineBranch, WheatEar } from "@/components/nature";
+import { CircuitLeaf } from "@/components/nature";
+import { Photo } from "@/components/photo";
 import { Seal } from "@/components/seal";
 import { fmt, useI18n } from "@/lib/i18n";
 import { formatCertificateId, formatScore } from "@/lib/placements";
@@ -115,18 +116,24 @@ function Hero() {
 }
 
 /**
- * Big primary circle, an accent dot, a pine branch (forestry) and a wheat ear
- * (agriculture) around the sample certificate, plus a round "3–5 days" sticker.
+ * Real Saldus nature around the sample certificate: a round pine photo (forestry)
+ * behind it, a small wheat-field sticker, a cut-out oak leaf and wheat ear
+ * (agriculture) at its corners, plus a round "3–5 days" sticker.
  */
 function HeroVisual() {
   const { t } = useI18n();
   return (
     <div className="relative mx-auto w-full max-w-md py-6" aria-hidden="true">
-      <div className="absolute left-1/2 top-1/2 aspect-square w-[118%] max-w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-edge bg-primary-fill" />
-      <div className="absolute -right-2 top-0 size-16 rounded-full border-2 border-edge bg-accent sm:size-20" />
+      <Photo
+        name="pine"
+        round
+        eager
+        className="absolute left-1/2 top-1/2 aspect-square w-[118%] max-w-[30rem] -translate-x-1/2 -translate-y-1/2"
+      />
+      <Photo name="field" round eager className="absolute -right-2 top-0 size-16 sm:size-20" />
       <CertificateIllustration />
-      <PineBranch className="absolute -bottom-9 -left-6 w-40 -rotate-[8deg] sm:-bottom-12 sm:-left-16 sm:w-56" />
-      <WheatEar className="absolute -bottom-6 -right-3 h-36 rotate-[14deg] sm:-bottom-8 sm:-right-12 sm:h-48" />
+      <Photo name="leafGreen" eager className="absolute -bottom-10 -left-3 w-16 -rotate-[32deg] sm:-bottom-12 sm:-left-10 sm:w-24" />
+      <Photo name="wheat" eager className="absolute -bottom-8 -right-4 w-36 -rotate-[24deg] sm:-bottom-10 sm:-right-14 sm:w-52" />
       <p className="absolute -left-1 -top-5 z-10 flex size-20 -rotate-12 items-center justify-center rounded-full border-2 border-edge bg-accent p-2 text-center font-display text-[0.8rem] font-extrabold leading-tight text-on-accent shadow-card sm:-left-6 sm:top-2 sm:size-28 sm:text-lg">
         {fmt(t.common.workingDays, { n: "3–5" })}
       </p>
@@ -179,7 +186,7 @@ function HowItWorks() {
   const icons = [ClipboardList, Search, UserCheck, Wrench, Award];
   return (
     <section className="relative overflow-hidden border-y-2 border-edge bg-surface-muted py-16 sm:py-24" aria-labelledby="how-title">
-      <LeafSprig className="pointer-events-none absolute -right-2 top-4 hidden w-44 -scale-x-100 lg:block" />
+      <Photo name="leafOrange" className="pointer-events-none absolute right-10 top-8 hidden w-28 rotate-[24deg] lg:block" />
       <Container>
         <SectionTitle id="how-title" eyebrow={h.eyebrow} title={h.title} />
         <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
@@ -531,8 +538,8 @@ function Faq() {
         <div>
           <SectionTitle id="faq-title" eyebrow={f.eyebrow} title={f.title} />
           <div className="mt-12 hidden items-end gap-3 lg:flex" aria-hidden="true">
-            <LeafSprig className="w-36" />
-            <WheatEar className="h-40" />
+            <Photo name="leafGreen" className="w-24 -rotate-12" />
+            <Photo name="wheat" className="w-52 rotate-[8deg]" />
           </div>
         </div>
         <div className="divide-y-2 divide-line rounded-lg border-2 border-edge bg-surface shadow-card">
@@ -561,7 +568,7 @@ function ClosingCta() {
   const h = t.home.hero;
   return (
     <section className="relative overflow-hidden border-t-2 border-edge bg-primary-fill text-white" aria-labelledby="cta-title">
-      <div className="absolute -right-24 -top-32 size-56 rounded-full border-2 border-edge bg-accent lg:-right-20 lg:-top-24 lg:size-96" aria-hidden="true" />
+      <Photo name="field" round className="absolute -right-24 -top-32 size-56 lg:-right-20 lg:-top-24 lg:size-96" />
       <CircuitLeaf
         className="pointer-events-none absolute -bottom-10 right-10 hidden w-48 rotate-[20deg] lg:block"
         fill="var(--color-accent)"

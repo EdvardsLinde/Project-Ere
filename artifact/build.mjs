@@ -12,6 +12,19 @@ const cssFile = `${out}.css`;
 
 execFileSync("npx", ["@tailwindcss/cli", "-i", "app/globals.css", "-o", cssFile, "--minify"], { stdio: "inherit" });
 
+// Photos live in public/photos for the Next.js app; the single file embeds them as data URLs.
+const inlinePhotos = {
+  name: "inline-photos",
+  setup(b) {
+    b.onLoad({ filter: /lib[\\/]photos\.ts$/ }, (args) => {
+      const contents = readFileSync(args.path, "utf8").replace(/"\/photos\/([\w-]+)\.webp"/g, (_, name) =>
+        JSON.stringify(`data:image/webp;base64,${readFileSync(`public/photos/${name}.webp`).toString("base64")}`),
+      );
+      return { contents, loader: "ts" };
+    });
+  },
+};
+
 const result = await build({
   entryPoints: ["artifact/entry.tsx"],
   bundle: true,
@@ -30,6 +43,7 @@ const result = await build({
     "next/link": "./artifact/shims/next-link.tsx",
     "next/navigation": "./artifact/shims/next-navigation.ts",
   },
+  plugins: [inlinePhotos],
   logLevel: "warning",
 });
 

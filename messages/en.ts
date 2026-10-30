@@ -98,6 +98,8 @@ const en: Messages = {
     resetDone: "Demo data restored.",
     demo: "This is a demo version. Data is stored only in your browser.",
     team: "A student team project",
+    photos: "Photos",
+    photosChanged: "cropped, cut out and colour-graded",
   },
 
   home: {

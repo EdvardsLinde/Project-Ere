@@ -132,15 +132,20 @@ Use one or two per screen, never all at once.
 - **Stat bubbles:** the four "why now" figures are equal round bubbles in a
   row (2×2 on phones), alternating green and orange, each holding the number,
   a short bold label and a small "Source ↗" link.
-- **Nature × digital illustrations** (`components/nature.tsx`): Saldus is
-  farming and forest country, and SEER brings IT, AI and cybersecurity to it.
-  Four hand-drawn SVG motifs in the theme colours with the same ink edge:
-  `PineBranch` (forestry, with an orange cone), `WheatEar` (agriculture),
-  `LeafSprig` (a green/orange leafy twig) and `CircuitLeaf` (a leaf whose
-  veins are circuit traces with round nodes: nature meets technology). Used in
-  the hero corners, beside section titles, under the FAQ title, in the closing
-  CTA and on the login page; always `aria-hidden`, never behind running text,
-  most of them hidden below `lg` to keep phones calm.
+- **Real nature photos** (`lib/photos.ts`, `components/photo.tsx`,
+  `public/photos/`): Saldus is forest and farming country, so real pine, oak
+  and wheat appear around the content, never behind running text. Two looks:
+  a **round photo sticker** (circle crop, 2px ink edge: pine in the hero's big
+  circle, a wheat field in the small hero circle and the closing CTA) and a
+  **die-cut cut-out** (oak leaves, a wheat ear: background removed, white
+  sticker border with an ink edge, hard ink drop shadow). All photos are lightly
+  split-toned towards the palette (green-black shadows, warm cream highlights)
+  so different photographers' shots sit together. Sources: Wikimedia Commons,
+  CC BY-SA; the footer credits authors and licences and says they were edited.
+  The single-file preview inlines them as data URLs.
+- **Circuit leaf** (`components/nature.tsx`): the one drawn plant, a leaf whose
+  veins are circuit traces, standing for IT, AI and cybersecurity meeting
+  nature. Beside the "why now" title, in the closing CTA and on the login page.
 - **Tilts:** step cards and partner chips tilt ±1–2° on large screens like
   stickers on a laptop lid. Never tilt body text blocks.
 - **Dot grid** (`.bg-dots`): 22px green dots behind the hero, the login page
@@ -162,8 +167,8 @@ one A4 page, always light (`.paper` + print rules in `app/globals.css`).
 - Icons: **lucide-react**, 1.75 stroke (3 for check marks), 20px in text,
   often inside a 40–56px round sticker (green or orange with an `edge` outline).
 - No stock photos of people, no company logos (partners appear as text chips),
-  no Saldus photo. Nature and technology are drawn, not photographed (see the
-  nature × digital illustrations above).
+  no photos of identifiable Saldus places. Nature close-ups only (see real
+  nature photos above), each credited in the footer.
 - Logo: a forest-green rounded tile with a white "S" and an orange dot, the
   "eye" that sees ahead (`components/logo.tsx`, `public/icon.svg`).
 - Motion: 150ms ease-out on hover/press; 200ms fade/slide between builder

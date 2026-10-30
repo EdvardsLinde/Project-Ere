@@ -7,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { LogoMark } from "@/components/logo";
+import { photoCredits, photoHost } from "@/lib/photos";
 import { useToast } from "@/components/toast";
 import { getRepository } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
@@ -95,7 +96,31 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-on-night/10">
-        <p className="mx-auto max-w-6xl px-4 py-4 text-sm text-on-night/60 sm:px-6">{t.footer.demo}</p>
+        <div className="mx-auto max-w-6xl space-y-1.5 px-4 py-4 text-sm text-on-night/60 sm:px-6">
+          <p>{t.footer.demo}</p>
+          <p className="text-xs">
+            {t.footer.photos}:{" "}
+            {photoCredits.map((c, i) => (
+              <span key={c.source}>
+                {i > 0 && ", "}
+                <a className={link} href={c.source} target="_blank" rel="noopener noreferrer">
+                  {c.author}
+                  <span className="sr-only">
+                    {" "}
+                    ({c.subject}) {t.common.opensInNewTab}
+                  </span>
+                </a>{" "}
+                (
+                <a className={link} href={c.licenseUrl} target="_blank" rel="noopener noreferrer">
+                  {c.license}
+                  <span className="sr-only"> {t.common.opensInNewTab}</span>
+                </a>
+                )
+              </span>
+            ))}
+            , {photoHost}; {t.footer.photosChanged}.
+          </p>
+        </div>
       </div>
 
       <Dialog
