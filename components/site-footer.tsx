@@ -7,7 +7,6 @@ import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { LogoMark } from "@/components/logo";
-import { photoCredits, photoHost, photoSrc } from "@/lib/photos";
 import { useToast } from "@/components/toast";
 import { getRepository } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
@@ -30,17 +29,11 @@ export function SiteFooter() {
   return (
     <footer className="no-print mt-auto bg-night text-on-night">
       <div className="scallop h-3" aria-hidden="true" />
-      {/* The tagline sits on a forest photo under a 78% night veil (large text, at least 7.9:1). */}
-      <div className="relative overflow-hidden border-b border-on-night/10">
-        {/* eslint-disable-next-line @next/next/no-img-element -- decorative background; next/image is not available in the single-file preview */}
-        <img src={photoSrc.bgPine} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 size-full select-none object-cover" />
-        <div className="absolute inset-0 bg-night/[0.78]" aria-hidden="true" />
-        <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-          <p className="font-display text-[clamp(2rem,6vw,4rem)] font-extrabold leading-[1.02] tracking-tight">
-            {siteConfig.tagline[locale]}
-            <span className="text-accent" aria-hidden="true">.</span>
-          </p>
-        </div>
+      <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6">
+        <p className="font-display text-[clamp(2rem,6vw,4rem)] font-extrabold leading-[1.02] tracking-tight">
+          {siteConfig.tagline[locale]}
+          <span className="text-accent" aria-hidden="true">.</span>
+        </p>
       </div>
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
@@ -102,31 +95,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-on-night/10">
-        <div className="mx-auto max-w-6xl space-y-1.5 px-4 py-4 text-sm text-on-night/60 sm:px-6">
-          <p>{t.footer.demo}</p>
-          <p className="text-xs">
-            {t.footer.photos}:{" "}
-            {photoCredits.map((c, i) => (
-              <span key={c.source}>
-                {i > 0 && ", "}
-                <a className={link} href={c.source} target="_blank" rel="noopener noreferrer">
-                  {c.author}
-                  <span className="sr-only">
-                    {" "}
-                    ({c.subject}) {t.common.opensInNewTab}
-                  </span>
-                </a>{" "}
-                (
-                <a className={link} href={c.licenseUrl} target="_blank" rel="noopener noreferrer">
-                  {c.license}
-                  <span className="sr-only"> {t.common.opensInNewTab}</span>
-                </a>
-                )
-              </span>
-            ))}
-            , {photoHost}; {t.footer.photosChanged}.
-          </p>
-        </div>
+        <p className="mx-auto max-w-6xl px-4 py-4 text-sm text-on-night/60 sm:px-6">{t.footer.demo}</p>
       </div>
 
       <Dialog

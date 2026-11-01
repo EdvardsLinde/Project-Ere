@@ -5,7 +5,6 @@ import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteBackground } from "@/components/site-background";
 import { SiteHeader } from "@/components/site-header";
 import { ToastProvider } from "@/components/toast";
 import type { Locale } from "@/lib/data/types";
@@ -57,7 +56,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <ThemeProvider initialTheme={theme}>
             <SessionProvider>
               <ToastProvider>
-                <SiteBackground />
                 <SiteHeader />
                 <main id="main" className="flex-1">
                   {children}

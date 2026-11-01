@@ -100,8 +100,6 @@ const lv = {
     resetDone: "Demo dati atjaunoti.",
     demo: "Šī ir demonstrācijas versija. Dati glabājas tikai tavā pārlūkā.",
     team: "Studentu komandas projekts",
-    photos: "Foto",
-    photosChanged: "apgriezti, izgriezti un krāsu toņos pielāgoti",
   },
 
   home: {
