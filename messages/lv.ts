@@ -162,19 +162,17 @@ const lv = {
 
   home: {
     hero: {
-      eyebrow: "3 dienas · Saldus · lauksaimniecība, mežsaimniecība, loģistika",
+      eyebrow: "Saldus · {n} dienas",
       lead: "Investori un vadošie vietējie uzņēmumi satiek inovatorus un strādājošus Latvijas uzņēmumus vienuviet: stendi, investīciju vitrīna, skolu izaicinājums un vizītes uzņēmumos.",
       rolesLabel: "Kas jūs esat?",
+      innovation: "Inovācijas",
     },
     facts: {
-      eyebrow: "Īsumā",
-      title: "Viena vieta, trīs nozares, četri formāti",
-      items: [
-        { value: "3", label: "dienas Saldū" },
-        { value: "3", label: "nozares: lauks, mežs, loģistika" },
-        { value: "4", label: "formāti: stendi, inovatori, investīcijas, skolas" },
-        { value: "1", label: "diena vizītēm strādājošos uzņēmumos" },
-      ],
+      title: "Izstāde skaitļos",
+      days: "dienas Saldū",
+      stands: "maksas stendi uzņēmumiem",
+      innovator: "bezmaksas vietas inovatoriem",
+      price: "mazākais stends (provizoriska cena)",
     },
     sectors: {
       eyebrow: "Kāpēc šīs trīs nozares kopā",

@@ -3,6 +3,7 @@ import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
+import { eventConfig } from "@/config/event";
 import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -35,6 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: m.meta.title, template: `%s · ${siteConfig.brand}` },
     description: m.meta.description,
     icons: { icon: "/icon.svg" },
+    openGraph: { type: "website", siteName: eventConfig.name, title: m.meta.title, description: m.meta.description },
+    twitter: { card: "summary_large_image" },
   };
 }
 

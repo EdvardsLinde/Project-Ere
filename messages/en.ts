@@ -158,19 +158,17 @@ const en: Messages = {
 
   home: {
     hero: {
-      eyebrow: "3 days · Saldus · agriculture, forestry, logistics",
+      eyebrow: "Saldus · {n} days",
       lead: "Investors and leading local firms meet innovators and operating Latvian businesses in one place: stands, an investment showcase, a school challenge and visits to working companies.",
       rolesLabel: "Who are you?",
+      innovation: "Innovation",
     },
     facts: {
-      eyebrow: "In short",
-      title: "One place, three sectors, four formats",
-      items: [
-        { value: "3", label: "days in Saldus" },
-        { value: "3", label: "sectors: field, forest, logistics" },
-        { value: "4", label: "formats: stands, innovators, investment, schools" },
-        { value: "1", label: "day of visits to working companies" },
-      ],
+      title: "The fair in numbers",
+      days: "days in Saldus",
+      stands: "paid stands for companies",
+      innovator: "free places for innovators",
+      price: "smallest stand (provisional price)",
     },
     sectors: {
       eyebrow: "Why these three sectors together",
