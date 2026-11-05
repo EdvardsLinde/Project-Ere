@@ -89,6 +89,7 @@ messages/en.ts       English, type-checked against lv.ts (the build fails if a k
 lib/data/            data layer: types.ts, repository.ts (interface), local-storage.ts (demo), seed.ts, hooks.ts
 lib/fair/            pure logic with tests: stands.ts, filters.ts, status.ts, forms.ts
 lib/key-visual*.ts   the hero drawing (Saldus from above): seeded geometry + SVG markup, with tests
+lib/notch.ts         the notched-corner shape (components/ui/notched.tsx applies it), with tests
 lib/roles.ts         roles and per-role menus (server-safe); lib/role.tsx is the client provider
 app/opengraph-image.tsx  link preview image (1200×630) built from the same drawing
 DESIGN.md            design tokens and component rules
