@@ -39,7 +39,7 @@ export function Badge({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide ${tones[tone]} ${className}`}
+      className={`inline-flex items-center gap-1 rounded-[2px] px-2 py-0.5 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.03em] ${tones[tone]} ${className}`}
     >
       {children}
     </span>
@@ -48,7 +48,7 @@ export function Badge({
 
 export function Chip({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={`inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-sm font-semibold text-ink ${className}`}>
+    <span className={`inline-flex items-center rounded-sm border border-rule bg-surface px-2.5 py-1 font-mono text-[0.78rem] font-semibold uppercase text-ink ${className}`}>
       {children}
     </span>
   );
@@ -56,9 +56,20 @@ export function Chip({ children, className = "" }: { children: React.ReactNode; 
 
 export function Eyebrow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-xs font-bold uppercase tracking-[0.14em] text-primary ${className}`}>
+    <p className={`font-mono text-[0.78rem] font-semibold uppercase tracking-[0.04em] text-primary ${className}`}>
       {children}
     </p>
+  );
+}
+
+/** A sector or category label above a name (monospace capitals on soft green). */
+export function Tag({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <span
+      className={`inline-block w-fit rounded-[2px] bg-primary-soft px-2 py-0.5 font-mono text-[0.72rem] font-semibold uppercase leading-snug tracking-[0.03em] text-primary ${className}`}
+    >
+      {children}
+    </span>
   );
 }
 
@@ -74,10 +85,10 @@ export function PageHeader({
   eyebrow?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-4 border-b border-line pb-6 sm:flex-row sm:items-end sm:justify-between">
+    <div className="flex flex-col gap-4 border-b border-rule pb-6 sm:flex-row sm:items-end sm:justify-between">
       <div className="max-w-3xl">
         {eyebrow && <Eyebrow className="mb-3">{eyebrow}</Eyebrow>}
-        <h1 className="text-[2rem] font-extrabold leading-[1.1] tracking-tight text-ink sm:text-5xl">{title}</h1>
+        <h1 className="caps text-[2.6rem] text-ink sm:text-[4rem]">{title}</h1>
         {lead && <p className="mt-2 text-lg text-ink-muted">{lead}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}

@@ -6,6 +6,7 @@ import type { Exhibitor } from "@/lib/data/types";
 import { sectorLabel } from "@/lib/fair/labels";
 import { fmt, useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
+import { Tag } from "@/components/ui/misc";
 import { ExhibitorBadges } from "./badges";
 
 /** Stand number and size, e.g. "Stends 12 · S stends". */
@@ -41,7 +42,7 @@ export function ExhibitorCard({ exhibitor: e, preview = false, headingLevel = "h
         ) : null}
         <div className="min-w-0 flex-1">
           <ExhibitorBadges exhibitor={e} />
-          <p className="mt-2 text-sm font-semibold text-accent-ink">{sectorLabel(e, locale) || "—"}</p>
+          <Tag className="mt-3">{sectorLabel(e, locale) || "—"}</Tag>
           <Heading className="mt-1 text-xl font-extrabold leading-snug">{e.name || "—"}</Heading>
         </div>
       </div>

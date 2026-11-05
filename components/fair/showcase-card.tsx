@@ -6,6 +6,7 @@ import type { Exhibitor, Investment } from "@/lib/data/types";
 import { sectorLabel } from "@/lib/fair/labels";
 import { useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
+import { Tag } from "@/components/ui/misc";
 import { ExhibitorBadges } from "./badges";
 
 /** Investment showcase card: project, sector, stage, amount, purpose and location. */
@@ -17,9 +18,9 @@ export function ShowcaseCard({ exhibitor: e }: { exhibitor: Exhibitor & { invest
   return (
     <article className="group relative flex h-full flex-col rounded-lg border border-edge bg-surface p-5 shadow-card transition duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift">
       <ExhibitorBadges exhibitor={e} showSeeking={false} />
-      <p className="mt-2 text-sm font-semibold text-accent-ink">{sectorLabel(e, locale)}</p>
+      <Tag className="mt-3">{sectorLabel(e, locale)}</Tag>
       <h2 className="mt-1 text-xl font-extrabold leading-snug">{e.name}</h2>
-      <p className="mt-3 w-fit rounded-full bg-primary-fill px-3 py-1 font-display text-lg font-extrabold text-white">
+      <p className="mt-3 w-fit rounded-sm bg-primary-fill px-3 py-1 font-display text-lg font-extrabold text-white">
         <span className="sr-only">{s.amount}: </span>
         {t.options.amount[inv.amountRange]}
       </p>

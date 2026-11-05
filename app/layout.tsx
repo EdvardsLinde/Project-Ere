@@ -1,4 +1,6 @@
-import "@fontsource-variable/bricolage-grotesque/wght.css";
+import "@fontsource-variable/bricolage-grotesque/wdth.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/600.css";
 import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
@@ -63,7 +65,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <RoleProvider initialRole={role}>
               <ToastProvider>
                 <SiteHeader />
-                <main id="main" className="flex-1">
+                <main id="main" className="page-frame flex-1">
                   {children}
                 </main>
                 <SiteFooter />

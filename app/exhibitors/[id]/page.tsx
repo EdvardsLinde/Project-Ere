@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { StandLine } from "@/components/fair/exhibitor-card";
 import { ExhibitorBadges } from "@/components/fair/badges";
 import { LinkButton } from "@/components/ui/button";
-import { Card, Chip, Container, EmptyState, ExternalLink, Loading } from "@/components/ui/misc";
+import { Card, Chip, Container, EmptyState, ExternalLink, Loading, Tag } from "@/components/ui/misc";
 import { useQuery } from "@/lib/data/hooks";
 import type { Exhibitor } from "@/lib/data/types";
 import { sectorLabel } from "@/lib/fair/labels";
@@ -45,7 +45,7 @@ export default function ExhibitorPage() {
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="min-w-0">
           <ExhibitorBadges exhibitor={e} />
-          <p className="mt-4 font-bold text-accent-ink">{sectorLabel(e, locale)}</p>
+          <Tag className="mt-4">{sectorLabel(e, locale)}</Tag>
           <div className="mt-1 flex items-center gap-4">
             {e.logoDataUrl && (
               // eslint-disable-next-line @next/next/no-img-element -- uploaded data URL

@@ -176,8 +176,8 @@ export function ChoiceGroup<T extends string | number>({
           return (
             <label
               key={String(o.value)}
-              className={`relative inline-flex min-h-10 cursor-pointer items-center rounded-full border-2 px-4 text-sm font-bold transition has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${
-                on ? "border-edge bg-accent text-on-accent shadow-card" : "border-line bg-surface text-ink hover:border-ink/40"
+              className={`relative inline-flex min-h-10 cursor-pointer items-center rounded-sm border px-3.5 font-mono text-[0.78rem] font-semibold uppercase transition has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${
+                on ? "border-rule bg-accent text-on-accent" : "border-line bg-surface text-ink hover:border-rule"
               }`}
             >
               <input

@@ -25,12 +25,12 @@ export function SiteFooter() {
     toast(t.footer.resetDone);
   };
 
-  const link = "text-on-night/85 underline-offset-4 hover:text-on-night hover:underline";
+  const link = "font-mono text-[0.85rem] uppercase text-on-night/85 underline-offset-4 hover:text-on-night hover:underline";
 
   return (
     <footer className="no-print mt-auto bg-night text-on-night">
       <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6">
-        <p className="font-display text-[clamp(2rem,6vw,4rem)] font-extrabold leading-[1.02] tracking-tight">
+        <p className="caps text-[clamp(2.6rem,8vw,5.5rem)]">
           {siteConfig.tagline[locale]}
           <span className="text-accent" aria-hidden="true">.</span>
         </p>
@@ -48,7 +48,7 @@ export function SiteFooter() {
           <p className="mt-4 text-sm text-on-night/60">{t.footer.team}</p>
         </div>
         <div>
-          <h2 className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-accent">{t.footer.contacts}</h2>
+          <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.06em] text-accent">{t.footer.contacts}</h2>
           <ul className="mt-4 space-y-2.5">
             {siteConfig.contacts.email && (
               <li>
@@ -67,7 +67,7 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
-          <h2 className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-accent">{t.footer.links}</h2>
+          <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.06em] text-accent">{t.footer.links}</h2>
           <ul className="mt-4 space-y-2.5">
             <li>
               <Link className={link} href="/agenda">
@@ -88,7 +88,7 @@ export function SiteFooter() {
               <button
                 type="button"
                 onClick={() => setConfirming(true)}
-                className="mt-1 inline-flex items-center gap-2 rounded-full border border-on-night/40 px-4 py-2 text-sm font-bold text-on-night hover:border-accent hover:bg-accent hover:text-on-accent"
+                className="mt-1 inline-flex items-center gap-2 rounded-sm border border-on-night/40 px-4 py-2 font-mono text-[0.78rem] font-semibold uppercase text-on-night hover:border-accent hover:bg-accent hover:text-on-accent"
               >
                 <RotateCcw className="size-4" aria-hidden="true" />
                 {t.footer.reset}

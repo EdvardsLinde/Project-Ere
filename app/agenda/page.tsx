@@ -32,7 +32,7 @@ export default function AgendaPage() {
         <p className="text-sm text-ink-muted">{a.exampleNote}</p>
       </Notice>
 
-      <div role="tablist" aria-label={a.daysLabel} className="mt-8 grid grid-cols-3 rounded-full border border-edge bg-surface-muted p-1">
+      <div role="tablist" aria-label={a.daysLabel} className="mt-8 grid grid-cols-3 rounded-sm border border-rule bg-surface-muted p-1">
         {days.map((d, i) => (
           <button
             key={d}
@@ -47,7 +47,7 @@ export default function AgendaPage() {
             tabIndex={day === d ? 0 : -1}
             onClick={() => setDay(d)}
             onKeyDown={(e) => onTabKey(e, i)}
-            className={`h-10 rounded-full text-[0.95rem] font-bold transition-colors ${day === d ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"}`}
+            className={`h-10 rounded-[2px] font-mono text-[0.8rem] font-semibold uppercase transition-colors ${day === d ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"}`}
           >
             {fmt(t.common.day, { n: d })}
           </button>

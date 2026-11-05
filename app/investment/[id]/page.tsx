@@ -7,7 +7,7 @@ import { ExhibitorBadges } from "@/components/fair/badges";
 import { StandLine } from "@/components/fair/exhibitor-card";
 import { useToast } from "@/components/toast";
 import { Button, LinkButton } from "@/components/ui/button";
-import { Card, Container, EmptyState, Loading } from "@/components/ui/misc";
+import { Card, Container, EmptyState, Loading, Tag } from "@/components/ui/misc";
 import { getRepository } from "@/lib/data";
 import { useQuery } from "@/lib/data/hooks";
 import { isInShowcase } from "@/lib/fair/filters";
@@ -54,9 +54,9 @@ export default function ShowcaseItemPage() {
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="min-w-0">
           <ExhibitorBadges exhibitor={e} showSeeking={false} />
-          <p className="mt-4 font-bold text-accent-ink">{sectorLabel(e, locale)}</p>
+          <Tag className="mt-4">{sectorLabel(e, locale)}</Tag>
           <h1 className="mt-1 text-[2rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl">{e.name}</h1>
-          <p className="mt-4 w-fit rounded-full bg-primary-fill px-4 py-1.5 font-display text-2xl font-extrabold text-white">
+          <p className="mt-4 w-fit rounded-sm bg-primary-fill px-4 py-1.5 font-display text-2xl font-extrabold text-white">
             <span className="sr-only">{s.amount}: </span>
             {t.options.amount[inv.amountRange]}
           </p>

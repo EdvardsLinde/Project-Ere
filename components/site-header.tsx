@@ -32,7 +32,7 @@ export function SiteHeader() {
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`));
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/85">
+    <header className="no-print sticky top-0 z-40 border-b border-rule bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/85">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-bg"
@@ -44,7 +44,7 @@ export function SiteHeader() {
           <LogoMark />
           <span className="flex flex-col leading-none">
             <span className="font-display text-2xl font-extrabold tracking-tight text-ink">{siteConfig.brand}</span>
-            <span className="mt-1 hidden text-[11px] font-medium text-ink-muted xl:block">{eventConfig.name}</span>
+            <span className="mt-1 hidden font-mono text-[10px] font-semibold uppercase tracking-[0.04em] text-ink-muted xl:block">{eventConfig.name}</span>
           </span>
         </Link>
 
@@ -57,8 +57,8 @@ export function SiteHeader() {
                   <Link
                     href={href}
                     aria-current={isActive(href) ? "page" : undefined}
-                    className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[0.95rem] font-semibold transition-colors ${
-                      isActive(href) ? "bg-primary-soft text-primary" : "text-ink-muted hover:bg-surface-muted hover:text-ink"
+                    className={`whitespace-nowrap rounded-[2px] px-2 py-1 font-mono text-[0.8rem] font-semibold uppercase transition-colors ${
+                      isActive(href) ? "bg-primary-soft text-primary" : "text-ink hover:bg-surface-muted"
                     }`}
                   >
                     {t.nav[key]}
@@ -76,7 +76,7 @@ export function SiteHeader() {
           <RoleMenu />
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full border border-edge bg-surface lg:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-sm border border-rule bg-surface lg:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
@@ -97,7 +97,7 @@ export function SiteHeader() {
                   <Link
                     href={href}
                     aria-current={isActive(href) ? "page" : undefined}
-                    className={`block rounded-full px-4 py-3 font-semibold ${isActive(href) ? "bg-primary-soft text-primary" : "text-ink"}`}
+                    className={`block rounded-sm px-3 py-3 font-mono text-sm font-semibold uppercase ${isActive(href) ? "bg-primary-soft text-primary" : "text-ink"}`}
                   >
                     {t.nav[key]}
                   </Link>
@@ -129,7 +129,7 @@ function ThemeToggle({ className = "inline-flex", withLabel = false }: { classNa
       onClick={toggle}
       aria-label={withLabel ? undefined : label}
       title={label}
-      className={`${className} h-10 items-center justify-center gap-2 rounded-full border border-edge bg-surface px-2.5 text-sm font-bold text-ink hover:bg-surface-muted`}
+      className={`${className} h-10 items-center justify-center gap-2 rounded-sm border border-rule bg-surface px-2.5 text-sm font-bold text-ink hover:bg-surface-muted`}
     >
       {theme === "dark" ? <Sun className="size-5" aria-hidden="true" /> : <Moon className="size-5" aria-hidden="true" />}
       {withLabel && <span>{label}</span>}
@@ -140,7 +140,7 @@ function ThemeToggle({ className = "inline-flex", withLabel = false }: { classNa
 function LanguageToggle({ className = "flex" }: { className?: string }) {
   const { locale, setLocale, t } = useI18n();
   return (
-    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-full border border-edge bg-surface p-0.5 text-sm font-bold`}>
+    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-sm border border-rule bg-surface p-0.5 font-mono text-[0.8rem] font-semibold`}>
       {(["lv", "en"] as const).map((l) => (
         <button
           key={l}
@@ -149,7 +149,7 @@ function LanguageToggle({ className = "flex" }: { className?: string }) {
           aria-pressed={locale === l}
           aria-label={l === "lv" ? t.nav.switchToLv : t.nav.switchToEn}
           onClick={() => setLocale(l)}
-          className={`h-full rounded-full px-2.5 uppercase transition-colors sm:px-3 ${
+          className={`h-full rounded-[2px] px-2.5 uppercase transition-colors sm:px-3 ${
             locale === l ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"
           }`}
         >
@@ -195,7 +195,7 @@ function RoleMenu() {
     router.push("/");
   };
 
-  const item = "flex w-full items-center gap-2.5 rounded-full px-3 py-2.5 text-left text-[0.95rem] font-semibold text-ink hover:bg-accent hover:text-on-accent";
+  const item = "flex w-full items-center gap-2.5 rounded-sm px-3 py-2.5 text-left text-[0.95rem] font-semibold text-ink hover:bg-primary-soft hover:text-primary";
   const Current = role ? roleIcon[role] : null;
 
   return (
@@ -207,7 +207,7 @@ function RoleMenu() {
           aria-haspopup="true"
           aria-label={`${t.nav.roleMenu}: ${t.roles[role]}`}
           onClick={() => setOpen((o) => !o)}
-          className="flex h-10 items-center gap-2 rounded-full border border-edge bg-surface px-1 text-sm font-semibold hover:bg-surface-muted sm:pr-3"
+          className="flex h-10 items-center gap-2 rounded-sm border border-rule bg-surface px-1 text-sm font-semibold hover:bg-surface-muted sm:pr-3"
         >
           <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-primary-fill text-white">
             <Current className="size-4" aria-hidden="true" />

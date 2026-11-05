@@ -31,6 +31,7 @@ type ThemeTokens = Record<
   | "warning-soft"
   | "danger"
   | "danger-soft"
+  | "rule"
   | "land-crop"
   | "land-row"
   | "land-forest"
@@ -72,6 +73,7 @@ const light: ThemeTokens = {
   "warning-soft": "#FFEFC2",
   danger: "#C0182A",
   "danger-soft": "#FDE8EA",
+  rule: "#13241A",
   "land-crop": "#CBD9C8",
   "land-row": "#2F593E",
   "land-forest": "#1D3828",
@@ -107,6 +109,7 @@ const dark: ThemeTokens = {
   "warning-soft": "#2B2410",
   danger: "#FF8E98",
   "danger-soft": "#3A1519",
+  rule: "#4A6352",
   "land-crop": "#24392C",
   "land-row": "#4C7D5D",
   "land-forest": "#122219",
