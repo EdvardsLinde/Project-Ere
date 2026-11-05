@@ -8,6 +8,10 @@ import { createRoot } from "react-dom/client";
 import AgendaPage from "@/app/agenda/page";
 import InnovatorPage from "@/app/apply/innovator/page";
 import BookStandPage from "@/app/apply/stand/page";
+import TeamApplyPage from "@/app/challenges/[id]/apply/page";
+import ChallengePage from "@/app/challenges/[id]/page";
+import ChallengesPage from "@/app/challenges/page";
+import DashboardPage from "@/app/dashboard/page";
 import ExhibitorPage from "@/app/exhibitors/[id]/page";
 import ExhibitorsPage from "@/app/exhibitors/page";
 import NotFound from "@/app/not-found";
@@ -43,6 +47,10 @@ const routes: [string, React.ComponentType][] = [
   ["/investment/:id", ShowcaseItemPage],
   ["/investment/:id/meet", RequestMeetingPage],
   ["/invest-in-latvia", InvestInLatviaPage],
+  ["/challenges", ChallengesPage],
+  ["/challenges/:id", ChallengePage],
+  ["/challenges/:id/apply", TeamApplyPage],
+  ["/dashboard", DashboardPage],
   ["/privacy", PrivacyPage],
 ];
 
