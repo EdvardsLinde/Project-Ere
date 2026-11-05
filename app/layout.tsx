@@ -1,6 +1,4 @@
-import "@fontsource-variable/bricolage-grotesque/wdth.css";
-import "@fontsource/ibm-plex-mono/500.css";
-import "@fontsource/ibm-plex-mono/600.css";
+import "@fontsource-variable/bricolage-grotesque/wght.css";
 import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";

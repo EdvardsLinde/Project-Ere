@@ -9,6 +9,7 @@ import {
   Handshake,
   Landmark,
   Lightbulb,
+  MapPin,
   PackageSearch,
   Plus,
   Scale,
@@ -24,7 +25,6 @@ import { KeyVisual } from "@/components/key-visual";
 import { HeroRoleActions, RoleButtons } from "@/components/role-buttons";
 import { LinkButton } from "@/components/ui/button";
 import { Container, Eyebrow } from "@/components/ui/misc";
-import { Notched } from "@/components/ui/notched";
 import { formatEuro } from "@/lib/dates";
 import { fmt, useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
@@ -47,17 +47,17 @@ export default function HomePage() {
 
 function SectionTitle({ eyebrow, title, lead, id }: { eyebrow: string; title: string; lead?: string; id: string }) {
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-2xl">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 id={id} className="caps mt-3 text-[2.8rem] sm:text-[4.2rem]">
+      <h2 id={id} className="mt-3 text-[2rem] font-extrabold leading-[1.05] tracking-tight sm:text-[2.75rem]">
         {title}
       </h2>
-      {lead && <p className="mt-4 max-w-2xl text-lg text-ink-muted">{lead}</p>}
+      {lead && <p className="mt-3 text-lg text-ink-muted">{lead}</p>}
     </div>
   );
 }
 
-/** Light icon disc used in lists and panels. */
+/** Light icon disc used in cards and lists. */
 function IconDisc({ icon: Icon, className = "" }: { icon: typeof Sprout; className?: string }) {
   return (
     <span className={`flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary ${className}`}>
@@ -66,7 +66,10 @@ function IconDisc({ icon: Icon, className = "" }: { icon: typeof Sprout; classNa
   );
 }
 
-/** Two columns split by a rule: left text, right the key visual and the role actions. */
+/**
+ * Two columns split by a rule: name, subtitle and lead on the left; the key
+ * visual and the role actions on the right (actions first on phones).
+ */
 function Hero() {
   const { t, locale } = useI18n();
   const h = t.home.hero;
@@ -75,25 +78,23 @@ function Hero() {
   return (
     <section className="border-b border-rule" aria-labelledby="hero-title">
       <Container className="grid lg:grid-cols-2">
-        <div className="min-w-0 pb-10 pt-10 sm:pt-14 lg:py-16 lg:pr-10">
+        <div className="min-w-0 pb-10 pt-10 sm:pt-14 lg:flex lg:flex-col lg:justify-center lg:py-16 lg:pr-10">
           <Eyebrow>
             {fmt(h.eyebrow, { n: eventConfig.days.length })} · {tx(eventConfig.datesVenue, locale)}
           </Eyebrow>
-          <h1 id="hero-title" className="caps mt-6 text-[clamp(4rem,14vw,8rem)] text-ink">
+          <h1 id="hero-title" className="mt-5 text-[clamp(3rem,9vw,5.75rem)] font-extrabold leading-[0.92] tracking-[-0.035em] text-ink">
             {words.join(" ")} {last && <span className="text-primary">{last}</span>}
             <span className="text-accent" aria-hidden="true">
               .
             </span>
           </h1>
-          <p className="mt-7 max-w-[30ch] font-display text-xl font-semibold leading-snug sm:text-2xl">{tx(eventConfig.subtitle, locale)}</p>
+          <p className="mt-6 max-w-[30ch] font-display text-xl font-semibold leading-snug sm:text-2xl">{tx(eventConfig.subtitle, locale)}</p>
           <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
         </div>
         <div className="flex min-w-0 flex-col gap-6 border-t border-rule py-8 lg:border-l lg:border-t-0 lg:py-16 lg:pl-10">
           <div className="order-2 lg:order-1" aria-hidden="true">
-            <Notched>
-              <KeyVisual width={640} height={500} seed={1} cols={5} rows={4} nodes={4} radius={0} className="block h-auto w-full" />
-            </Notched>
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.72rem] font-semibold uppercase text-ink-muted">
+            <KeyVisual width={640} height={500} seed={1} cols={5} rows={4} nodes={4} className="block h-auto w-full" />
+            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-ink-muted">
               {sectors
                 .filter((s) => s.id !== "adjacent")
                 .map((s) => (
@@ -129,7 +130,7 @@ function LegendSwatch({ kind }: { kind: string }) {
   return <span className="h-1.5 w-5 rounded-full bg-accent ring-[1.5px] ring-night" />;
 }
 
-/** Four real numbers from `config/event.ts`, on notched green cards. */
+/** Four real numbers from `config/event.ts`. */
 function Facts() {
   const { t, locale } = useI18n();
   const f = t.home.facts;
@@ -141,20 +142,21 @@ function Facts() {
     { value: formatEuro(smallest, locale), label: f.price },
   ];
   return (
-    <section className="border-b border-rule" aria-labelledby="facts-title">
+    <section className="border-y border-rule bg-surface" aria-labelledby="facts-title">
       <h2 id="facts-title" className="sr-only">
         {f.title}
       </h2>
-      <Container className="py-8 sm:py-10">
-        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-          {items.map((item) => (
-            <li key={item.label}>
-              <Notched className="bg-primary-fill text-white" options={{ widthRatio: 0.42, depthRatio: 0.18, maxDepth: 52 }}>
-                <div className="flex aspect-[4/4.3] flex-col items-center justify-end px-3 pb-5 text-center sm:pb-7">
-                  <p className="font-mono text-[2.5rem] font-semibold leading-none tracking-[-0.04em] tabular-nums sm:text-6xl">{item.value}</p>
-                  <p className="mt-5 text-[0.7rem] font-bold uppercase leading-snug tracking-[0.04em] sm:mt-7 sm:text-sm">{item.label}</p>
-                </div>
-              </Notched>
+      <Container>
+        <ul className="grid grid-cols-2 lg:grid-cols-4">
+          {items.map((item, i) => (
+            <li
+              key={item.label}
+              className={`py-7 sm:py-9 ${i % 2 ? "border-l border-rule pl-5 sm:pl-8" : "pr-5 sm:pr-8"} ${
+                i > 1 ? "border-t border-rule lg:border-t-0" : ""
+              } lg:px-8 lg:first:pl-0 lg:[&:nth-child(3)]:border-l`}
+            >
+              <p className="font-display text-[2.4rem] font-extrabold leading-none tracking-tight text-primary tabular-nums sm:text-5xl">{item.value}</p>
+              <p className="mt-2 text-sm font-semibold text-ink-muted sm:text-base">{item.label}</p>
             </li>
           ))}
         </ul>
@@ -163,34 +165,24 @@ function Facts() {
   );
 }
 
-/** The three sectors in ruled columns that step down, like the road climbing in the key visual. */
 function Sectors() {
   const { t } = useI18n();
   const s = t.home.sectors;
   const icons = [Sprout, Trees, Truck];
-  const step = ["", "lg:pt-28", "lg:pt-56"];
   return (
-    <section className="border-b border-rule" aria-labelledby="sectors-title">
-      <Container className="pt-14 sm:pt-20">
+    <section className="py-16 sm:py-24" aria-labelledby="sectors-title">
+      <Container>
         <SectionTitle id="sectors-title" eyebrow={s.eyebrow} title={s.title} lead={s.lead} />
-      </Container>
-      <Container className="mt-10">
-        <ul className="grid border-t border-rule lg:grid-cols-3">
-          {s.items.map((item, i) => {
-            const Icon = icons[i];
-            return (
-              <li
-                key={item.title}
-                className={`min-w-0 border-rule py-8 lg:min-h-[27rem] lg:px-6 lg:first:pl-0 lg:last:pr-0 ${i ? "border-t lg:border-l lg:border-t-0" : ""} ${step[i]}`}
-              >
-                <Icon className="size-6 text-primary" aria-hidden="true" />
-                <h3 className="caps mt-4 text-[2.4rem] sm:text-[2.8rem] lg:text-[2.15rem] xl:text-[2.6rem]">{item.title}</h3>
-                <p className="mt-3 max-w-[34ch] text-ink-muted">{item.text}</p>
-              </li>
-            );
-          })}
+        <ul className="mt-10 grid gap-5 md:grid-cols-3">
+          {s.items.map((item, i) => (
+            <li key={item.title} className="flex flex-col rounded-lg border border-edge bg-surface p-6">
+              <IconDisc icon={icons[i]} />
+              <h3 className="mt-5 text-2xl font-extrabold">{item.title}</h3>
+              <p className="mt-1 text-ink-muted">{item.text}</p>
+            </li>
+          ))}
         </ul>
-        <p className="flex items-start gap-3 border-t border-rule py-6 text-ink-muted">
+        <p className="mt-6 flex items-start gap-3 text-ink-muted">
           <Scale className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
           {s.adjacent}
         </p>
@@ -199,44 +191,29 @@ function Sectors() {
   );
 }
 
-/** Bold lead-ins on the left, a second view of the key visual on the right. */
 function WhySaldus() {
   const { t } = useI18n();
   const w = t.home.whySaldus;
+  const icons = [Factory, MapPin, TrendingUp];
   return (
-    <section className="border-b border-rule" aria-labelledby="saldus-title">
-      <Container className="grid lg:grid-cols-2">
-        <div className="min-w-0 py-14 sm:py-20 lg:pr-10">
-          <SectionTitle id="saldus-title" eyebrow={w.eyebrow} title={w.title} />
-          <div className="mt-8 space-y-5 text-lg leading-relaxed">
-            {w.items.map((item) => (
-              <p key={item.title}>
-                <b className="font-bold text-ink">{/[.!?]$/.test(item.title) ? item.title : `${item.title}.`}</b>{" "}
-                <span className="text-ink-muted">{item.text}</span>
-              </p>
-            ))}
-          </div>
-        </div>
-        <div className="flex min-w-0 items-center border-t border-rule py-10 lg:border-l lg:border-t-0 lg:py-20 lg:pl-10" aria-hidden="true">
-          <Notched corner="br" className="w-full">
-            <KeyVisual width={640} height={520} seed={4} cols={5} rows={4} nodes={3} radius={0} className="block h-auto w-full" />
-          </Notched>
-        </div>
+    <section className="border-y border-rule bg-surface-muted py-16 sm:py-24" aria-labelledby="saldus-title">
+      <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+        <SectionTitle id="saldus-title" eyebrow={w.eyebrow} title={w.title} />
+        <ul className="divide-y divide-rule border-y border-rule">
+          {w.items.map((item, i) => (
+            <li key={item.title} className="flex gap-4 py-6">
+              <IconDisc icon={icons[i]} className="bg-surface" />
+              <div>
+                <h3 className="text-xl font-extrabold">{item.title}</h3>
+                <p className="mt-1 text-ink-muted">{item.text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </Container>
     </section>
   );
 }
-
-/**
- * Rules and padding for the four parts: one column on phones, 2 × 2 from `sm`, a row of four from `lg`.
- * Each column has a rule on its left except the first in a row, and space on the side facing a rule.
- */
-const PART_CELL = [
-  "sm:pr-5 lg:pr-6",
-  "border-t sm:border-t-0 sm:border-l sm:pl-5 lg:px-6",
-  "border-t sm:pr-5 lg:border-t-0 lg:border-l lg:px-6",
-  "border-t sm:border-l sm:pl-5 lg:border-t-0 lg:pl-6",
-];
 
 function Parts() {
   const { t } = useI18n();
@@ -248,22 +225,20 @@ function Parts() {
     { icon: GraduationCap, href: "/challenges" },
   ];
   return (
-    <section className="border-b border-rule" aria-labelledby="parts-title">
-      <Container className="pt-14 sm:pt-20">
+    <section className="py-16 sm:py-24" aria-labelledby="parts-title">
+      <Container>
         <SectionTitle id="parts-title" eyebrow={p.eyebrow} title={p.title} />
-      </Container>
-      <Container className="mt-10">
-        <ul className="grid border-t border-rule sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
           {p.items.map((item, i) => {
             const { icon, href } = parts[i];
             return (
-              <li key={item.title} className={`flex min-w-0 flex-col border-rule py-8 ${PART_CELL[i]}`}>
+              <li key={item.title} className="flex flex-col rounded-lg border border-edge bg-surface p-5">
                 <IconDisc icon={icon} />
-                <h3 className="mt-5 text-xl font-extrabold leading-snug">{item.title}</h3>
+                <h3 className="mt-5 text-lg font-extrabold leading-snug">{item.title}</h3>
                 <p className="mt-1 flex-1 text-[0.95rem] text-ink-muted">{item.text}</p>
-                <LinkButton href={href} variant="quiet" size="sm" className="-ml-3.5 mt-4 self-start whitespace-normal text-left">
+                <LinkButton href={href} variant="quiet" size="sm" className="-ml-3.5 mt-4 self-start whitespace-normal">
                   {item.cta}
-                  <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+                  <ArrowRight className="size-4" aria-hidden="true" />
                 </LinkButton>
               </li>
             );
@@ -279,16 +254,16 @@ function Days() {
   const d = t.home.days;
   const icons = [Handshake, Lightbulb, Factory];
   return (
-    <section className="border-b border-rule py-14 sm:py-20" aria-labelledby="days-title">
+    <section className="border-y border-rule bg-surface-muted py-16 sm:py-24" aria-labelledby="days-title">
       <Container>
         <SectionTitle id="days-title" eyebrow={d.eyebrow} title={d.title} />
-        <ol className="mt-10 grid gap-4 md:grid-cols-3">
+        <ol className="mt-10 grid gap-5 md:grid-cols-3">
           {d.items.map((day, i) => {
             const Icon = icons[i];
             return (
               <li key={day.label} className="flex flex-col rounded-lg border border-edge bg-surface p-6">
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 font-mono text-[0.78rem] font-semibold uppercase text-primary">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary">
                     <CalendarRange className="size-3.5" aria-hidden="true" />
                     {day.label}
                   </span>
@@ -316,13 +291,18 @@ function ForWhom() {
   const exhibitorIcons = [PackageSearch, Lightbulb, Scale, TrendingUp];
   const investorIcons = [Trees, Search, Users, Factory];
   return (
-    <section className="border-b border-rule py-14 sm:py-20" aria-label={`${e.title} / ${v.title}`}>
+    <section className="py-16 sm:py-24" aria-label={`${e.title} / ${v.title}`}>
       <Container className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-[18px] border border-edge bg-surface p-6 sm:p-8" aria-labelledby="exhibitors-title">
-          <Eyebrow>{e.eyebrow}</Eyebrow>
-          <h2 id="exhibitors-title" className="caps mt-2 text-[2.4rem] sm:text-[2.8rem]">
-            {e.title}
-          </h2>
+        <div className="rounded-lg border border-edge bg-surface p-6 shadow-card sm:p-8" aria-labelledby="exhibitors-title">
+          <div className="flex items-center gap-4">
+            <IconDisc icon={Building2} className="size-14" />
+            <div>
+              <Eyebrow>{e.eyebrow}</Eyebrow>
+              <h2 id="exhibitors-title" className="mt-1.5 text-3xl font-extrabold tracking-tight">
+                {e.title}
+              </h2>
+            </div>
+          </div>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
             {e.items.map((item, i) => {
               const Icon = exhibitorIcons[i];
@@ -343,32 +323,37 @@ function ForWhom() {
           </LinkButton>
         </div>
 
-        <Notched className="bg-primary-fill text-white" options={{ widthRatio: 0.3, maxDepth: 44 }}>
-          <div className="p-6 pt-16 sm:p-8 sm:pt-16" aria-labelledby="investors-title">
-            <p className="font-mono text-[0.78rem] font-semibold uppercase tracking-[0.04em] text-white/80">{v.eyebrow}</p>
-            <h2 id="investors-title" className="caps mt-2 text-[2.4rem] sm:text-[2.8rem]">
-              {v.title}
-            </h2>
-            <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-              {v.items.map((item, i) => {
-                const Icon = investorIcons[i];
-                return (
-                  <li key={item.title} className="flex gap-3">
-                    <Icon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
-                    <div>
-                      <p className="font-bold leading-snug">{item.title}</p>
-                      <p className="text-[0.95rem] text-white/85">{item.text}</p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-            <LinkButton href="/investment" variant="accent" size="lg" className="mt-8">
-              {v.cta}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </LinkButton>
+        <div className="rounded-lg bg-primary-fill p-6 text-white shadow-card sm:p-8" aria-labelledby="investors-title">
+          <div className="flex items-center gap-4">
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-white/12 text-white">
+              <Landmark className="size-6" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-white/80">{v.eyebrow}</p>
+              <h2 id="investors-title" className="mt-1.5 text-3xl font-extrabold tracking-tight">
+                {v.title}
+              </h2>
+            </div>
           </div>
-        </Notched>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+            {v.items.map((item, i) => {
+              const Icon = investorIcons[i];
+              return (
+                <li key={item.title} className="flex gap-3">
+                  <Icon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
+                  <div>
+                    <p className="font-bold leading-snug">{item.title}</p>
+                    <p className="text-[0.95rem] text-white/85">{item.text}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <LinkButton href="/investment" variant="accent" size="lg" className="mt-8">
+            {v.cta}
+            <ArrowRight className="size-4" aria-hidden="true" />
+          </LinkButton>
+        </div>
       </Container>
     </section>
   );
@@ -378,8 +363,8 @@ function Faq() {
   const { t } = useI18n();
   const f = t.home.faq;
   return (
-    <section className="border-b border-rule py-14 sm:py-20" aria-labelledby="faq-title">
-      <Container className="grid gap-10 lg:grid-cols-[1fr_1.5fr]">
+    <section className="border-t border-rule py-16 sm:py-24" aria-labelledby="faq-title">
+      <Container className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
         <SectionTitle id="faq-title" eyebrow={f.eyebrow} title={f.title} />
         <div className="divide-y divide-rule border-y border-rule">
           {f.items.map((item) => (
@@ -387,7 +372,7 @@ function Faq() {
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-lg font-bold">
                 {item.q}
                 <span
-                  className="flex size-8 shrink-0 items-center justify-center rounded-sm border border-rule text-ink transition-transform group-open:rotate-45"
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary transition-transform group-open:rotate-45"
                   aria-hidden="true"
                 >
                   <Plus className="size-4" />
@@ -402,24 +387,18 @@ function Faq() {
   );
 }
 
-/** Big claim on the left, the four role buttons on the right, split by a rule. */
 function ClosingCta() {
   const { t } = useI18n();
   return (
-    <section aria-labelledby="cta-title">
-      <Container className="grid lg:grid-cols-[1.1fr_1fr]">
-        <div className="min-w-0 py-14 sm:py-20 lg:pr-10">
-          <h2 id="cta-title" className="caps text-[clamp(2.8rem,7vw,5.5rem)]">
+    <section className="bg-primary-fill text-white" aria-labelledby="cta-title">
+      <Container className="grid items-end gap-10 py-16 sm:py-20 lg:grid-cols-[1fr_1.1fr]">
+        <div className="max-w-xl">
+          <h2 id="cta-title" className="text-[2.4rem] font-extrabold leading-[1.02] tracking-tight sm:text-5xl">
             {t.home.closing.title}
-            <span className="text-accent" aria-hidden="true">
-              .
-            </span>
           </h2>
-          <p className="mt-4 text-lg text-ink-muted sm:text-xl">{t.home.closing.text}</p>
+          <p className="mt-4 text-lg text-white/85 sm:text-xl">{t.home.closing.text}</p>
         </div>
-        <div className="flex min-w-0 items-end border-t border-rule py-10 lg:border-l lg:border-t-0 lg:py-20 lg:pl-10">
-          <RoleButtons className="w-full" />
-        </div>
+        <RoleButtons onDark />
       </Container>
     </section>
   );

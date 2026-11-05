@@ -47,7 +47,7 @@ export default function AgendaPage() {
             tabIndex={day === d ? 0 : -1}
             onClick={() => setDay(d)}
             onKeyDown={(e) => onTabKey(e, i)}
-            className={`h-10 rounded-[2px] font-mono text-[0.8rem] font-semibold uppercase transition-colors ${day === d ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"}`}
+            className={`h-10 rounded-[2px] text-[0.95rem] font-bold transition-colors ${day === d ? "bg-ink text-bg" : "text-ink-muted hover:text-ink"}`}
           >
             {fmt(t.common.day, { n: d })}
           </button>

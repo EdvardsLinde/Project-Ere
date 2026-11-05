@@ -88,10 +88,10 @@ export function HeroRoleActions({ className = "" }: { className?: string }) {
               <button
                 type="button"
                 onClick={() => choose(r)}
-                className="group inline-flex items-center gap-2 rounded-sm py-1 text-left font-mono text-[0.78rem] font-semibold uppercase text-ink"
+                className="group inline-flex items-center gap-2 rounded-sm py-1 text-left text-[0.95rem] font-semibold text-ink"
               >
                 <Icon className="size-4 shrink-0 text-primary" aria-hidden="true" />
-                <span className="border-b border-rule pb-0.5 transition-colors group-hover:border-accent">{t.roleButtons[r]}</span>
+                <span className="underline decoration-line decoration-2 underline-offset-[5px] transition-colors group-hover:decoration-accent">{t.roleButtons[r]}</span>
                 <ArrowRight className="size-4 shrink-0 text-accent-ink transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </button>
             </li>

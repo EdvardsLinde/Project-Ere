@@ -5,9 +5,9 @@ export type ButtonVariant = "primary" | "accent" | "secondary" | "quiet" | "dang
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-sm font-mono font-semibold uppercase tracking-[0.03em] transition duration-150 ease-out disabled:pointer-events-none disabled:opacity-50 select-none";
+  "inline-flex items-center justify-center gap-2 rounded-sm font-bold transition duration-150 ease-out disabled:pointer-events-none disabled:opacity-50 select-none";
 
-/** Square block buttons with a thin border in the grid-line colour, monospace capitals. They press in slightly on click. */
+/** Square block buttons with a thin border in the grid-line colour. They press in slightly on click. */
 const press = "active:translate-y-px";
 
 const variants: Record<ButtonVariant, string> = {
@@ -20,9 +20,9 @@ const variants: Record<ButtonVariant, string> = {
 };
 
 const sizes: Record<ButtonSize, string> = {
-  sm: "h-9 px-3.5 text-[0.75rem]",
-  md: "h-11 px-5 text-[0.8rem]",
-  lg: "h-13 px-6 text-[0.86rem]",
+  sm: "h-9 px-3.5 text-sm",
+  md: "h-11 px-5 text-[0.95rem]",
+  lg: "h-13 px-6 text-base",
 };
 
 export function buttonClass(variant: ButtonVariant = "primary", size: ButtonSize = "md", extra = "") {

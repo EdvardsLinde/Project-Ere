@@ -44,7 +44,7 @@ export function SiteHeader() {
           <LogoMark />
           <span className="flex flex-col leading-none">
             <span className="font-display text-2xl font-extrabold tracking-tight text-ink">{siteConfig.brand}</span>
-            <span className="mt-1 hidden font-mono text-[10px] font-semibold uppercase tracking-[0.04em] text-ink-muted xl:block">{eventConfig.name}</span>
+            <span className="mt-1 hidden text-[11px] font-medium text-ink-muted xl:block">{eventConfig.name}</span>
           </span>
         </Link>
 
@@ -57,8 +57,8 @@ export function SiteHeader() {
                   <Link
                     href={href}
                     aria-current={isActive(href) ? "page" : undefined}
-                    className={`whitespace-nowrap rounded-[2px] px-2 py-1 font-mono text-[0.8rem] font-semibold uppercase transition-colors ${
-                      isActive(href) ? "bg-primary-soft text-primary" : "text-ink hover:bg-surface-muted"
+                    className={`whitespace-nowrap rounded-sm px-3 py-1.5 text-[0.95rem] font-semibold transition-colors ${
+                      isActive(href) ? "bg-primary-soft text-primary" : "text-ink-muted hover:bg-surface-muted hover:text-ink"
                     }`}
                   >
                     {t.nav[key]}
@@ -97,7 +97,7 @@ export function SiteHeader() {
                   <Link
                     href={href}
                     aria-current={isActive(href) ? "page" : undefined}
-                    className={`block rounded-sm px-3 py-3 font-mono text-sm font-semibold uppercase ${isActive(href) ? "bg-primary-soft text-primary" : "text-ink"}`}
+                    className={`block rounded-sm px-4 py-3 font-semibold ${isActive(href) ? "bg-primary-soft text-primary" : "text-ink"}`}
                   >
                     {t.nav[key]}
                   </Link>
@@ -140,7 +140,7 @@ function ThemeToggle({ className = "inline-flex", withLabel = false }: { classNa
 function LanguageToggle({ className = "flex" }: { className?: string }) {
   const { locale, setLocale, t } = useI18n();
   return (
-    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-sm border border-rule bg-surface p-0.5 font-mono text-[0.8rem] font-semibold`}>
+    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-sm border border-rule bg-surface p-0.5 text-sm font-bold`}>
       {(["lv", "en"] as const).map((l) => (
         <button
           key={l}

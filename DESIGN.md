@@ -1,16 +1,16 @@
 # DESIGN.md — SEER
 
 **SEER Expo — the Saldus agriculture, forestry and logistics innovation fair.**
-An editorial trade-fair grid: a warm off-white page split by **thin dark
-rules** into columns and rows, **tall narrow all-caps headlines**, a
-**monospace "code" voice** for labels, menus and buttons, and **notched
-corners** on the key visual and the number cards. Colour stays ours: **one
-strong colour** (forest green `#2F593E`) and **one warm highlight** (orange
-`#E17235`), both from the "Saldus novads · Digitālā prakse" badge. The one
-picture is the **key visual**, Saldus seen from above. The grid techniques
-were adapted from the UN:BLOCK conference site (unblockeurope.com); its
-colours, pixel font, photos and copy are not used. **Light mode is the
-default**; dark mode stays available from the header toggle.
+Calm and confident, like a serious trade fair: a warm off-white page, **one
+strong colour** (forest green `#2F593E`), **one warm highlight** (orange
+`#E17235`), thin soft outlines and low, soft shadows. Both colours come from the
+"Saldus novads · Digitālā prakse" badge. The one picture is the **key visual**,
+Saldus seen from above. Big Bricolage Grotesque headings carry the personality,
+so everything around them can stay quiet. A light touch of the UN:BLOCK
+conference site (unblockeurope.com) gives it a trade-fair grid: thin dark
+lines frame the page and divide its sections, and buttons, tags and toggles
+are square. Their fonts, pixel lettering, colours and photos are not used.
+**Light mode is the default**; dark mode stays available from the header toggle.
 
 > Values live in `config/site.ts` (`theme.light`, `theme.dark`) and become CSS
 > variables via `lib/theme-css.ts`; components use the token names, never hex.
@@ -24,7 +24,7 @@ default**; dark mode stays available from the header toggle.
 | `surface-muted` | `#EEEBE3` | `#1D2B23` | Alternate sections, table heads, segmented controls |
 | `line` | `#DDD9CE` | `#2B3B31` | Dividers, section rules, input borders |
 | `edge` | `#D2CDBF` | `#33463A` | Card and panel outlines (1px) |
-| `rule` | `#13241A` | `#4A6352` | The grid: page frame, section rules, column dividers, header rule, button borders |
+| `rule` | `#13241A` | `#4A6352` | The grid: page frame, section lines, header line, button borders |
 | `ink` | `#13241A` | `#F2F0EA` | Text (15.0:1 / 16.0:1 on bg) |
 | `ink-muted` | `#4D5C52` | `#AEBBB2` | Secondary text (6.6:1 / 9.2:1 on bg, ≥ 5.9:1 on every surface) |
 | `primary` | `#2F593E` | `#7FC79A` | Forest green: links, eyebrows, numbers, focus ring (≥ 6.7:1 / 7.4:1 on every surface) |
@@ -54,28 +54,22 @@ default**; dark mode stays available from the header toggle.
 | Family | Use | Source |
 |---|---|---|
 | **Bricolage Grotesque Variable** (`font-display`) | All `h1`–`h3`, big numbers, brand name | `@fontsource-variable/bricolage-grotesque` (latin-ext: ā č ē ģ ī ķ ļ ņ š ū ž) |
-| **Inter Variable** (`font-sans`) | Body text, form labels, tables | `@fontsource-variable/inter` (latin-ext) |
-| **IBM Plex Mono** (`font-mono`) | Buttons, menu, eyebrows, badges and tags, big numbers on the stat cards, footer links (always uppercase) | `@fontsource/ibm-plex-mono` 500/600 (latin-ext) |
+| **Inter Variable** (`font-sans`) | Body, labels, buttons, tables | `@fontsource-variable/inter` (latin-ext) |
 
 Headings get `font-display` automatically (`@layer base` in `app/globals.css`).
-`.caps` (in `app/globals.css`) is the tall headline style: Bricolage at its
-narrowest width (`font-stretch: 75%`, from the `wdth.css` axis file), weight
-800, uppercase, line height 0.95. It is used for page titles, section titles,
-the hero name, the sector names and the closing claim; card titles stay in
-normal case.
 The link preview image uses static Bricolage files from `@fontsource/bricolage-grotesque`.
 
 | Step | Size / line height | Weight | Use |
 |---|---|---|---|
-| display | clamp(4rem, 14vw, 8rem), `.caps` | 800 | Hero name only |
-| h1 | 2.6rem → 4rem, `.caps` | 800 | Page titles |
-| h2 | 2.8rem → 4.2rem, `.caps` | 800 | Section titles |
+| display | clamp(3rem, 9vw, 5.75rem) / 0.92, tracking −0.035em | 800 | Hero name only |
+| h1 | 2rem → 3rem / 1.1 | 800 | Page titles |
+| h2 | 2rem → 2.75rem / 1.05 | 800 | Section titles |
 | h3 | 1.125–1.5rem / 1.3 | 800 | Card titles |
-| stat | 2.5rem → 3.75rem | 600 mono, white | Numbers on the notched stat cards |
+| stat | 2.4rem → 3rem | 800 display, green | Numbers in the facts strip |
 | lead | 1.125rem / 1.6 | 400 | Intro paragraphs |
 | body | 1rem / 1.6 | 400–500 | Default |
 | small | 0.875rem / 1.5 | 500 | Meta, help text |
-| micro | 0.7–0.8rem | 600 mono, uppercase | Eyebrows (green), badges, tags, buttons, menu |
+| micro | 0.75rem / 1.4 | 700, uppercase, tracking 0.14em | Eyebrows (green text), badges |
 
 Body copy max width ~60ch. Labels are bold (700) so forms read at a glance.
 
@@ -83,18 +77,16 @@ Body copy max width ~60ch. Labels are bold (700) so forms read at a glance.
 
 4px base (Tailwind scale). Common steps: 8, 12, 16, 24, 32, 48, 64, 96.
 Content width `max-w-6xl` (72rem); 16px side gutter on phones, 24px from `sm`.
-**The grid:** `main` carries `.page-frame`, two thin `rule` lines down the
-page at the content edges (8px from the screen edge on phones). Sections are
-separated by full-width `rule` lines; two-column sections (hero, why Saldus,
-closing) are split by a vertical rule; the sectors and the four fair parts sit
-in ruled columns. Sections: `py-14` mobile, `py-20` desktop. Works from 360px
-with no sideways scroll.
+Sections: `py-16` mobile, `py-24` desktop, separated by a 1px `rule` line and
+sometimes a change to `surface-muted`. **Grid frame:** `main` carries
+`.page-frame`, two thin `rule` lines down the page at the content edges (8px
+from the screen edge on phones). Works from 360px with no sideways scroll.
 
 ## Shape and depth
 
-- Radius: `sm` 4px (buttons, toggles, chips), `md` 6px (inputs, notices,
-  tiles), `lg` 14px (cards, panels, dialogs), 2px for tags and badges, `full`
-  only for icon discs and avatars.
+- Radius: `sm` 4px (buttons, toggles, chips, nav items), `md` 6px (inputs,
+  notices, tiles), `lg` 14px (cards, panels, dialogs), 2px for badges and
+  tags, `full` only for icon discs and avatars.
 - Outlines: 1px `edge` on cards, panels, dialogs and menus; 1px `line` for
   rules and dividers.
 - Shadows are **soft and low**: `shadow-card` for raised panels, `shadow-pop`
@@ -103,18 +95,17 @@ with no sideways scroll.
 
 ## Components
 
-- **Buttons:** square blocks with a 1px `rule` border and monospace capitals.
-  `accent` (orange, ink text) is the single most important action on a
-  screen; `primary` (green, white text); `secondary` (transparent); `quiet`
-  (text only, green); `danger` (red outline); `inverse` (white outline on
-  green). Height 44px (36px small, 52px large); full width in the hero and the
-  closing grid. They sink 1px on click. Disabled = 50% opacity, no pointer.
+- **Buttons:** square blocks with a 1px `rule` border. `accent` (orange, ink
+  text) is the single most important action on a screen; `primary` (green,
+  white text); `secondary` (transparent); `quiet` (text only, green); `danger`
+  (red outline); `inverse` (white outline on green). Height 44px (36px small,
+  52px large). They sink 1px on click. Disabled = 50% opacity, no pointer.
 - **Links:** `primary`, underline on hover, external links get an arrow.
 - **Inputs:** 44px, white, `line` border that turns `edge` on focus plus the
   3px green focus ring, `md` radius, bold label above, help text below in
   `ink-muted`, error text in `danger` with icon; `aria-invalid` +
   `aria-describedby`.
-- **Choice chips** (form options): small square blocks in mono capitals; selected = orange.
+- **Choice chips** (form options): small square blocks; selected = orange.
 - **Cards:** white, 1px `edge`, `lg` radius; clickable cards get `shadow-pop`
   on hover.
 - **Icon discs:** a 44–56px `primary-soft` circle with a green icon.
@@ -122,32 +113,23 @@ with no sideways scroll.
   flask icon; "participation not yet confirmed" = neutral; "looking for
   investment" = `primary-soft`; statuses by meaning (submitted/pending =
   warning, approved/accepted = success, rejected/declined = danger).
-- **Eyebrows:** small mono capitals in green above section and page titles.
+- **Eyebrows:** small uppercase green text above section and page titles (no pill).
 - **Tags** (`Tag` in `components/ui/misc.tsx`): the sector above an exhibitor
-  or startup name, mono capitals on `primary-soft`, 2px corners.
-- **Notched boxes** (`Notched`, shape in `lib/notch.ts`): a rounded box with a
-  stepped cut-out in one corner (top-left, or bottom-right). Used on the key
-  visual, the four stat cards and the investor panel; the clip follows the
-  box's size.
-- **Header:** off-white, sticky, 1px `rule` bottom line. Menu items in mono
-  capitals depend on the role (none, exhibitor, innovator, investor, school);
-  active item = soft green block. Right side: theme and language toggles, then the role menu
+  or startup name, a small square label on `primary-soft`.
+- **Header:** off-white, sticky, 1px `rule` bottom line. Menu items depend on
+  the role (none, exhibitor, innovator, investor, school); active item = soft
+  green block. Right side: theme and language toggles, then the role menu
   ("Choose a role" button, or the current role with switch / leave options).
-- **Hero:** two columns split by a rule. Left: eyebrow (Saldus · days ·
-  dates and venue), the name in `.caps` with "Expo" in green and an orange
-  dot, the subtitle, the lead. Right: the notched key visual with its legend,
-  then a full-width orange button (company: book a stand), a full-width
-  outlined button (investor) and two underlined mono links (innovator, school
-  team). On phones the buttons come before the visual.
-- **Stat cards:** four notched green cards with numbers from `config/event.ts`
-  (days, paid stands, free innovator places, smallest stand price), 2×2 on phones.
-- **Sectors:** three ruled columns whose content steps down from left to right
-  on large screens, sector names in `.caps`.
-- **Bold lead-ins:** "why Saldus" is written as paragraphs that open with a
-  bold phrase, next to a second view of the key visual.
+- **Hero:** two columns split by a `rule` line. Left, centred vertically:
+  eyebrow (Saldus · days · dates and venue), the name huge with "Expo" in
+  green and an orange dot, the subtitle, the lead. Right: the key visual with
+  its legend, then a full-width orange button (company: book a stand), a
+  full-width outlined button (investor) and two underlined links (innovator,
+  school team). On phones the buttons come before the visual.
+- **Facts strip:** four numbers from `config/event.ts` (days, paid stands,
+  free innovator places, smallest stand price) between thin rules, 2×2 on phones.
 - **Role buttons** (closing call to action, empty dashboard): the same four
-  roles as a 2×2 grid of square buttons; on green, the non-orange ones are
-  `inverse`. The closing section is a big `.caps` claim and the grid, split by a rule.
+  roles as a 2×2 grid; on green, the non-orange ones are `inverse`.
 - **Stand map** (`components/fair/stand-map.tsx`): a 6-column grid, L = 2×2,
   M = 2×1, S = 1×1 tiles; free = white with a green outline, reserved = orange
   with a clock icon, sold = green with a lock icon (never colour alone);
@@ -155,7 +137,7 @@ with no sideways scroll.
   picker (booking form).
 - **Lists instead of cards** where items are read, not clicked ("why Saldus",
   FAQ): rows between thin rules.
-- **Footer:** `night` block with the tagline in `.caps`, mono labels and links.
+- **Footer:** `night` block with the tagline set huge in Bricolage Grotesque.
 
 ## Key visual
 
