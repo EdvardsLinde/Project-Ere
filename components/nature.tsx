@@ -53,40 +53,6 @@ export function LeafSprig({ className = "w-40" }: { className?: string }) {
   );
 }
 
-/** A pine branch (forestry): needles along a gentle curve and one cone. */
-export function PineBranch({ className = "w-48" }: { className?: string }) {
-  const p0: Pt = [8, 120];
-  const p1: Pt = [90, 70];
-  const p2: Pt = [206, 66];
-  const needles: { x: number; y: number; angle: number; len: number }[] = [];
-  for (let i = 0; i <= 30; i++) {
-    const t = 0.03 + i * 0.032;
-    const pt = onCurve(p0, p1, p2, t);
-    needles.push({ ...pt, len: (30 - t * 14) * (i % 2 ? 0.86 : 1) });
-  }
-  const line = (x: number, y: number, deg: number, len: number) => {
-    const a = (deg * Math.PI) / 180;
-    return `M${r1(x)} ${r1(y)}l${r1(Math.cos(a) * len)} ${r1(Math.sin(a) * len)}`;
-  };
-  const cone = onCurve(p0, p1, p2, 0.42);
-  return (
-    <svg viewBox="0 0 240 170" className={className} aria-hidden="true" fill="none">
-      <path
-        d={needles.map((n) => line(n.x, n.y, n.angle - 38, n.len) + line(n.x, n.y, n.angle + 38, n.len)).join("")}
-        stroke={GREEN}
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <path d={`M${p0[0]} ${p0[1]}Q${p1[0]} ${p1[1]} ${p2[0]} ${p2[1]}`} stroke={EDGE} strokeWidth="3.5" strokeLinecap="round" />
-      <g transform={`translate(${r1(cone.x)} ${r1(cone.y + 6)})`}>
-        <path d="M0 0v10" stroke={EDGE} strokeWidth="2.5" strokeLinecap="round" />
-        <ellipse cx="0" cy="34" rx="15" ry="25" fill={ORANGE} stroke={EDGE} strokeWidth="2" />
-        <path d="M-13 24q13 7 26 0M-14 36q14 7 28 0M-11 48q11 6 22 0" stroke={EDGE} strokeWidth="1.6" strokeLinecap="round" />
-      </g>
-    </svg>
-  );
-}
-
 /** A wheat ear (agriculture): paired grains with awns on a slightly bent stalk. */
 export function WheatEar({ className = "h-48" }: { className?: string }) {
   const grains: { x: number; y: number; rot: number }[] = [];

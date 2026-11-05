@@ -130,21 +130,21 @@ Use one or two per screen, never all at once.
 - **Marker highlight** (`.marker`): an orange, slightly rounded block behind
   the last part of a headline (after " — ") or a key name. Text on it is
   always `on-accent`, so it works in both themes.
-- **Circles:** a big green disc in the hero holding the drawn wheat ear, an
-  orange disc in the hero corner and in the closing CTA. Always
-  outlined in `edge`, never behind running text.
-- **Round sticker:** a tilted orange disc with a short label from the
-  dictionaries (the hero's "3 days").
+- **Circles:** an orange disc in the closing CTA. Always outlined in `edge`,
+  never behind running text.
+- **Hero:** text on the left (eyebrow, headline, subtitle, lead, dates chip),
+  the four role buttons stacked on the right; on phones the buttons follow the
+  text. No picture in the hero.
 - **Fact bubbles:** four equal round bubbles in a row (2×2 on phones),
   alternating green and orange, each holding a number and a short bold label
   (days, sectors, formats, visit day). No statistics without a source.
 - **Nature × digital illustrations** (`components/nature.tsx`): Saldus is
   farming and forest country, and SEER brings IT, AI and cybersecurity to it.
-  Four hand-drawn SVG motifs in the theme colours with the same ink edge:
-  `PineBranch` (forestry, with an orange cone), `WheatEar` (agriculture),
+  Three hand-drawn SVG motifs in the theme colours with the same ink edge:
+  `WheatEar` (agriculture),
   `LeafSprig` (a green/orange leafy twig) and `CircuitLeaf` (a leaf whose
   veins are circuit traces with round nodes: nature meets technology). Used in
-  the hero corners, beside section titles, under the FAQ title and in the
+  beside section titles, under the FAQ title and in the
   closing CTA; always `aria-hidden`, never behind running text,
   most of them hidden below `lg` to keep phones calm.
 - **Tilts:** sector and fair-part cards tilt ±1–2° on large screens like

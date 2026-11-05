@@ -161,7 +161,6 @@ const en: Messages = {
       eyebrow: "3 days · Saldus · agriculture, forestry, logistics",
       lead: "Investors and leading local firms meet innovators and operating Latvian businesses in one place: stands, an investment showcase, a school challenge and visits to working companies.",
       rolesLabel: "Who are you?",
-      sticker: "3 days",
     },
     facts: {
       eyebrow: "In short",

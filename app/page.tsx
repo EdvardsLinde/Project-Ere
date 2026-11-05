@@ -24,7 +24,7 @@ import {
 import { eventConfig } from "@/config/event";
 import { LinkButton } from "@/components/ui/button";
 import { Container, Eyebrow } from "@/components/ui/misc";
-import { CircuitLeaf, LeafSprig, PineBranch, WheatEar } from "@/components/nature";
+import { CircuitLeaf, LeafSprig, WheatEar } from "@/components/nature";
 import { RoleButtons } from "@/components/role-buttons";
 import { useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
@@ -68,7 +68,7 @@ function Hero() {
         className="bg-dots absolute inset-0 opacity-70 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
         aria-hidden="true"
       />
-      <Container className="relative grid items-center gap-14 pb-14 pt-12 sm:pt-16 lg:grid-cols-[1.2fr_1fr] lg:pb-20 lg:pt-20">
+      <Container className="relative grid items-center gap-8 pb-14 pt-12 sm:pt-16 lg:grid-cols-[1.2fr_1fr] lg:gap-14 lg:pb-20 lg:pt-20">
         <div>
           <Eyebrow>{h.eyebrow}</Eyebrow>
           <h1
@@ -91,31 +91,13 @@ function Hero() {
             <CalendarDays className="size-4 text-primary" aria-hidden="true" />
             {tx(eventConfig.datesVenue, locale)}
           </p>
-          <h2 className="sr-only">{h.rolesLabel}</h2>
-          <RoleButtons className="mt-8" />
         </div>
-        <HeroVisual />
+        <div>
+          <h2 className="sr-only">{h.rolesLabel}</h2>
+          <RoleButtons className="lg:grid-cols-1" />
+        </div>
       </Container>
     </section>
-  );
-}
-
-/**
- * Big primary circle with an accent dot, a wheat ear (agriculture) standing in it,
- * a pine branch (forestry) across its lower edge and a round "3 days" sticker.
- */
-function HeroVisual() {
-  const { t } = useI18n();
-  return (
-    <div className="relative mx-auto aspect-square w-full max-w-[19rem] sm:max-w-[26rem]" aria-hidden="true">
-      <div className="absolute inset-0 rounded-full border-2 border-edge bg-primary-fill" />
-      <div className="absolute right-0 top-[4%] size-14 rounded-full border-2 border-edge bg-accent sm:size-20" />
-      <WheatEar className="absolute bottom-[8%] left-1/2 h-[78%] -translate-x-[30%] rotate-[10deg]" />
-      <PineBranch className="absolute -bottom-[16%] -left-[8%] w-[52%] rotate-[4deg] sm:-left-[16%]" />
-      <p className="absolute -left-[4%] top-[2%] z-10 flex size-20 -rotate-12 items-center justify-center rounded-full border-2 border-edge bg-accent p-2 text-center font-display text-[0.95rem] font-extrabold leading-tight text-on-accent shadow-card sm:size-28 sm:text-xl">
-        {t.home.hero.sticker}
-      </p>
-    </div>
   );
 }
 

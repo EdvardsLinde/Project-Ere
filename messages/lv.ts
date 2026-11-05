@@ -165,7 +165,6 @@ const lv = {
       eyebrow: "3 dienas · Saldus · lauksaimniecība, mežsaimniecība, loģistika",
       lead: "Investori un vadošie vietējie uzņēmumi satiek inovatorus un strādājošus Latvijas uzņēmumus vienuviet: stendi, investīciju vitrīna, skolu izaicinājums un vizītes uzņēmumos.",
       rolesLabel: "Kas jūs esat?",
-      sticker: "3 dienas",
     },
     facts: {
       eyebrow: "Īsumā",
