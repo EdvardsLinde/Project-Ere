@@ -448,7 +448,7 @@ const en: Messages = {
   showcase: {
     title: "Investment showcase",
     lead: "Exhibitors looking for investment: what for, how much and where. Pick a project and request a meeting at the fair.",
-    exampleNote: "All showcase entries are fictional examples for now.",
+    exampleNote: "Entries marked “EXAMPLE” are fictional startups; no real company is listed here as seeking investment.",
     filterSector: "Sector",
     filterStage: "Stage",
     filterAmount: "Amount",
@@ -496,7 +496,7 @@ const en: Messages = {
         title: "Licences and permits",
         text: "Many activities in forestry, farming and freight need a registration or a permit. Start with registering a company and the requirements of the sector authority.",
         links: [
-          { label: "Register of Enterprises", url: "https://www.ur.gov.lv/en/" },
+          { label: "Register of Enterprises", url: "https://www.ur.gov.lv/en" },
           { label: "LIAA: forest industry", url: "https://www.liaa.gov.lv/en/trade/industries/forest" },
         ],
       },
@@ -510,8 +510,8 @@ const en: Messages = {
         text: "There are state programmes for investment, export and rural development. Programmes and conditions change, so check the current information.",
         links: [
           { label: "LIAA", url: "https://www.liaa.gov.lv/en" },
-          { label: "Rural Support Service", url: "https://www.lad.gov.lv/" },
-          { label: "ALTUM", url: "https://www.altum.lv/" },
+          { label: "Rural Support Service", url: "https://www.lad.gov.lv/en" },
+          { label: "Support for entrepreneurs (business.gov.lv)", url: "https://business.gov.lv/en/support-opportunities/summary-support-entrepreneurs" },
         ],
       },
       {

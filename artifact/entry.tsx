@@ -6,10 +6,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import AgendaPage from "@/app/agenda/page";
+import InnovatorPage from "@/app/apply/innovator/page";
 import BookStandPage from "@/app/apply/stand/page";
 import ExhibitorPage from "@/app/exhibitors/[id]/page";
 import ExhibitorsPage from "@/app/exhibitors/page";
 import NotFound from "@/app/not-found";
+import InvestInLatviaPage from "@/app/invest-in-latvia/page";
+import RequestMeetingPage from "@/app/investment/[id]/meet/page";
+import ShowcaseItemPage from "@/app/investment/[id]/page";
+import ShowcasePage from "@/app/investment/page";
 import HomePage from "@/app/page";
 import PrivacyPage from "@/app/privacy/page";
 import StandsPage from "@/app/stands/page";
@@ -33,6 +38,11 @@ const routes: [string, React.ComponentType][] = [
   ["/apply/stand", BookStandPage],
   ["/exhibitors", ExhibitorsPage],
   ["/exhibitors/:id", ExhibitorPage],
+  ["/apply/innovator", InnovatorPage],
+  ["/investment", ShowcasePage],
+  ["/investment/:id", ShowcaseItemPage],
+  ["/investment/:id/meet", RequestMeetingPage],
+  ["/invest-in-latvia", InvestInLatviaPage],
   ["/privacy", PrivacyPage],
 ];
 

@@ -452,7 +452,7 @@ const lv = {
   showcase: {
     title: "Investīciju vitrīna",
     lead: "Dalībnieki, kas meklē investīcijas: kam tās vajag, cik un kur. Izvēlieties projektu un piesakiet tikšanos izstādē.",
-    exampleNote: "Visi vitrīnas ieraksti pagaidām ir izdomāti piemēri.",
+    exampleNote: "Ieraksti ar zīmi “PIEMĒRS” ir izdomāti jaunuzņēmumi; neviens reāls uzņēmums šeit nav norādīts kā investīciju meklētājs.",
     filterSector: "Nozare",
     filterStage: "Stadija",
     filterAmount: "Apjoms",
@@ -500,7 +500,7 @@ const lv = {
         title: "Licences un atļaujas",
         text: "Daudzām darbībām mežā, lauksaimniecībā un pārvadājumos vajag reģistrāciju vai atļauju. Sāciet ar uzņēmuma reģistrāciju un nozares iestādes prasībām.",
         links: [
-          { label: "Uzņēmumu reģistrs", url: "https://www.ur.gov.lv/en/" },
+          { label: "Uzņēmumu reģistrs", url: "https://www.ur.gov.lv/en" },
           { label: "LIAA: meža nozare", url: "https://www.liaa.gov.lv/en/trade/industries/forest" },
         ],
       },
@@ -514,8 +514,8 @@ const lv = {
         text: "Investīciju piesaistes, eksporta un lauku attīstības atbalstam ir valsts programmas. Pieejamās programmas un nosacījumi mainās, tāpēc skatiet aktuālo informāciju.",
         links: [
           { label: "LIAA", url: "https://www.liaa.gov.lv/en" },
-          { label: "Lauku atbalsta dienests", url: "https://www.lad.gov.lv/" },
-          { label: "ALTUM", url: "https://www.altum.lv/" },
+          { label: "Lauku atbalsta dienests", url: "https://www.lad.gov.lv/en" },
+          { label: "Atbalsts uzņēmējiem (business.gov.lv)", url: "https://business.gov.lv/en/support-opportunities/summary-support-entrepreneurs" },
         ],
       },
       {
