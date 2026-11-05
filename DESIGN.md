@@ -1,13 +1,13 @@
 # DESIGN.md — SEER
 
 **SEER Expo — the Saldus agriculture, forestry and logistics innovation fair.**
-Bold & youthful: a bright off-white
-page, **one strong colour** (forest green `#2F593E`), **one warm highlight**
-(orange `#E17235`) and green-black ink outlines. Both colours come from the
-"Saldus novads · Digitālā prakse" badge. Things look like **stickers**: rounded shapes,
-2px ink edges and hard offset shadows with no blur. Big, friendly headings in
-Bricolage Grotesque do the shouting so the body text can stay calm and readable.
-**Light mode is the default**; dark mode stays available from the header toggle.
+Calm and confident, like a serious trade fair: a warm off-white page, **one
+strong colour** (forest green `#2F593E`), **one warm highlight** (orange
+`#E17235`), thin soft outlines and low, soft shadows. Both colours come from the
+"Saldus novads · Digitālā prakse" badge. The one picture is the **key visual**,
+Saldus seen from above. Big Bricolage Grotesque headings carry the personality,
+so everything around them can stay quiet. **Light mode is the default**; dark
+mode stays available from the header toggle.
 
 > Values live in `config/site.ts` (`theme.light`, `theme.dark`) and become CSS
 > variables via `lib/theme-css.ts`; components use the token names, never hex.
@@ -19,28 +19,29 @@ Bricolage Grotesque do the shouting so the body text can stay calm and readable.
 | `bg` | `#F8F6F1` | `#0E1712` | Page background (warm off-white / green-black) |
 | `surface` | `#FFFFFF` | `#16211B` | Cards, inputs, dialogs |
 | `surface-muted` | `#EEEBE3` | `#1D2B23` | Alternate sections, table heads, segmented controls |
-| `line` | `#DDD9CE` | `#2B3B31` | Quiet dividers and input borders |
-| `edge` | `#13241A` | `#4E6A58` | Sticker outlines and hard shadows: cards, buttons, header rule |
+| `line` | `#DDD9CE` | `#2B3B31` | Dividers, section rules, input borders |
+| `edge` | `#D2CDBF` | `#33463A` | Card and panel outlines (1px) |
 | `ink` | `#13241A` | `#F2F0EA` | Text (15.0:1 / 16.0:1 on bg) |
 | `ink-muted` | `#4D5C52` | `#AEBBB2` | Secondary text (6.6:1 / 9.2:1 on bg, ≥ 5.9:1 on every surface) |
-| `primary` | `#2F593E` | `#7FC79A` | Forest green: links, focus ring, green text (≥ 6.7:1 / 7.4:1 on every surface) |
+| `primary` | `#2F593E` | `#7FC79A` | Forest green: links, eyebrows, numbers, focus ring (≥ 6.7:1 / 7.4:1 on every surface) |
 | `primary-fill` | `#2F593E` | `#2F593E` | Green fills with white text (8.0:1) |
-| `primary-hover` | `#24462F` | `#3A6B4B` | Hover on green fills (white text 10.5:1 / 6.2:1) |
-| `primary-soft` | `#E6EFE8` | `#17301F` | Soft badges, tags |
-| `accent` | `#E17235` | `#E17235` | Orange: the main CTA, marker highlight, eyebrows, selected chips, stickers |
-| `accent-ink` | `#A84B17` | `#F2A174` | Orange as text (focus-area labels, small icons) (≥ 4.8:1 / 7.1:1) |
-| `accent-soft` | `#FCEADF` | `#2E1E14` | Orange-tinted panels ("our" row, QR panel) |
-| `on-accent` | `#13241A` | `#13241A` | Text on orange (5.1:1; 6.0:1 on hover) |
-| `night` / `on-night` | `#13241A` / `#F8F6F1` | `#08100B` / `#F2F0EA` | Always-dark surfaces: footer, phone mock |
+| `primary-hover` | `#24462F` | `#3A6B4B` | Hover on green fills |
+| `primary-soft` | `#E6EFE8` | `#17301F` | Icon discs, active nav item, soft badges |
+| `accent` | `#E17235` | `#E17235` | Orange: the one main button per screen, the dot after the name, the road in the key visual |
+| `accent-ink` | `#A84B17` | `#F2A174` | Orange as text or small icons (≥ 4.8:1 / 7.1:1) |
+| `accent-soft` | `#FCEADF` | `#2E1E14` | Orange-tinted panels |
+| `on-accent` | `#13241A` | `#13241A` | Text on orange (5.1:1) |
+| `night` / `on-night` | `#13241A` / `#F8F6F1` | `#08100B` / `#F2F0EA` | Always-dark surfaces: footer; outlines and light points in the key visual |
+| `land-*` | | | Field colours of the key visual: `crop` + `row`, `forest` + `moss`, `meadow`, `wheat` + `straw` (dimmer in dark mode) |
 | `success`, `warning`, `danger` (+ `-soft`) | | | Status colours, all ≥ 5.3:1 on their soft background |
 
-- **One loud colour per block.** A section is either off-white with green
-  and orange details, or a solid green block (company benefits, closing CTA)
-  with white text and orange buttons. Never `accent` orange as text on white
-  (use `accent-ink`), and never white text on orange (use `on-accent`).
+- **Orange is rare.** One orange button per screen (the main action), the dot
+  after "SEER Expo" and the road in the key visual. Labels, icons and numbers
+  are green. Never `accent` orange as text on white (use `accent-ink`), and
+  never white text on orange (use `on-accent`).
+- **One solid block at a time.** A section is off-white or `surface-muted`;
+  only the investor panel and the closing call to action are solid green.
 - **Printing is always light.**
-- **Inverted chips** (`bg-ink text-bg`: active language, segmented tabs, toasts)
-  flip with the theme on purpose.
 - Focus rings are `primary`; inside `bg-night` and `bg-primary-fill` panels they
   switch to `accent` so they stay visible.
 
@@ -48,22 +49,23 @@ Bricolage Grotesque do the shouting so the body text can stay calm and readable.
 
 | Family | Use | Source |
 |---|---|---|
-| **Bricolage Grotesque Variable** (`font-display`) | All `h1`–`h3`, big numbers, brand name, partner chips | `@fontsource-variable/bricolage-grotesque` (latin-ext: ā č ē ģ ī ķ ļ ņ š ū ž) |
+| **Bricolage Grotesque Variable** (`font-display`) | All `h1`–`h3`, big numbers, brand name | `@fontsource-variable/bricolage-grotesque` (latin-ext: ā č ē ģ ī ķ ļ ņ š ū ž) |
 | **Inter Variable** (`font-sans`) | Body, labels, buttons, tables | `@fontsource-variable/inter` (latin-ext) |
 
 Headings get `font-display` automatically (`@layer base` in `app/globals.css`).
+The link preview image uses static Bricolage files from `@fontsource/bricolage-grotesque`.
 
 | Step | Size / line height | Weight | Use |
 |---|---|---|---|
-| display | clamp(2.5rem, 7vw, 4.75rem) / 1.0, tracking −0.03em | 800 | Hero headline only |
+| display | clamp(3rem, 9vw, 5.75rem) / 0.92, tracking −0.035em | 800 | Hero name only |
 | h1 | 2rem → 3rem / 1.1 | 800 | Page titles |
-| h2 | 2.1rem → 3rem / 1.05 | 800 | Section titles |
+| h2 | 2rem → 2.75rem / 1.05 | 800 | Section titles |
 | h3 | 1.125–1.5rem / 1.3 | 800 | Card titles |
-| stat | 2.2rem (phone) → 3.2rem | 800 display | Numbers in the fact bubbles |
+| stat | 2.4rem → 3rem | 800 display, green | Numbers in the facts strip |
 | lead | 1.125rem / 1.6 | 400 | Intro paragraphs |
 | body | 1rem / 1.6 | 400–500 | Default |
 | small | 0.875rem / 1.5 | 500 | Meta, help text |
-| micro | 0.75rem / 1.4 | 700, uppercase, tracking 0.08em | Eyebrow pills, badges |
+| micro | 0.75rem / 1.4 | 700, uppercase, tracking 0.14em | Eyebrows (green text), badges |
 
 Body copy max width ~60ch. Labels are bold (700) so forms read at a glance.
 
@@ -71,97 +73,86 @@ Body copy max width ~60ch. Labels are bold (700) so forms read at a glance.
 
 4px base (Tailwind scale). Common steps: 8, 12, 16, 24, 32, 48, 64, 96.
 Content width `max-w-6xl` (72rem); 16px side gutter on phones, 24px from `sm`.
-Sections: `py-16` mobile, `py-24` desktop, separated by 2px `edge` rules or a
-colour change. Works from 360px with no sideways scroll (decorative shapes sit
-inside `overflow-hidden` sections).
+Sections: `py-16` mobile, `py-24` desktop, separated by a 1px `line` rule or a
+change to `surface-muted`. Works from 360px with no sideways scroll.
 
 ## Shape and depth
 
-- Radius: `sm` 8px, `md` 14px (inputs, notices, tiles), `lg` 22px (cards,
+- Radius: `sm` 8px, `md` 14px (inputs, notices, tiles), `lg` 20px (cards,
   panels, dialogs), `full` for buttons, chips, badges, nav items and tabs.
-- Outlines: 2px `edge` on cards, buttons, dialogs, menus, the header bottom.
-- Shadows are **hard offsets, no blur**: `shadow-card` 3px 3px, `shadow-pop`
-  4px 4px (button hover), `shadow-lift` 6px 6px (feature panels, dialogs,
-  menus), all in the `edge` colour.
-- Press feedback: buttons lift 1px on hover and sink 2px into their shadow on
-  click.
+- Outlines: 1px `edge` on cards, panels, dialogs and menus; 1px `line` for
+  rules and dividers.
+- Shadows are **soft and low**: `shadow-card` for raised panels, `shadow-pop`
+  for hover, `shadow-lift` for menus and dialogs. Most cards have no shadow.
+- No tilts, no hard offset shadows, no thick ink outlines.
 
 ## Components
 
 - **Buttons:** pills. `accent` (orange, ink text) is the single most important
-  CTA on a screen; `primary` (green, white text); `secondary` (white, ink
-  text); all three are stickers (2px edge + hard shadow). `quiet` (text only,
-  green), `danger` (red outline), `inverse` (white outline on green). Height 44px
-  (36px small, 52px large). Disabled = 50% opacity, no pointer.
+  action on a screen; `primary` (green, white text); `secondary` (thin ink
+  outline, transparent); `quiet` (text only, green); `danger` (red outline);
+  `inverse` (white outline on green). Height 44px (36px small, 52px large).
+  They sink 1px on click. Disabled = 50% opacity, no pointer.
 - **Links:** `primary`, underline on hover, external links get an arrow.
-- **Inputs:** 44px, white, 2px `line` border that turns `edge` on focus plus the
+- **Inputs:** 44px, white, `line` border that turns `edge` on focus plus the
   3px green focus ring, `md` radius, bold label above, help text below in
   `ink-muted`, error text in `danger` with icon; `aria-invalid` +
   `aria-describedby`.
-- **Choice chips** (form options): pills; selected = orange sticker
-  (`accent`, edge, `shadow-card`).
-- **Cards:** white, 2px `edge`, `lg` radius, `shadow-card`; clickable cards move
-  up-left 2px and grow to `shadow-lift` on hover.
+- **Choice chips** (form options): pills; selected = orange.
+- **Cards:** white, 1px `edge`, `lg` radius; clickable cards get `shadow-pop`
+  on hover.
+- **Icon discs:** a 44–56px `primary-soft` circle with a green icon.
 - **Badges:** micro type, pill. "PIEMĒRS" (example) = `warning-soft` with a
   flask icon; "participation not yet confirmed" = neutral; "looking for
   investment" = `primary-soft`; statuses by meaning (submitted/pending =
   warning, approved/accepted = success, rejected/declined = danger).
-- **Eyebrows:** small orange pills above section and page titles.
-- **Header:** off-white, sticky, 2px `edge` bottom rule. Menu items depend on
-  the role (none, exhibitor, innovator, investor, school); active item =
-  orange pill. Right side: theme and language pills, then the role menu
+- **Eyebrows:** small uppercase green text above section and page titles (no pill).
+- **Header:** off-white, sticky, 1px `line` bottom rule. Menu items depend on
+  the role (none, exhibitor, innovator, investor, school); active item = soft
+  green pill. Right side: theme and language toggles, then the role menu
   ("Choose a role" button, or the current role with switch / leave options).
-- **Role buttons:** the four "who are you?" buttons on the landing page,
-  closing CTA and empty dashboard; company = accent (the main CTA), investor =
-  primary, innovator and school = secondary.
+- **Hero:** eyebrow (Saldus · days · dates and venue), the name huge with
+  "Expo" in green and an orange dot, the subtitle, the lead, then one orange
+  button (company: book a stand), one outlined button (investor) and two
+  underlined links (innovator, school team). The key visual with its legend
+  sits on the right (below on phones).
+- **Facts strip:** four numbers from `config/event.ts` (days, paid stands,
+  free innovator places, smallest stand price) between thin rules, 2×2 on phones.
+- **Role buttons** (closing call to action, empty dashboard): the same four
+  roles as a 2×2 grid; on green, the non-orange ones are `inverse`.
 - **Stand map** (`components/fair/stand-map.tsx`): a 6-column grid, L = 2×2,
-  M = 2×1, S = 1×1 tiles; free = white, reserved = orange with a clock icon,
-  sold = green with a lock icon (never colour alone); innovator zone and
-  entrance below; free tiles are links (stands page) or a picker (booking form).
-- **Cards:** exhibitor, showcase and challenge cards share the card style; the
-  booking form shows the exhibitor card as a live preview in a dashed frame.
-- **Footer:** `night` block with a scalloped orange edge on top and the tagline
-  set huge in Bricolage Grotesque.
+  M = 2×1, S = 1×1 tiles; free = white with a green outline, reserved = orange
+  with a clock icon, sold = green with a lock icon (never colour alone);
+  innovator zone and entrance below; free tiles are links (stands page) or a
+  picker (booking form).
+- **Lists instead of cards** where items are read, not clicked ("why Saldus",
+  FAQ): rows between thin rules.
+- **Footer:** `night` block with the tagline set huge in Bricolage Grotesque.
 
-## Graphic devices
+## Key visual
 
-Use one or two per screen, never all at once.
+`components/key-visual.tsx`, geometry in `lib/key-visual.ts`, markup in
+`lib/key-visual-svg.ts`. Saldus from above: jittered field parcels with crop
+rows (agriculture), tree crowns (forestry), meadows and stubble; an orange road
+along the field corners (logistics); linked points on the road (innovation),
+with dashed links to nearby fields. It is seeded, so it is the same picture
+every time (`seed` 1 in the hero); change the seed to get a different
+arrangement. The road's dashes move slowly and one point pulses, both off with
+`prefers-reduced-motion`. It follows the theme through the `land-*` tokens and
+is always `aria-hidden`; the legend under it names the sectors.
 
-- **Marker highlight** (`.marker`): an orange, slightly rounded block behind
-  the last part of a headline (after " — ") or a key name. Text on it is
-  always `on-accent`, so it works in both themes.
-- **Circles:** an orange disc in the closing CTA. Always outlined in `edge`,
-  never behind running text.
-- **Hero:** text on the left (eyebrow, headline, subtitle, lead, dates chip),
-  the four role buttons stacked on the right; on phones the buttons follow the
-  text. No picture in the hero.
-- **Fact bubbles:** four equal round bubbles in a row (2×2 on phones),
-  alternating green and orange, each holding a number and a short bold label
-  (days, sectors, formats, visit day). No statistics without a source.
-- **Nature × digital illustrations** (`components/nature.tsx`): Saldus is
-  farming and forest country, and SEER brings IT, AI and cybersecurity to it.
-  Three hand-drawn SVG motifs in the theme colours with the same ink edge:
-  `WheatEar` (agriculture),
-  `LeafSprig` (a green/orange leafy twig) and `CircuitLeaf` (a leaf whose
-  veins are circuit traces with round nodes: nature meets technology). Used in
-  beside section titles, under the FAQ title and in the
-  closing CTA; always `aria-hidden`, never behind running text,
-  most of them hidden below `lg` to keep phones calm.
-- **Tilts:** sector and fair-part cards tilt ±1–2° on large screens like
-  stickers on a laptop lid. Never tilt body text blocks.
-- **Dot grid** (`.bg-dots`): 22px green dots behind the hero, faded out with a
-  mask.
-- **Scallop** (`.scallop`): a row of orange half-circles along the footer top.
+The same drawing makes the **link preview image** (`app/opengraph-image.tsx`,
+1200×630, built at build time): name, LV and EN subtitle, dates line, and the
+visual on the right.
 
 ## Imagery and icons
 
 - Icons: **lucide-react**, 1.75 stroke (3 for check marks), 20px in text,
-  often inside a 40–56px round sticker (green or orange with an `edge` outline).
+  often inside a `primary-soft` icon disc.
 - No stock photos of people, no company logos (exhibitors upload their own),
-  no Saldus photo. Nature and technology are drawn, not photographed (see the
-  nature × digital illustrations above).
+  no Saldus photo. The key visual is the only illustration.
 - Logo: a forest-green rounded tile with a white "S" and an orange dot, the
   "eye" that sees ahead (`components/logo.tsx`, `public/icon.svg`).
 - Motion: 150ms ease-out on hover/press; 200ms fade/slide when switching agenda
-  days; nothing moves on its own. Everything respects
+  days; the key visual's road and one point. Everything respects
   `prefers-reduced-motion`.

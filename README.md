@@ -80,7 +80,7 @@ Footer → **"Atiestatīt demo datus" (Reset demo data)**. Deletes everything cr
 
 ```
 app/                 routes, one folder per page
-components/          header (role menu), footer, role buttons, expo illustration, ui/ (button, form, dialog, …)
+components/          header (role menu), footer, role buttons, key visual, ui/ (button, form, dialog, …)
 components/fair/     stand map, booking form, exhibitor / showcase / challenge cards, filters, badges
 config/event.ts      event name, subtitle, dates & venue text, stand layout and prices, sectors, option lists, age limits
 config/site.ts       brand, tagline, contacts, colour tokens (light/dark), schools
@@ -88,7 +88,9 @@ messages/lv.ts       all UI text in Latvian (source of truth)
 messages/en.ts       English, type-checked against lv.ts (the build fails if a key is missing)
 lib/data/            data layer: types.ts, repository.ts (interface), local-storage.ts (demo), seed.ts, hooks.ts
 lib/fair/            pure logic with tests: stands.ts, filters.ts, status.ts, forms.ts
+lib/key-visual*.ts   the hero drawing (Saldus from above): seeded geometry + SVG markup, with tests
 lib/roles.ts         roles and per-role menus (server-safe); lib/role.tsx is the client provider
+app/opengraph-image.tsx  link preview image (1200×630) built from the same drawing
 DESIGN.md            design tokens and component rules
 ```
 
@@ -102,7 +104,7 @@ All in `config/event.ts` unless noted:
 - `standTypes[...].price`: stand prices are **placeholders** (S €250, M €450, L €800); the UI labels them as such.
 - `hallStands`: the hall layout (21 paid stands: 3 L, 6 M, 12 S). `innovatorStandLimit`: 16 free places.
 - `eventConfig.advicePartner`: "In cooperation with LIAA and a partner law firm (to be confirmed)".
-- `config/site.ts`: team contacts, the school list.
+- `config/site.ts`: `contacts.email` (empty = the footer leaves the line out), the school list.
 - `lib/data/seed.ts`: example data (see below).
 
 ### Example data (seed) rules
@@ -120,6 +122,10 @@ General pointers only, with links to official sources (Register of Enterprises, 
 ### Single-file preview
 
 `npm run build:artifact -- <out.html>` bundles the whole app into one HTML file. An in-memory router replaces Next's routing (see `artifact/`). Use it to share a clickable demo without a server, e.g. as a claude.ai artifact.
+
+### Link preview image
+
+`app/opengraph-image.tsx` renders the image that LinkedIn, Facebook, WhatsApp and Slack show when someone shares the site. Next.js builds it at `npm run build` and adds the `og:image` tags. Those tags need the site's full address: on Vercel this is automatic; on other hosts set `metadataBase` in `app/layout.tsx` to the real URL.
 
 ### Demo-mode limitations
 
@@ -171,7 +177,7 @@ Lapas apakšā → **"Atiestatīt demo datus"**. Tiek dzēsts viss šajā pārl�
 
 ### Kas jānomaina pirms īstās izstādes
 
-`config/event.ts`: datumi un vieta, stendu cenas (pašlaik aptuvenas), zāles plānojums, inovatoru vietu skaits, partneru teksts. `config/site.ts`: kontakti un skolu saraksts.
+`config/event.ts`: datumi un vieta, stendu cenas (pašlaik aptuvenas), zāles plānojums, inovatoru vietu skaits, partneru teksts. `config/site.ts`: komandas e-pasts (tukšs = kājenē nerāda) un skolu saraksts.
 
 ### Piemēru noteikumi
 
