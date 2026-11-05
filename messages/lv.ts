@@ -172,7 +172,6 @@ const lv = {
       days: "dienas Saldū",
       stands: "maksas stendi uzņēmumiem",
       innovator: "bezmaksas vietas inovatoriem",
-      price: "mazākais stends (provizoriska cena)",
     },
     sectors: {
       eyebrow: "Kāpēc šīs trīs nozares kopā",

@@ -20,12 +20,11 @@ import {
   Truck,
   Users,
 } from "lucide-react";
-import { eventConfig, hallStands, innovatorStandLimit, sectors, standTypes } from "@/config/event";
+import { eventConfig, hallStands, innovatorStandLimit, sectors } from "@/config/event";
 import { KeyVisual } from "@/components/key-visual";
 import { HeroRoleActions, RoleButtons } from "@/components/role-buttons";
 import { LinkButton } from "@/components/ui/button";
 import { Container, Eyebrow } from "@/components/ui/misc";
-import { formatEuro } from "@/lib/dates";
 import { fmt, useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
 
@@ -67,8 +66,8 @@ function IconDisc({ icon: Icon, className = "" }: { icon: typeof Sprout; classNa
 }
 
 /**
- * Two columns split by a rule: name, subtitle and lead on the left; the key
- * visual and the role actions on the right (actions first on phones).
+ * Two columns split by a rule: name, subtitle, lead and the role actions on
+ * the left; the key visual with its legend on the right (below on phones).
  */
 function Hero() {
   const { t, locale } = useI18n();
@@ -90,9 +89,11 @@ function Hero() {
           </h1>
           <p className="mt-6 max-w-[30ch] font-display text-xl font-semibold leading-snug sm:text-2xl">{tx(eventConfig.subtitle, locale)}</p>
           <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
+          <h2 className="sr-only">{h.rolesLabel}</h2>
+          <HeroRoleActions className="mt-8" />
         </div>
-        <div className="flex min-w-0 flex-col gap-6 border-t border-rule py-8 lg:border-l lg:border-t-0 lg:py-16 lg:pl-10">
-          <div className="order-2 lg:order-1" aria-hidden="true">
+        <div className="flex min-w-0 flex-col justify-center border-t border-rule py-8 lg:border-l lg:border-t-0 lg:py-16 lg:pl-10">
+          <div aria-hidden="true">
             <KeyVisual width={640} height={500} seed={1} cols={5} rows={4} nodes={4} className="block h-auto w-full" />
             <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-ink-muted">
               {sectors
@@ -108,10 +109,6 @@ function Hero() {
                 {h.innovation}
               </li>
             </ul>
-          </div>
-          <div className="order-1 lg:order-2">
-            <h2 className="sr-only">{h.rolesLabel}</h2>
-            <HeroRoleActions />
           </div>
         </div>
       </Container>
@@ -130,16 +127,14 @@ function LegendSwatch({ kind }: { kind: string }) {
   return <span className="h-1.5 w-5 rounded-full bg-accent ring-[1.5px] ring-night" />;
 }
 
-/** Four real numbers from `config/event.ts`. */
+/** Three real numbers from `config/event.ts` (no price until the organisers set them). */
 function Facts() {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const f = t.home.facts;
-  const smallest = Math.min(...Object.entries(standTypes).filter(([size]) => size !== "innovator").map(([, s]) => s.price));
   const items = [
     { value: String(eventConfig.days.length), label: f.days },
     { value: String(hallStands.length), label: f.stands },
     { value: String(innovatorStandLimit), label: f.innovator },
-    { value: formatEuro(smallest, locale), label: f.price },
   ];
   return (
     <section className="border-y border-rule bg-surface" aria-labelledby="facts-title">
@@ -147,14 +142,9 @@ function Facts() {
         {f.title}
       </h2>
       <Container>
-        <ul className="grid grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-3">
           {items.map((item, i) => (
-            <li
-              key={item.label}
-              className={`py-7 sm:py-9 ${i % 2 ? "border-l border-rule pl-5 sm:pl-8" : "pr-5 sm:pr-8"} ${
-                i > 1 ? "border-t border-rule lg:border-t-0" : ""
-              } lg:px-8 lg:first:pl-0 lg:[&:nth-child(3)]:border-l`}
-            >
+            <li key={item.label} className={`min-w-0 py-7 sm:py-9 ${i ? "border-l border-rule pl-3 sm:pl-8" : ""} ${i < 2 ? "pr-3 sm:pr-8" : ""}`}>
               <p className="font-display text-[2.4rem] font-extrabold leading-none tracking-tight text-primary tabular-nums sm:text-5xl">{item.value}</p>
               <p className="mt-2 text-sm font-semibold text-ink-muted sm:text-base">{item.label}</p>
             </li>

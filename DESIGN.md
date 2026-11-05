@@ -120,14 +120,15 @@ from the screen edge on phones). Works from 360px with no sideways scroll.
   the role (none, exhibitor, innovator, investor, school); active item = soft
   green block. Right side: theme and language toggles, then the role menu
   ("Choose a role" button, or the current role with switch / leave options).
-- **Hero:** two columns split by a `rule` line. Left, centred vertically:
-  eyebrow (Saldus · days · dates and venue), the name huge with "Expo" in
-  green and an orange dot, the subtitle, the lead. Right: the key visual with
-  its legend, then a full-width orange button (company: book a stand), a
-  full-width outlined button (investor) and two underlined links (innovator,
-  school team). On phones the buttons come before the visual.
-- **Facts strip:** four numbers from `config/event.ts` (days, paid stands,
-  free innovator places, smallest stand price) between thin rules, 2×2 on phones.
+- **Hero:** two columns split by a `rule` line. Left: eyebrow (Saldus · days ·
+  dates and venue), the name huge with "Expo" in green and an orange dot, the
+  subtitle, the lead, then a full-width orange button (company: book a stand),
+  a full-width outlined button (investor) and two underlined links
+  (innovator, school team). Right, centred vertically: the key visual with its
+  legend (below the buttons on phones).
+- **Facts strip:** three numbers from `config/event.ts` (days, paid stands,
+  free innovator places) in three ruled columns at every width. No price
+  until the organisers set real ones.
 - **Role buttons** (closing call to action, empty dashboard): the same four
   roles as a 2×2 grid; on green, the non-orange ones are `inverse`.
 - **Stand map** (`components/fair/stand-map.tsx`): a 6-column grid, L = 2×2,

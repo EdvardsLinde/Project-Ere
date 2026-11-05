@@ -168,7 +168,6 @@ const en: Messages = {
       days: "days in Saldus",
       stands: "paid stands for companies",
       innovator: "free places for innovators",
-      price: "smallest stand (provisional price)",
     },
     sectors: {
       eyebrow: "Why these three sectors together",
