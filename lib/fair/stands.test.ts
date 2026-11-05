@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { hallStands, innovatorStandLimit } from "@/config/event";
-import type { Exhibitor } from "@/lib/data/fair-types";
+import type { Exhibitor } from "@/lib/data/types";
 import { freeStands, innovatorSpotsLeft, isStandAvailable, standArea, standPrice, standSizeOf, standStates } from "./stands";
 
 const holder = (number: number | undefined, status: Exhibitor["status"], size: Exhibitor["stand"]["size"] = "S") => ({

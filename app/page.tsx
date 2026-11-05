@@ -2,51 +2,44 @@
 
 import {
   ArrowRight,
-  Award,
-  BadgeCheck,
-  BookOpen,
   Building2,
+  CalendarDays,
   CalendarRange,
-  Check,
-  ClipboardList,
   Compass,
-  FileCheck2,
+  Factory,
   GraduationCap,
   Handshake,
-  Hourglass,
+  Landmark,
+  Lightbulb,
   MapPin,
-  MessageSquare,
-  QrCode,
+  PackageSearch,
+  Scale,
   Search,
-  ShieldCheck,
+  Sprout,
+  Trees,
   TrendingUp,
-  UserCheck,
-  Wrench,
-  Zap,
+  Truck,
+  Users,
 } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { eventConfig } from "@/config/event";
 import { LinkButton } from "@/components/ui/button";
-import { Chip, Container, Eyebrow, ExternalLink } from "@/components/ui/misc";
-import { CertificateIllustration } from "@/components/certificate-illustration";
+import { Container, Eyebrow } from "@/components/ui/misc";
 import { CircuitLeaf, LeafSprig, PineBranch, WheatEar } from "@/components/nature";
-import { Seal } from "@/components/seal";
-import { fmt, useI18n } from "@/lib/i18n";
-import { formatCertificateId, formatScore } from "@/lib/placements";
-import { loginPath } from "@/lib/session";
-
-const companyRegister = `${loginPath("company")}&tab=register`;
+import { ExpoIllustration } from "@/components/expo-illustration";
+import { RoleButtons } from "@/components/role-buttons";
+import { useI18n } from "@/lib/i18n";
+import { tx } from "@/lib/text";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <WhyNow />
-      <HowItWorks />
-      <Benefits />
-      <Credential />
-      <Comparison />
-      <Partners />
-      <Week />
+      <Facts />
+      <Sectors />
+      <WhySaldus />
+      <Parts />
+      <Days />
+      <ForWhom />
       <Faq />
       <ClosingCta />
     </>
@@ -65,16 +58,11 @@ function SectionTitle({ eyebrow, title, lead, id }: { eyebrow: string; title: st
   );
 }
 
-/** Splits "Headline — highlighted part" so the part after the dash gets the marker. */
-function splitTitle(title: string): [string, string] {
-  const i = title.lastIndexOf(" — ");
-  return i < 0 ? [title, ""] : [`${title.slice(0, i)} —`, title.slice(i + 3)];
-}
-
 function Hero() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const h = t.home.hero;
-  const [headline, highlight] = splitTitle(h.title);
+  const words = eventConfig.name.split(" ");
+  const highlight = words.length > 1 ? words.pop() : "";
   return (
     <section className="relative overflow-hidden" aria-labelledby="hero-title">
       <div
@@ -86,9 +74,9 @@ function Hero() {
           <Eyebrow>{h.eyebrow}</Eyebrow>
           <h1
             id="hero-title"
-            className="mt-5 text-[clamp(2.5rem,7vw,4.75rem)] font-extrabold leading-[1] tracking-[-0.03em] text-ink"
+            className="mt-5 text-[clamp(2.75rem,8vw,5.25rem)] font-extrabold leading-[0.98] tracking-[-0.03em] text-ink"
           >
-            {headline}
+            {words.join(" ")}
             {highlight && (
               <>
                 {" "}
@@ -96,17 +84,16 @@ function Hero() {
               </>
             )}
           </h1>
-          <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
-          <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <LinkButton href="/prakses" variant="accent" size="lg">
-              <Search className="size-5" aria-hidden="true" />
-              {h.findCta}
-            </LinkButton>
-            <LinkButton href={companyRegister} variant="secondary" size="lg">
-              <Building2 className="size-5" aria-hidden="true" />
-              {h.offerCta}
-            </LinkButton>
-          </div>
+          <p className="mt-5 max-w-[34ch] font-display text-xl font-bold leading-snug sm:text-2xl">
+            {tx(eventConfig.subtitle, locale)}
+          </p>
+          <p className="mt-4 max-w-[58ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full border-2 border-line bg-surface px-3 py-1 text-sm font-bold">
+            <CalendarDays className="size-4 text-primary" aria-hidden="true" />
+            {tx(eventConfig.datesVenue, locale)}
+          </p>
+          <h2 className="sr-only">{h.rolesLabel}</h2>
+          <RoleButtons className="mt-8" />
         </div>
         <HeroVisual />
       </Container>
@@ -116,7 +103,7 @@ function Hero() {
 
 /**
  * Big primary circle, an accent dot, a pine branch (forestry) and a wheat ear
- * (agriculture) around the sample certificate, plus a round "3–5 days" sticker.
+ * (agriculture) around the fair's pass, plus a round "3 days" sticker.
  */
 function HeroVisual() {
   const { t } = useI18n();
@@ -124,11 +111,11 @@ function HeroVisual() {
     <div className="relative mx-auto w-full max-w-md py-6" aria-hidden="true">
       <div className="absolute left-1/2 top-1/2 aspect-square w-[118%] max-w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-edge bg-primary-fill" />
       <div className="absolute -right-2 top-0 size-16 rounded-full border-2 border-edge bg-accent sm:size-20" />
-      <CertificateIllustration />
+      <ExpoIllustration />
       <PineBranch className="absolute -bottom-9 -left-6 w-40 -rotate-[8deg] sm:-bottom-12 sm:-left-16 sm:w-56" />
       <WheatEar className="absolute -bottom-6 -right-3 h-36 rotate-[14deg] sm:-bottom-8 sm:-right-12 sm:h-48" />
-      <p className="absolute -left-1 -top-5 z-10 flex size-20 -rotate-12 items-center justify-center rounded-full border-2 border-edge bg-accent p-2 text-center font-display text-[0.8rem] font-extrabold leading-tight text-on-accent shadow-card sm:-left-6 sm:top-2 sm:size-28 sm:text-lg">
-        {fmt(t.common.workingDays, { n: "3–5" })}
+      <p className="absolute -left-1 -top-5 z-10 flex size-20 -rotate-12 items-center justify-center rounded-full border-2 border-edge bg-accent p-2 text-center font-display text-[0.95rem] font-extrabold leading-tight text-on-accent shadow-card sm:-left-6 sm:top-2 sm:size-28 sm:text-xl">
+        {t.home.hero.sticker}
       </p>
     </div>
   );
@@ -137,34 +124,25 @@ function HeroVisual() {
 /** Primary and accent alternate. */
 const BUBBLES = ["bg-primary-fill text-white", "bg-accent text-on-accent"];
 
-/** The four statistics: equal round bubbles with the number, a short label and the source inside. */
-function WhyNow() {
+/** The fair in four round bubbles (no statistics: counts of days, sectors and formats). */
+function Facts() {
   const { t } = useI18n();
-  const w = t.home.why;
+  const f = t.home.facts;
   return (
-    <section className="pb-16 pt-4 sm:pb-24 sm:pt-8" aria-labelledby="why-title">
+    <section className="pb-16 pt-4 sm:pb-24 sm:pt-8" aria-labelledby="facts-title">
       <Container className="relative">
         <CircuitLeaf className="pointer-events-none absolute -top-4 right-10 hidden w-32 rotate-12 lg:block" />
-        <SectionTitle id="why-title" eyebrow={w.eyebrow} title={w.title} lead={w.lead} />
+        <SectionTitle id="facts-title" eyebrow={f.eyebrow} title={f.title} />
         <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
-          {w.cards.map((c, i) => (
+          {f.items.map((item, i) => (
             <li
-              key={c.url}
+              key={item.label}
               className={`mx-auto flex aspect-square w-full max-w-[16rem] flex-col items-center justify-center rounded-full border-2 border-edge px-4 text-center shadow-card sm:px-8 ${
                 BUBBLES[i % BUBBLES.length]
               }`}
             >
-              <p className="font-display text-[1.6rem] font-extrabold leading-none tracking-tight sm:text-[2.4rem]">{c.value}</p>
-              <p className="mt-2 text-xs font-bold leading-snug sm:mt-3 sm:text-[0.95rem]">{c.label}</p>
-              <a
-                href={c.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${w.source}: ${c.source} ${t.common.opensInNewTab}`}
-                className="mt-1.5 text-[0.7rem] font-semibold underline underline-offset-2 hover:no-underline sm:mt-2 sm:text-xs"
-              >
-                {w.source} ↗
-              </a>
+              <p className="font-display text-[2.2rem] font-extrabold leading-none tracking-tight sm:text-[3.2rem]">{item.value}</p>
+              <p className="mt-2 text-xs font-bold leading-snug sm:mt-3 sm:text-[0.95rem]">{item.label}</p>
             </li>
           ))}
         </ul>
@@ -173,38 +151,108 @@ function WhyNow() {
   );
 }
 
-function HowItWorks() {
+function Sectors() {
   const { t } = useI18n();
-  const h = t.home.how;
-  const icons = [ClipboardList, Search, UserCheck, Wrench, Award];
+  const s = t.home.sectors;
+  const icons = [Sprout, Trees, Truck];
   return (
-    <section className="relative overflow-hidden border-y-2 border-edge bg-surface-muted py-16 sm:py-24" aria-labelledby="how-title">
+    <section className="relative overflow-hidden border-y-2 border-edge bg-surface-muted py-16 sm:py-24" aria-labelledby="sectors-title">
       <LeafSprig className="pointer-events-none absolute -right-2 top-4 hidden w-44 -scale-x-100 lg:block" />
       <Container>
-        <SectionTitle id="how-title" eyebrow={h.eyebrow} title={h.title} />
-        <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
-          {h.steps.map((s, i) => {
+        <SectionTitle id="sectors-title" eyebrow={s.eyebrow} title={s.title} lead={s.lead} />
+        <ul className="mt-12 grid gap-5 md:grid-cols-3">
+          {s.items.map((item, i) => {
             const Icon = icons[i];
-            const last = i === h.steps.length - 1;
             return (
               <li
-                key={s.title}
+                key={item.title}
+                className={`flex flex-col rounded-lg border-2 border-edge p-6 shadow-card ${i === 1 ? "bg-primary-fill text-white" : "bg-surface"} lg:odd:-rotate-1 lg:even:rotate-1`}
+              >
+                <span
+                  className={`flex size-12 items-center justify-center rounded-full border-2 border-edge ${i === 1 ? "bg-accent text-on-accent" : "bg-primary-fill text-white"}`}
+                >
+                  <Icon className="size-6" aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 text-2xl font-extrabold">{item.title}</h3>
+                <p className={`mt-1 ${i === 1 ? "text-white" : "text-ink-muted"}`}>{item.text}</p>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="mt-8 flex items-start gap-3 rounded-md border-2 border-line bg-surface px-4 py-3 font-semibold">
+          <Scale className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
+          {s.adjacent}
+        </p>
+      </Container>
+    </section>
+  );
+}
+
+function WhySaldus() {
+  const { t } = useI18n();
+  const w = t.home.whySaldus;
+  const icons = [Factory, MapPin, TrendingUp];
+  return (
+    <section className="py-16 sm:py-24" aria-labelledby="saldus-title">
+      <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+        <SectionTitle id="saldus-title" eyebrow={w.eyebrow} title={w.title} />
+        <ul className="space-y-4">
+          {w.items.map((item, i) => {
+            const Icon = icons[i];
+            return (
+              <li key={item.title} className="flex gap-4 rounded-lg border-2 border-edge bg-surface p-5 shadow-card">
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+                  <Icon className="size-6" aria-hidden="true" />
+                </span>
+                <div>
+                  <h3 className="text-xl font-extrabold">{item.title}</h3>
+                  <p className="mt-1 text-ink-muted">{item.text}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </Container>
+    </section>
+  );
+}
+
+function Parts() {
+  const { t } = useI18n();
+  const p = t.home.parts;
+  const parts = [
+    { icon: Building2, href: "/stands" },
+    { icon: Lightbulb, href: "/apply/innovator" },
+    { icon: Landmark, href: "/investment" },
+    { icon: GraduationCap, href: "/challenges" },
+  ];
+  return (
+    <section className="border-y-2 border-edge bg-surface-muted py-16 sm:py-24" aria-labelledby="parts-title">
+      <Container>
+        <SectionTitle id="parts-title" eyebrow={p.eyebrow} title={p.title} />
+        <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+          {p.items.map((item, i) => {
+            const { icon: Icon, href } = parts[i];
+            const last = i === p.items.length - 1;
+            return (
+              <li
+                key={item.title}
                 className={`flex flex-col rounded-lg border-2 border-edge p-5 shadow-card lg:odd:-rotate-1 lg:even:rotate-1 ${
                   last ? "bg-accent text-on-accent" : "bg-surface"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-display text-4xl font-extrabold leading-none tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                  <span
-                    className={`flex size-10 items-center justify-center rounded-full ${
-                      last ? "bg-ink text-bg" : "bg-primary-fill text-white"
-                    }`}
-                  >
+                  <span className={`flex size-10 items-center justify-center rounded-full ${last ? "bg-ink text-bg" : "bg-primary-fill text-white"}`}>
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
                 </div>
-                <h3 className="mt-5 text-lg font-extrabold leading-snug">{s.title}</h3>
-                <p className={`mt-1 text-[0.95rem] ${last ? "" : "text-ink-muted"}`}>{s.text}</p>
+                <h3 className="mt-5 text-lg font-extrabold leading-snug">{item.title}</h3>
+                <p className={`mt-1 flex-1 text-[0.95rem] ${last ? "" : "text-ink-muted"}`}>{item.text}</p>
+                <LinkButton href={href} variant={last ? "secondary" : "quiet"} size="sm" className="mt-4 self-start whitespace-normal">
+                  {item.cta}
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </LinkButton>
               </li>
             );
           })}
@@ -214,30 +262,68 @@ function HowItWorks() {
   );
 }
 
-function Benefits() {
+function Days() {
   const { t } = useI18n();
-  const s = t.home.students;
-  const c = t.home.companies;
-  const studentIcons = [Wrench, MessageSquare, BadgeCheck, FileCheck2, Hourglass, MapPin];
-  const companyIcons = [UserCheck, FileCheck2, Hourglass, TrendingUp, Handshake, Zap];
+  const d = t.home.days;
+  const icons = [Handshake, Lightbulb, Factory];
   return (
-    <section className="py-16 sm:py-24" aria-label={`${s.title} / ${c.title}`}>
+    <section className="py-16 sm:py-24" aria-labelledby="days-title">
+      <Container>
+        <SectionTitle id="days-title" eyebrow={d.eyebrow} title={d.title} />
+        <ol className="mt-10 grid gap-4 md:grid-cols-[1fr_1.4fr_1fr]">
+          {d.items.map((day, i) => {
+            const Icon = icons[i];
+            const middle = i === 1;
+            return (
+              <li key={day.label} className={`flex flex-col rounded-lg border-2 border-edge p-6 shadow-card ${middle ? "bg-primary-fill text-white" : "bg-surface"}`}>
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${middle ? "bg-accent text-on-accent" : "bg-primary-soft text-primary"}`}
+                  >
+                    <CalendarRange className="mr-1 inline size-3.5 align-[-2px]" aria-hidden="true" />
+                    {day.label}
+                  </span>
+                  <Icon className={`size-6 ${middle ? "text-accent" : "text-primary"}`} aria-hidden="true" />
+                </div>
+                <h3 className="mt-5 text-2xl font-extrabold">{day.title}</h3>
+                <p className={`mt-1 ${middle ? "text-white" : "text-ink-muted"}`}>{day.text}</p>
+              </li>
+            );
+          })}
+        </ol>
+        <LinkButton href="/agenda" variant="secondary" className="mt-8">
+          {d.cta}
+          <ArrowRight className="size-4" aria-hidden="true" />
+        </LinkButton>
+      </Container>
+    </section>
+  );
+}
+
+function ForWhom() {
+  const { t } = useI18n();
+  const e = t.home.forExhibitors;
+  const v = t.home.forInvestors;
+  const exhibitorIcons = [PackageSearch, Lightbulb, Scale, TrendingUp];
+  const investorIcons = [Trees, Search, Users, Factory];
+  return (
+    <section className="py-16 sm:py-24" aria-label={`${e.title} / ${v.title}`}>
       <Container className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-lg border-2 border-edge bg-surface p-6 shadow-lift sm:p-8" aria-labelledby="students-title">
+        <div className="rounded-lg border-2 border-edge bg-surface p-6 shadow-lift sm:p-8" aria-labelledby="exhibitors-title">
           <div className="flex items-center gap-4">
             <span className="flex size-14 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
-              <GraduationCap className="size-7" aria-hidden="true" />
+              <Building2 className="size-7" aria-hidden="true" />
             </span>
             <div>
-              <Eyebrow>{s.eyebrow}</Eyebrow>
-              <h2 id="students-title" className="mt-2 text-3xl font-extrabold tracking-tight">
-                {s.title}
+              <Eyebrow>{e.eyebrow}</Eyebrow>
+              <h2 id="exhibitors-title" className="mt-2 text-3xl font-extrabold tracking-tight">
+                {e.title}
               </h2>
             </div>
           </div>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-            {s.items.map((item, i) => {
-              const Icon = studentIcons[i];
+            {e.items.map((item, i) => {
+              const Icon = exhibitorIcons[i];
               return (
                 <li key={item.title} className="flex gap-3">
                   <Icon className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
@@ -249,274 +335,43 @@ function Benefits() {
               );
             })}
           </ul>
-          <LinkButton href="/prakses" size="lg" className="mt-8">
-            {s.cta}
+          <LinkButton href="/apply/stand" size="lg" variant="accent" className="mt-8">
+            {e.cta}
             <ArrowRight className="size-4" aria-hidden="true" />
           </LinkButton>
         </div>
 
-        <div className="rounded-lg border-2 border-edge bg-primary-fill p-6 text-white shadow-lift sm:p-8" aria-labelledby="companies-title">
+        <div className="rounded-lg border-2 border-edge bg-primary-fill p-6 text-white shadow-lift sm:p-8" aria-labelledby="investors-title">
           <div className="flex items-center gap-4">
             <span className="flex size-14 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
-              <Building2 className="size-7" aria-hidden="true" />
+              <Landmark className="size-7" aria-hidden="true" />
             </span>
             <div>
-              <p className="w-fit rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-primary-fill">{c.eyebrow}</p>
-              <h2 id="companies-title" className="mt-2 text-3xl font-extrabold tracking-tight">
-                {c.title}
+              <p className="w-fit rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-primary-fill">{v.eyebrow}</p>
+              <h2 id="investors-title" className="mt-2 text-3xl font-extrabold tracking-tight">
+                {v.title}
               </h2>
             </div>
           </div>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-            {c.items.map((item, i) => {
-              const Icon = companyIcons[i];
+            {v.items.map((item, i) => {
+              const Icon = investorIcons[i];
               return (
                 <li key={item.title} className="flex gap-3">
                   <Icon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
                   <div>
                     <p className="font-bold leading-snug">{item.title}</p>
-                    <p className="text-[0.95rem] text-white/85">{item.text}</p>
+                    <p className="text-[0.95rem] text-white">{item.text}</p>
                   </div>
                 </li>
               );
             })}
           </ul>
-          <LinkButton href={companyRegister} variant="accent" size="lg" className="mt-8">
-            {c.cta}
+          <LinkButton href="/investment" variant="accent" size="lg" className="mt-8">
+            {v.cta}
             <ArrowRight className="size-4" aria-hidden="true" />
           </LinkButton>
         </div>
-      </Container>
-    </section>
-  );
-}
-
-function Credential() {
-  const { t } = useI18n();
-  const p = t.home.credential;
-  return (
-    <section className="overflow-hidden border-y-2 border-edge bg-surface py-16 sm:py-24" aria-labelledby="credential-title">
-      <Container className="grid items-center gap-12 lg:grid-cols-2">
-        <PhoneVerification />
-        <div>
-          <SectionTitle id="credential-title" eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
-          <h3 className="mt-8 font-bold">{p.certifiesTitle}</h3>
-          <ul className="mt-3 space-y-2">
-            {p.certifies.map((c) => (
-              <li key={c} className="flex gap-2.5">
-                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary-fill text-white">
-                  <Check className="size-3.5" strokeWidth={3} aria-hidden="true" />
-                </span>
-                <span>{c}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 flex gap-4 rounded-lg border-2 border-edge bg-accent-soft p-5">
-            <span className="flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
-              <QrCode className="size-6" aria-hidden="true" />
-            </span>
-            <div>
-              <h3 className="font-bold">{p.verifyTitle}</h3>
-              <p className="mt-1 text-[0.95rem] text-ink-muted">{p.verifyText}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <LinkButton href="/parbaudit" variant="primary" size="sm">
-                  {p.verifyCta}
-                </LinkButton>
-                <LinkButton href={`/sertifikats/${formatCertificateId(2026, 1)}`} variant="secondary" size="sm">
-                  {p.sampleCta}
-                </LinkButton>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/** Illustration of a company checking a certificate on a phone. Static and decorative. */
-function PhoneVerification() {
-  const { t, locale } = useI18n();
-  const v = t.verify;
-  return (
-    <figure className="relative mx-auto w-full max-w-xs" aria-label={t.home.credential.phoneLabel}>
-      <div className="absolute left-1/2 top-1/2 aspect-square w-[125%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-edge bg-accent" aria-hidden="true" />
-      <div className="relative rotate-2 rounded-[2.2rem] border-2 border-edge bg-night p-2.5 shadow-lift" aria-hidden="true">
-        <div className="mx-auto mb-2 h-1.5 w-16 rounded-full bg-on-night/25" />
-        <div className="overflow-hidden rounded-[1.7rem] bg-bg">
-          <div className="flex items-center gap-2 border-b border-line bg-surface px-4 py-3">
-            <ShieldCheck className="size-4 text-primary" />
-            <span className="text-xs font-bold">{v.title}</span>
-          </div>
-          <div className="space-y-3 p-4">
-            <div className="flex items-start gap-2.5 rounded-md border-2 border-success/30 bg-success-soft p-3">
-              <BadgeCheck className="size-6 shrink-0 text-success" />
-              <div>
-                <p className="text-sm font-extrabold text-success">{v.valid}</p>
-                <p className="font-mono text-[0.65rem] font-bold text-ink-muted">{formatCertificateId(2026, 1)}</p>
-              </div>
-            </div>
-            {[
-              [v.participant, "Elza Paraudziņa"],
-              [v.company, "Demo Ražotne SIA"],
-              [v.average, `${formatScore(4.4, locale)} / 5`],
-            ].map(([k, val]) => (
-              <div key={k} className="rounded-md border border-line bg-surface px-3 py-2">
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.1em] text-ink-muted">{k}</p>
-                <p className="text-sm font-bold">{val}</p>
-              </div>
-            ))}
-            <div className="flex justify-center pt-1">
-              <Seal top={t.certificate.sealTop} bottom={t.certificate.sealBottom} className="h-20 w-[4.3rem]" ribbons={false} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </figure>
-  );
-}
-
-function Comparison() {
-  const { t } = useI18n();
-  const c = t.home.comparison;
-  const rows = c.rows;
-  return (
-    <section className="py-16 sm:py-24" aria-labelledby="compare-title">
-      <Container>
-        <SectionTitle id="compare-title" eyebrow={c.eyebrow} title={c.title} />
-
-        {/* Desktop: table */}
-        <div className="mt-10 hidden overflow-hidden rounded-lg border-2 border-edge bg-surface shadow-lift md:block">
-          <table className="w-full text-left text-[0.95rem]">
-            <caption className="sr-only">{c.caption}</caption>
-            <thead className="border-b-2 border-edge bg-surface-muted text-sm">
-              <tr>
-                {c.headers.map((h) => (
-                  <th key={h} scope="col" className="px-5 py-3.5 font-bold">
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.name} className="border-t border-line align-top">
-                  <th scope="row" className="px-5 py-4 font-semibold">
-                    {r.name}
-                  </th>
-                  <td className="px-5 py-4 text-ink-muted">{r.length}</td>
-                  <td className="px-5 py-4 text-ink-muted">{r.does}</td>
-                  <td className="px-5 py-4 text-ink-muted">{r.output}</td>
-                </tr>
-              ))}
-              <tr className="border-t-2 border-edge bg-accent-soft align-top">
-                <th scope="row" className="px-5 py-4 font-display text-lg font-extrabold">
-                  <span className="marker">{c.ours.name}</span>
-                </th>
-                <td className="px-5 py-4 font-bold">{c.ours.length}</td>
-                <td className="px-5 py-4 font-bold">{c.ours.does}</td>
-                <td className="px-5 py-4 font-bold">{c.ours.output}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile: stacked cards */}
-        <ul className="mt-8 space-y-3 md:hidden">
-          {[...rows.map((r) => ({ ...r, ours: false })), { ...c.ours, url: "", ours: true }].map((r) => (
-            <li
-              key={r.name}
-              className={`rounded-lg border-2 p-4 ${r.ours ? "border-edge bg-accent-soft shadow-card" : "border-line bg-surface"}`}
-            >
-              <p className="font-display text-lg font-extrabold">{r.ours ? <span className="marker">{r.name}</span> : r.name}</p>
-              <dl className="mt-2 space-y-1.5 text-[0.95rem]">
-                {[
-                  [c.headers[1], r.length],
-                  [c.headers[2], r.does],
-                  [c.headers[3], r.output],
-                ].map(([k, v]) => (
-                  <div key={k}>
-                    <dt className="text-xs font-bold uppercase tracking-wide text-ink-muted">{k}</dt>
-                    <dd className={r.ours ? "font-semibold" : ""}>{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </li>
-          ))}
-        </ul>
-
-        <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-muted">
-          <span>{c.sources}:</span>
-          {rows
-            .filter((r) => r.url)
-            .map((r) => (
-              <ExternalLink key={r.url} href={r.url} newTabLabel={t.common.opensInNewTab}>
-                {r.name.split(" (")[0]}
-              </ExternalLink>
-            ))}
-        </p>
-      </Container>
-    </section>
-  );
-}
-
-/** Slight alternating tilts, like stickers on a laptop lid. */
-const TILTS = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2"];
-
-function Partners() {
-  const { t } = useI18n();
-  const p = t.home.partners;
-  return (
-    <section className="border-y-2 border-edge bg-surface-muted py-16 sm:py-20" aria-labelledby="partners-title">
-      <Container>
-        <SectionTitle id="partners-title" eyebrow={p.eyebrow} title={p.title} />
-        <ul className="mt-10 flex flex-wrap gap-3 sm:gap-4">
-          {siteConfig.potentialPartners.map((name, i) => (
-            <li key={name} className={TILTS[i % TILTS.length]}>
-              <Chip className="px-5 py-2.5 font-display text-lg font-extrabold shadow-card">{name}</Chip>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-5 text-sm text-ink-muted">{p.note}</p>
-      </Container>
-    </section>
-  );
-}
-
-function Week() {
-  const { t } = useI18n();
-  const w = t.home.week;
-  const icons = [BookOpen, Wrench, Award];
-  return (
-    <section className="py-16 sm:py-24" aria-labelledby="week-title">
-      <Container>
-        <SectionTitle id="week-title" eyebrow={w.eyebrow} title={w.title} />
-        <ol className="mt-10 grid gap-4 md:grid-cols-[1fr_1.6fr_1fr]">
-          {w.days.map((d, i) => {
-            const Icon = icons[i];
-            const middle = i === 1;
-            return (
-              <li
-                key={d.label}
-                className={`flex flex-col rounded-lg border-2 border-edge p-6 shadow-card ${middle ? "bg-primary-fill text-white" : "bg-surface"}`}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${
-                      middle ? "bg-accent text-on-accent" : "bg-primary-soft text-primary"
-                    }`}
-                  >
-                    <CalendarRange className="mr-1 inline size-3.5 align-[-2px]" aria-hidden="true" />
-                    {d.label}
-                  </span>
-                  <Icon className={`size-6 ${middle ? "text-accent" : "text-primary"}`} aria-hidden="true" />
-                </div>
-                <h3 className="mt-5 text-2xl font-extrabold">{d.title}</h3>
-                <p className={`mt-1 ${middle ? "text-white/85" : "text-ink-muted"}`}>{d.text}</p>
-              </li>
-            );
-          })}
-        </ol>
       </Container>
     </section>
   );
@@ -558,7 +413,6 @@ function Faq() {
 
 function ClosingCta() {
   const { t } = useI18n();
-  const h = t.home.hero;
   return (
     <section className="relative overflow-hidden border-t-2 border-edge bg-primary-fill text-white" aria-labelledby="cta-title">
       <div className="absolute -right-24 -top-32 size-56 rounded-full border-2 border-edge bg-accent lg:-right-20 lg:-top-24 lg:size-96" aria-hidden="true" />
@@ -572,18 +426,11 @@ function ClosingCta() {
         <Compass className="size-12 text-accent" aria-hidden="true" />
         <div className="max-w-2xl">
           <h2 id="cta-title" className="text-[2.4rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
-            {t.home.cta.title}
+            {t.home.closing.title}
           </h2>
-          <p className="mt-4 text-lg text-white/85 sm:text-xl">{t.home.cta.text}</p>
+          <p className="mt-4 text-lg text-white sm:text-xl">{t.home.closing.text}</p>
         </div>
-        <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
-          <LinkButton href="/prakses" variant="accent" size="lg">
-            {h.findCta}
-          </LinkButton>
-          <LinkButton href={companyRegister} variant="inverse" size="lg">
-            {h.offerCta}
-          </LinkButton>
-        </div>
+        <RoleButtons onDark className="w-full max-w-3xl" />
       </Container>
     </section>
   );

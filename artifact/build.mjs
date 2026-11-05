@@ -1,12 +1,11 @@
 // Builds the whole app into one self-contained HTML file for previewing
-// (e.g. as a claude.ai artifact): `npm run build:artifact -- <out.html> [publicUrl]`.
+// (e.g. as a claude.ai artifact): `npm run build:artifact -- <out.html>`.
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { build } from "esbuild";
 
 const out = resolve(process.argv[2] ?? "artifact/dist/index.html");
-const publicUrl = process.argv[3] ?? "";
 mkdirSync(dirname(out), { recursive: true });
 const cssFile = `${out}.css`;
 
@@ -24,7 +23,6 @@ const result = await build({
   legalComments: "none",
   define: {
     "process.env.NODE_ENV": '"production"',
-    __ARTIFACT_URL__: JSON.stringify(publicUrl),
   },
   alias: {
     "next/link": "./artifact/shims/next-link.tsx",
@@ -38,8 +36,8 @@ const js = result.outputFiles[0].text
   .replace(/<!--/g, "<\\!--");
 const css = readFileSync(cssFile, "utf8");
 
-const html = `<title>SEER — Saldus industriālā digitālā prakse</title>
-<meta name="description" content="SEER: 3–5 dienu digitālās prakses Saldus novada uzņēmumos jauniešiem 15–24 gadu vecumā. Demo versija.">
+const html = `<title>SEER Expo — Saldus inovāciju izstāde</title>
+<meta name="description" content="SEER Expo: trīs dienu lauksaimniecības, mežsaimniecības un loģistikas inovāciju izstāde Saldū. Demo versija.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400..800&display=swap">

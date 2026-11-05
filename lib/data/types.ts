@@ -1,282 +1,138 @@
-import type { FocusAreaId, IndustryId, OpportunityId, OutputTypeId } from "@/config/site";
+import type {
+  AmountRangeId,
+  ChallengeField,
+  ExhibitorGoal,
+  FairDay,
+  InnovatorGoal,
+  InvestorType,
+  Sector,
+  Stage,
+  StandNeed,
+  StandSize,
+} from "@/config/event";
 
 export type Locale = "lv" | "en";
-export type Role = "student" | "company";
 
-/**
- * Text that may be bilingual. Seed content is written in both languages;
- * content typed by a company in the builder is a plain string in one language.
- */
-export type Text = string | { lv: string; en: string };
+/** Front-end only: picked with the role switch, no accounts. `null` = first visit. */
+export type Role = "exhibitor" | "innovator" | "investor" | "school";
 
-/** ISO date `YYYY-MM-DD` (no time zone). */
-export type ISODate = string;
+/** Seed content is bilingual; text typed into a form is a plain string in one language. */
+export type Localized = string | { lv: string; en: string };
+
 /** ISO timestamp. */
 export type ISODateTime = string;
 
-export interface User {
+export type ExhibitorStatus = "submitted" | "approved" | "rejected";
+
+export interface Investment {
+  amountRange: AmountRangeId;
+  purpose: Localized;
+  where: Localized;
+  stage: Stage;
+  offer: Localized;
+}
+
+/**
+ * A stand at the fair: a paid stand (S/M/L) or a free innovator stand
+ * (`stand.size === "innovator"`, which also uses `team` and `stage`).
+ */
+export interface Exhibitor {
   id: string;
+  name: string;
+  regNo?: string;
+  address: string;
+  sector: Sector;
+  /** Which adjacent field, when `sector` is `adjacent`. */
+  adjacentNote?: Localized;
+  description: Localized;
+  website?: string;
+  logoDataUrl?: string;
+  contactName: string;
   email: string;
-  /**
-   * DEMO ONLY — NOT SECURE. A simple non-cryptographic hash so the password is
-   * not stored in plain text. Anyone with access to the browser can read and
-   * change localStorage. Replace with real auth (e.g. Supabase Auth).
-   */
-  passwordHash: string;
-  role: Role;
+  phone?: string;
+  stand: { size: StandSize; number?: number; days: FairDay[]; needs: StandNeed[] };
+  /** What the stand shows; for innovators, the idea or prototype title. */
+  showcase: Localized;
+  goals: (ExhibitorGoal | InnovatorGoal)[];
+  /** Present when the exhibitor is looking for investment; lists it in the showcase. */
+  investment?: Investment;
+  /** Innovators: team members. */
+  team?: string;
+  /** Innovators: how far the idea is. */
+  stage?: Stage;
+  status: ExhibitorStatus;
+  /** Illustrative seed content, shown with "PIEMĒRS". */
+  isExample: boolean;
   createdAt: ISODateTime;
 }
 
-export interface StudentProfile {
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  birthDate: ISODate | "";
-  schoolId: string;
-  schoolOther: string;
-  grade: string;
-  interests: string[];
-  bio: string;
-}
+export type MeetingStatus = "pending" | "accepted" | "declined";
 
-export interface Address {
-  street: string;
-  town: string;
-  parish: string;
-  postcode: string;
-}
-
-export interface ContactPerson {
-  name: string;
-  position: string;
-  email: string;
-  phone: string;
-}
-
-export interface CompanyProfile {
+export interface MeetingRequest {
   id: string;
-  /** Owner account. `null` for seed companies that have no account yet. */
-  userId: string | null;
-  name: string;
-  regNumber: string;
-  industry: IndustryId | "";
-  description: Text;
-  employees: string;
-  website: string;
-  /** Data URL (base64) in demo mode. */
-  logo: string;
-  address: Address;
-  directions: Text;
-  contactPerson: ContactPerson;
-  /**
-   * Whether the company has confirmed participation. Seed companies are
-   * `false`: their `contact` data must never be shown publicly.
-   */
-  confirmed: boolean;
-  /** Internal contact details (from public sources). Not displayed while `confirmed` is false. */
-  contact?: { emails: string[]; phones: string[]; note?: string };
-  isSample: boolean;
-}
-
-export type PlacementStatus = "draft" | "published" | "closed" | "finished";
-
-export interface PlacementTerm {
-  id: string;
-  start: ISODate;
-  /** Calculated from `start` + placement length in working days. */
-  end: ISODate;
-  spots: number;
-}
-
-export interface DayPlanItem {
-  title: Text;
-  description: Text;
-}
-
-export type QuestionType = "short" | "long" | "yesno";
-export interface ScreeningQuestion {
-  id: string;
-  text: Text;
-  type: QuestionType;
-}
-
-export type SkillLevel = "none" | "basic" | "intermediate";
-export type SelectionMethod = "first-come" | "review" | "interview";
-export type WorkFormat = "onsite" | "hybrid";
-export type WorkLanguage = "lv" | "en" | "ru";
-export type EducationLevel = "secondary" | "vocational" | "university";
-
-export interface Mentor {
-  name: string;
-  position: Text;
-  bio: Text;
-  /** Invented mentor for illustrative placements. */
-  isSample: boolean;
-}
-
-export interface Compensation {
-  none: boolean;
-  stipend: boolean;
-  stipendAmount: number | null;
-  meals: boolean;
-  travel: boolean;
-}
-
-/** Company details as shown on a placement (step 1 of the builder). */
-export interface PlacementCompany {
-  name: string;
-  regNumber: string;
-  industry: IndustryId | "";
-  description: Text;
-  employees: string;
-  website: string;
-  logo: string;
-  address: Address;
-  directions: Text;
-  /** Visible only to approved participants. */
-  contactPerson: ContactPerson;
-}
-
-export interface Placement {
-  id: string;
-  companyId: string;
-  status: PlacementStatus;
-  /** Illustrative example based on public info; company has not confirmed. */
-  isSample: boolean;
+  exhibitorId: string;
+  investor: { name: string; organisation: string; type: InvestorType };
+  message: string;
+  day: FairDay;
+  /** Preferred time, e.g. `14:30`. */
+  time?: string;
+  status: MeetingStatus;
   createdAt: ISODateTime;
-  updatedAt: ISODateTime;
-  publishedAt: ISODateTime | null;
-
-  // Step 1 — company
-  company: PlacementCompany;
-
-  // Step 2 — basics
-  title: Text;
-  focusArea: FocusAreaId | "";
-  lengthDays: 3 | 4 | 5;
-  terms: PlacementTerm[];
-  hoursFrom: string;
-  hoursTo: string;
-  format: WorkFormat;
-  languages: WorkLanguage[];
-  ageFrom: number;
-  ageTo: number;
-  educationLevels: EducationLevel[];
-  beginnerFriendly: boolean;
-
-  // Step 3 — task
-  problem: Text;
-  outputType: OutputTypeId | "";
-  outputDescription: Text;
-  dayPlan: DayPlanItem[];
-  tools: string[];
-  dataSystems: Text;
-  ndaRequired: boolean;
-
-  // Step 4 — requirements
-  skillsRequired: Text[];
-  skillsNice: Text[];
-  skillLevel: SkillLevel;
-  bring: Text[];
-  safetyBriefing: boolean;
-  ppe: Text;
-  minorRestrictions: Text;
-  parentalConsentRequired: boolean;
-
-  // Step 5 — what the participant gets
-  mentor: Mentor;
-  recognisesCertificate: boolean;
-  compensation: Compensation;
-  opportunities: OpportunityId[];
-  opportunitiesOther: Text;
-
-  // Step 6 — applications
-  /** Applications for each date range close this many days before its start. */
-  deadlineDays: number;
-  requireCv: boolean;
-  requireMotivation: boolean;
-  questions: ScreeningQuestion[];
-  selectionMethod: SelectionMethod;
 }
 
-export type ApplicationStatus = "new" | "approved" | "rejected" | "completed";
-
-export interface Evaluation {
-  problemSolving: number;
-  data: number;
-  communication: number;
-  independence: number;
-  responsibility: number;
-  comment: string;
-  evaluatedAt: ISODateTime;
+export interface Challenge {
+  id: string;
+  /** The company posting the problem (bilingual for generic seed examples). */
+  company: Localized;
+  problem: Localized;
+  field: ChallengeField;
+  provides: Localized;
+  timeline: Localized;
+  isExample: boolean;
 }
 
-export interface ApplicantDetails {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  birthDate: ISODate;
+export type TeamStatus = "applied" | "accepted" | "presenting";
+
+export interface TeamMember {
+  name: string;
+  age: number;
+}
+
+export interface TeamApplication {
+  id: string;
+  challengeId: string;
   school: string;
-  grade: string;
+  teamName: string;
+  members: TeamMember[];
+  mentor: string;
+  contact: string;
+  /** Required when any member is under 18. */
+  guardianConsent?: boolean;
+  status: TeamStatus;
+  createdAt: ISODateTime;
 }
 
-export interface Application {
+export type AgendaType = "panel" | "pitch" | "b2b" | "workshop" | "showcase" | "visit";
+
+export interface AgendaItem {
   id: string;
-  placementId: string;
-  studentId: string;
-  termId: string;
-  status: ApplicationStatus;
-  submittedAt: ISODateTime;
-  updatedAt: ISODateTime;
-  applicant: ApplicantDetails;
-  motivation: string;
-  answers: { questionId: string; value: string }[];
-  /** Demo mode stores only metadata, not the file itself. */
-  cv: { name: string; size: number } | null;
-  guardian: { name: string; phone: string; email: string; consent: boolean } | null;
-  dataConsent: boolean;
-  evaluation: Evaluation | null;
-  certificateId: string | null;
+  day: FairDay;
+  time: string;
+  title: Localized;
+  type: AgendaType;
+  isExample: boolean;
 }
 
-export interface Certificate {
-  /** e.g. `SDS-2026-0001` */
-  id: string;
-  applicationId: string;
-  placementId: string;
-  studentId: string;
-  issuedAt: ISODateTime;
-  participantName: string;
-  companyName: string;
-  placementTitle: Text;
-  focusArea: FocusAreaId | "";
-  start: ISODate;
-  end: ISODate;
-  days: number;
-  outputType: OutputTypeId | "";
-  output: Text;
-  evaluation: Evaluation;
-  mentor: { name: string; position: Text };
-}
-
-/** The whole demo database, as stored in localStorage. */
-export interface DemoDatabase {
+/** The whole demo database, as stored in this browser. */
+export interface FairDatabase {
   version: number;
-  users: User[];
-  students: StudentProfile[];
-  companies: CompanyProfile[];
-  placements: Placement[];
-  applications: Application[];
-  certificates: Certificate[];
-  /** Running counter per year for certificate IDs. */
-  certificateCounters: Record<string, number>;
-}
-
-export interface Session {
-  user: User;
-  student: StudentProfile | null;
-  company: CompanyProfile | null;
+  exhibitors: Exhibitor[];
+  meetings: MeetingRequest[];
+  challenges: Challenge[];
+  teams: TeamApplication[];
+  agenda: AgendaItem[];
+  /** What this browser created, so "My dashboard" can show it (there are no accounts). */
+  mine: { exhibitors: string[]; meetings: string[]; teams: string[] };
+  /** Showcase items the investor saved. */
+  saved: string[];
 }

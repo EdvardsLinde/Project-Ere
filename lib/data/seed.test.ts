@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createFairSeed } from "./fair-seed";
+import { createSeedDatabase } from "./seed";
 
 /** The content rules from the brief. */
 describe("seed data rules", () => {
-  const db = createFairSeed();
+  const db = createSeedDatabase();
   const realCompanies = ["PATA Saldus", "DELTA LV", "Warmeston", "Tērvete Food", "SC GRUPA"];
 
   it("marks every example as an example", () => {

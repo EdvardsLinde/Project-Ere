@@ -1,9 +1,7 @@
 /**
- * Everything the team is likely to change lives here: name, certificate ID
- * prefix, colours, contacts and the option lists used across the site.
- *
- * Option labels are bilingual ({ lv, en }) because they are content lists,
- * not UI chrome. All other UI text lives in `messages/lv.ts` / `messages/en.ts`.
+ * Brand, colours and contacts. The fair itself (name, dates, stands, prices,
+ * option lists) is configured in `config/event.ts`. All UI text lives in
+ * `messages/lv.ts` / `messages/en.ts`.
  */
 
 export type Bilingual = { lv: string; en: string };
@@ -97,131 +95,27 @@ const dark: ThemeTokens = {
 };
 
 export const siteConfig = {
-  /** Brand shown in the header and footer. */
+  /** Brand shown in the header and footer. The event name lives in `config/event.ts`. */
   brand: "SEER",
-  tagline: { lv: "Ieraugi, kur var aizvest tava karjera", en: "See where your career can go" },
-  name: { lv: "SEER — Saldus industriālā digitālā prakse", en: "SEER — Saldus Industrial Digital Immersion" },
-  subtitle: { lv: "Saldus industriālā digitālā prakse", en: "Saldus Industrial Digital Immersion" },
-  /** Certificate IDs look like `SEER-2026-0001`. */
-  certificatePrefix: "SEER",
-  /** Used to build absolute links (QR code) when `window.location` is not available. */
-  siteUrl: "https://seer-saldus.vercel.app",
+  tagline: { lv: "Ieraugi Saldus potenciālu", en: "See the potential of Saldus" },
 
   contacts: {
     email: "[TODO: team email]",
     surveyUrl: "https://forms.cloud.microsoft/e/T8sBiTEdKi?origin=lprLink",
   },
 
-  /** Age range the programme is for. */
-  ageMin: 15,
-  ageMax: 24,
-
   /**
    * Colour tokens (see DESIGN.md). app/layout.tsx turns them into CSS variables:
-   * `light` on :root, `dark` under html.dark. Certificates always use `light`
-   * (`.paper`), and printing is always light. Tailwind classes like `bg-primary-fill`
-   * and `text-ink-muted` read them.
+   * `light` on :root, `dark` under html.dark; printing is always light.
+   * Tailwind classes like `bg-primary-fill` and `text-ink-muted` read them.
    */
   theme: { light, dark },
   /** Light mode is the default; the header toggle remembers the visitor's choice. */
   defaultTheme: "light" as "dark" | "light",
 
-  /** `[TODO: team will extend the list]` — "other" shows a free-text field. */
-  schools: [
-    { id: "saldus-tehnikums", label: { lv: "Saldus tehnikums", en: "Saldus Technical School" } },
-    { id: "other", label: { lv: "Cita", en: "Other" } },
-  ],
+  /** Suggestions for the school field of the team form (any school can be typed). */
+  schools: ["Saldus tehnikums", "Saldus vidusskola", "Brocēnu vidusskola"],
 
-  industries: [
-    { id: "wood", label: { lv: "Kokapstrāde un mežsaimniecība", en: "Wood processing & forestry" } },
-    { id: "construction", label: { lv: "Būvniecība un ceļu būve", en: "Construction & road building" } },
-    { id: "materials", label: { lv: "Būvmateriāli", en: "Building materials" } },
-    { id: "metal", label: { lv: "Metālapstrāde un ražošana", en: "Metalworking & manufacturing" } },
-    { id: "plastics", label: { lv: "Plastmasa un kompozīti", en: "Plastics & composites" } },
-    { id: "food", label: { lv: "Pārtikas ražošana", en: "Food production" } },
-    { id: "energy", label: { lv: "Enerģētika un biomasa", en: "Energy & biomass" } },
-    { id: "logistics", label: { lv: "Loģistika un transports", en: "Logistics & transport" } },
-    { id: "it", label: { lv: "IT un pakalpojumi", en: "IT & services" } },
-    { id: "other", label: { lv: "Cita", en: "Other" } },
-  ],
-
-  focusAreas: [
-    { id: "data", label: { lv: "Datu analīze un vizualizācija", en: "Data analysis & visualisation" } },
-    { id: "iot", label: { lv: "Sensori un IoT", en: "Sensors & IoT" } },
-    { id: "cyber", label: { lv: "Kiberdrošība", en: "Cybersecurity" } },
-    { id: "production", label: { lv: "Ražošanas digitalizācija", en: "Production digitalisation" } },
-    { id: "quality", label: { lv: "Kvalitātes kontrole", en: "Quality control" } },
-    { id: "gps", label: { lv: "Loģistika un GPS dati", en: "Logistics & GPS data" } },
-    { id: "energy", label: { lv: "Enerģijas dati", en: "Energy data" } },
-    { id: "cad", label: { lv: "CAD un inženierija", en: "CAD & engineering" } },
-    { id: "other", label: { lv: "Cita", en: "Other" } },
-  ],
-
-  outputTypes: [
-    { id: "dashboard", label: { lv: "Datu panelis", en: "Data dashboard" } },
-    { id: "checklist", label: { lv: "Kontrolsaraksts", en: "Checklist" } },
-    { id: "audit", label: { lv: "Audits / atskaite", en: "Audit / report" } },
-    { id: "tool", label: { lv: "Rīks vai prototips", en: "Tool or prototype" } },
-    { id: "presentation", label: { lv: "Prezentācija", en: "Presentation" } },
-    { id: "other", label: { lv: "Cits", en: "Other" } },
-  ],
-
-  toolSuggestions: ["Excel", "Google Sheets", "Power BI", "Python", "SQL", "PLC", "SCADA", "GPS data", "CAD", "IoT sensors"],
-
-  bringSuggestions: [
-    { lv: "Klēpjdators", en: "Laptop" },
-    { lv: "Personu apliecinošs dokuments", en: "ID document" },
-    { lv: "Slēgti apavi", en: "Closed shoes" },
-    { lv: "Ērts apģērbs", en: "Comfortable clothes" },
-    { lv: "Pusdienas", en: "Lunch" },
-  ],
-
-  interestSuggestions: [
-    { lv: "Dati", en: "Data" },
-    { lv: "Programmēšana", en: "Programming" },
-    { lv: "Kiberdrošība", en: "Cybersecurity" },
-    { lv: "Ražošana", en: "Manufacturing" },
-    { lv: "Enerģētika", en: "Energy" },
-    { lv: "Loģistika", en: "Logistics" },
-    { lv: "Inženierija", en: "Engineering" },
-    { lv: "Dizains", en: "Design" },
-  ],
-
-  opportunities: [
-    { id: "summer-job", label: { lv: "Vasaras darbs", en: "Summer job" } },
-    { id: "internship", label: { lv: "Garāka prakse", en: "Longer internship" } },
-    { id: "interview", label: { lv: "Darba intervija", en: "Job interview" } },
-    { id: "tour", label: { lv: "Uzņēmuma ekskursija", en: "Company tour" } },
-    { id: "other", label: { lv: "Cits", en: "Other" } },
-  ],
-
-  /** Partner names shown as text chips on the home page (no logos). */
-  potentialPartners: [
-    "PATA Saldus",
-    "JETS Vacuum",
-    "SC GRUPA",
-    "SCHWENK Latvija",
-    "Brimer Saldus / Norplast",
-    "Tērvete Food",
-    "DELTA LV",
-    "Warmeston",
-  ],
-
-  /**
-   * Demo convenience: allow issuing a certificate before the placement's end date,
-   * so the whole flow can be tried on future dates. Set to `false` for real use.
-   */
-  allowCertificateBeforeEnd: true,
-
-  /** Size limits for demo-mode uploads (stored in localStorage). */
-  uploads: {
-    logoMaxBytes: 200 * 1024,
-    cvMaxBytes: 5 * 1024 * 1024,
-  },
+  /** Size limit for a logo uploaded with a stand booking (stored in the browser). */
+  logoMaxBytes: 200 * 1024,
 } as const;
-
-export type IndustryId = (typeof siteConfig.industries)[number]["id"];
-export type FocusAreaId = (typeof siteConfig.focusAreas)[number]["id"];
-export type OutputTypeId = (typeof siteConfig.outputTypes)[number]["id"];
-export type OpportunityId = (typeof siteConfig.opportunities)[number]["id"];
-export type SchoolId = (typeof siteConfig.schools)[number]["id"];

@@ -6,3 +6,6 @@ export const DEFAULT_LOCALE: Locale = "lv";
 
 export type Theme = "dark" | "light";
 export const THEME_COOKIE = "seer-theme";
+
+/** Front-end role (no accounts); the server reads it so the right menu renders first time. */
+export const ROLE_COOKIE = "seer-role";

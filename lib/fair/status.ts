@@ -1,4 +1,4 @@
-import type { ExhibitorStatus, MeetingStatus, TeamStatus } from "@/lib/data/fair-types";
+import type { ExhibitorStatus, MeetingStatus, TeamStatus } from "@/lib/data/types";
 
 /** Allowed next statuses. Final states have none. */
 export const exhibitorFlow: Record<ExhibitorStatus, ExhibitorStatus[]> = {

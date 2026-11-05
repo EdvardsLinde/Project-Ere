@@ -3,6 +3,7 @@
 import { RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { eventConfig } from "@/config/event";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
@@ -10,11 +11,11 @@ import { LogoMark } from "@/components/logo";
 import { useToast } from "@/components/toast";
 import { getRepository } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
-import { useSession } from "@/lib/session";
+import { useRole } from "@/lib/role";
 
 export function SiteFooter() {
   const { t, locale } = useI18n();
-  const { leaveHome } = useSession();
+  const { leaveHome } = useRole();
   const toast = useToast();
   const [confirming, setConfirming] = useState(false);
 
@@ -41,7 +42,7 @@ export function SiteFooter() {
             <LogoMark />
             <span className="flex flex-col leading-none">
               <span className="font-display text-2xl font-extrabold tracking-tight">{siteConfig.brand}</span>
-              <span className="mt-1 text-xs text-on-night/70">{siteConfig.subtitle[locale]}</span>
+              <span className="mt-1 text-xs text-on-night/70">{eventConfig.name}</span>
             </span>
           </div>
           <p className="mt-4 max-w-sm text-on-night/80">{t.footer.about}</p>
@@ -69,16 +70,21 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
-          <h2 className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-accent">{t.nav.home}</h2>
+          <h2 className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-accent">{t.footer.links}</h2>
           <ul className="mt-4 space-y-2.5">
             <li>
-              <Link className={link} href="/privatums">
-                {t.footer.privacy}
+              <Link className={link} href="/agenda">
+                {t.nav.agenda}
               </Link>
             </li>
             <li>
-              <Link className={link} href="/parbaudit">
-                {t.footer.verify}
+              <Link className={link} href="/exhibitors">
+                {t.nav.exhibitors}
+              </Link>
+            </li>
+            <li>
+              <Link className={link} href="/privacy">
+                {t.footer.privacy}
               </Link>
             </li>
             <li>

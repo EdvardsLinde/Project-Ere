@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { innovatorStandLimit } from "@/config/event";
-import type { Exhibitor } from "@/lib/data/fair-types";
+import type { Exhibitor } from "@/lib/data/types";
 import {
   bookingToExhibitor,
   emptyInnovator,

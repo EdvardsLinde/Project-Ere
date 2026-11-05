@@ -86,7 +86,7 @@ body {
   outline-color: var(--color-accent);
 }
 
-/* Dot grid used behind the hero, the login page and the certificate. */
+/* Dot grid used behind the hero and the expo pass. */
 .bg-dots {
   background-image: radial-gradient(color-mix(in srgb, var(--color-primary) 26%, transparent) 1.4px, transparent 1.6px);
   background-size: 22px 22px;
@@ -132,12 +132,8 @@ body {
   }
 }
 
-/* Print: only the certificate sheet, on A4. */
+/* Print: content only, without the site chrome. */
 @media print {
-  @page {
-    size: A4;
-    margin: 0;
-  }
   html,
   body {
     background: #fff !important;
@@ -145,14 +141,5 @@ body {
   .no-print {
     display: none !important;
   }
-  .print-sheet {
-    box-shadow: none !important;
-    border: none !important;
-    margin: 0 !important;
-    width: 210mm !important;
-    min-height: 297mm !important;
-    border-radius: 0 !important;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-  }
 }
+

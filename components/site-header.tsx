@@ -1,22 +1,25 @@
 "use client";
 
-import { Building2, ChevronDown, GraduationCap, LayoutDashboard, LogOut, Menu, Moon, Plus, Sun, User, X } from "lucide-react";
+import { ChevronDown, LayoutDashboard, LogOut, Menu, Moon, Sun, UserRound, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { eventConfig } from "@/config/event";
 import { siteConfig } from "@/config/site";
-import { LinkButton } from "@/components/ui/button";
+import { buttonClass } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
+import { roleIcon } from "@/components/role-icon";
+import type { Role } from "@/lib/data/types";
 import { useI18n } from "@/lib/i18n";
-import { dashboardPath, loginPath, useSession } from "@/lib/session";
+import { useRole } from "@/lib/role";
+import { navFor, navHref, roleHome, ROLES } from "@/lib/roles";
 import { useTheme } from "@/lib/theme";
 
 export function SiteHeader() {
-  const { t, locale } = useI18n();
-  const { session, ready } = useSession();
+  const { t } = useI18n();
+  const { role } = useRole();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const role = session?.user.role;
 
   // Close the mobile menu on navigation.
   const [lastPath, setLastPath] = useState(pathname);
@@ -25,18 +28,8 @@ export function SiteHeader() {
     setMenuOpen(false);
   }
 
-  const nav =
-    role === "company"
-      ? [
-          { href: "/", label: t.nav.idea },
-          { href: "/uznemums", label: t.nav.myPlacements },
-        ]
-      : [
-          { href: "/", label: t.nav.idea },
-          { href: "/prakses", label: t.nav.placements },
-        ];
-
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const nav = navFor(role);
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`));
 
   return (
     <header className="no-print sticky top-0 z-40 border-b-2 border-edge bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/85">
@@ -47,63 +40,43 @@ export function SiteHeader() {
         {t.nav.skipToContent}
       </a>
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-4 sm:gap-3 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label={siteConfig.name[locale]}>
+        <Link href="/" className="flex shrink-0 items-center gap-2.5 rounded-md" aria-label={eventConfig.name}>
           <LogoMark />
           <span className="flex flex-col leading-none">
             <span className="font-display text-2xl font-extrabold tracking-tight text-ink">{siteConfig.brand}</span>
-            <span className="mt-1 hidden text-[11px] font-medium text-ink-muted lg:block">{siteConfig.tagline[locale]}</span>
+            <span className="mt-1 hidden text-[11px] font-medium text-ink-muted xl:block">{eventConfig.name}</span>
           </span>
         </Link>
 
-        <nav aria-label={t.nav.mainNav} className="ml-4 hidden md:block">
+        <nav aria-label={t.nav.mainNav} className="ml-3 hidden lg:block">
           <ul className="flex items-center gap-1">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`rounded-full border-2 px-3.5 py-1.5 text-[0.95rem] font-bold transition-colors ${
-                    isActive(item.href) ? "border-edge bg-accent text-on-accent" : "border-transparent text-ink-muted hover:border-line hover:text-ink"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            {role === "company" && (
-              <li>
-                <Link
-                  href="/uznemums/prakses/jauna"
-                  className="inline-flex items-center gap-1 rounded-full border-2 border-transparent px-3.5 py-1.5 text-[0.95rem] font-bold text-primary hover:border-primary/30 hover:bg-primary-soft"
-                >
-                  <Plus className="size-4" aria-hidden="true" />
-                  {t.nav.addPlacement}
-                </Link>
-              </li>
-            )}
+            {nav.map((key) => {
+              const href = navHref[key];
+              return (
+                <li key={key}>
+                  <Link
+                    href={href}
+                    aria-current={isActive(href) ? "page" : undefined}
+                    className={`whitespace-nowrap rounded-full border-2 px-3 py-1.5 text-[0.95rem] font-bold transition-colors ${
+                      isActive(href) ? "border-edge bg-accent text-on-accent" : "border-transparent text-ink-muted hover:border-line hover:text-ink"
+                    }`}
+                  >
+                    {t.nav[key]}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          {/* On phones the language toggle lives in the menu, so the name fits at 360px. */}
+          {/* On phones the toggles live in the menu, so everything fits at 360px. */}
           <ThemeToggle className="hidden sm:inline-flex" />
           <LanguageToggle className="hidden sm:flex" />
-          {ready && !session && (
-            <div className="hidden items-center gap-2 lg:flex">
-              <LinkButton href={loginPath("company")} variant="secondary" size="sm" className="h-10">
-                <Building2 className="size-4" aria-hidden="true" />
-                {t.nav.forCompanies}
-              </LinkButton>
-              <LinkButton href={loginPath("student")} variant="primary" size="sm" className="h-10">
-                <GraduationCap className="size-4" aria-hidden="true" />
-                {t.nav.forStudents}
-              </LinkButton>
-            </div>
-          )}
-          {ready && session && <UserMenu />}
+          <RoleMenu />
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full border-2 border-edge bg-surface md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border-2 border-edge bg-surface lg:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
@@ -114,44 +87,23 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Role buttons stay visible on small screens as a second row. */}
-      {ready && !session && (
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-2 px-4 pb-3 sm:px-6 lg:hidden">
-          <LinkButton
-            href={loginPath("company")}
-            variant="secondary"
-            size="sm"
-            className="h-auto min-h-10 whitespace-normal py-1.5 text-center leading-tight"
-          >
-            <Building2 className="size-4 shrink-0" aria-hidden="true" />
-            {t.nav.forCompanies}
-          </LinkButton>
-          <LinkButton
-            href={loginPath("student")}
-            variant="primary"
-            size="sm"
-            className="h-auto min-h-10 whitespace-normal py-1.5 text-center leading-tight"
-          >
-            <GraduationCap className="size-4 shrink-0" aria-hidden="true" />
-            {t.nav.forStudents}
-          </LinkButton>
-        </div>
-      )}
-
       {menuOpen && (
-        <nav id="mobile-nav" aria-label={t.nav.mainNav} className="border-t-2 border-edge bg-surface md:hidden">
+        <nav id="mobile-nav" aria-label={t.nav.mainNav} className="border-t-2 border-edge bg-surface lg:hidden">
           <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`block rounded-full px-4 py-3 font-bold ${isActive(item.href) ? "bg-accent text-on-accent" : "text-ink"}`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {nav.map((key) => {
+              const href = navHref[key];
+              return (
+                <li key={key}>
+                  <Link
+                    href={href}
+                    aria-current={isActive(href) ? "page" : undefined}
+                    className={`block rounded-full px-4 py-3 font-bold ${isActive(href) ? "bg-accent text-on-accent" : "text-ink"}`}
+                  >
+                    {t.nav[key]}
+                  </Link>
+                </li>
+              );
+            })}
             <li className="flex items-center justify-between gap-3 px-3 py-3 sm:hidden">
               <span className="font-semibold">{t.nav.language}</span>
               <LanguageToggle />
@@ -160,14 +112,6 @@ export function SiteHeader() {
               <span className="font-semibold">{t.nav.theme}</span>
               <ThemeToggle withLabel />
             </li>
-            {role === "company" && (
-              <li>
-                <Link href="/uznemums/prakses/jauna" className="flex items-center gap-2 rounded-full px-4 py-3 font-bold text-primary">
-                  <Plus className="size-4" aria-hidden="true" />
-                  {t.nav.addPlacement}
-                </Link>
-              </li>
-            )}
           </ul>
         </nav>
       )}
@@ -216,9 +160,11 @@ function LanguageToggle({ className = "flex" }: { className?: string }) {
   );
 }
 
-function UserMenu() {
+/** The role switch: pick a role on the first visit, then switch or leave it. No accounts. */
+function RoleMenu() {
   const { t } = useI18n();
-  const { session, logout: endSession } = useSession();
+  const { role, setRole } = useRole();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -238,66 +184,88 @@ function UserMenu() {
     };
   }, [open]);
 
-  if (!session) return null;
-  const isCompany = session.user.role === "company";
-  const name = isCompany
-    ? session.company?.name ?? session.user.email
-    : [session.student?.firstName, session.student?.lastName].filter(Boolean).join(" ") || session.user.email;
-
-  const logout = async () => {
+  const choose = (next: Role) => {
     setOpen(false);
-    await endSession();
+    setRole(next);
+    router.push(roleHome[next]);
+  };
+  const leave = () => {
+    setOpen(false);
+    setRole(null);
+    router.push("/");
   };
 
   const item = "flex w-full items-center gap-2.5 rounded-full px-3 py-2.5 text-left text-[0.95rem] font-semibold text-ink hover:bg-accent hover:text-on-accent";
+  const Current = role ? roleIcon[role] : null;
 
   return (
     <div className="relative" ref={ref}>
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="true"
-        aria-label={`${t.nav.userMenu}: ${name}`}
-        onClick={() => setOpen((o) => !o)}
-        className="flex h-10 max-w-[14rem] items-center gap-2 rounded-full border-2 border-edge bg-surface px-1 text-sm font-semibold hover:bg-surface-muted sm:pr-3"
-      >
-        <span className={`inline-flex size-7 shrink-0 items-center justify-center rounded-full ${isCompany ? "bg-accent text-on-accent" : "bg-primary-fill text-white"}`}>
-          {isCompany ? <Building2 className="size-4" aria-hidden="true" /> : <GraduationCap className="size-4" aria-hidden="true" />}
-        </span>
-        <span className="hidden min-w-0 flex-col items-start leading-tight sm:flex">
-          <span className="max-w-[9rem] truncate">{name}</span>
-          <span className="text-[0.7rem] font-bold uppercase tracking-wide text-ink-muted">
-            {isCompany ? t.roles.company : t.roles.student}
+      {role && Current ? (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-haspopup="true"
+          aria-label={`${t.nav.roleMenu}: ${t.roles[role]}`}
+          onClick={() => setOpen((o) => !o)}
+          className="flex h-10 items-center gap-2 rounded-full border-2 border-edge bg-surface px-1 text-sm font-semibold hover:bg-surface-muted sm:pr-3"
+        >
+          <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-primary-fill text-white">
+            <Current className="size-4" aria-hidden="true" />
           </span>
-        </span>
-        <ChevronDown className="hidden size-4 shrink-0 text-ink-muted sm:block" aria-hidden="true" />
-      </button>
+          <span className="hidden min-w-0 flex-col items-start leading-tight sm:flex">
+            <span className="text-[0.7rem] font-bold uppercase tracking-wide text-ink-muted">{t.nav.youAre}</span>
+            <span className="max-w-[9rem] truncate">{t.roles[role]}</span>
+          </span>
+          <ChevronDown className="hidden size-4 shrink-0 text-ink-muted sm:block" aria-hidden="true" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-haspopup="true"
+          onClick={() => setOpen((o) => !o)}
+          className={buttonClass("primary", "sm", "h-10")}
+        >
+          <UserRound className="size-4" aria-hidden="true" />
+          {t.nav.chooseRole}
+        </button>
+      )}
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-60 rounded-lg border-2 border-edge bg-surface p-1.5 shadow-lift">
-          <div className="border-b border-line px-3 pb-2 pt-1.5 sm:hidden">
-            <p className="truncate font-bold">{name}</p>
-            <p className="text-xs font-bold uppercase tracking-wide text-ink-muted">{isCompany ? t.roles.company : t.roles.student}</p>
-          </div>
+        <div className="absolute right-0 top-12 z-50 w-72 max-w-[calc(100vw-2rem)] rounded-lg border-2 border-edge bg-surface p-1.5 shadow-lift">
+          {role && (
+            <ul className="border-b border-line pb-1.5">
+              <li>
+                <Link href="/dashboard" className={item} onClick={() => setOpen(false)}>
+                  <LayoutDashboard className="size-4 text-ink-muted" aria-hidden="true" />
+                  {t.nav.dashboard}
+                </Link>
+              </li>
+            </ul>
+          )}
+          {role && <p className="px-3 pb-1 pt-2.5 text-xs font-bold uppercase tracking-wide text-ink-muted">{t.nav.switchRole}</p>}
           <ul className="pt-1">
-            <li>
-              <Link href={dashboardPath(session.user.role)} className={item} onClick={() => setOpen(false)}>
-                <LayoutDashboard className="size-4 text-ink-muted" aria-hidden="true" />
-                {t.nav.dashboard}
-              </Link>
-            </li>
-            <li>
-              <Link href="/profils" className={item} onClick={() => setOpen(false)}>
-                <User className="size-4 text-ink-muted" aria-hidden="true" />
-                {t.nav.profile}
-              </Link>
-            </li>
-            <li>
-              <button type="button" className={item} onClick={logout}>
-                <LogOut className="size-4 text-ink-muted" aria-hidden="true" />
-                {t.nav.logout}
-              </button>
-            </li>
+            {ROLES.filter((r) => r !== role).map((r) => {
+              const Icon = roleIcon[r];
+              return (
+                <li key={r}>
+                  <button type="button" className={item} onClick={() => choose(r)}>
+                    <Icon className="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+                    {t.roleButtons[r]}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
+          {role && (
+            <ul className="mt-1 border-t border-line pt-1">
+              <li>
+                <button type="button" className={item} onClick={leave}>
+                  <LogOut className="size-4 text-ink-muted" aria-hidden="true" />
+                  {t.nav.clearRole}
+                </button>
+              </li>
+            </ul>
+          )}
         </div>
       )}
     </div>

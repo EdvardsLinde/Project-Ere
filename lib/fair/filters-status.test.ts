@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { createFairSeed } from "@/lib/data/fair-seed";
-import type { Exhibitor } from "@/lib/data/fair-types";
+import { createSeedDatabase } from "@/lib/data/seed";
+import type { Exhibitor } from "@/lib/data/types";
 import { filterChallenges, filterExhibitors, filterShowcase, isInShowcase } from "./filters";
 import { canTransition, exhibitorFlow, meetingFlow, teamFlow, transition } from "./status";
 
-const seed = createFairSeed();
+const seed = createSeedDatabase();
 
 describe("exhibitor directory filters", () => {
   it("filters by sector, size and seeking investment, hiding rejected", () => {

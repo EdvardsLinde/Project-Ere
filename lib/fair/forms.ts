@@ -17,7 +17,7 @@ import {
   type StandNeed,
   type StandSize,
 } from "@/config/event";
-import type { Exhibitor, MeetingRequest, TeamApplication, TeamMember } from "@/lib/data/fair-types";
+import type { Exhibitor, MeetingRequest, TeamApplication, TeamMember } from "@/lib/data/types";
 import { isEmail, isPhone, isUrl } from "@/lib/validation";
 import { innovatorSpotsLeft, isStandAvailable } from "./stands";
 

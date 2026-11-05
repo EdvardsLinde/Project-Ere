@@ -5,61 +5,31 @@
  */
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import HomePage from "@/app/page";
+import AgendaPage from "@/app/agenda/page";
 import NotFound from "@/app/not-found";
-import VerifyFormPage from "@/app/parbaudit/page";
-import VerifyResultPage from "@/app/parbaudit/[id]/page";
-import LoginPage from "@/app/pieslegties/page";
-import CataloguePage from "@/app/prakses/page";
-import PlacementPage from "@/app/prakses/[id]/page";
-import ApplyPage from "@/app/prakses/[id]/pieteikties/page";
-import PrivacyPage from "@/app/privatums/page";
-import ProfilePage from "@/app/profils/page";
-import CertificatePage from "@/app/sertifikats/[id]/page";
-import StudentDashboard from "@/app/students/page";
-import CompanyDashboard from "@/app/uznemums/page";
-import NewPlacementPage from "@/app/uznemums/prakses/jauna/page";
-import EditPlacementPage from "@/app/uznemums/prakses/[id]/rediget/page";
-import ApplicationsPage from "@/app/uznemums/prakses/[id]/pieteikumi/page";
+import HomePage from "@/app/page";
+import PrivacyPage from "@/app/privacy/page";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ToastProvider } from "@/components/toast";
-import type { Locale } from "@/lib/data/types";
+import type { Locale, Role } from "@/lib/data/types";
 import { I18nProvider } from "@/lib/i18n";
 import { siteConfig } from "@/config/site";
-import { DEFAULT_LOCALE, LOCALE_COOKIE, THEME_COOKIE, type Theme } from "@/lib/locale";
-import { SessionProvider } from "@/lib/session";
+import { DEFAULT_LOCALE, LOCALE_COOKIE, ROLE_COOKIE, THEME_COOKIE, type Theme } from "@/lib/locale";
+import { RoleProvider } from "@/lib/role";
+import { isRole } from "@/lib/roles";
 import { ThemeProvider } from "@/lib/theme";
 import { themeCss } from "@/lib/theme-css";
 import { matchRoute, ParamsContext, router, splitHref, startHashSync, useHref } from "./router";
 
-declare const __ARTIFACT_URL__: string;
-
 const routes: [string, React.ComponentType][] = [
   ["/", HomePage],
-  ["/prakses", CataloguePage],
-  ["/prakses/:id", PlacementPage],
-  ["/prakses/:id/pieteikties", ApplyPage],
-  ["/pieslegties", LoginPage],
-  ["/students", StudentDashboard],
-  ["/profils", ProfilePage],
-  ["/uznemums", CompanyDashboard],
-  ["/uznemums/prakses/jauna", NewPlacementPage],
-  ["/uznemums/prakses/:id/rediget", EditPlacementPage],
-  ["/uznemums/prakses/:id/pieteikumi", ApplicationsPage],
-  ["/sertifikats/:id", CertificatePage],
-  ["/parbaudit", VerifyFormPage],
-  ["/parbaudit/:id", VerifyResultPage],
-  ["/privatums", PrivacyPage],
+  ["/agenda", AgendaPage],
+  ["/privacy", PrivacyPage],
 ];
 
 (globalThis as { __SDP_ENV__?: unknown }).__SDP_ENV__ = {
   search: () => splitHref(router.current()).search,
-  verifyUrl: (id: string) => {
-    const base = __ARTIFACT_URL__ || window.location.href.split("#")[0];
-    return `${base}#parbaudit-${id}`;
-  },
-  canPrint: false,
 };
 
 function RouterView() {
@@ -88,6 +58,16 @@ function readLocale(): Locale {
   return DEFAULT_LOCALE;
 }
 
+function readRole(): Role | null {
+  try {
+    const v = window.localStorage.getItem(ROLE_COOKIE);
+    if (isRole(v)) return v;
+  } catch {
+    /* storage blocked */
+  }
+  return null;
+}
+
 function readTheme(): Theme {
   try {
     const v = window.localStorage.getItem(THEME_COOKIE);
@@ -110,7 +90,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <I18nProvider initialLocale={readLocale()}>
       <ThemeProvider initialTheme={initialTheme}>
-        <SessionProvider>
+        <RoleProvider initialRole={readRole()}>
           <ToastProvider>
             <div className="flex min-h-dvh flex-col">
               <SiteHeader />
@@ -120,7 +100,7 @@ createRoot(document.getElementById("root")!).render(
               <SiteFooter />
             </div>
           </ToastProvider>
-        </SessionProvider>
+        </RoleProvider>
       </ThemeProvider>
     </I18nProvider>
   </StrictMode>,

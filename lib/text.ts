@@ -1,5 +1,5 @@
 import type { Bilingual } from "@/config/site";
-import type { Locale, Localized } from "@/lib/data/fair-types";
+import type { Locale, Localized } from "@/lib/data/types";
 
 /** Resolve bilingual text. Plain strings (typed into a form) are shown as-is. */
 export function tx(text: Localized | Bilingual | undefined | null, locale: Locale): string {

@@ -1,5 +1,5 @@
 import { hallStands, innovatorStandLimit, standTypes, type StandSize } from "@/config/event";
-import type { Exhibitor } from "@/lib/data/fair-types";
+import type { Exhibitor } from "@/lib/data/types";
 
 export type StandState = "free" | "reserved" | "sold";
 

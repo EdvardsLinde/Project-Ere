@@ -1,5 +1,5 @@
 import type { AmountRangeId, ChallengeField, Sector, Stage, StandSize } from "@/config/event";
-import type { Challenge, Exhibitor } from "@/lib/data/fair-types";
+import type { Challenge, Exhibitor } from "@/lib/data/types";
 
 export interface ExhibitorFilter {
   sector?: Sector | "";
