@@ -10,7 +10,6 @@ const vars = (tokens: Record<string, string>) =>
  * single-file preview build — keep this file free of "use client".
  *
  * - `:root` light (the default), `html.dark` dark (set by the header toggle);
- * - `.paper` always light: the hero's expo pass looks like paper in either theme;
  * - printing is always light.
  */
 export function themeCss(): string {
@@ -18,7 +17,6 @@ export function themeCss(): string {
   return [
     `:root{${vars(light)}color-scheme:light}`,
     `html.dark{${vars(dark)}color-scheme:dark}`,
-    `.paper{${vars(light)}color:var(--c-ink);color-scheme:light}`,
     `@media print{:root,html.dark{${vars(light)}color-scheme:light}}`,
   ].join("\n");
 }

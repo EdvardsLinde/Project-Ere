@@ -9,9 +9,6 @@ page, **one strong colour** (forest green `#2F593E`), **one warm highlight**
 Bricolage Grotesque do the shouting so the body text can stay calm and readable.
 **Light mode is the default**; dark mode stays available from the header toggle.
 
-The one formal-looking object is the **expo pass** in the hero: a paper card
-with a double frame, always paper-white.
-
 > Values live in `config/site.ts` (`theme.light`, `theme.dark`) and become CSS
 > variables via `lib/theme-css.ts`; components use the token names, never hex.
 
@@ -41,8 +38,7 @@ with a double frame, always paper-white.
   and orange details, or a solid green block (company benefits, closing CTA)
   with white text and orange buttons. Never `accent` orange as text on white
   (use `accent-ink`), and never white text on orange (use `on-accent`).
-- **The pass is paper.** `.paper` re-applies the light tokens, so the hero's
-  expo pass looks the same in both themes; printing is always light.
+- **Printing is always light.**
 - **Inverted chips** (`bg-ink text-bg`: active language, segmented tabs, toasts)
   flip with the theme on purpose.
 - Focus rings are `primary`; inside `bg-night` and `bg-primary-fill` panels they
@@ -134,8 +130,8 @@ Use one or two per screen, never all at once.
 - **Marker highlight** (`.marker`): an orange, slightly rounded block behind
   the last part of a headline (after " — ") or a key name. Text on it is
   always `on-accent`, so it works in both themes.
-- **Circles:** a big green disc behind the hero's expo pass, an orange disc in
-  the hero corner and in the closing CTA. Always
+- **Circles:** a big green disc in the hero holding the drawn wheat ear, an
+  orange disc in the hero corner and in the closing CTA. Always
   outlined in `edge`, never behind running text.
 - **Round sticker:** a tilted orange disc with a short label from the
   dictionaries (the hero's "3 days").
@@ -156,14 +152,6 @@ Use one or two per screen, never all at once.
 - **Dot grid** (`.bg-dots`): 22px green dots behind the hero, faded out with a
   mask.
 - **Scallop** (`.scallop`): a row of orange half-circles along the footer top.
-
-## Expo pass
-
-The hero's paper card (`components/expo-illustration.tsx`): 3px ink outer
-frame, 2px green inner frame, green dot-and-orange-centre corner ornaments,
-"SEER EXPO" in spaced Bricolage capitals, the three sectors on a thick orange
-underline, a mini stand map and the "dates and venue to be confirmed" line from
-`config/event.ts`. Decorative (`aria-hidden`).
 
 ## Imagery and icons
 

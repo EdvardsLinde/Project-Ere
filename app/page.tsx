@@ -25,7 +25,6 @@ import { eventConfig } from "@/config/event";
 import { LinkButton } from "@/components/ui/button";
 import { Container, Eyebrow } from "@/components/ui/misc";
 import { CircuitLeaf, LeafSprig, PineBranch, WheatEar } from "@/components/nature";
-import { ExpoIllustration } from "@/components/expo-illustration";
 import { RoleButtons } from "@/components/role-buttons";
 import { useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
@@ -102,19 +101,18 @@ function Hero() {
 }
 
 /**
- * Big primary circle, an accent dot, a pine branch (forestry) and a wheat ear
- * (agriculture) around the fair's pass, plus a round "3 days" sticker.
+ * Big primary circle with an accent dot, a wheat ear (agriculture) standing in it,
+ * a pine branch (forestry) across its lower edge and a round "3 days" sticker.
  */
 function HeroVisual() {
   const { t } = useI18n();
   return (
-    <div className="relative mx-auto w-full max-w-md py-6" aria-hidden="true">
-      <div className="absolute left-1/2 top-1/2 aspect-square w-[118%] max-w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-edge bg-primary-fill" />
-      <div className="absolute -right-2 top-0 size-16 rounded-full border-2 border-edge bg-accent sm:size-20" />
-      <ExpoIllustration />
-      <PineBranch className="absolute -bottom-9 -left-6 w-40 -rotate-[8deg] sm:-bottom-12 sm:-left-16 sm:w-56" />
-      <WheatEar className="absolute -bottom-6 -right-3 h-36 rotate-[14deg] sm:-bottom-8 sm:-right-12 sm:h-48" />
-      <p className="absolute -left-1 -top-5 z-10 flex size-20 -rotate-12 items-center justify-center rounded-full border-2 border-edge bg-accent p-2 text-center font-display text-[0.95rem] font-extrabold leading-tight text-on-accent shadow-card sm:-left-6 sm:top-2 sm:size-28 sm:text-xl">
+    <div className="relative mx-auto aspect-square w-full max-w-[19rem] sm:max-w-[26rem]" aria-hidden="true">
+      <div className="absolute inset-0 rounded-full border-2 border-edge bg-primary-fill" />
+      <div className="absolute right-0 top-[4%] size-14 rounded-full border-2 border-edge bg-accent sm:size-20" />
+      <WheatEar className="absolute bottom-[8%] left-1/2 h-[78%] -translate-x-[30%] rotate-[10deg]" />
+      <PineBranch className="absolute -bottom-[16%] -left-[8%] w-[52%] rotate-[4deg] sm:-left-[16%]" />
+      <p className="absolute -left-[4%] top-[2%] z-10 flex size-20 -rotate-12 items-center justify-center rounded-full border-2 border-edge bg-accent p-2 text-center font-display text-[0.95rem] font-extrabold leading-tight text-on-accent shadow-card sm:size-28 sm:text-xl">
         {t.home.hero.sticker}
       </p>
     </div>

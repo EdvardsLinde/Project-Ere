@@ -86,7 +86,7 @@ body {
   outline-color: var(--color-accent);
 }
 
-/* Dot grid used behind the hero and the expo pass. */
+/* Dot grid used behind the hero. */
 .bg-dots {
   background-image: radial-gradient(color-mix(in srgb, var(--color-primary) 26%, transparent) 1.4px, transparent 1.6px);
   background-size: 22px 22px;
