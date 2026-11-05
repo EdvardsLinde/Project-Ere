@@ -29,7 +29,6 @@ export function SiteFooter() {
 
   return (
     <footer className="no-print mt-auto bg-night text-on-night">
-      <div className="scallop h-3" aria-hidden="true" />
       <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6">
         <p className="font-display text-[clamp(2rem,6vw,4rem)] font-extrabold leading-[1.02] tracking-tight">
           {siteConfig.tagline[locale]}
@@ -51,16 +50,14 @@ export function SiteFooter() {
         <div>
           <h2 className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-accent">{t.footer.contacts}</h2>
           <ul className="mt-4 space-y-2.5">
-            <li>
-              <span className="text-on-night/60">{t.footer.email}: </span>
-              {siteConfig.contacts.email.startsWith("[") ? (
-                <span>{siteConfig.contacts.email}</span>
-              ) : (
+            {siteConfig.contacts.email && (
+              <li>
+                <span className="text-on-night/60">{t.footer.email}: </span>
                 <a className={link} href={`mailto:${siteConfig.contacts.email}`}>
                   {siteConfig.contacts.email}
                 </a>
-              )}
-            </li>
+              </li>
+            )}
             <li>
               <a className={link} href={siteConfig.contacts.surveyUrl} target="_blank" rel="noopener noreferrer">
                 {t.footer.survey}
@@ -91,7 +88,7 @@ export function SiteFooter() {
               <button
                 type="button"
                 onClick={() => setConfirming(true)}
-                className="mt-1 inline-flex items-center gap-2 rounded-full border-2 border-on-night/40 px-4 py-2 text-sm font-bold text-on-night hover:border-accent hover:bg-accent hover:text-on-accent"
+                className="mt-1 inline-flex items-center gap-2 rounded-full border border-on-night/40 px-4 py-2 text-sm font-bold text-on-night hover:border-accent hover:bg-accent hover:text-on-accent"
               >
                 <RotateCcw className="size-4" aria-hidden="true" />
                 {t.footer.reset}

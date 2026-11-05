@@ -13,7 +13,7 @@ export function ChallengeCard({ challenge: c }: { challenge: Challenge }) {
   const { t, locale } = useI18n();
   const x = t.challenges;
   return (
-    <article className="group relative flex h-full flex-col rounded-lg border-2 border-edge bg-surface p-5 shadow-card transition duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift">
+    <article className="group relative flex h-full flex-col rounded-lg border border-edge bg-surface p-5 shadow-card transition duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift">
       <div className="flex flex-wrap gap-1.5">
         {c.isExample && <ExampleBadge />}
         <Badge tone="primary">{t.options.field[c.field]}</Badge>

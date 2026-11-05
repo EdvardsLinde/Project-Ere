@@ -111,7 +111,7 @@ export function StandBookingForm({ exhibitors, initialStand }: { exhibitors: Exh
   if (done) {
     return (
       <Card className="mx-auto mt-8 max-w-2xl p-6 text-center sm:p-10">
-        <span className="mx-auto flex size-16 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+        <span className="mx-auto flex size-16 items-center justify-center rounded-full border border-edge bg-accent text-on-accent">
           <CheckCircle2 className="size-8" aria-hidden="true" />
         </span>
         <h2 className="mt-5 text-3xl font-extrabold tracking-tight">{b.successTitle}</h2>
@@ -182,7 +182,7 @@ export function StandBookingForm({ exhibitors, initialStand }: { exhibitors: Exh
               <div className="flex flex-wrap items-center gap-2">
                 {input.logoDataUrl && (
                   // eslint-disable-next-line @next/next/no-img-element -- uploaded data URL
-                  <img src={input.logoDataUrl} alt="" className="size-11 rounded-full border-2 border-edge bg-white object-contain" />
+                  <img src={input.logoDataUrl} alt="" className="size-11 rounded-full border border-edge bg-white object-contain" />
                 )}
                 <input ref={fileRef} type="file" accept="image/png,image/jpeg" className="sr-only" aria-labelledby="logo-label" onChange={(e) => onLogo(e.target.files?.[0])} />
                 <Button variant="secondary" size="sm" onClick={() => fileRef.current?.click()}>
@@ -322,7 +322,7 @@ export function StandBookingForm({ exhibitors, initialStand }: { exhibitors: Exh
             <Eye className="size-5 text-primary" aria-hidden="true" />
             {b.preview}
           </p>
-          <div className="mt-3 rounded-lg border-2 border-dashed border-line bg-bg p-3">
+          <div className="mt-3 rounded-lg border border-dashed border-line bg-bg p-3">
             <ExhibitorCard exhibitor={previewOf(input)} preview headingLevel="h3" />
           </div>
         </section>
@@ -377,7 +377,7 @@ export function StandBookingForm({ exhibitors, initialStand }: { exhibitors: Exh
             {b.preview}
           </p>
           <p className="mb-3 text-sm text-ink-muted">{b.previewHint}</p>
-          <div className="rounded-lg border-2 border-dashed border-line bg-bg p-3">
+          <div className="rounded-lg border border-dashed border-line bg-bg p-3">
             <ExhibitorCard exhibitor={previewOf(input)} preview headingLevel="h3" />
           </div>
         </div>

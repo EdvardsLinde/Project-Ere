@@ -46,11 +46,11 @@ export function Dialog({
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
-      className={`m-0 mt-auto max-h-[92vh] w-full max-w-none rounded-t-lg border-2 border-edge bg-surface p-0 text-ink shadow-lift backdrop:bg-night/60 sm:m-auto sm:rounded-lg ${width}`}
+      className={`m-0 mt-auto max-h-[92vh] w-full max-w-none rounded-t-lg border border-edge bg-surface p-0 text-ink shadow-lift backdrop:bg-night/60 sm:m-auto sm:rounded-lg ${width}`}
     >
       {open && (
         <div className="flex max-h-[92vh] flex-col">
-          <div className="flex items-start justify-between gap-4 border-b-2 border-edge px-5 py-4">
+          <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
             <h2 className="text-xl font-extrabold">{title}</h2>
             <button
               type="button"

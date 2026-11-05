@@ -77,7 +77,7 @@ export default function TeamApplyPage() {
       </div>
       {done ? (
         <Card className="mt-8 p-6 text-center sm:p-10">
-          <span className="mx-auto flex size-16 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+          <span className="mx-auto flex size-16 items-center justify-center rounded-full border border-edge bg-accent text-on-accent">
             <CheckCircle2 className="size-8" aria-hidden="true" />
           </span>
           <h2 className="mt-5 text-3xl font-extrabold tracking-tight">{tm.successTitle}</h2>
@@ -111,7 +111,7 @@ export default function TeamApplyPage() {
               <legend className="text-sm font-bold text-ink">{tm.members}</legend>
               <ol className="mt-3 space-y-3">
                 {input.members.map((m, i) => (
-                  <li key={i} className="rounded-md border-2 border-line bg-surface-muted p-3 sm:p-4">
+                  <li key={i} className="rounded-md border border-line bg-surface-muted p-3 sm:p-4">
                     <p className="mb-2 text-xs font-bold uppercase tracking-[0.08em] text-ink-muted">{fmt(tm.memberN, { n: i + 1 })}</p>
                     <div className="grid grid-cols-[minmax(0,1fr)_5.5rem_auto] items-start gap-3">
                       <Field label={tm.memberName} required error={err(`members.${i}.name`)}>

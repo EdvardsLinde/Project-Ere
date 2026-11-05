@@ -32,7 +32,7 @@ export function SiteHeader() {
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`));
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b-2 border-edge bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/85">
+    <header className="no-print sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/85">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-bg"
@@ -57,8 +57,8 @@ export function SiteHeader() {
                   <Link
                     href={href}
                     aria-current={isActive(href) ? "page" : undefined}
-                    className={`whitespace-nowrap rounded-full border-2 px-3 py-1.5 text-[0.95rem] font-bold transition-colors ${
-                      isActive(href) ? "border-edge bg-accent text-on-accent" : "border-transparent text-ink-muted hover:border-line hover:text-ink"
+                    className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[0.95rem] font-semibold transition-colors ${
+                      isActive(href) ? "bg-primary-soft text-primary" : "text-ink-muted hover:bg-surface-muted hover:text-ink"
                     }`}
                   >
                     {t.nav[key]}
@@ -76,7 +76,7 @@ export function SiteHeader() {
           <RoleMenu />
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full border-2 border-edge bg-surface lg:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-edge bg-surface lg:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
@@ -88,7 +88,7 @@ export function SiteHeader() {
       </div>
 
       {menuOpen && (
-        <nav id="mobile-nav" aria-label={t.nav.mainNav} className="border-t-2 border-edge bg-surface lg:hidden">
+        <nav id="mobile-nav" aria-label={t.nav.mainNav} className="border-t border-line bg-surface lg:hidden">
           <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2">
             {nav.map((key) => {
               const href = navHref[key];
@@ -97,7 +97,7 @@ export function SiteHeader() {
                   <Link
                     href={href}
                     aria-current={isActive(href) ? "page" : undefined}
-                    className={`block rounded-full px-4 py-3 font-bold ${isActive(href) ? "bg-accent text-on-accent" : "text-ink"}`}
+                    className={`block rounded-full px-4 py-3 font-semibold ${isActive(href) ? "bg-primary-soft text-primary" : "text-ink"}`}
                   >
                     {t.nav[key]}
                   </Link>
@@ -129,7 +129,7 @@ function ThemeToggle({ className = "inline-flex", withLabel = false }: { classNa
       onClick={toggle}
       aria-label={withLabel ? undefined : label}
       title={label}
-      className={`${className} h-10 items-center justify-center gap-2 rounded-full border-2 border-edge bg-surface px-2.5 text-sm font-bold text-ink hover:bg-accent hover:text-on-accent`}
+      className={`${className} h-10 items-center justify-center gap-2 rounded-full border border-edge bg-surface px-2.5 text-sm font-bold text-ink hover:bg-surface-muted`}
     >
       {theme === "dark" ? <Sun className="size-5" aria-hidden="true" /> : <Moon className="size-5" aria-hidden="true" />}
       {withLabel && <span>{label}</span>}
@@ -140,7 +140,7 @@ function ThemeToggle({ className = "inline-flex", withLabel = false }: { classNa
 function LanguageToggle({ className = "flex" }: { className?: string }) {
   const { locale, setLocale, t } = useI18n();
   return (
-    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-full border-2 border-edge bg-surface p-0.5 text-sm font-bold`}>
+    <div role="group" aria-label={t.nav.language} className={`${className} h-10 items-center rounded-full border border-edge bg-surface p-0.5 text-sm font-bold`}>
       {(["lv", "en"] as const).map((l) => (
         <button
           key={l}
@@ -207,7 +207,7 @@ function RoleMenu() {
           aria-haspopup="true"
           aria-label={`${t.nav.roleMenu}: ${t.roles[role]}`}
           onClick={() => setOpen((o) => !o)}
-          className="flex h-10 items-center gap-2 rounded-full border-2 border-edge bg-surface px-1 text-sm font-semibold hover:bg-surface-muted sm:pr-3"
+          className="flex h-10 items-center gap-2 rounded-full border border-edge bg-surface px-1 text-sm font-semibold hover:bg-surface-muted sm:pr-3"
         >
           <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-primary-fill text-white">
             <Current className="size-4" aria-hidden="true" />
@@ -231,7 +231,7 @@ function RoleMenu() {
         </button>
       )}
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-72 max-w-[calc(100vw-2rem)] rounded-lg border-2 border-edge bg-surface p-1.5 shadow-lift">
+        <div className="absolute right-0 top-12 z-50 w-72 max-w-[calc(100vw-2rem)] rounded-lg border border-edge bg-surface p-1.5 shadow-lift">
           {role && (
             <ul className="border-b border-line pb-1.5">
               <li>

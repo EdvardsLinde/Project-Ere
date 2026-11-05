@@ -73,7 +73,7 @@ export default function RequestMeetingPage() {
       </div>
       {done ? (
         <Card className="mt-8 p-6 text-center sm:p-10">
-          <span className="mx-auto flex size-16 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+          <span className="mx-auto flex size-16 items-center justify-center rounded-full border border-edge bg-accent text-on-accent">
             <CheckCircle2 className="size-8" aria-hidden="true" />
           </span>
           <h2 className="mt-5 text-3xl font-extrabold tracking-tight">{m.successTitle}</h2>

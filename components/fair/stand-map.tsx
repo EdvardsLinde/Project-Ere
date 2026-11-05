@@ -18,9 +18,9 @@ const SPAN: Record<Exclude<StandSize, "innovator">, string> = {
 const STATE_ICON: Partial<Record<StandState, typeof Lock>> = { reserved: Clock, sold: Lock };
 
 const STATE_CLASS: Record<StandState, string> = {
-  free: "border-edge bg-surface text-ink",
-  reserved: "border-edge bg-accent text-on-accent",
-  sold: "border-edge bg-primary-fill text-white",
+  free: "border-primary/50 bg-surface text-ink",
+  reserved: "border-accent bg-accent text-on-accent",
+  sold: "border-primary-fill bg-primary-fill text-white",
 };
 
 interface Props {
@@ -56,7 +56,7 @@ export function StandMap({ exhibitors, mode, size, selected, onPick, showInnovat
           const isSelected = selected === stand.number;
           const pickable = mode === "pick" && state === "free" && (!size || size === stand.size);
           const dimmed = mode === "pick" && size && size !== stand.size;
-          const tile = `relative flex h-full w-full flex-col items-center justify-center rounded-md border-2 p-1 text-center transition ${STATE_CLASS[state]} ${
+          const tile = `relative flex h-full w-full flex-col items-center justify-center rounded-md border-[1.5px] p-1 text-center transition ${STATE_CLASS[state]} ${
             dimmed ? "opacity-35" : ""
           } ${isSelected ? "outline-3 outline-offset-2 outline-primary" : ""}`;
           const StateIcon = STATE_ICON[state];
@@ -97,12 +97,12 @@ export function StandMap({ exhibitors, mode, size, selected, onPick, showInnovat
       </ul>
 
       <div className="mt-2 grid grid-cols-6 gap-1.5 sm:gap-2">
-        <p className="col-span-2 flex items-center justify-center gap-1.5 rounded-md border-2 border-dashed border-line py-2 text-xs font-bold uppercase tracking-wide text-ink-muted">
+        <p className="col-span-2 flex items-center justify-center gap-1.5 rounded-md border border-dashed border-line py-2 text-xs font-bold uppercase tracking-wide text-ink-muted">
           <DoorOpen className="size-4" aria-hidden="true" />
           {s.entrance}
         </p>
         {showInnovatorZone && (
-          <p className="col-span-4 flex items-center gap-2 rounded-md border-2 border-edge bg-primary-soft px-3 py-2 text-sm">
+          <p className="col-span-4 flex items-center gap-2 rounded-md border border-edge bg-primary-soft px-3 py-2 text-sm">
             <Lightbulb className="size-4 shrink-0 text-primary" aria-hidden="true" />
             <span>
               <span className="font-bold">{s.innovatorZone}</span>
@@ -117,7 +117,7 @@ export function StandMap({ exhibitors, mode, size, selected, onPick, showInnovat
           const Icon = STATE_ICON[state];
           return (
             <span key={state} className="inline-flex items-center gap-1.5 font-semibold">
-              <span className={`flex size-5 items-center justify-center rounded-[4px] border-2 ${STATE_CLASS[state]}`} aria-hidden="true">
+              <span className={`flex size-5 items-center justify-center rounded-[4px] border ${STATE_CLASS[state]}`} aria-hidden="true">
                 {Icon && <Icon className="size-3" />}
               </span>
               {t.options.standState[state]}

@@ -34,7 +34,7 @@ export default function InvestInLatviaPage() {
           const Icon = ICONS[i % ICONS.length];
           return (
             <Card as="section" key={section.title} className="flex flex-col p-6">
-              <span className="flex size-12 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+              <span className="flex size-12 items-center justify-center rounded-full border border-edge bg-accent text-on-accent">
                 <Icon className="size-6" aria-hidden="true" />
               </span>
               <h2 className="mt-4 text-2xl font-extrabold tracking-tight">{section.title}</h2>

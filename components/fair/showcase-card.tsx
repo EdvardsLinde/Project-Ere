@@ -15,7 +15,7 @@ export function ShowcaseCard({ exhibitor: e }: { exhibitor: Exhibitor & { invest
   const inv = e.investment;
   const row = "flex items-start gap-2";
   return (
-    <article className="group relative flex h-full flex-col rounded-lg border-2 border-edge bg-surface p-5 shadow-card transition duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift">
+    <article className="group relative flex h-full flex-col rounded-lg border border-edge bg-surface p-5 shadow-card transition duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift">
       <ExhibitorBadges exhibitor={e} showSeeking={false} />
       <p className="mt-2 text-sm font-semibold text-accent-ink">{sectorLabel(e, locale)}</p>
       <h2 className="mt-1 text-xl font-extrabold leading-snug">{e.name}</h2>

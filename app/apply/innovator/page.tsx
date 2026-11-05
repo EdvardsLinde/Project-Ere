@@ -55,7 +55,7 @@ export default function InnovatorPage() {
 
   const counter = (
     <p
-      className="inline-flex items-center gap-2 rounded-full border-2 border-edge bg-accent px-4 py-2 font-bold text-on-accent shadow-card"
+      className="inline-flex items-center gap-2 rounded-full border border-edge bg-accent px-4 py-2 font-bold text-on-accent shadow-card"
       aria-live="polite"
     >
       <Lightbulb className="size-5" aria-hidden="true" />
@@ -70,7 +70,7 @@ export default function InnovatorPage() {
         <Loading label={t.common.loading} />
       ) : done ? (
         <Card className="mt-8 p-6 text-center sm:p-10">
-          <span className="mx-auto flex size-16 items-center justify-center rounded-full border-2 border-edge bg-accent text-on-accent">
+          <span className="mx-auto flex size-16 items-center justify-center rounded-full border border-edge bg-accent text-on-accent">
             <CheckCircle2 className="size-8" aria-hidden="true" />
           </span>
           <h2 className="mt-5 text-3xl font-extrabold tracking-tight">{n.successTitle}</h2>

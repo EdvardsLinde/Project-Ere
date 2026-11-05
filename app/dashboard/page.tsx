@@ -165,7 +165,7 @@ function ExhibitorDashboard({ data }: { data: DashboardData }) {
           {x.requests}
         </SectionHeading>
         {requests.length === 0 ? (
-          <p className="mt-4 rounded-lg border-2 border-dashed border-line bg-surface p-5 text-ink-muted">{x.noRequests}</p>
+          <p className="mt-4 rounded-lg border border-dashed border-line bg-surface p-5 text-ink-muted">{x.noRequests}</p>
         ) : (
           <ul className="mt-4 space-y-4">
             {requests.map((m) => (
@@ -283,7 +283,7 @@ function InvestorDashboard({ data }: { data: DashboardData }) {
           {x.saved}
         </SectionHeading>
         {saved.length === 0 ? (
-          <p className="mt-4 rounded-lg border-2 border-dashed border-line bg-surface p-5 text-ink-muted">{x.noSaved}</p>
+          <p className="mt-4 rounded-lg border border-dashed border-line bg-surface p-5 text-ink-muted">{x.noSaved}</p>
         ) : (
           <ul className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {saved.map((e) => (

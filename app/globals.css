@@ -35,21 +35,27 @@
   --color-warning-soft: var(--c-warning-soft, #ffefc2);
   --color-danger: var(--c-danger, #c0182a);
   --color-danger-soft: var(--c-danger-soft, #fde8ea);
+  --color-land-crop: var(--c-land-crop, #cbd9c8);
+  --color-land-row: var(--c-land-row, #2f593e);
+  --color-land-forest: var(--c-land-forest, #1d3828);
+  --color-land-moss: var(--c-land-moss, #4e7a5c);
+  --color-land-meadow: var(--c-land-meadow, #a9c2ae);
+  --color-land-wheat: var(--c-land-wheat, #efddc3);
+  --color-land-straw: var(--c-land-straw, #d9a06f);
 }
 
 /*
- * Rounded, sticker-like shapes: generous radii and hard offset shadows in the
- * edge colour (no blur). Tailwind inlines these values into the utilities, so
- * the shadows follow `--c-edge` in both themes.
+ * Calm surfaces: rounded corners, thin `edge` outlines and soft, low shadows.
+ * The same shadow works on both themes (it only darkens what is behind it).
  */
 @theme {
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 22px;
+  --radius-lg: 20px;
 
-  --shadow-card: 3px 3px 0 0 var(--c-edge, #13241a);
-  --shadow-pop: 4px 4px 0 0 var(--c-edge, #13241a);
-  --shadow-lift: 6px 6px 0 0 var(--c-edge, #13241a);
+  --shadow-card: 0 1px 2px rgb(16 28 21 / 0.05), 0 6px 18px -10px rgb(16 28 21 / 0.18);
+  --shadow-pop: 0 2px 4px rgb(16 28 21 / 0.06), 0 14px 30px -14px rgb(16 28 21 / 0.28);
+  --shadow-lift: 0 2px 6px rgb(16 28 21 / 0.05), 0 24px 48px -26px rgb(16 28 21 / 0.35);
 }
 
 html {
@@ -86,25 +92,29 @@ body {
   outline-color: var(--color-accent);
 }
 
-/* Dot grid used behind the hero. */
-.bg-dots {
-  background-image: radial-gradient(color-mix(in srgb, var(--color-primary) 26%, transparent) 1.4px, transparent 1.6px);
-  background-size: 22px 22px;
+/* Key visual: traffic along the road and one pulsing point (off with reduced motion, below). */
+@keyframes kv-flow {
+  to {
+    stroke-dashoffset: -28;
+  }
 }
-
-/* Scalloped edge: a row of accent half-circles along the top of the footer. */
-.scallop {
-  background: radial-gradient(circle at 12px 0, var(--color-accent) 11px, transparent 11.5px) 0 0 / 24px 12px repeat-x;
+@keyframes kv-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
-
-/* Marker highlight: an accent-coloured, slightly rounded block behind a few words. */
-.marker {
-  background: var(--color-accent);
-  color: var(--color-on-accent);
-  border-radius: 0.28em;
-  padding: 0 0.16em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+.kv-flow {
+  animation: kv-flow 2.4s linear infinite;
+}
+.kv-pulse {
+  animation: kv-pulse 2.6s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 @keyframes step-in {

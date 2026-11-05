@@ -62,7 +62,7 @@ export default function ShowcaseItemPage() {
           </p>
           <dl className="mt-8 grid gap-4 sm:grid-cols-2">
             {facts.map(({ icon: Icon, label, value }) => (
-              <div key={label} className="rounded-lg border-2 border-edge bg-surface p-4 shadow-card">
+              <div key={label} className="rounded-lg border border-edge bg-surface p-4 shadow-card">
                 <dt className="flex items-center gap-2 text-sm font-bold uppercase tracking-[0.06em] text-ink-muted">
                   <Icon className="size-4 text-primary" aria-hidden="true" />
                   {label}

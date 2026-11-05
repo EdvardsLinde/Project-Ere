@@ -32,7 +32,7 @@ export default function AgendaPage() {
         <p className="text-sm text-ink-muted">{a.exampleNote}</p>
       </Notice>
 
-      <div role="tablist" aria-label={a.daysLabel} className="mt-8 grid grid-cols-3 rounded-full border-2 border-edge bg-surface-muted p-1">
+      <div role="tablist" aria-label={a.daysLabel} className="mt-8 grid grid-cols-3 rounded-full border border-edge bg-surface-muted p-1">
         {days.map((d, i) => (
           <button
             key={d}
@@ -65,7 +65,7 @@ export default function AgendaPage() {
             {items
               .filter((item) => item.day === day)
               .map((item) => (
-                <li key={item.id} className="flex flex-col gap-3 rounded-lg border-2 border-edge bg-surface p-5 shadow-card sm:flex-row sm:items-center">
+                <li key={item.id} className="flex flex-col gap-3 rounded-lg border border-edge bg-surface p-5 shadow-card sm:flex-row sm:items-center">
                   <span className="flex w-24 shrink-0 items-center gap-1.5 font-display text-2xl font-extrabold tabular-nums">
                     <Clock className="size-5 text-primary" aria-hidden="true" />
                     {item.time}

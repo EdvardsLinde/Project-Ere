@@ -49,7 +49,7 @@ export default function ExhibitorPage() {
           <div className="mt-1 flex items-center gap-4">
             {e.logoDataUrl && (
               // eslint-disable-next-line @next/next/no-img-element -- uploaded data URL
-              <img src={e.logoDataUrl} alt="" className="size-16 rounded-full border-2 border-edge bg-white object-contain" />
+              <img src={e.logoDataUrl} alt="" className="size-16 rounded-full border border-edge bg-white object-contain" />
             )}
             <h1 className="text-[2rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl">{e.name}</h1>
           </div>

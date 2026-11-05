@@ -30,14 +30,14 @@ export function ExhibitorCard({ exhibitor: e, preview = false, headingLevel = "h
   const showcase = tx(e.showcase, locale);
   return (
     <article
-      className={`group relative flex h-full flex-col rounded-lg border-2 border-edge bg-surface p-5 shadow-card transition duration-150 ${
+      className={`group relative flex h-full flex-col rounded-lg border border-edge bg-surface p-5 shadow-card transition duration-150 ${
         preview ? "" : "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-lift"
       }`}
     >
       <div className="flex items-start gap-3">
         {e.logoDataUrl ? (
           // eslint-disable-next-line @next/next/no-img-element -- uploaded data URL
-          <img src={e.logoDataUrl} alt="" className="size-12 shrink-0 rounded-full border-2 border-edge bg-white object-contain" />
+          <img src={e.logoDataUrl} alt="" className="size-12 shrink-0 rounded-full border border-edge bg-white object-contain" />
         ) : null}
         <div className="min-w-0 flex-1">
           <ExhibitorBadges exhibitor={e} />

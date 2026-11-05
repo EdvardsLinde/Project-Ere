@@ -7,17 +7,16 @@ export type ButtonSize = "sm" | "md" | "lg";
 const base =
   "inline-flex items-center justify-center gap-2 rounded-full font-bold transition duration-150 ease-out disabled:pointer-events-none disabled:opacity-50 select-none";
 
-/** Filled and outlined buttons are "stickers": a 2px edge plus a hard shadow that presses in on click. */
-const sticker =
-  "border-2 border-edge shadow-card hover:-translate-x-px hover:-translate-y-px hover:shadow-pop active:translate-x-[2px] active:translate-y-[2px] active:shadow-none";
+/** Filled buttons are flat; the outlined one has a thin ink border. All press in slightly on click. */
+const press = "active:translate-y-px";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: `${sticker} bg-primary-fill text-white hover:bg-primary-hover`,
-  accent: `${sticker} bg-accent text-on-accent hover:bg-accent-hover`,
-  secondary: `${sticker} bg-surface text-ink hover:bg-surface-muted`,
+  primary: `${press} border-[1.5px] border-transparent bg-primary-fill text-white hover:bg-primary-hover`,
+  accent: `${press} border-[1.5px] border-transparent bg-accent text-on-accent hover:bg-accent-hover`,
+  secondary: `${press} border-[1.5px] border-ink/70 bg-transparent text-ink hover:border-ink hover:bg-surface`,
   quiet: "text-primary hover:bg-primary-soft",
-  danger: "border-2 border-danger/40 bg-surface text-danger hover:border-danger hover:bg-danger-soft",
-  inverse: "border-2 border-white/70 text-white hover:border-white hover:bg-white/10",
+  danger: "border-[1.5px] border-danger/40 bg-surface text-danger hover:border-danger hover:bg-danger-soft",
+  inverse: "border-[1.5px] border-white/70 text-white hover:border-white hover:bg-white/10",
 };
 
 const sizes: Record<ButtonSize, string> = {

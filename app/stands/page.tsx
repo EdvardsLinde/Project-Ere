@@ -42,7 +42,7 @@ export default function StandsPage() {
 
           <section aria-labelledby="prices-title">
             <Card className="overflow-hidden">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-edge bg-surface-muted px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-surface-muted px-5 py-4">
                 <h2 id="prices-title" className="text-2xl font-extrabold tracking-tight">
                   {s.pricesTitle}
                 </h2>
