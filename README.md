@@ -1,12 +1,12 @@
-# SEER — see where your career can go · Ieraugi, kur var aizvest tava karjera
+# SEER Expo · Saldus inovāciju izstāde
 
-**SEER — Saldus Industrial Digital Immersion / Saldus industriālā digitālā prakse**
+**LV** · Saldus lauksaimniecības, mežsaimniecības un loģistikas inovāciju izstāde. Trīs dienas: uzņēmumu stendi, bezmaksas stendi inovatoriem, investīciju vitrīna ar B2B tikšanās pieprasījumiem un IT / MI / kiberdrošības izaicinājumi skolu komandām.
 
-**EN** · 3–5 day placements for 15–24-year-olds from Saldus municipality at local companies. The young person solves a real, small digital task on the company's actual data and systems with a mentor, and earns the **Industrial Digital Certificate**, a diploma-style document the partner companies recognise.
+**EN** · Saldus Agriculture, Forestry & Logistics Innovation Fair. Three days: company stands, free stands for innovators, an investment showcase with B2B meeting requests, and IT / AI / cybersecurity challenges for school teams.
 
-**LV** · 3–5 dienu prakses Saldus novada uzņēmumos 15–24 gadus veciem jauniešiem. Jaunietis kopā ar mentoru atrisina īstu, nelielu digitālu uzdevumu ar uzņēmuma datiem un sistēmām un saņem **Industriālo digitālo sertifikātu**, ko atzīst partneruzņēmumi.
+> ⚠️ **Demo mode / Demo režīms.** There is no server and there are no accounts. Everything lives in the browser's `localStorage`; the role switch only changes menus and the dashboard. / Servera un kontu nav. Viss glabājas pārlūka `localStorage`; lomas izvēle maina tikai izvēlni un paneli.
 
-> ⚠️ **Demo mode / Demo režīms.** There is no server. Accounts, placements, applications and certificates live in the browser's `localStorage`. Login is **not secure** and exists for demonstration only. / Servera nav. Konti, prakses, pieteikumi un sertifikāti glabājas pārlūka `localStorage`. Pieslēgšanās **nav droša** un paredzēta tikai demonstrācijai.
+> **Dates and venue are not decided yet** and prices are placeholders. Every example company, startup, challenge and agenda item is marked **PIEMĒRS / EXAMPLE**. / **Datumi un vieta vēl nav zināmi**, cenas ir aptuvenas. Visi piemēri ir apzīmēti ar **PIEMĒRS**.
 
 ---
 
@@ -22,121 +22,121 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. `npm run build` makes a production build (type-checks too), `npm run lint` runs ESLint. Requires Node.js 20+.
+Open http://localhost:3000. Requires Node.js 20+.
 
-### Demo accounts
+| Command | What it does |
+|---|---|
+| `npm test` | Vitest unit tests for the pure logic in `lib/fair/` and the seed rules |
+| `npm run build` | Production build (type-checks too) |
+| `npm run lint` | ESLint |
+| `npm run build:artifact -- <out.html>` | Single-file clickable preview (see below) |
 
-| Role | Email | Password | What's there |
-|---|---|---|---|
-| Company | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 published placement, 1 draft, 1 finished placement with an issued certificate |
-| Student | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, aged 17: 1 approved application, 1 completed, certificate `SEER-2026-0001` |
+### Roles
 
-The login page has a "Fill in the demo account" button.
+There is no login. A visitor picks a role with the buttons on the home page or the **"Izvēlēties lomu" (Choose a role)** menu in the header. The role is remembered in a cookie (so the server renders the right menu) and in `localStorage`. "Leave this role" in the role menu returns to the general view.
 
-### Reset demo data
+| Role | Menu |
+|---|---|
+| none | About · Agenda · Exhibitors · Investment showcase · role buttons |
+| Exhibitor (company) | About · Stands · Book a stand · My dashboard |
+| Innovator | About · Apply for a free stand · My dashboard |
+| Investor | About · Investment showcase · Investing in Latvia · My dashboard |
+| School team | About · Challenges · My dashboard |
 
-Footer → **"Atiestatīt demo datus" (Reset demo data)**. This deletes everything created in this browser and restores the seed data. Clearing the site data in the browser does the same.
+**My dashboard** shows what *this browser* submitted (stand bookings, innovator applications, meeting requests, team applications, saved startups). It is a demo convenience, not an account.
 
 ### Pages
 
-| Route | Who | What |
-|---|---|---|
-| `/` | everyone | "Ideja" home page: hero, statistics with sources, how it works, benefits, certificate, comparison, partners, sample week, FAQ |
-| `/prakses` | guests, students (companies → `/uznemums`) | Catalogue: filters, search, sort |
-| `/prakses/[id]` | everyone | Placement detail; apply button (sticky on mobile) |
-| `/prakses/[id]/pieteikties` | students (guests → registration → back here) | Application form |
-| `/pieslegties?loma=skolens\|uznemums&tab=register` | guests | Login / registration with the role preselected |
-| `/students` | students (companies → `/uznemums`) | My applications, my certificates, profile summary |
-| `/profils` | logged in | Student or company profile |
-| `/uznemums` | companies (students → `/students`) | Dashboard: stats, placements, actions |
-| `/uznemums/prakses/jauna`, `/uznemums/prakses/[id]/rediget` | companies | 7-step builder: live preview, draft autosave, validation |
-| `/uznemums/prakses/[id]/pieteikumi` | companies | Applications: status, details, mentor evaluation, issue certificate |
-| `/sertifikats/[id]` | anyone with the link | Printable A4 certificate with QR code ("Download PDF" = browser print) |
-| `/parbaudit`, `/parbaudit/[id]` | everyone | Certificate verification |
-| `/privatums` | everyone | Privacy notice |
+| Route | What |
+|---|---|
+| `/` | Landing page: hero, key facts, sectors, why Saldus, the three parts of the fair, the three days, for exhibitors / investors, FAQ |
+| `/agenda` | Programme in three day tabs; dates and venue come from `config/event.ts` |
+| `/exhibitors`, `/exhibitors/[id]` | Directory with sector / stand size / "seeking investment" filters, and exhibitor detail |
+| `/stands` | Hall map with free / reserved / sold stands, stand types with placeholder prices |
+| `/apply/stand?stand=N` | Stand booking: company, stand (pick on the map), days and needs, showcase goals, optional investment details; live preview and price summary |
+| `/apply/innovator` | Free innovator stand (2×2 m, day 2) with a live "places left" counter |
+| `/investment`, `/investment/[id]` | Investment showcase: sector / stage / amount filters; detail with "Save" |
+| `/investment/[id]/meet` | B2B meeting request (day, time, topic) |
+| `/invest-in-latvia` | General pointers and official links for foreign investors |
+| `/challenges`, `/challenges/[id]` | School challenges (AI, IT, cybersecurity) |
+| `/challenges/[id]/apply` | Team application: 2–5 members aged 12–25; guardian consent required when anyone is under 18 |
+| `/dashboard` | Per-role dashboard; exhibitors accept or decline meeting requests here |
+| `/privacy` | Privacy notice |
+
+### How the main flows connect
+
+- **Booking a stand** marks it *reserved* on the map. Ticking "seeking investment" and filling in the investment details puts the company in the investment showcase.
+- **An investor** filters the showcase, saves startups and requests a meeting. **The exhibitor** sees the request on their dashboard and accepts or declines it; the investor's dashboard shows the answer.
+- **Innovator applications** use up one of the 16 free places; the counter on the form and the stands page updates at once.
+- **Team applications** are validated by team size, age and guardian consent.
+
+All of this only meets up inside one browser, because there is no server.
+
+### Reset demo data
+
+Footer → **"Atiestatīt demo datus" (Reset demo data)**. Deletes everything created in this browser and restores the seed data. The chosen role stays.
 
 ### Project structure
 
 ```
-app/                 routes (Latvian URLs), one folder per page
-components/          header, footer, placement card/detail, builder, certificate, ui/ (button, form, dialog, …)
-config/site.ts       name, certificate prefix, colours, contacts, schools, industries, focus areas, other lists
+app/                 routes, one folder per page
+components/          header (role menu), footer, role buttons, expo illustration, ui/ (button, form, dialog, …)
+components/fair/     stand map, booking form, exhibitor / showcase / challenge cards, filters, badges
+config/event.ts      event name, subtitle, dates & venue text, stand layout and prices, sectors, option lists, age limits
+config/site.ts       brand, tagline, contacts, colour tokens (light/dark), schools
 messages/lv.ts       all UI text in Latvian (source of truth)
-messages/en.ts       English, type-checked against lv.ts (build fails if a key is missing)
-lib/data/            the data layer: types.ts, repository.ts (interface), local-storage.ts (demo), seed.ts, hooks.ts
-lib/                 dates, placement rules (free spots, deadlines, age), builder validation, i18n, session
+messages/en.ts       English, type-checked against lv.ts (the build fails if a key is missing)
+lib/data/            data layer: types.ts, repository.ts (interface), local-storage.ts (demo), seed.ts, hooks.ts
+lib/fair/            pure logic with tests: stands.ts, filters.ts, status.ts, forms.ts
+lib/roles.ts         roles and per-role menus (server-safe); lib/role.tsx is the client provider
 DESIGN.md            design tokens and component rules
 ```
 
-**Conventions:** no hard-coded UI text (add it to both dictionaries); pages and components touch data only through `getRepository()` / `useQuery()`; colours only through the tokens in `config/site.ts` (`bg-primary`, `text-ink-muted`, …).
+**Conventions:** no hard-coded UI text (add it to both dictionaries); pages and components touch data only through `getRepository()` / `useQuery()`; colours only through the tokens in `config/site.ts`; business rules go in `lib/fair/` with a test.
 
-### Deploy to Vercel (free)
+### Things to change before the real event
 
-1. Push this repository to GitHub.
-2. On https://vercel.com, choose **Add New → Project** and import the repository. Vercel detects Next.js; keep the defaults (`npm run build`).
-3. Click **Deploy**. Every push to the main branch redeploys automatically.
-4. Optional: set `siteUrl` in `config/site.ts` to your Vercel URL. QR codes use the current browser address, so this is only a fallback.
+All in `config/event.ts` unless noted:
+
+- `eventConfig.datesVenue`: replace "Dates and venue to be confirmed" once they are known. The agenda's day tabs show "Day 1/2/3" until then.
+- `standTypes[...].price`: stand prices are **placeholders** (S €250, M €450, L €800); the UI labels them as such.
+- `hallStands`: the hall layout (21 paid stands: 3 L, 6 M, 12 S). `innovatorStandLimit`: 16 free places.
+- `eventConfig.advicePartner`: "In cooperation with LIAA and a partner law firm (to be confirmed)".
+- `config/site.ts`: team contacts, the school list.
+- `lib/data/seed.ts`: example data (see below).
+
+### Example data (seed) rules
+
+`lib/data/seed.test.ts` checks these:
+
+- **Real Saldus companies** (PATA Saldus, DELTA LV, Warmeston, Tērvete Food, SC GRUPA) appear only with their name and what they do, marked **PIEMĒRS** and **"Dalība vēl nav apstiprināta" / "Participation not confirmed"**. They never appear in the investment showcase.
+- **The investment showcase holds only fictional startups** (AgroSense, TimberTrack, RouteMate, FarmShield) plus whatever is submitted in this browser.
+- 2 fictional innovators, 5 example challenges, 13 example agenda items across 3 days. All are marked PIEMĒRS.
+
+### "Investing in Latvia" page
+
+General pointers only, with links to official sources (Register of Enterprises, LIAA and its forestry page, State Forest Service, Rural Support Service, business.gov.lv support overview). It states **no legal costs, deadlines or rules as fact**; visitors are told to check with the official source or an adviser. Links were checked in November 2026.
 
 ### Single-file preview
 
-`npm run build:artifact -- <out.html> [publicUrl]` bundles the whole app into one HTML file (an in-memory router replaces Next's routing; see `artifact/`). It's handy for sharing a clickable demo without a server, e.g. as a claude.ai artifact. `publicUrl` is where the file will be hosted, so certificate QR codes link to its verification view. Printing to PDF is hidden there because the host blocks the print dialog.
+`npm run build:artifact -- <out.html>` bundles the whole app into one HTML file. An in-memory router replaces Next's routing (see `artifact/`). Use it to share a clickable demo without a server, e.g. as a claude.ai artifact.
 
 ### Demo-mode limitations
 
-- **Data lives only in that browser.** Another device, browser or private window starts from the seed data. A company and a student "meet" only if they use the same browser (that's how the demo flow works).
-- **Certificate verification works only in the same browser** where the certificate was issued. A QR code scanned on a phone will say "not found" unless the phone has the same data.
-- Passwords are stored as a simple non-cryptographic hash, which is **not security**. Anyone with access to the browser can read or change the data.
-- CV upload stores only the file name and size. Logos are stored as base64 (max 200 KB).
-- localStorage is limited (~5 MB per site).
+- **Data lives only in that browser.** Another device, browser or private window starts from the seed data.
+- If the browser blocks storage, the site still works but forgets everything on reload.
+- Logos are stored as base64 (max 200 KB); localStorage holds about 5 MB per site.
+- No emails are sent; nobody "receives" a booking or a meeting request outside this browser.
 
-### Connecting Supabase (next step)
+### Connecting a real backend (next step)
 
 The UI depends only on the `DataRepository` interface in `lib/data/repository.ts`.
 
-1. Create a Supabase project. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to `.env.local` and to Vercel.
-2. `npm install @supabase/supabase-js`.
-3. Create tables matching `lib/data/types.ts`: `profiles_students`, `companies`, `placements` (JSON columns are fine for `terms`, `day_plan`, `questions`, `company`), `applications`, `certificates`, plus a sequence for certificate numbers.
-4. Use **Supabase Auth** for email + password and drop `passwordHash`. Add Row Level Security:
-   - companies read/write only their own placements and the applications to them;
-   - students read/write only their own profile and applications;
-   - published placements and certificates are readable by everyone, but only the public fields (expose certificates through a view without personal contact data);
-   - a company's `contact` stays private until `confirmed = true`.
-5. Write `lib/data/supabase.ts` implementing `DataRepository` (same method names, same `DataError` codes). Make `subscribe()` use Supabase Realtime or just re-fetch after mutations.
-6. Return it from `getRepository()` in `lib/data/index.ts`, e.g. when `process.env.NEXT_PUBLIC_DATA_BACKEND === "supabase"`.
-7. Move certificate issuing and ID numbering into a database function (RPC), so IDs are unique and can't be forged from the browser.
-
-Out of scope for now (structure only): email notifications, an admin dashboard that approves placements before publishing, and a school/teacher role. Each fits behind the repository interface or as a new role in `Role`.
-
-### Assumptions
-
-Decisions made where the brief was open. Change them if they're wrong.
-
-1. **Rebuilt from scratch on Next.js.** The previous Vite prototype ("SEER") was removed; it is still in git history.
-2. **SEER identity.** The app keeps the SEER name, tagline and "S" mark with a bold, youthful look: forest green and orange (from the "Saldus novads · Digitālā prakse" badge) on off-white, ink outlines with hard "sticker" shadows, Bricolage Grotesque headings and Inter body text (see `DESIGN.md`). Light mode is the default; dark mode is a toggle (remembered in a cookie, so the server renders the right theme with no flash). Certificates always render and print light. Colours are in `theme.light` / `theme.dark` in `config/site.ts`. The earlier Vite SEER prototype stays on branch `claude/ere-career-discovery-app-gk6v7q`.
-3. **Free spots** = spots minus *approved + completed* applications per date. New (unreviewed) applications don't hold a spot, so more people can apply than there are spots, and approving is blocked when a date is full.
-4. **Deadlines are per set of dates.** The brief asks for one "application deadline"; a single date would close *all* dates of a placement at once (e.g. a February date would close in November). Instead the company sets "days before the start" (default 10, as the brief suggests) and each set of dates closes that many days before it begins. The detail page and application form show each date's own deadline.
-5. **Guardian consent** is required when the applicant is under 18 *and* the placement keeps "minors need parental consent" on (default yes).
-6. **Applicant age** must be within the placement's age range (15–24 by default); registration requires 15–24.
-7. **Companies may view** a public placement page (e.g. their own) but can't apply; only the `/prakses` list redirects them to `/uznemums`.
-8. **Contact person** is shown to a student only after approval *and* only if the company is `confirmed`. Companies that register themselves count as confirmed; the 8 sample companies are not.
-9. **Published placements don't autosave** (changes would go live half-finished). They have "Save changes", which validates first. Drafts autosave about 0.7 s after each change.
-10. **Certificates before the end date.** In the demo a company can issue a certificate before the placement's end date (with a warning), so the whole flow can be tried on future dates. Set `allowCertificateBeforeEnd: false` in `config/site.ts` for real use: then the button is disabled until the end date and the data layer refuses it too.
-11. **The demo company has an extra finished placement** (12–14 Oct 2026), so the demo student's completed application and certificate `SEER-2026-0001` have a real source.
-12. **Sample mentors are invented** and marked "Parauga mentors" / "Sample mentor". Sample compensation and opportunities are left as "to be confirmed by the company", except the opportunities the brief lists (SCHWENK, SC GRUPA, Brimer).
-13. **Bilingual content.** Sample data is written in LV and EN. Text that companies and students type is stored as typed and shown in both languages unchanged.
-14. **Address placeholders** like `[TODO: confirm address]` stay in the data but are never shown in the UI.
-15. **"Completed placements"** on the company dashboard counts placements with status *Finished*.
-16. **Name: "sertifikāts", not "diploms".** The credential was renamed from "Industriālā digitālā pase" to "Industriālais digitālais sertifikāts" and is laid out like a diploma. "Diploms" is avoided on purpose: in Latvia it usually means an official education document from an accredited institution. Certificate IDs start with `SEER` (e.g. `SEER-2026-0001`); the prefix is in `config/site.ts`.
-
-### Statistics on the home page
-
-Figures come from the team's brief, with source links on the page. Checked on 2026-10-28 by web search, where possible:
-
-The page shows four figures as short "bubbles", each with a source link:
-
-- ✅ 48.43% basic digital skills; ICT specialists 4.5% of employment.
-- ⚠️ Not independently verified (source sites weren't reachable from the build environment): Saldus 46 registered unemployed youth and VARAM's +160% IT support requests. **Open each source link and check before presenting.**
-- `[TODO]` items to fill in: team email (`config/site.ts`, privacy page), mentor time commitment (FAQ), the full school list (`config/site.ts`).
+1. Create tables matching `lib/data/types.ts`: `exhibitors` (JSON columns are fine for `stand`, `investment`, `team`), `meetings`, `challenges`, `teams`, `agenda`.
+2. Add authentication with real roles (exhibitor, innovator, investor, school, organiser) and Row Level Security: exhibitors see only meeting requests addressed to them; team member data (names, ages, guardian consent) is visible only to the team and the organisers.
+3. Write e.g. `lib/data/supabase.ts` implementing `DataRepository` (same method names, same `DataError` codes) and return it from `getRepository()` in `lib/data/index.ts`.
+4. Move stand allocation and the innovator place count into the database (a transaction or RPC), so two people can't book the same stand.
+5. Add an organiser view that approves bookings (`submitted → approved / rejected`); the status flow is already in `lib/fair/status.ts`.
 
 ---
 
@@ -152,49 +152,33 @@ npm install
 npm run dev
 ```
 
-Atver http://localhost:3000. `npm run build` izveido produkcijas versiju (arī pārbauda tipus), `npm run lint` palaiž ESLint. Vajag Node.js 20+.
+Atver http://localhost:3000. `npm test` palaiž testus, `npm run build` izveido produkcijas versiju (arī pārbauda tipus), `npm run lint` palaiž ESLint. Vajag Node.js 20+.
 
-### Demo konti
+### Lomas
 
-| Loma | E-pasts | Parole | Kas tur ir |
-|---|---|---|---|
-| Uzņēmums | `demo@uznemums.lv` | `demo1234` | "Demo Ražotne SIA", Saldus: 1 publicēta prakse, 1 melnraksts, 1 pabeigta prakse ar izsniegtu sertifikātu |
-| Skolēns | `demo@skolens.lv` | `demo1234` | Elza Paraudziņa, Saldus tehnikums, 17 gadi: 1 apstiprināts pieteikums, 1 pabeigts, sertifikāts `SEER-2026-0001` |
+Pieslēgšanās nav. Lomu izvēlas ar pogām sākumlapā vai galvenes izvēlnē **"Izvēlēties lomu"**. Loma maina izvēlni un paneli **"Mans panelis"**, kurā redzams tas, kas iesniegts *šajā pārlūkā*.
 
-Pieslēgšanās lapā ir poga "Aizpildīt ar demo kontu".
+### Galvenās plūsmas
+
+- Rezervēts stends kartē kļūst *rezervēts*. Ja uzņēmums atzīmē "meklējam investīcijas", tas parādās investīciju vitrīnā.
+- Investors filtrē vitrīnu un pieprasa tikšanos; uzņēmums savā panelī to pieņem vai noraida.
+- Inovatoru pieteikumi samazina 16 bezmaksas vietu skaitītāju.
+- Skolu komandā 2–5 dalībnieki vecumā 12–25 gadi; ja kāds ir jaunāks par 18, vajag vecāku piekrišanu.
 
 ### Demo datu atiestatīšana
 
-Lapas apakšā → **"Atiestatīt demo datus"**. Tiek dzēsts viss šajā pārlūkā izveidotais un atjaunoti sākuma dati.
+Lapas apakšā → **"Atiestatīt demo datus"**. Tiek dzēsts viss šajā pārlūkā izveidotais un atjaunoti sākuma dati. Izvēlētā loma paliek.
 
-### Publicēšana Vercel (bez maksas)
+### Kas jānomaina pirms īstās izstādes
 
-1. Augšupielādē repozitoriju GitHub.
-2. Vietnē https://vercel.com izvēlies **Add New → Project** un importē repozitoriju. Vercel pats atpazīst Next.js; noklusējuma iestatījumi der.
-3. Nospied **Deploy**. Katra izmaiņa galvenajā zarā tiek publicēta automātiski.
+`config/event.ts`: datumi un vieta, stendu cenas (pašlaik aptuvenas), zāles plānojums, inovatoru vietu skaits, partneru teksts. `config/site.ts`: kontakti un skolu saraksts.
+
+### Piemēru noteikumi
+
+- Īsti Saldus uzņēmumi redzami tikai ar nosaukumu un darbības jomu, ar **PIEMĒRS** un **"Dalība vēl nav apstiprināta"**. Investīciju vitrīnā tie nav.
+- Investīciju vitrīnā ir tikai izdomāti jaunuzņēmumi.
+- Lapā "Investēt Latvijā" ir tikai vispārīgi norādījumi un oficiālas saites, bez konkrētām juridiskām izmaksām vai noteikumiem.
 
 ### Demo režīma ierobežojumi
 
-- **Dati ir tikai tajā pārlūkā.** Citā ierīcē, pārlūkā vai privātajā logā redzami tikai sākuma dati.
-- **Sertifikāta pārbaude darbojas tikai tajā pašā pārlūkā**, kurā sertifikāts izsniegts.
-- Paroles nav drošas. CV saglabā tikai faila nosaukumu un izmēru.
-
-### Supabase pieslēgšana
-
-Visas lapas izmanto tikai `DataRepository` saskarni (`lib/data/repository.ts`). Izveido `lib/data/supabase.ts` ar tām pašām metodēm, izmanto Supabase Auth un Row Level Security un atgriez to no `getRepository()` (`lib/data/index.ts`). Sīkāk skatīt angļu sadaļu.
-
-### Pieņēmumi
-
-Galvenie pieņēmumi (pilns saraksts angļu sadaļā):
-
-- Brīvās vietas = vietas mīnus apstiprinātie un pabeigtie pieteikumi.
-- Pieteikšanās termiņš ir “N dienas pirms sākuma” katriem datumiem atsevišķi (noklusējums 10).
-- Vecāku piekrišana vajadzīga, ja jaunietim nav 18 gadu.
-- Kontaktpersona redzama tikai pēc apstiprināšanas un tikai apstiprinātiem uzņēmumiem.
-- Publicētas prakses nesaglabājas automātiski; melnraksti saglabājas.
-- Demo režīmā sertifikātu var izsniegt pirms prakses beigām (ar brīdinājumu). Īstai lietošanai `config/site.ts` iestati `allowCertificateBeforeEnd: false`.
-- 8 parauga uzņēmumi **nav apstiprinājuši dalību**: tiem ir "Ilustratīvs piemērs" emblēma, izdomāti mentori, un kontakti netiek rādīti.
-
-### Statistika
-
-Pirms prezentēšanas atver katru avota saiti un pārbaudi skaitļus. Daļa skaitļu nav neatkarīgi pārbaudīta (skatīt angļu sadaļu "Statistics on the home page").
+Dati ir tikai tajā pārlūkā. Ja pārlūks bloķē krātuvi, lapa strādā, bet pēc pārlādes visu aizmirst. E-pasti netiek sūtīti. Īsta servera pieslēgšana: skatīt angļu sadaļu "Connecting a real backend".

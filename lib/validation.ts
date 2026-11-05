@@ -7,8 +7,6 @@ export const isEmail = (v: string) => emailSchema.safeParse(v.trim()).success;
 /** Accepts Latvian and international numbers: digits, spaces, +, -, (), at least 8 digits. */
 export const isPhone = (v: string) => /^\+?[\d\s\-()]{8,20}$/.test(v.trim()) && v.replace(/\D/g, "").length >= 8;
 
-export const isISODate = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v));
-
 export const isUrl = (v: string) => {
   const value = v.trim();
   if (!value) return true;

@@ -33,7 +33,7 @@ import { RoleProvider } from "@/lib/role";
 import { isRole } from "@/lib/roles";
 import { ThemeProvider } from "@/lib/theme";
 import { themeCss } from "@/lib/theme-css";
-import { matchRoute, ParamsContext, router, splitHref, startHashSync, useHref } from "./router";
+import { matchRoute, ParamsContext, splitHref, startHashSync, useHref } from "./router";
 
 const routes: [string, React.ComponentType][] = [
   ["/", HomePage],
@@ -53,10 +53,6 @@ const routes: [string, React.ComponentType][] = [
   ["/dashboard", DashboardPage],
   ["/privacy", PrivacyPage],
 ];
-
-(globalThis as { __SDP_ENV__?: unknown }).__SDP_ENV__ = {
-  search: () => splitHref(router.current()).search,
-};
 
 function RouterView() {
   const href = useHref();
