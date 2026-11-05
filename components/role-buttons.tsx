@@ -54,8 +54,9 @@ export function RoleButtons({ onDark = false, className = "" }: { onDark?: boole
 }
 
 /**
- * Hero version: one main button (book a stand), the investor as an outlined
- * button, innovators and school teams as quieter links. Same roles, same labels.
+ * Hero version: one main button (book a stand) and the investor as an outlined
+ * button, both full-width blocks; innovators and school teams as quieter links.
+ * Same roles, same labels.
  */
 export function HeroRoleActions({ className = "" }: { className?: string }) {
   const { t } = useI18n();
@@ -64,22 +65,22 @@ export function HeroRoleActions({ className = "" }: { className?: string }) {
   const InvestorIcon = roleIcon.investor;
   return (
     <div className={className}>
-      <div className="flex flex-wrap gap-3">
+      <div className="grid gap-3">
         <button
           type="button"
           onClick={() => choose("exhibitor")}
-          className={buttonClass("accent", "lg", "h-auto min-h-13 whitespace-normal py-3 text-left leading-snug")}
+          className={buttonClass("accent", "lg", "h-auto min-h-14 w-full whitespace-normal py-3 leading-snug")}
         >
           <ExhibitorIcon className="size-5 shrink-0" aria-hidden="true" />
           {t.roleButtons.exhibitor}
           <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
         </button>
-        <button type="button" onClick={() => choose("investor")} className={buttonClass("secondary", "lg", "min-h-13")}>
+        <button type="button" onClick={() => choose("investor")} className={buttonClass("secondary", "lg", "min-h-14 w-full")}>
           <InvestorIcon className="size-5 shrink-0" aria-hidden="true" />
           {t.roleButtons.investor}
         </button>
       </div>
-      <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+      <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
         {(["innovator", "school"] as const).map((r) => {
           const Icon = roleIcon[r];
           return (
@@ -87,12 +88,10 @@ export function HeroRoleActions({ className = "" }: { className?: string }) {
               <button
                 type="button"
                 onClick={() => choose(r)}
-                className="group inline-flex items-center gap-2 rounded-sm py-1 text-[0.95rem] font-semibold text-ink"
+                className="group inline-flex items-center gap-2 rounded-sm py-1 text-left font-mono text-[0.78rem] font-semibold uppercase text-ink"
               >
                 <Icon className="size-4 shrink-0 text-primary" aria-hidden="true" />
-                <span className="underline decoration-line decoration-2 underline-offset-[5px] transition-colors group-hover:decoration-accent">
-                  {t.roleButtons[r]}
-                </span>
+                <span className="border-b border-rule pb-0.5 transition-colors group-hover:border-accent">{t.roleButtons[r]}</span>
                 <ArrowRight className="size-4 shrink-0 text-accent-ink transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </button>
             </li>
