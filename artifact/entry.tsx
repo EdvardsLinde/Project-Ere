@@ -6,9 +6,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import AgendaPage from "@/app/agenda/page";
+import BookStandPage from "@/app/apply/stand/page";
+import ExhibitorPage from "@/app/exhibitors/[id]/page";
+import ExhibitorsPage from "@/app/exhibitors/page";
 import NotFound from "@/app/not-found";
 import HomePage from "@/app/page";
 import PrivacyPage from "@/app/privacy/page";
+import StandsPage from "@/app/stands/page";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ToastProvider } from "@/components/toast";
@@ -25,6 +29,10 @@ import { matchRoute, ParamsContext, router, splitHref, startHashSync, useHref } 
 const routes: [string, React.ComponentType][] = [
   ["/", HomePage],
   ["/agenda", AgendaPage],
+  ["/stands", StandsPage],
+  ["/apply/stand", BookStandPage],
+  ["/exhibitors", ExhibitorsPage],
+  ["/exhibitors/:id", ExhibitorPage],
   ["/privacy", PrivacyPage],
 ];
 
