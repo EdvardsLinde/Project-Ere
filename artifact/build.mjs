@@ -40,7 +40,7 @@ const html = `<title>SEER Expo — Saldus inovāciju izstāde</title>
 <meta name="description" content="SEER Expo: trīs dienu lauksaimniecības, mežsaimniecības un loģistikas inovāciju izstāde Saldū. Demo versija.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400..800&display=swap">
 <style>${css}
 /* Preview host: keep the sticky header and bottom bars clear of phone system bars. */
 header.sticky{top:env(safe-area-inset-top,0px)}
