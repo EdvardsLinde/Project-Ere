@@ -158,8 +158,8 @@ const en: Messages = {
 
   home: {
     hero: {
-      eyebrow: "Saldus · {n} days",
-      lead: "Investors and leading local firms meet innovators and operating Latvian businesses in one place: stands, an investment showcase, a school challenge and visits to working companies.",
+      eyebrow: "Saldus · {n} days · A student-led initiative",
+      lead: "We're students from Saldus. Our region's farms, forests and logistics firms deserve a place where investors, innovators and schools meet, so we're organising one.",
       rolesLabel: "Who are you?",
       innovation: "Innovation",
     },
@@ -278,6 +278,10 @@ const en: Messages = {
           a: "Businesses and startups in agriculture, forestry, logistics and adjacent fields; local innovators and inventors; investors; school and Saldus Tehnikums teams.",
         },
         {
+          q: "Who is organising the fair?",
+          a: "A student team from Saldus. We're planning the fair ourselves and looking for companies, schools and partners who want to take part. More under “Who's behind SEER Expo”.",
+        },
+        {
           q: "How do investors contact exhibitors?",
           a: "In the investment showcase an investor picks a project and presses “Request a meeting”. The exhibitor sees the request in their dashboard and accepts or declines it.",
         },
@@ -290,6 +294,27 @@ const en: Messages = {
           a: "No. In this demo the application is only submitted; the organisers will contact you about payment and the contract.",
         },
       ],
+    },
+    team: {
+      eyebrow: "About us",
+      title: "Who's behind SEER Expo",
+      lead: "SEER Expo is a student team's initiative. We're planning the fair ourselves and looking for companies, schools and partners who want to take part.",
+      items: [
+        {
+          title: "Why we're doing it",
+          text: "In our view, the farming, forestry and logistics firms of Saldus municipality too rarely come to the attention of investors and new ideas. The fair brings them together in one place.",
+        },
+        {
+          title: "What we do",
+          text: "We plan the programme and the stands, talk to companies and schools, and build this website so that signing up is simple.",
+        },
+        {
+          title: "How to reach us",
+          text: "Fill in our survey: it's the quickest way to tell us what you'd want from the fair and to get in touch.",
+        },
+      ],
+      contact: "Fill in our survey",
+      members: "The team",
     },
     closing: {
       title: "Join SEER Expo",

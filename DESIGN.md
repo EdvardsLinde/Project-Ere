@@ -120,12 +120,20 @@ from the screen edge on phones). Works from 360px with no sideways scroll.
   the role (none, exhibitor, innovator, investor, school); active item = soft
   green block. Right side: theme and language toggles, then the role menu
   ("Choose a role" button, or the current role with switch / leave options).
+- **Voice:** the site speaks as the student team organising the fair ("we",
+  "mēs") in the hero lead, the "Who's behind SEER Expo" section and the FAQ;
+  everything else addresses the visitor.
 - **Hero:** two columns split by a `rule` line. Left: eyebrow (Saldus · days ·
-  dates and venue), the name huge with "Expo" in green and an orange dot, the
-  subtitle, the lead, then a full-width orange button (company: book a stand),
+  student-led initiative), the name huge with "Expo" in green and an orange
+  dot, the subtitle, the lead in the team's voice, a small square chip with
+  the dates-and-venue line, then a full-width orange button (company: book a stand),
   a full-width outlined button (investor) and two underlined links
   (innovator, school team). Right, centred vertically: the key visual with its
   legend (below the buttons on phones).
+- **Who's behind SEER Expo** (`Team` on the home page, before the FAQ): title
+  and lead on the left; on the right a ruled list (why we do it, what we do,
+  how to reach us) and an outlined button to the survey. Team names show as
+  chips only when `siteConfig.team` lists them.
 - **Facts strip:** three numbers from `config/event.ts` (days, paid stands,
   free innovator places) in three ruled columns at every width. No price
   until the organisers set real ones.

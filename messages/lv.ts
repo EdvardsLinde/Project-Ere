@@ -162,8 +162,8 @@ const lv = {
 
   home: {
     hero: {
-      eyebrow: "Saldus · {n} dienas",
-      lead: "Investori un vadošie vietējie uzņēmumi satiek inovatorus un strādājošus Latvijas uzņēmumus vienuviet: stendi, investīciju vitrīna, skolu izaicinājums un vizītes uzņēmumos.",
+      eyebrow: "Saldus · {n} dienas · Studentu iniciatīva",
+      lead: "Mēs esam studenti no Saldus. Mūsu novada lauksaimniecības, mežsaimniecības un loģistikas uzņēmumi ir pelnījuši vietu, kur satikties ar investoriem, inovatoriem un skolām, tāpēc mēs tādu veidojam.",
       rolesLabel: "Kas jūs esat?",
       innovation: "Inovācijas",
     },
@@ -282,6 +282,10 @@ const lv = {
           a: "Uzņēmumi un jaunuzņēmumi lauksaimniecībā, mežsaimniecībā, loģistikā un saistītās nozarēs; vietējie inovatori un izgudrotāji; investori; skolu un Saldus tehnikuma komandas.",
         },
         {
+          q: "Kas organizē izstādi?",
+          a: "Studentu komanda no Saldus. Mēs izstādi plānojam paši un meklējam uzņēmumus, skolas un partnerus, kas vēlas piedalīties. Vairāk sadaļā “Kas veido SEER Expo”.",
+        },
+        {
           q: "Kā investori sazinās ar dalībniekiem?",
           a: "Investīciju vitrīnā investors izvēlas projektu un nospiež “Pieprasīt tikšanos”. Dalībnieks redz pieprasījumu savā panelī un to pieņem vai noraida.",
         },
@@ -294,6 +298,27 @@ const lv = {
           a: "Nē. Šajā demo versijā pieteikums tiek tikai iesniegts; par maksu un līgumu organizatori sazināsies atsevišķi.",
         },
       ],
+    },
+    team: {
+      eyebrow: "Par mums",
+      title: "Kas veido SEER Expo",
+      lead: "SEER Expo ir studentu komandas iniciatīva. Mēs izstādi plānojam paši un meklējam uzņēmumus, skolas un partnerus, kas vēlas piedalīties.",
+      items: [
+        {
+          title: "Kāpēc mēs to darām",
+          text: "Mūsuprāt, Saldus novada lauku, mežu un loģistikas uzņēmumi pārāk reti nonāk investoru un jaunu ideju redzeslokā. Izstāde tos saved vienuviet.",
+        },
+        {
+          title: "Ko mēs darām",
+          text: "Plānojam programmu un stendus, runājam ar uzņēmumiem un skolām un veidojam šo vietni, lai pieteikties būtu vienkārši.",
+        },
+        {
+          title: "Kā ar mums sazināties",
+          text: "Aizpildiet mūsu aptauju: tas ir ātrākais veids, kā pastāstīt, ko jūs sagaidāt no izstādes, un sazināties ar mums.",
+        },
+      ],
+      contact: "Aizpildiet mūsu aptauju",
+      members: "Komanda",
     },
     closing: {
       title: "Piesakieties SEER Expo",

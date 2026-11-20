@@ -3,13 +3,16 @@
 import {
   ArrowRight,
   Building2,
+  CalendarDays,
   CalendarRange,
+  ClipboardList,
   Factory,
   GraduationCap,
   Handshake,
   Landmark,
   Lightbulb,
   MapPin,
+  MessageSquare,
   PackageSearch,
   Plus,
   Scale,
@@ -21,10 +24,11 @@ import {
   Users,
 } from "lucide-react";
 import { eventConfig, hallStands, innovatorStandLimit, sectors } from "@/config/event";
+import { siteConfig } from "@/config/site";
 import { KeyVisual } from "@/components/key-visual";
 import { HeroRoleActions, RoleButtons } from "@/components/role-buttons";
-import { LinkButton } from "@/components/ui/button";
-import { Container, Eyebrow } from "@/components/ui/misc";
+import { buttonClass, LinkButton } from "@/components/ui/button";
+import { Chip, Container, Eyebrow } from "@/components/ui/misc";
 import { fmt, useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
 
@@ -38,6 +42,7 @@ export default function HomePage() {
       <Parts />
       <Days />
       <ForWhom />
+      <Team />
       <Faq />
       <ClosingCta />
     </>
@@ -78,9 +83,7 @@ function Hero() {
     <section className="border-b border-rule" aria-labelledby="hero-title">
       <Container className="grid lg:grid-cols-2">
         <div className="min-w-0 pb-10 pt-10 sm:pt-14 lg:flex lg:flex-col lg:justify-center lg:py-16 lg:pr-10">
-          <Eyebrow>
-            {fmt(h.eyebrow, { n: eventConfig.days.length })} · {tx(eventConfig.datesVenue, locale)}
-          </Eyebrow>
+          <Eyebrow>{fmt(h.eyebrow, { n: eventConfig.days.length })}</Eyebrow>
           <h1 id="hero-title" className="mt-5 text-[clamp(3rem,9vw,5.75rem)] font-extrabold leading-[0.92] tracking-[-0.035em] text-ink">
             {words.join(" ")} {last && <span className="text-primary">{last}</span>}
             <span className="text-accent" aria-hidden="true">
@@ -89,6 +92,10 @@ function Hero() {
           </h1>
           <p className="mt-6 max-w-[30ch] font-display text-xl font-semibold leading-snug sm:text-2xl">{tx(eventConfig.subtitle, locale)}</p>
           <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-muted">{h.lead}</p>
+          <p className="mt-5 inline-flex w-fit items-center gap-2 rounded-sm border border-line bg-surface px-3 py-1 text-sm font-bold">
+            <CalendarDays className="size-4 text-primary" aria-hidden="true" />
+            {tx(eventConfig.datesVenue, locale)}
+          </p>
           <h2 className="sr-only">{h.rolesLabel}</h2>
           <HeroRoleActions className="mt-8" />
         </div>
@@ -343,6 +350,57 @@ function ForWhom() {
             {v.cta}
             <ArrowRight className="size-4" aria-hidden="true" />
           </LinkButton>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/** The student team: why, what, how to reach us; names only when `siteConfig.team` lists them. */
+function Team() {
+  const { t, locale } = useI18n();
+  const m = t.home.team;
+  const icons = [Lightbulb, ClipboardList, MessageSquare];
+  return (
+    <section className="border-t border-rule py-16 sm:py-24" aria-labelledby="team-title">
+      <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+        <div>
+          <SectionTitle id="team-title" eyebrow={m.eyebrow} title={m.title} lead={m.lead} />
+          {siteConfig.team.length > 0 && (
+            <div className="mt-8">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-ink-muted">{m.members}</p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {siteConfig.team.map((person) => (
+                  <li key={person.name}>
+                    <Chip>
+                      {person.name} · <span className="ml-1 font-normal text-ink-muted">{tx(person.role, locale)}</span>
+                    </Chip>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        <div>
+          <ul className="divide-y divide-rule border-y border-rule">
+            {m.items.map((item, i) => {
+              const Icon = icons[i];
+              return (
+                <li key={item.title} className="flex gap-4 py-6">
+                  <IconDisc icon={Icon} />
+                  <div>
+                    <h3 className="text-xl font-extrabold">{item.title}</h3>
+                    <p className="mt-1 text-ink-muted">{item.text}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <a href={siteConfig.contacts.surveyUrl} target="_blank" rel="noopener noreferrer" className={buttonClass("secondary", "md", "mt-6")}>
+            {m.contact}
+            <span className="sr-only"> {t.common.opensInNewTab}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </Container>
     </section>

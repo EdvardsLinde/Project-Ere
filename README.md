@@ -104,7 +104,7 @@ All in `config/event.ts` unless noted:
 - `standTypes[...].price`: stand prices are **placeholders** (S €250, M €450, L €800); the UI labels them as such.
 - `hallStands`: the hall layout (21 paid stands: 3 L, 6 M, 12 S). `innovatorStandLimit`: 16 free places.
 - `eventConfig.advicePartner`: "In cooperation with LIAA and a partner law firm (to be confirmed)".
-- `config/site.ts`: `contacts.email` (empty = the footer leaves the line out), the school list.
+- `config/site.ts`: `contacts.email` (empty = the footer leaves the line out), `team` (names and roles for "Who's behind SEER Expo"; empty = no names shown, add people only with their consent), the school list.
 - `lib/data/seed.ts`: example data (see below).
 
 ### Example data (seed) rules

@@ -139,6 +139,13 @@ export const siteConfig = {
   /** Light mode is the default; the header toggle remembers the visitor's choice. */
   defaultTheme: "light" as "dark" | "light",
 
+  /**
+   * The student team behind SEER Expo, shown in "Who's behind SEER Expo" on the
+   * home page. Leave empty to show no names; add people only with their consent.
+   * Example: { name: "Anna Bērziņa", role: { lv: "Projekta vadītāja", en: "Project lead" } }
+   */
+  team: [] as readonly { name: string; role: Bilingual }[],
+
   /** Suggestions for the school field of the team form (any school can be typed). */
   schools: ["Saldus tehnikums", "Saldus vidusskola", "Brocēnu vidusskola"],
 
