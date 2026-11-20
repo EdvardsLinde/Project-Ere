@@ -6,7 +6,7 @@
 
 > ⚠️ **Demo mode / Demo režīms.** There is no server and there are no accounts. Everything lives in the browser's `localStorage`; the role switch only changes menus and the dashboard. / Servera un kontu nav. Viss glabājas pārlūka `localStorage`; lomas izvēle maina tikai izvēlni un paneli.
 
-> **The venue is Saldus sporta centrs; the dates are not decided yet** and prices are placeholders. Every example company, startup and challenge is marked **PIEMĒRS / EXAMPLE**. / **Vieta: Saldus sporta centrs; datumi vēl nav zināmi**, cenas ir aptuvenas. Visi piemēri ir apzīmēti ar **PIEMĒRS**.
+> **The venue is Saldus sporta skola; the dates are not decided yet** and prices are placeholders. Every example company, startup and challenge is marked **PIEMĒRS / EXAMPLE**. / **Vieta: Saldus sporta skola; datumi vēl nav zināmi**, cenas ir aptuvenas. Visi piemēri ir apzīmēti ar **PIEMĒRS**.
 
 ---
 
@@ -99,9 +99,9 @@ DESIGN.md            design tokens and component rules
 
 All in `config/event.ts` unless noted:
 
-- `VENUE` and `eventConfig.datesVenue`: the venue (Saldus sporta centrs) and "dates to be confirmed"; add the dates once they are known.
+- `VENUE` and `eventConfig.datesVenue`: the venue (Saldus sporta skola) and "dates to be confirmed"; add the dates once they are known.
 - `standTypes[...].price`: stand prices are **placeholders** (S €250, M €450, L €800); the UI labels them as such.
-- `hallLayout` and `hallStands`: the hall plan of the sports hall (a 14 × 12 cell grid seen from the visitor seating, the whole floor divided into 45 paid stands: 4 L, 17 M, 24 S, numbered row by row from the back-left corner; the stage in the middle; the innovator places between the stage and the entrance; the entrance through the seating in the front wall). Add, move or resize stands in `hallPlaces`; the numbers follow automatically, and the demo data picks stands by size with `standsOfSize`. It is provisional and not to scale: redraw it from the venue's real floor plan by changing the cells. `lib/fair/hall.test.ts` checks that nothing overlaps or blocks the entrance. `innovatorStandLimit`: 16 free places.
+- `config/hall.ts`: the floor plan of the Saldus sporta skola hall, the one place to edit stands. 21 paid stands (L 1–3, M 4–9, S 10–21) and 16 innovator booths, each with zone, size, dimensions, price (from `standTypes`), `status` and an optional `exhibitorName` for deals made outside the website; website bookings are layered on top. The curtain line splits the hall into two equal halves; the stage is in the middle of the half behind it. Provisional, not to scale. `lib/fair/hall.test.ts` checks the layout against the plan. `innovatorStandLimit`: 16 free places.
 - `eventConfig.advicePartner`: "In cooperation with LIAA and a partner law firm (to be confirmed)".
 - `config/site.ts`: `contacts.email` (empty = the footer leaves the line out), `team` (names and roles for "Who's behind SEER Expo"; empty = no names shown, add people only with their consent), the school list.
 - `lib/data/seed.ts`: example data (see below).

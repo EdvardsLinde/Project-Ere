@@ -7,17 +7,20 @@
  */
 import {
   bookingToExhibitor,
+  type InnovatorInput,
   innovatorToExhibitor,
   meetingFromInput,
+  type MeetingInput,
+  requestToExhibitor,
+  type StandBookingInput,
+  type StandRequestInput,
   teamFromInput,
+  type TeamInput,
   validateInnovator,
   validateMeeting,
   validateStandBooking,
+  validateStandRequest,
   validateTeam,
-  type InnovatorInput,
-  type MeetingInput,
-  type StandBookingInput,
-  type TeamInput,
 } from "@/lib/fair/forms";
 import { canTransition, meetingFlow } from "@/lib/fair/status";
 import { DataError, type DataRepository } from "./repository";
@@ -125,6 +128,19 @@ export class LocalStorageRepository implements DataRepository {
       if (errors.spots) throw new DataError("noSpots");
       if (Object.keys(errors).length) throw new DataError("invalid");
       const exhibitor = innovatorToExhibitor(input, newId("exh"), this.now());
+      db.exhibitors.push(exhibitor);
+      db.mine.exhibitors.push(exhibitor.id);
+      return exhibitor;
+    });
+  }
+
+  async requestStand(input: StandRequestInput) {
+    return this.commit((db) => {
+      const errors = validateStandRequest(input, db.exhibitors);
+      if (errors.place === "noSpots") throw new DataError("noSpots");
+      if (errors.place) throw new DataError("standTaken");
+      if (Object.keys(errors).length) throw new DataError("invalid");
+      const exhibitor = requestToExhibitor(input, newId("exh"), this.now());
       db.exhibitors.push(exhibitor);
       db.mine.exhibitors.push(exhibitor.id);
       return exhibitor;

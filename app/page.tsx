@@ -21,9 +21,10 @@ import {
   Truck,
   Users,
 } from "lucide-react";
-import { eventConfig, hallStands, innovatorStandLimit } from "@/config/event";
+import { eventConfig, innovatorStandLimit } from "@/config/event";
+import { hallStands } from "@/config/hall";
 import { siteConfig } from "@/config/site";
-import { StandMap } from "@/components/fair/stand-map";
+import { HallFloorPlan } from "@/components/fair/hall-floor-plan";
 import { HeroRoleActions, RoleButtons } from "@/components/role-buttons";
 import { buttonClass, LinkButton } from "@/components/ui/button";
 import { Chip, Container, Eyebrow } from "@/components/ui/misc";
@@ -101,7 +102,7 @@ function Hero() {
         <div className="flex min-w-0 flex-col justify-center border-t border-rule pb-12 pt-8 lg:border-l lg:border-t-0 lg:py-16 lg:pl-10">
           <h2 className="font-display text-xl font-extrabold">{t.stands.mapTitle}</h2>
           <p className="mb-4 mt-1 text-ink-muted">{t.stands.mapHint}</p>
-          <StandMap exhibitors={exhibitors ?? []} mode="link" />
+          <HallFloorPlan exhibitors={exhibitors ?? []} />
         </div>
       </Container>
     </section>

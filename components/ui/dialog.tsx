@@ -15,6 +15,7 @@ export function Dialog({
   children,
   footer,
   size = "md",
+  side = "center",
 }: {
   open: boolean;
   onClose: () => void;
@@ -23,6 +24,8 @@ export function Dialog({
   children: React.ReactNode;
   footer?: React.ReactNode;
   size?: "md" | "lg" | "full";
+  /** `right`: a drawer along the right edge from `sm` up (a bottom sheet on phones). */
+  side?: "center" | "right";
 }) {
   const ref = useRef<HTMLDialogElement>(null);
 
@@ -34,6 +37,10 @@ export function Dialog({
   }, [open]);
 
   const width = size === "lg" ? "sm:max-w-3xl" : size === "full" ? "sm:max-w-6xl" : "sm:max-w-lg";
+  const place =
+    side === "right"
+      ? "sm:my-0 sm:ml-auto sm:mr-0 sm:h-dvh sm:max-h-dvh sm:max-w-md sm:rounded-none sm:border-y-0 sm:border-r-0"
+      : `sm:m-auto sm:rounded-lg ${width}`;
 
   return (
     <dialog
@@ -46,10 +53,10 @@ export function Dialog({
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
-      className={`m-0 mt-auto max-h-[92vh] w-full max-w-none rounded-t-lg border border-edge bg-surface p-0 text-ink shadow-lift backdrop:bg-night/60 sm:m-auto sm:rounded-lg ${width}`}
+      className={`m-0 mt-auto max-h-[92vh] w-full max-w-none rounded-t-lg border border-edge bg-surface p-0 text-ink shadow-lift backdrop:bg-night/60 ${place}`}
     >
       {open && (
-        <div className="flex max-h-[92vh] flex-col">
+        <div className={`flex max-h-[92vh] flex-col ${side === "right" ? "sm:h-full sm:max-h-dvh" : ""}`}>
           <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
             <h2 className="text-xl font-extrabold">{title}</h2>
             <button

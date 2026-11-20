@@ -1,4 +1,4 @@
-import { standsOfSize } from "@/config/event";
+import { standsOfSize } from "@/config/hall";
 /**
  * Starting data for the demo. Everything here is an EXAMPLE and is shown with
  * "PIEMĒRS" in the UI.
@@ -11,7 +11,7 @@ import { standsOfSize } from "@/config/event";
  */
 import type { Challenge, Exhibitor, FairDatabase } from "./types";
 
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 const b = (lv: string, en: string) => ({ lv, en });
 const SEEDED_AT = "2026-10-01T09:00:00.000Z";

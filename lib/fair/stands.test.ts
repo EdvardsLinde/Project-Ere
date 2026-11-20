@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { hallStands, innovatorStandLimit, standsOfSize } from "@/config/event";
+import { innovatorStandLimit } from "@/config/event";
+import { hallStands, standsOfSize } from "@/config/hall";
 import type { Exhibitor } from "@/lib/data/types";
-import { freeStands, innovatorSpotsLeft, isStandAvailable, standArea, standPrice, standSizeOf, standStates } from "./stands";
+import { freeStands, innovatorSlotStates, innovatorSpotsLeft, isSlotAvailable, isStandAvailable, standArea, standHolders, standPrice, standSizeOf, standStates } from "./stands";
 
 const [L1] = standsOfSize("L");
 const [M1] = standsOfSize("M");
@@ -63,5 +64,28 @@ describe("stand availability", () => {
     expect(innovatorSpotsLeft([...innovators(3), holder(S1, "submitted")])).toBe(innovatorStandLimit - 3);
     expect(innovatorSpotsLeft(innovators(2, "rejected"))).toBe(innovatorStandLimit);
     expect(innovatorSpotsLeft(innovators(innovatorStandLimit + 4))).toBe(0);
+  });
+
+  it("names only sold stands, never pending ones", () => {
+    const named = [
+      { ...holder(S1, "approved"), name: "Apstiprināts SIA" },
+      { ...holder(S2, "submitted"), name: "Gaida SIA" },
+    ];
+    const holders = standHolders(named);
+    expect(holders.get(S1)).toBe("Apstiprināts SIA");
+    expect(holders.has(S2)).toBe(false);
+  });
+
+  it("keeps innovator places apart from stand numbers", () => {
+    // An innovator in place 1 must not mark paid stand 1 as taken.
+    expect(standStates([holder(1, "submitted", "innovator")]).get(1)).toBe("free");
+  });
+
+  it("puts named innovator places first, then fills free places in order", () => {
+    const slots = innovatorSlotStates([holder(5, "approved", "innovator"), holder(undefined, "submitted", "innovator")]);
+    expect(slots.find((s) => s.index === 5)?.status).toBe("sold");
+    expect(slots.find((s) => s.index === 1)?.status).toBe("reserved");
+    expect(isSlotAvailable(5, [holder(5, "submitted", "innovator")])).toBe(false);
+    expect(isSlotAvailable(6, [holder(5, "submitted", "innovator")])).toBe(true);
   });
 });

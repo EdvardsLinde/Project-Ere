@@ -2,7 +2,7 @@
 
 import { ArrowRight, Info } from "lucide-react";
 import { innovatorStandLimit, standTypes, type StandSize } from "@/config/event";
-import { StandMap } from "@/components/fair/stand-map";
+import { HallFloorPlan } from "@/components/fair/hall-floor-plan";
 import { LinkButton } from "@/components/ui/button";
 import { Badge, Card, Container, Loading, Notice, PageHeader } from "@/components/ui/misc";
 import { useQuery } from "@/lib/data/hooks";
@@ -37,7 +37,7 @@ export default function StandsPage() {
           <Card as="section" className="p-4 sm:p-6">
             <h2 className="text-2xl font-extrabold tracking-tight">{s.mapTitle}</h2>
             <p className="mb-5 mt-1 text-ink-muted">{s.mapHint}</p>
-            <StandMap exhibitors={exhibitors} mode="link" />
+            <HallFloorPlan exhibitors={exhibitors} />
           </Card>
 
           <section aria-labelledby="prices-title">

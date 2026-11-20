@@ -5,6 +5,7 @@
  */
 import {
   adultAge,
+  eventConfig,
   memberAge,
   teamSize,
   type AmountRangeId,
@@ -19,7 +20,7 @@ import {
 } from "@/config/event";
 import type { Exhibitor, MeetingRequest, TeamApplication, TeamMember } from "@/lib/data/types";
 import { isEmail, isPhone, isUrl } from "@/lib/validation";
-import { innovatorSpotsLeft, isStandAvailable } from "./stands";
+import { innovatorSpotsLeft, isSlotAvailable, isStandAvailable, standSizeOf } from "./stands";
 
 export type FieldError =
   | "required"
@@ -32,13 +33,85 @@ export type FieldError =
   | "age"
   | "guardianConsent"
   | "noSpots"
-  | "time";
+  | "time"
+  | "regNo";
 
 export type FormErrors = Record<string, FieldError>;
 
 const blank = (v: string | undefined | null) => !v || !v.trim();
 const clean = (v: string) => v.trim();
 const optional = (v: string) => (v.trim() ? v.trim() : undefined);
+
+// Quick application from the floor plan ---------------------------------------
+
+/** A place on the floor plan: a paid stand by number, or innovator place 1–16. */
+export type PlanPlace = { kind: "stand"; number: number } | { kind: "innovator"; index: number };
+
+/** The short application in the floor plan's drawer. */
+export interface StandRequestInput {
+  place: PlanPlace;
+  company: string;
+  /** Optional; 11 digits when given. */
+  regNo: string;
+  sector: Sector | "";
+  contactName: string;
+  email: string;
+  phone: string;
+  needs: StandNeed[];
+}
+
+export function emptyStandRequest(place: PlanPlace): StandRequestInput {
+  return { place, company: "", regNo: "", sector: "", contactName: "", email: "", phone: "", needs: [] };
+}
+
+/** Latvian company registration numbers have 11 digits (spaces allowed while typing). */
+export const isRegNo = (v: string) => /^\d{11}$/.test(v.replace(/\s/g, ""));
+
+export function validateStandRequest(input: StandRequestInput, exhibitors: Pick<Exhibitor, "stand" | "status">[]): FormErrors {
+  const e: FormErrors = {};
+  if (blank(input.company)) e.company = "required";
+  if (!blank(input.regNo) && !isRegNo(input.regNo)) e.regNo = "regNo";
+  if (!input.sector) e.sector = "required";
+  if (blank(input.contactName)) e.contactName = "required";
+  if (blank(input.email)) e.email = "required";
+  else if (!isEmail(input.email)) e.email = "email";
+  if (blank(input.phone)) e.phone = "required";
+  else if (!isPhone(input.phone)) e.phone = "phone";
+  const { place } = input;
+  if (place.kind === "stand") {
+    const size = standSizeOf(place.number);
+    if (!size || size === "innovator" || !isStandAvailable(place.number, size, exhibitors)) e.place = "standTaken";
+  } else if (!isSlotAvailable(place.index, exhibitors)) {
+    e.place = innovatorSpotsLeft(exhibitors) === 0 ? "noSpots" : "standTaken";
+  }
+  return e;
+}
+
+/** The stored record: a submitted application that reserves the place. */
+export function requestToExhibitor(input: StandRequestInput, id: string, now: string): Exhibitor {
+  const { place } = input;
+  const stand: Exhibitor["stand"] =
+    place.kind === "stand"
+      ? { size: standSizeOf(place.number) ?? "S", number: place.number, days: [...eventConfig.days], needs: input.needs }
+      : { size: "innovator", number: place.index, days: [2], needs: input.needs };
+  return {
+    id,
+    name: clean(input.company),
+    regNo: optional(input.regNo.replace(/\s/g, "")),
+    address: "",
+    sector: input.sector as Sector,
+    description: "",
+    contactName: clean(input.contactName),
+    email: clean(input.email),
+    phone: clean(input.phone),
+    stand,
+    showcase: "",
+    goals: [],
+    status: "submitted",
+    isExample: false,
+    createdAt: now,
+  };
+}
 
 // Paid stand ----------------------------------------------------------------
 

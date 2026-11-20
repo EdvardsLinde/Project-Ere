@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { innovatorStandLimit, standsOfSize } from "@/config/event";
+import { innovatorStandLimit } from "@/config/event";
+import { standsOfSize } from "@/config/hall";
 import type { Exhibitor } from "@/lib/data/types";
 import {
   bookingToExhibitor,
+  emptyStandRequest,
+  requestToExhibitor,
+  validateStandRequest,
   emptyInnovator,
   emptyMeeting,
   emptyStandBooking,
@@ -182,3 +186,43 @@ describe("school team", () => {
     expect(t.status).toBe("applied");
   });
 });
+
+describe("quick application from the floor plan", () => {
+  const free = standsOfSize("M")[5];
+  const filled = (place: Parameters<typeof emptyStandRequest>[0]) => ({
+    ...emptyStandRequest(place),
+    company: "Kokzāģētava SIA",
+    sector: "forestry" as const,
+    contactName: "Jānis Bērziņš",
+    email: "janis@example.lv",
+    phone: "+371 20000000",
+  });
+
+  it("passes a complete application and checks each field", () => {
+    expect(validateStandRequest(filled({ kind: "stand", number: free }), [])).toEqual({});
+    const e = validateStandRequest(emptyStandRequest({ kind: "stand", number: free }), []);
+    for (const k of ["company", "sector", "contactName", "email", "phone"]) expect(e[k]).toBe("required");
+    expect(validateStandRequest({ ...filled({ kind: "stand", number: free }), regNo: "123" }, []).regNo).toBe("regNo");
+    expect(validateStandRequest({ ...filled({ kind: "stand", number: free }), regNo: "400 0303 2949" }, [])).toEqual({});
+  });
+
+  it("refuses a taken stand or innovator place", () => {
+    const taken = [{ stand: { size: "M" as const, number: free, days: [1 as const], needs: [] }, status: "submitted" as const }];
+    expect(validateStandRequest(filled({ kind: "stand", number: free }), taken).place).toBe("standTaken");
+    expect(validateStandRequest(filled({ kind: "stand", number: 999 }), []).place).toBe("standTaken");
+    const innovator = [{ stand: { size: "innovator" as const, number: 3, days: [2 as const], needs: [] }, status: "submitted" as const }];
+    expect(validateStandRequest(filled({ kind: "innovator", index: 3 }), innovator).place).toBe("standTaken");
+    expect(validateStandRequest(filled({ kind: "innovator", index: 4 }), innovator)).toEqual({});
+  });
+
+  it("stores a submitted record for that place", () => {
+    const ex = requestToExhibitor({ ...filled({ kind: "innovator", index: 7 }), regNo: "400 0303 2949", needs: ["power"] }, "exh_q", NOW);
+    expect(ex.status).toBe("submitted");
+    expect(ex.regNo).toBe("40003032949");
+    expect(ex.stand).toEqual({ size: "innovator", number: 7, days: [2], needs: ["power"] });
+    const paid = requestToExhibitor(filled({ kind: "stand", number: free }), "exh_p", NOW);
+    expect(paid.stand.size).toBe("M");
+    expect(paid.stand.days).toEqual([1, 2, 3]);
+  });
+});
+

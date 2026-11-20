@@ -32,6 +32,9 @@ type ThemeTokens = Record<
   | "danger"
   | "danger-soft"
   | "rule"
+  | "plan-floor"
+  | "stand-reserved"
+  | "stand-sold"
   | "land-crop"
   | "land-row"
   | "land-forest"
@@ -74,6 +77,9 @@ const light: ThemeTokens = {
   danger: "#C0182A",
   "danger-soft": "#FDE8EA",
   rule: "#13241A",
+  "plan-floor": "#F7F5F0",
+  "stand-reserved": "#C87A4B",
+  "stand-sold": "#3B593F",
   "land-crop": "#CBD9C8",
   "land-row": "#2F593E",
   "land-forest": "#1D3828",
@@ -110,6 +116,9 @@ const dark: ThemeTokens = {
   danger: "#FF8E98",
   "danger-soft": "#3A1519",
   rule: "#4A6352",
+  "plan-floor": "#1A251F",
+  "stand-reserved": "#B86C3F",
+  "stand-sold": "#3B593F",
   "land-crop": "#24392C",
   "land-row": "#4C7D5D",
   "land-forest": "#122219",

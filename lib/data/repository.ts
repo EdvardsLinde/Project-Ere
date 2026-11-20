@@ -1,4 +1,4 @@
-import type { InnovatorInput, MeetingInput, StandBookingInput, TeamInput } from "@/lib/fair/forms";
+import type { InnovatorInput, MeetingInput, StandBookingInput, StandRequestInput, TeamInput } from "@/lib/fair/forms";
 import type { Challenge, Exhibitor, FairDatabase, MeetingRequest, TeamApplication } from "./types";
 
 /**
@@ -18,6 +18,8 @@ export interface DataRepository {
   submitStand(input: StandBookingInput): Promise<Exhibitor>;
   /** Applies for a free innovator stand. */
   submitInnovator(input: InnovatorInput): Promise<Exhibitor>;
+  /** Short application from the floor plan: reserves one stand or innovator place. */
+  requestStand(input: StandRequestInput): Promise<Exhibitor>;
 
   // Meetings -----------------------------------------------------------
   listMeetings(): Promise<MeetingRequest[]>;

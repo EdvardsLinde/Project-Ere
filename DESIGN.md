@@ -140,21 +140,21 @@ from the screen edge on phones). Works from 360px with no sideways scroll.
   until the organisers set real ones.
 - **Role buttons** (closing call to action, empty dashboard): the same four
   roles as a 2×2 grid; on green, the non-orange ones are `inverse`.
-- **Hall plan** (`components/fair/stand-map.tsx`, layout in `hallLayout` and
-  `hallStands` in `config/event.ts`): the sports hall seen from the visitor
-  seating, on a 14 × 12 cell grid (L = 2 × 2, M = 2 × 1, S = 1 × 1), with the
-  whole floor divided into 45 stand places and aisles between them. Walls in
-  `rule`, with a gap in the front wall for the entrance; striped "seating for
-  visitors" blocks below the front wall, split by the entrance passage; the
-  stage in the middle as a `night` block with a microphone icon; 16 innovator
-  places (half a cell each) between the stage and the entrance, filled =
-  taken. Stands are numbered row by row from the back-left corner. Stand tiles: free = white with a green outline, reserved = orange with
-  a clock icon, sold = green with a lock icon (never colour alone). Free tiles
-  are links (home page, stands page) or a picker (booking form, which scrolls
-  sideways inside its own box on phones). Sizes inside scale with the plan
-  (container query units). A note under the legend says the layout is
-  provisional and not to scale. Used on the home page, the stands page and the
-  booking form, so a stand number is in the same place everywhere.
+- **Floor plan** (`components/fair/hall-floor-plan.tsx`, data in
+  `config/hall.ts`): SVG of the hall seen from the spectator seating. A dashed
+  "curtain (open)" line splits it into two equal halves; the main stage (`night`
+  block, microphone icon) sits in the middle of the half behind the curtain, the
+  2 × 8 innovator zone just in front of it. Walls in `rule` with the entrance in
+  the front wall, striped seating below and along the lower side walls, stairs at
+  the entrance. Stands: free = surface with a thin dark outline (lifts on hover),
+  reserved = `stand-reserved` (#C87A4B) with white text and a clock icon, sold =
+  `stand-sold` (#3B593F) with white text and a lock icon. Filter pills (all, free
+  only, L, M, S, innovator zone) dim what does not match. Hover or focus shows a
+  tooltip (the holder's name only when sold). A free place opens a right-hand
+  drawer (a bottom sheet on phones) with size, dimensions, price, location notes
+  and a short application; submitting reserves the place. Legend with live
+  counts; on phones the free places are also listed as buttons. In the booking
+  form it is a picker (`mode="pick"`).
 - **Lists instead of cards** where items are read, not clicked ("why Saldus",
   FAQ): rows between thin rules.
 - **Footer:** `night` block with the tagline set huge in Bricolage Grotesque.

@@ -17,6 +17,9 @@
   --color-line: var(--c-line, #ddd9ce);
   --color-edge: var(--c-edge, #13241a);
   --color-rule: var(--c-rule, #13241a);
+  --color-plan-floor: var(--c-plan-floor, #f7f5f0);
+  --color-stand-reserved: var(--c-stand-reserved, #c87a4b);
+  --color-stand-sold: var(--c-stand-sold, #3b593f);
   --color-ink: var(--c-ink, #13241a);
   --color-ink-muted: var(--c-ink-muted, #4d5c52);
   --color-primary: var(--c-primary, #2f593e);

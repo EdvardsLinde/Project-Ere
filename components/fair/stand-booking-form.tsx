@@ -15,7 +15,7 @@ import {
 } from "@/config/event";
 import { siteConfig } from "@/config/site";
 import { ExhibitorCard } from "@/components/fair/exhibitor-card";
-import { StandMap } from "@/components/fair/stand-map";
+import { HallFloorPlan } from "@/components/fair/hall-floor-plan";
 import { useToast } from "@/components/toast";
 import { Button, LinkButton } from "@/components/ui/button";
 import { ChoiceGroup, Field, Input, Select, Textarea } from "@/components/ui/form";
@@ -231,7 +231,7 @@ export function StandBookingForm({ exhibitors, initialStand }: { exhibitors: Exh
           <fieldset className="min-w-0">
             <legend className="text-sm font-bold text-ink">{b.number}</legend>
             <p className="mb-3 mt-0.5 text-sm text-ink-muted">{b.numberHint}</p>
-            <StandMap exhibitors={exhibitors} mode="pick" size={input.size} selected={input.number} onPick={(n) => set({ number: n, size: (standSizeOf(n) as PaidSize) ?? input.size })} showInnovatorZone={false} />
+            <HallFloorPlan exhibitors={exhibitors} mode="pick" size={input.size} selected={input.number} onPick={(n) => set({ number: n, size: (standSizeOf(n) as PaidSize) ?? input.size })} />
             <div className="mt-3 flex flex-wrap items-center gap-3">
               <p className="font-semibold" aria-live="polite" data-invalid={errors.number ? "true" : undefined} tabIndex={errors.number ? -1 : undefined}>
                 {input.number !== null ? fmt(b.numberPicked, { n: input.number }) : b.numberAny}
