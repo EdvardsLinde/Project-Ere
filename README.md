@@ -80,15 +80,15 @@ Footer → **"Atiestatīt demo datus" (Reset demo data)**. Deletes everything cr
 
 ```
 app/                 routes, one folder per page
-components/          header (role menu), footer, role buttons, key visual, ui/ (button, form, dialog, …)
-components/fair/     stand map, booking form, exhibitor / showcase / challenge cards, filters, badges
+components/          header (role menu), footer, role buttons, ui/ (button, form, dialog, …)
+components/fair/     hall plan (stand map), booking form, exhibitor / showcase / challenge cards, filters, badges
 config/event.ts      event name, subtitle, dates & venue text, stand layout and prices, sectors, option lists, age limits
 config/site.ts       brand, tagline, contacts, colour tokens (light/dark), schools
 messages/lv.ts       all UI text in Latvian (source of truth)
 messages/en.ts       English, type-checked against lv.ts (the build fails if a key is missing)
 lib/data/            data layer: types.ts, repository.ts (interface), local-storage.ts (demo), seed.ts, hooks.ts
 lib/fair/            pure logic with tests: stands.ts, filters.ts, status.ts, forms.ts
-lib/key-visual*.ts   the hero drawing (Saldus from above): seeded geometry + SVG markup, with tests
+lib/key-visual*.ts   the link preview drawing (Saldus from above): seeded geometry + SVG markup, with tests
 lib/roles.ts         roles and per-role menus (server-safe); lib/role.tsx is the client provider
 app/opengraph-image.tsx  link preview image (1200×630) built from the same drawing
 DESIGN.md            design tokens and component rules
@@ -100,9 +100,9 @@ DESIGN.md            design tokens and component rules
 
 All in `config/event.ts` unless noted:
 
-- `eventConfig.datesVenue`: replace "Dates and venue to be confirmed" once they are known. The agenda's day tabs show "Day 1/2/3" until then.
+- `VENUE` and `eventConfig.datesVenue`: the venue (Saldus sporta centrs) and "dates to be confirmed"; add the dates once they are known. The agenda's day tabs show "Day 1/2/3" until then.
 - `standTypes[...].price`: stand prices are **placeholders** (S €250, M €450, L €800); the UI labels them as such.
-- `hallStands`: the hall layout (21 paid stands: 3 L, 6 M, 12 S). `innovatorStandLimit`: 16 free places.
+- `hallLayout` and `hallStands`: the hall plan of the sports hall (a 14 × 12 cell grid seen from the spectator seating: the court is the front third, the curtain is open and the floor behind it is twice as deep; 21 paid stands: 3 L, 6 M, 12 S along the walls; the stage in the middle of the area behind the curtain; the entrance through the seating in the front wall). It is provisional and not to scale: redraw it from the venue's real floor plan by changing the cells. `lib/fair/hall.test.ts` checks that nothing overlaps or blocks the entrance. `innovatorStandLimit`: 16 free places.
 - `eventConfig.advicePartner`: "In cooperation with LIAA and a partner law firm (to be confirmed)".
 - `config/site.ts`: `contacts.email` (empty = the footer leaves the line out), `team` (names and roles for "Who's behind SEER Expo"; empty = no names shown, add people only with their consent), the school list.
 - `lib/data/seed.ts`: example data (see below).

@@ -161,7 +161,6 @@ const en: Messages = {
       eyebrow: "Saldus · {n} days · A student-led initiative",
       lead: "We're students from Saldus. Our region's farms, forests and logistics firms deserve a place where investors, innovators and schools meet, so we're organising one.",
       rolesLabel: "Who are you?",
-      innovation: "Innovation",
     },
     facts: {
       title: "The fair in numbers",
@@ -287,7 +286,7 @@ const en: Messages = {
         },
         {
           q: "When and where is the fair?",
-          a: "The fair takes place in Saldus over three days. Dates and venue to be confirmed.",
+          a: "The fair takes place at Saldus sporta centrs over three days. Dates to be confirmed.",
         },
         {
           q: "Do I pay straight away?",
@@ -341,6 +340,11 @@ const en: Messages = {
     entrance: "Entrance",
     innovatorZone: "Innovator zone",
     innovatorZoneText: "Free places: {n} of {total}",
+    innovatorPlacesShort: "{n} of {total} free",
+    stage: "Stage",
+    planNote: "Provisional layout, not to scale",
+    curtain: "Curtain (open)",
+    seating: "Spectator seating",
     pricesTitle: "Prices",
     pricesNote: "Prices are placeholders until the organisers confirm them.",
     colSize: "Size",

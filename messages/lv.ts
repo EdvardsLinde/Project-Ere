@@ -165,7 +165,6 @@ const lv = {
       eyebrow: "Saldus · {n} dienas · Studentu iniciatīva",
       lead: "Mēs esam studenti no Saldus. Mūsu novada lauksaimniecības, mežsaimniecības un loģistikas uzņēmumi ir pelnījuši vietu, kur satikties ar investoriem, inovatoriem un skolām, tāpēc mēs tādu veidojam.",
       rolesLabel: "Kas jūs esat?",
-      innovation: "Inovācijas",
     },
     facts: {
       title: "Izstāde skaitļos",
@@ -291,7 +290,7 @@ const lv = {
         },
         {
           q: "Kad un kur notiks izstāde?",
-          a: "Izstāde notiks Saldū trīs dienas. Datumi un vieta tiks precizēti.",
+          a: "Izstāde notiks Saldus sporta centrā trīs dienas. Datumi tiks precizēti.",
         },
         {
           q: "Vai jāmaksā uzreiz?",
@@ -345,6 +344,11 @@ const lv = {
     entrance: "Ieeja",
     innovatorZone: "Inovatoru zona",
     innovatorZoneText: "Brīvas vietas: {n} no {total}",
+    innovatorPlacesShort: "{n} no {total} brīvas",
+    stage: "Skatuve",
+    curtain: "Aizkars (atvērts)",
+    seating: "Skatītāju tribīnes",
+    planNote: "Provizorisks izvietojums, nav mērogā",
     pricesTitle: "Cenas",
     pricesNote: "Cenas ir provizoriskas, līdz organizatori tās apstiprina.",
     colSize: "Izmērs",

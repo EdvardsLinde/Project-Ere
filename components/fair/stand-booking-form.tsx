@@ -228,7 +228,7 @@ export function StandBookingForm({ exhibitors, initialStand }: { exhibitors: Exh
               label: `${size} · ${fmt(t.stands.area, { w: standTypes[size].width, d: standTypes[size].depth })} · ${formatEuro(standTypes[size].price, locale)}`,
             }))}
           />
-          <fieldset>
+          <fieldset className="min-w-0">
             <legend className="text-sm font-bold text-ink">{b.number}</legend>
             <p className="mb-3 mt-0.5 text-sm text-ink-muted">{b.numberHint}</p>
             <StandMap exhibitors={exhibitors} mode="pick" size={input.size} selected={input.number} onPick={(n) => set({ number: n, size: (standSizeOf(n) as PaidSize) ?? input.size })} showInnovatorZone={false} />

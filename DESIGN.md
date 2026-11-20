@@ -4,8 +4,9 @@
 Calm and confident, like a serious trade fair: a warm off-white page, **one
 strong colour** (forest green `#2F593E`), **one warm highlight** (orange
 `#E17235`), thin soft outlines and low, soft shadows. Both colours come from the
-"Saldus novads · Digitālā prakse" badge. The one picture is the **key visual**,
-Saldus seen from above. Big Bricolage Grotesque headings carry the personality,
+"Saldus novads · Digitālā prakse" badge. The main picture is the **hall plan**
+of the venue with live free and taken stands; the **key visual** (Saldus seen
+from above) is kept for the link preview image. Big Bricolage Grotesque headings carry the personality,
 so everything around them can stay quiet. A light touch of the UN:BLOCK
 conference site (unblockeurope.com) gives it a trade-fair grid: thin dark
 lines frame the page and divide its sections, and buttons, tags and toggles
@@ -128,8 +129,8 @@ from the screen edge on phones). Works from 360px with no sideways scroll.
   dot, the subtitle, the lead in the team's voice, a small square chip with
   the dates-and-venue line, then a full-width orange button (company: book a stand),
   a full-width outlined button (investor) and two underlined links
-  (innovator, school team). Right, centred vertically: the key visual with its
-  legend (below the buttons on phones).
+  (innovator, school team). Right, centred vertically: "Stendu karte" with the
+  hall plan (below the buttons on phones); free stands link to the booking form.
 - **Who's behind SEER Expo** (`Team` on the home page, before the FAQ): title
   and lead on the left; on the right a ruled list (why we do it, what we do,
   how to reach us) and an outlined button to the survey. Team names show as
@@ -139,28 +140,34 @@ from the screen edge on phones). Works from 360px with no sideways scroll.
   until the organisers set real ones.
 - **Role buttons** (closing call to action, empty dashboard): the same four
   roles as a 2×2 grid; on green, the non-orange ones are `inverse`.
-- **Stand map** (`components/fair/stand-map.tsx`): a 6-column grid, L = 2×2,
-  M = 2×1, S = 1×1 tiles; free = white with a green outline, reserved = orange
-  with a clock icon, sold = green with a lock icon (never colour alone);
-  innovator zone and entrance below; free tiles are links (stands page) or a
-  picker (booking form).
+- **Hall plan** (`components/fair/stand-map.tsx`, layout in `hallLayout` and
+  `hallStands` in `config/event.ts`): the sports hall seen from the spectator
+  seating, on a 14 × 12 cell grid (L = 2 × 2, M = 2 × 1, S = 1 × 1). The front
+  third is the basketball court; a dashed line marks the curtain (open for the
+  fair) with twice as much floor behind it. Walls in `rule`, with a gap in the
+  front wall for the entrance; striped "spectator seating" blocks below the
+  front wall, split by the entrance passage; paid stands along the walls; the
+  stage in the middle of the floor behind the curtain as a `night` block with a
+  microphone icon; 16 innovator places (half a cell each) just in front of the
+  curtain line, filled = taken. Stand tiles: free = white with a green outline, reserved = orange with
+  a clock icon, sold = green with a lock icon (never colour alone). Free tiles
+  are links (home page, stands page) or a picker (booking form, which scrolls
+  sideways inside its own box on phones). Sizes inside scale with the plan
+  (container query units). A note under the legend says the layout is
+  provisional and not to scale. Used on the home page, the stands page and the
+  booking form, so a stand number is in the same place everywhere.
 - **Lists instead of cards** where items are read, not clicked ("why Saldus",
   FAQ): rows between thin rules.
 - **Footer:** `night` block with the tagline set huge in Bricolage Grotesque.
 
-## Key visual
+## Key visual (link preview)
 
-`components/key-visual.tsx`, geometry in `lib/key-visual.ts`, markup in
-`lib/key-visual-svg.ts`. Saldus from above: jittered field parcels with crop
+Geometry in `lib/key-visual.ts`, markup in `lib/key-visual-svg.ts`. Saldus from above: jittered field parcels with crop
 rows (agriculture), tree crowns (forestry), meadows and stubble; an orange road
 along the field corners (logistics); linked points on the road (innovation),
 with dashed links to nearby fields. It is seeded, so it is the same picture
 every time (`seed` 1 in the hero); change the seed to get a different
-arrangement. The road's dashes move slowly and one point pulses, both off with
-`prefers-reduced-motion`. It follows the theme through the `land-*` tokens and
-is always `aria-hidden`; the legend under it names the sectors.
-
-The same drawing makes the **link preview image** (`app/opengraph-image.tsx`,
+arrangement. It is no longer on the pages; it makes the **link preview image** (`app/opengraph-image.tsx`,
 1200×630, built at build time): name, LV and EN subtitle, dates line, and the
 visual on the right.
 

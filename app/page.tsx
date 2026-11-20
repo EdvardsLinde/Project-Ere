@@ -23,12 +23,13 @@ import {
   Truck,
   Users,
 } from "lucide-react";
-import { eventConfig, hallStands, innovatorStandLimit, sectors } from "@/config/event";
+import { eventConfig, hallStands, innovatorStandLimit } from "@/config/event";
 import { siteConfig } from "@/config/site";
-import { KeyVisual } from "@/components/key-visual";
+import { StandMap } from "@/components/fair/stand-map";
 import { HeroRoleActions, RoleButtons } from "@/components/role-buttons";
 import { buttonClass, LinkButton } from "@/components/ui/button";
 import { Chip, Container, Eyebrow } from "@/components/ui/misc";
+import { useQuery } from "@/lib/data/hooks";
 import { fmt, useI18n } from "@/lib/i18n";
 import { tx } from "@/lib/text";
 
@@ -72,11 +73,12 @@ function IconDisc({ icon: Icon, className = "" }: { icon: typeof Sprout; classNa
 
 /**
  * Two columns split by a rule: name, subtitle, lead and the role actions on
- * the left; the key visual with its legend on the right (below on phones).
+ * the left; the hall plan with free and taken stands on the right (below on phones).
  */
 function Hero() {
   const { t, locale } = useI18n();
   const h = t.home.hero;
+  const { data: exhibitors } = useQuery((repo) => repo.listExhibitors(), []);
   const words = eventConfig.name.split(" ");
   const last = words.length > 1 ? words.pop() : "";
   return (
@@ -99,39 +101,14 @@ function Hero() {
           <h2 className="sr-only">{h.rolesLabel}</h2>
           <HeroRoleActions className="mt-8" />
         </div>
-        <div className="flex min-w-0 flex-col justify-center border-t border-rule py-8 lg:border-l lg:border-t-0 lg:py-16 lg:pl-10">
-          <div aria-hidden="true">
-            <KeyVisual width={640} height={500} seed={1} cols={5} rows={4} nodes={4} className="block h-auto w-full" />
-            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-ink-muted">
-              {sectors
-                .filter((s) => s.id !== "adjacent")
-                .map((s) => (
-                  <li key={s.id} className="inline-flex items-center gap-2">
-                    <LegendSwatch kind={s.id} />
-                    {tx(s.label, locale)}
-                  </li>
-                ))}
-              <li className="inline-flex items-center gap-2">
-                <span className="size-3.5 rounded-full border-2 border-night bg-on-night shadow-[inset_0_0_0_2.5px_var(--color-on-night),inset_0_0_0_7px_var(--color-accent)]" />
-                {h.innovation}
-              </li>
-            </ul>
-          </div>
+        <div className="flex min-w-0 flex-col justify-center border-t border-rule pb-12 pt-8 lg:border-l lg:border-t-0 lg:py-16 lg:pl-10">
+          <h2 className="font-display text-xl font-extrabold">{t.stands.mapTitle}</h2>
+          <p className="mb-4 mt-1 text-ink-muted">{t.stands.mapHint}</p>
+          <StandMap exhibitors={exhibitors ?? []} mode="link" />
         </div>
       </Container>
     </section>
   );
-}
-
-/** Small key for the visual: crop rows, tree crowns, the road. */
-function LegendSwatch({ kind }: { kind: string }) {
-  if (kind === "agriculture")
-    return <span className="h-3 w-5 rounded-[3px] bg-[repeating-linear-gradient(90deg,var(--color-land-row)_0_2px,var(--color-land-crop)_2px_5px)]" />;
-  if (kind === "forestry")
-    return (
-      <span className="h-3 w-5 rounded-[3px] bg-land-forest bg-[radial-gradient(circle_at_30%_50%,var(--color-primary-fill)_0_3px,transparent_3.5px),radial-gradient(circle_at_75%_50%,var(--color-primary-fill)_0_3px,transparent_3.5px)]" />
-    );
-  return <span className="h-1.5 w-5 rounded-full bg-accent ring-[1.5px] ring-night" />;
 }
 
 /** Three real numbers from `config/event.ts` (no price until the organisers set them). */
