@@ -3,7 +3,7 @@
  *
  * The preview runs inside a sandboxed page where only plain `#name` hashes
  * survive in the address bar, so routes live in memory. Most views are
- * mirrored to a plain hash (`#agenda`, `#apply-stand`, `#investment-exh-agrosense`,
+ * mirrored to a plain hash (`#stands`, `#apply-stand`, `#investment-exh-agrosense`,
  * …) so they can be bookmarked and opened directly.
  */
 import { createContext, useContext, useSyncExternalStore } from "react";
@@ -60,7 +60,6 @@ export function useHref(): string {
 
 /** Pages without parameters, as `#name` (a slash becomes `-`, e.g. `#apply-stand`). */
 const STATIC_VIEWS = [
-  "agenda",
   "exhibitors",
   "stands",
   "investment",

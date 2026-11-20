@@ -49,7 +49,7 @@ export function StandMap({ exhibitors, mode, size, selected, onPick, showInnovat
   const states = standStates(exhibitors);
   const spotsLeft = innovatorSpotsLeft(exhibitors);
   const taken = innovatorStandLimit - spotsLeft;
-  const { entrance, stage, innovatorZone, curtainRow } = hallLayout;
+  const { entrance, stage, innovatorZone } = hallLayout;
 
   return (
     <div>
@@ -62,19 +62,6 @@ export function StandMap({ exhibitors, mode, size, selected, onPick, showInnovat
             <span className="absolute inset-y-0 right-0 w-0.5 bg-rule" aria-hidden="true" />
             <span className="absolute bottom-0 left-0 h-0.5 bg-rule" style={{ width: x(entrance.col) }} aria-hidden="true" />
             <span className="absolute bottom-0 right-0 h-0.5 bg-rule" style={{ left: x(entrance.col + entrance.w) }} aria-hidden="true" />
-
-            {/* The curtain between the court (front) and the larger floor behind it, open for the fair. */}
-            <span
-              className="absolute border-t-2 border-dashed border-ink-muted/50"
-              style={{ left: x(0), width: span(cols, cols), top: y(curtainRow) }}
-              aria-hidden="true"
-            />
-            <span
-              className="absolute -translate-y-1/2 whitespace-nowrap rounded-[2px] bg-surface-muted px-1 text-[clamp(7px,1cqw,11px)] font-bold uppercase tracking-wide text-ink-muted"
-              style={{ left: x(1.25), top: y(curtainRow) }}
-            >
-              {s.curtain}
-            </span>
 
             {/* Stage. */}
             <div className="absolute p-[0.4cqw]" style={place(stage)}>
@@ -159,7 +146,7 @@ export function StandMap({ exhibitors, mode, size, selected, onPick, showInnovat
             </ul>
           </div>
 
-          {/* Spectator seating along the front, with the entrance passage through it. */}
+          {/* Visitor seating along the front, with the entrance passage through it. */}
           <div className="relative mt-1.5 h-[clamp(26px,5.5cqw,48px)]">
             <span
               className="absolute inset-y-0 left-0 flex items-center justify-center overflow-hidden rounded-[3px] border border-line bg-[repeating-linear-gradient(to_bottom,var(--color-line)_0_1.5px,transparent_1.5px_6px)]"

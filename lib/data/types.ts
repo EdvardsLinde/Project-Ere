@@ -112,17 +112,6 @@ export interface TeamApplication {
   createdAt: ISODateTime;
 }
 
-export type AgendaType = "panel" | "pitch" | "b2b" | "workshop" | "showcase" | "visit";
-
-export interface AgendaItem {
-  id: string;
-  day: FairDay;
-  time: string;
-  title: Localized;
-  type: AgendaType;
-  isExample: boolean;
-}
-
 /** The whole demo database, as stored in this browser. */
 export interface FairDatabase {
   version: number;
@@ -130,7 +119,6 @@ export interface FairDatabase {
   meetings: MeetingRequest[];
   challenges: Challenge[];
   teams: TeamApplication[];
-  agenda: AgendaItem[];
   /** What this browser created, so "My dashboard" can show it (there are no accounts). */
   mine: { exhibitors: string[]; meetings: string[]; teams: string[] };
   /** Showcase items the investor saved. */

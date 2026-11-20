@@ -1,3 +1,4 @@
+import { standsOfSize } from "@/config/event";
 /**
  * Starting data for the demo. Everything here is an EXAMPLE and is shown with
  * "PIEMĒRS" in the UI.
@@ -8,9 +9,9 @@
  *   or goals, and they are NEVER listed as looking for investment.
  * - Everything in the investment showcase is a clearly fictional startup.
  */
-import type { AgendaItem, Challenge, Exhibitor, FairDatabase } from "./types";
+import type { Challenge, Exhibitor, FairDatabase } from "./types";
 
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
 
 const b = (lv: string, en: string) => ({ lv, en });
 const SEEDED_AT = "2026-10-01T09:00:00.000Z";
@@ -48,21 +49,21 @@ const localCompanies: Exhibitor[] = [
     "PATA Saldus",
     "forestry",
     b("Kokzāģēšana, koksnes apstrāde un loģistika.", "Sawmilling, timber processing and logistics."),
-    { size: "L", number: 1, days: [1, 2, 3], needs: [] },
+    { size: "L", number: standsOfSize("L")[0], days: [1, 2, 3], needs: [] },
   ),
   localCompany(
     "exh_delta",
     "DELTA LV",
     "logistics",
     b("Beramkravu autopārvadājumi.", "Bulk-cargo trucking."),
-    { size: "M", number: 4, days: [1, 2], needs: [] },
+    { size: "M", number: standsOfSize("M")[0], days: [1, 2], needs: [] },
   ),
   localCompany(
     "exh_warmeston",
     "Warmeston",
     "adjacent",
     b("Koksnes granulu ražošana un biomasas koģenerācija.", "Wood-pellet production and biomass combined heat and power."),
-    { size: "M", number: 5, days: [1, 2, 3], needs: [] },
+    { size: "M", number: standsOfSize("M")[1], days: [1, 2, 3], needs: [] },
     b("Biomasa un enerģētika", "Biomass and energy"),
   ),
   localCompany(
@@ -70,7 +71,7 @@ const localCompanies: Exhibitor[] = [
     "Tērvete Food",
     "adjacent",
     b("Pārtikas ražošana (saldējums “Druva”).", "Food production (“Druva” ice cream)."),
-    { size: "S", number: 10, days: [1, 2], needs: [] },
+    { size: "S", number: standsOfSize("S")[0], days: [1, 2], needs: [] },
     b("Pārtikas ražošana", "Food production"),
   ),
   localCompany(
@@ -78,7 +79,7 @@ const localCompanies: Exhibitor[] = [
     "SC GRUPA",
     "adjacent",
     b("Ceļu būve un asfalta ražošana.", "Road building and asphalt production."),
-    { size: "S", number: 11, days: [1], needs: [] },
+    { size: "S", number: standsOfSize("S")[1], days: [1], needs: [] },
     b("Ceļu būve", "Road building"),
   ),
 ];
@@ -105,7 +106,7 @@ const startups: Exhibitor[] = [
       "Augsnes mitruma un temperatūras sensori ar lietotni, kas palīdz plānot laistīšanu un mēslošanu.",
       "Soil moisture and temperature sensors with an app that helps plan irrigation and fertilising.",
     ),
-    stand: { size: "S", number: 12, days: [1, 2, 3], needs: ["power", "table"] },
+    stand: { size: "S", number: standsOfSize("S")[2], days: [1, 2, 3], needs: ["power", "table"] },
     showcase: b("Sensoru prototips un dzīvs datu panelis no izmēģinājuma lauka.", "Sensor prototype and a live dashboard from a test field."),
     goals: ["investment", "productPartners"],
     investment: {
@@ -124,7 +125,7 @@ const startups: Exhibitor[] = [
       "Kokmateriālu izsekošana no cirsmas līdz zāģētavai ar RFID birkām un kartēm.",
       "Tracking timber from the cutting site to the sawmill with RFID tags and maps.",
     ),
-    stand: { size: "M", number: 6, days: [1, 2], needs: ["power", "screen"] },
+    stand: { size: "M", number: standsOfSize("M")[2], days: [1, 2], needs: ["power", "screen"] },
     showcase: b("Birku nolasīšana uz vietas un piegādes ķēdes karte.", "On-site tag scanning and a supply-chain map."),
     goals: ["investment", "distributors"],
     investment: {
@@ -143,7 +144,7 @@ const startups: Exhibitor[] = [
       "Maršrutu plānošana lauksaimniecības kravām, kas samazina tukšbraucienus ražas laikā.",
       "Route planning for farm freight that cuts empty runs at harvest time.",
     ),
-    stand: { size: "S", number: 13, days: [1, 2], needs: ["power"] },
+    stand: { size: "S", number: standsOfSize("S")[3], days: [1, 2], needs: ["power"] },
     showcase: b("Maršrutu plānotāja demonstrācija ar reālu ražas sezonas scenāriju.", "A route-planner demo on a realistic harvest scenario."),
     goals: ["investment", "productPartners"],
     investment: {
@@ -163,7 +164,7 @@ const startups: Exhibitor[] = [
       "Kiberdrošības pārbaude un uzraudzība viedajām fermām un lauksaimniecības tehnikai.",
       "Cybersecurity checks and monitoring for smart farms and farm machinery.",
     ),
-    stand: { size: "S", number: 14, days: [1, 2, 3], needs: ["power", "screen"] },
+    stand: { size: "S", number: standsOfSize("S")[4], days: [1, 2, 3], needs: ["power", "screen"] },
     showcase: b("Tiešraides demonstrācija: kā pasargāt fermas tīklu.", "Live demo: how to protect a farm network."),
     goals: ["investment", "adjacentPartners"],
     investment: {
@@ -275,25 +276,6 @@ const challenges: Challenge[] = [
   },
 ];
 
-const agenda: AgendaItem[] = [
-  // Day 1: business and investor day
-  { id: "ag_1_1", day: 1, time: "09:30", type: "panel", title: b("Atklāšana: kāpēc Saldus", "Opening: why Saldus"), isExample: true },
-  { id: "ag_1_2", day: 1, time: "10:30", type: "panel", title: b("Paneļdiskusija: lauksaimniecības tehnoloģijas", "Panel: farming technology"), isExample: true },
-  { id: "ag_1_3", day: 1, time: "11:30", type: "panel", title: b("Paneļdiskusija: mežs un koksne", "Panel: forest and timber"), isExample: true },
-  { id: "ag_1_4", day: 1, time: "13:30", type: "pitch", title: b("Investīciju vitrīna: uzņēmumu prezentācijas", "Investment showcase: company pitches"), isExample: true },
-  { id: "ag_1_5", day: 1, time: "15:30", type: "b2b", title: b("B2B tikšanās ar investoriem un uzņēmumiem", "B2B meetings with investors and companies"), isExample: true },
-  // Day 2: innovators and the school showcase
-  { id: "ag_2_1", day: 2, time: "10:00", type: "showcase", title: b("Inovatoru stendu prezentācijas", "Innovator stand presentations"), isExample: true },
-  { id: "ag_2_2", day: 2, time: "11:30", type: "workshop", title: b("Darbnīca: no prototipa līdz pirmajam klientam", "Workshop: from prototype to first customer"), isExample: true },
-  { id: "ag_2_3", day: 2, time: "13:30", type: "showcase", title: b("Skolu izaicinājuma rezultāti", "School challenge results"), isExample: true },
-  { id: "ag_2_4", day: 2, time: "15:00", type: "workshop", title: b("Darbnīca: loģistikas dati praksē", "Workshop: logistics data in practice"), isExample: true },
-  // Day 3: site visits and closing
-  { id: "ag_3_1", day: 3, time: "09:00", type: "visit", title: b("Vizīte kokapstrādes uzņēmumā", "Visit to a wood-processing company"), isExample: true },
-  { id: "ag_3_2", day: 3, time: "11:00", type: "visit", title: b("Vizīte lauksaimniecības uzņēmumā", "Visit to a farming business"), isExample: true },
-  { id: "ag_3_3", day: 3, time: "13:30", type: "visit", title: b("Vizīte loģistikas centrā", "Visit to a logistics hub"), isExample: true },
-  { id: "ag_3_4", day: 3, time: "15:30", type: "panel", title: b("Noslēgums un nākamie soļi", "Closing and next steps"), isExample: true },
-];
-
 export function createSeedDatabase(): FairDatabase {
   return {
     version: DB_VERSION,
@@ -301,7 +283,6 @@ export function createSeedDatabase(): FairDatabase {
     meetings: [],
     challenges,
     teams: [],
-    agenda,
     mine: { exhibitors: [], meetings: [], teams: [] },
     saved: [],
   };

@@ -9,7 +9,6 @@ describe("seed data rules", () => {
   it("marks every example as an example", () => {
     expect(db.exhibitors.every((e) => e.isExample)).toBe(true);
     expect(db.challenges.every((c) => c.isExample)).toBe(true);
-    expect(db.agenda.every((a) => a.isExample)).toBe(true);
   });
 
   it("never lists a real company as looking for investment", () => {
@@ -21,10 +20,9 @@ describe("seed data rules", () => {
     }
   });
 
-  it("has 4–5 school challenges and an agenda for all three days", () => {
+  it("has 4–5 school challenges", () => {
     expect(db.challenges.length).toBeGreaterThanOrEqual(4);
     expect(db.challenges.length).toBeLessThanOrEqual(5);
-    expect(new Set(db.agenda.map((a) => a.day))).toEqual(new Set([1, 2, 3]));
   });
 
   it("does not put two exhibitors on one stand", () => {

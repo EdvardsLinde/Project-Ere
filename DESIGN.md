@@ -141,15 +141,14 @@ from the screen edge on phones). Works from 360px with no sideways scroll.
 - **Role buttons** (closing call to action, empty dashboard): the same four
   roles as a 2×2 grid; on green, the non-orange ones are `inverse`.
 - **Hall plan** (`components/fair/stand-map.tsx`, layout in `hallLayout` and
-  `hallStands` in `config/event.ts`): the sports hall seen from the spectator
-  seating, on a 14 × 12 cell grid (L = 2 × 2, M = 2 × 1, S = 1 × 1). The front
-  third is the basketball court; a dashed line marks the curtain (open for the
-  fair) with twice as much floor behind it. Walls in `rule`, with a gap in the
-  front wall for the entrance; striped "spectator seating" blocks below the
-  front wall, split by the entrance passage; paid stands along the walls; the
-  stage in the middle of the floor behind the curtain as a `night` block with a
-  microphone icon; 16 innovator places (half a cell each) just in front of the
-  curtain line, filled = taken. Stand tiles: free = white with a green outline, reserved = orange with
+  `hallStands` in `config/event.ts`): the sports hall seen from the visitor
+  seating, on a 14 × 12 cell grid (L = 2 × 2, M = 2 × 1, S = 1 × 1), with the
+  whole floor divided into 45 stand places and aisles between them. Walls in
+  `rule`, with a gap in the front wall for the entrance; striped "seating for
+  visitors" blocks below the front wall, split by the entrance passage; the
+  stage in the middle as a `night` block with a microphone icon; 16 innovator
+  places (half a cell each) between the stage and the entrance, filled =
+  taken. Stands are numbered row by row from the back-left corner. Stand tiles: free = white with a green outline, reserved = orange with
   a clock icon, sold = green with a lock icon (never colour alone). Free tiles
   are links (home page, stands page) or a picker (booking form, which scrolls
   sideways inside its own box on phones). Sizes inside scale with the plan
@@ -179,6 +178,4 @@ visual on the right.
   no Saldus photo. The key visual is the only illustration.
 - Logo: a forest-green rounded tile with a white "S" and an orange dot, the
   "eye" that sees ahead (`components/logo.tsx`, `public/icon.svg`).
-- Motion: 150ms ease-out on hover/press; 200ms fade/slide when switching agenda
-  days; the key visual's road and one point. Everything respects
-  `prefers-reduced-motion`.
+- Motion: 150ms ease-out on hover/press. Everything respects `prefers-reduced-motion`.

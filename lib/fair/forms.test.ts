@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { innovatorStandLimit } from "@/config/event";
+import { innovatorStandLimit, standsOfSize } from "@/config/event";
 import type { Exhibitor } from "@/lib/data/types";
 import {
   bookingToExhibitor,
@@ -18,6 +18,9 @@ import {
   type StandBookingInput,
 } from "./forms";
 
+/** A small stand that no demo exhibitor uses. */
+const S4 = standsOfSize("S")[10];
+
 const NOW = "2026-11-05T10:00:00.000Z";
 
 function validBooking(): StandBookingInput {
@@ -30,7 +33,7 @@ function validBooking(): StandBookingInput {
     contactName: "Anna Ozola",
     email: "anna@example.lv",
     size: "S",
-    number: 15,
+    number: S4,
     showcase: "Jauns harvestera simulators",
   };
 }
@@ -59,9 +62,9 @@ describe("stand booking validation", () => {
   });
 
   it("rejects a taken stand or one of another size, and no days", () => {
-    const taken = [{ stand: { size: "S" as const, number: 15, days: [1 as const], needs: [] }, status: "submitted" as const }];
+    const taken = [{ stand: { size: "S" as const, number: S4, days: [1 as const], needs: [] }, status: "submitted" as const }];
     expect(validateStandBooking(validBooking(), taken).number).toBe("standTaken");
-    expect(validateStandBooking({ ...validBooking(), number: 1 }, []).number).toBe("standTaken");
+    expect(validateStandBooking({ ...validBooking(), number: standsOfSize("L")[0] }, []).number).toBe("standTaken");
     expect(validateStandBooking({ ...validBooking(), number: null }, taken)).toEqual({});
     expect(validateStandBooking({ ...validBooking(), days: [] }, []).days).toBe("noDays");
   });
@@ -84,7 +87,7 @@ describe("booking to exhibitor", () => {
     expect(ex.status).toBe("submitted");
     expect(ex.isExample).toBe(false);
     expect(ex.investment).toBeUndefined();
-    expect(ex.stand).toEqual({ size: "S", number: 15, days: [1, 2, 3], needs: [] });
+    expect(ex.stand).toEqual({ size: "S", number: S4, days: [1, 2, 3], needs: [] });
   });
 
   it("keeps section D when looking for investment, so it enters the showcase", () => {

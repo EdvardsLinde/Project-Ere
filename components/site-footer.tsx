@@ -70,11 +70,6 @@ export function SiteFooter() {
           <h2 className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-accent">{t.footer.links}</h2>
           <ul className="mt-4 space-y-2.5">
             <li>
-              <Link className={link} href="/agenda">
-                {t.nav.agenda}
-              </Link>
-            </li>
-            <li>
               <Link className={link} href="/exhibitors">
                 {t.nav.exhibitors}
               </Link>

@@ -6,7 +6,7 @@
 
 > ⚠️ **Demo mode / Demo režīms.** There is no server and there are no accounts. Everything lives in the browser's `localStorage`; the role switch only changes menus and the dashboard. / Servera un kontu nav. Viss glabājas pārlūka `localStorage`; lomas izvēle maina tikai izvēlni un paneli.
 
-> **Dates and venue are not decided yet** and prices are placeholders. Every example company, startup, challenge and agenda item is marked **PIEMĒRS / EXAMPLE**. / **Datumi un vieta vēl nav zināmi**, cenas ir aptuvenas. Visi piemēri ir apzīmēti ar **PIEMĒRS**.
+> **The venue is Saldus sporta centrs; the dates are not decided yet** and prices are placeholders. Every example company, startup and challenge is marked **PIEMĒRS / EXAMPLE**. / **Vieta: Saldus sporta centrs; datumi vēl nav zināmi**, cenas ir aptuvenas. Visi piemēri ir apzīmēti ar **PIEMĒRS**.
 
 ---
 
@@ -37,7 +37,7 @@ There is no login. A visitor picks a role with the buttons on the home page or t
 
 | Role | Menu |
 |---|---|
-| none | About · Agenda · Exhibitors · Investment showcase · role buttons |
+| none | About · Exhibitors · Investment showcase · role buttons |
 | Exhibitor (company) | About · Stands · Book a stand · My dashboard |
 | Innovator | About · Apply for a free stand · My dashboard |
 | Investor | About · Investment showcase · Investing in Latvia · My dashboard |
@@ -49,8 +49,7 @@ There is no login. A visitor picks a role with the buttons on the home page or t
 
 | Route | What |
 |---|---|
-| `/` | Landing page: hero, key facts, sectors, why Saldus, the three parts of the fair, the three days, for exhibitors / investors, FAQ |
-| `/agenda` | Programme in three day tabs; dates and venue come from `config/event.ts` |
+| `/` | Landing page: hero with the hall plan (free and taken stands), key facts, sectors, why Saldus, the parts of the fair, for exhibitors / investors, who's behind it, FAQ |
 | `/exhibitors`, `/exhibitors/[id]` | Directory with sector / stand size / "seeking investment" filters, and exhibitor detail |
 | `/stands` | Hall map with free / reserved / sold stands, stand types with placeholder prices |
 | `/apply/stand?stand=N` | Stand booking: company, stand (pick on the map), days and needs, showcase goals, optional investment details; live preview and price summary |
@@ -100,9 +99,9 @@ DESIGN.md            design tokens and component rules
 
 All in `config/event.ts` unless noted:
 
-- `VENUE` and `eventConfig.datesVenue`: the venue (Saldus sporta centrs) and "dates to be confirmed"; add the dates once they are known. The agenda's day tabs show "Day 1/2/3" until then.
+- `VENUE` and `eventConfig.datesVenue`: the venue (Saldus sporta centrs) and "dates to be confirmed"; add the dates once they are known.
 - `standTypes[...].price`: stand prices are **placeholders** (S €250, M €450, L €800); the UI labels them as such.
-- `hallLayout` and `hallStands`: the hall plan of the sports hall (a 14 × 12 cell grid seen from the spectator seating: the court is the front third, the curtain is open and the floor behind it is twice as deep; 21 paid stands: 3 L, 6 M, 12 S along the walls; the stage in the middle of the area behind the curtain; the entrance through the seating in the front wall). It is provisional and not to scale: redraw it from the venue's real floor plan by changing the cells. `lib/fair/hall.test.ts` checks that nothing overlaps or blocks the entrance. `innovatorStandLimit`: 16 free places.
+- `hallLayout` and `hallStands`: the hall plan of the sports hall (a 14 × 12 cell grid seen from the visitor seating, the whole floor divided into 45 paid stands: 4 L, 17 M, 24 S, numbered row by row from the back-left corner; the stage in the middle; the innovator places between the stage and the entrance; the entrance through the seating in the front wall). Add, move or resize stands in `hallPlaces`; the numbers follow automatically, and the demo data picks stands by size with `standsOfSize`. It is provisional and not to scale: redraw it from the venue's real floor plan by changing the cells. `lib/fair/hall.test.ts` checks that nothing overlaps or blocks the entrance. `innovatorStandLimit`: 16 free places.
 - `eventConfig.advicePartner`: "In cooperation with LIAA and a partner law firm (to be confirmed)".
 - `config/site.ts`: `contacts.email` (empty = the footer leaves the line out), `team` (names and roles for "Who's behind SEER Expo"; empty = no names shown, add people only with their consent), the school list.
 - `lib/data/seed.ts`: example data (see below).
@@ -113,7 +112,7 @@ All in `config/event.ts` unless noted:
 
 - **Real Saldus companies** (PATA Saldus, DELTA LV, Warmeston, Tērvete Food, SC GRUPA) appear only with their name and what they do, marked **PIEMĒRS** and **"Dalība vēl nav apstiprināta" / "Participation not confirmed"**. They never appear in the investment showcase.
 - **The investment showcase holds only fictional startups** (AgroSense, TimberTrack, RouteMate, FarmShield) plus whatever is submitted in this browser.
-- 2 fictional innovators, 5 example challenges, 13 example agenda items across 3 days. All are marked PIEMĒRS.
+- 2 fictional innovators and 5 example challenges. All are marked PIEMĒRS. (The agenda page was removed until there is a real programme.)
 
 ### "Investing in Latvia" page
 
@@ -138,7 +137,7 @@ General pointers only, with links to official sources (Register of Enterprises, 
 
 The UI depends only on the `DataRepository` interface in `lib/data/repository.ts`.
 
-1. Create tables matching `lib/data/types.ts`: `exhibitors` (JSON columns are fine for `stand`, `investment`, `team`), `meetings`, `challenges`, `teams`, `agenda`.
+1. Create tables matching `lib/data/types.ts`: `exhibitors` (JSON columns are fine for `stand`, `investment`, `team`), `meetings`, `challenges`, `teams`.
 2. Add authentication with real roles (exhibitor, innovator, investor, school, organiser) and Row Level Security: exhibitors see only meeting requests addressed to them; team member data (names, ages, guardian consent) is visible only to the team and the organisers.
 3. Write e.g. `lib/data/supabase.ts` implementing `DataRepository` (same method names, same `DataError` codes) and return it from `getRepository()` in `lib/data/index.ts`.
 4. Move stand allocation and the innovator place count into the database (a transaction or RPC), so two people can't book the same stand.

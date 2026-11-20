@@ -44,18 +44,16 @@ describe("hall layout", () => {
     for (const s of hallStands) for (const cell of cells(s)) expect(door).not.toContain(cell);
   });
 
-  it("keeps the curtain inside the hall and nothing straddling it", () => {
-    const { curtainRow, rows, stage, innovatorZone } = hallLayout;
-    expect(curtainRow).toBeGreaterThan(0);
-    expect(curtainRow).toBeLessThan(rows);
-    for (const r of [...hallStands, stage, innovatorZone]) {
-      expect(r.row < curtainRow && r.row + r.h > curtainRow).toBe(false);
-    }
+  it("divides the whole floor: 45 stands, every size present", () => {
+    expect(hallStands).toHaveLength(45);
+    expect(new Set(hallStands.map((s) => s.number)).size).toBe(hallStands.length);
+    for (const size of ["S", "M", "L"] as const) expect(hallStands.some((s) => s.size === size)).toBe(true);
   });
 
-  it("puts twice as much floor behind the curtain as on the court", () => {
-    const { curtainRow, rows } = hallLayout;
-    expect(curtainRow).toBe(2 * (rows - curtainRow));
+  it("numbers stands row by row from the back-left corner", () => {
+    const order = hallStands.map((s) => s.row * 100 + s.col);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    expect(hallStands[0]).toMatchObject({ number: 1, row: 0, col: 0 });
   });
 
   it("fits all innovator places in their zone (four half-cell places per cell)", () => {

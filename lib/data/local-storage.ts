@@ -186,9 +186,6 @@ export class LocalStorageRepository implements DataRepository {
 
   // Programme ------------------------------------------------------------
 
-  async listAgenda() {
-    return [...this.load().agenda].sort((a, b) => a.day - b.day || a.time.localeCompare(b.time));
-  }
 
   // This browser -----------------------------------------------------------
 

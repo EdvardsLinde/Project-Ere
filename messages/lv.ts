@@ -53,7 +53,6 @@ const lv = {
     switchToEn: "English",
     switchToLv: "Latviešu",
     about: "Par izstādi",
-    agenda: "Programma",
     exhibitors: "Dalībnieki",
     showcase: "Investīciju vitrīna",
     stands: "Stendi",
@@ -108,14 +107,6 @@ const lv = {
     exhibitorStatus: { submitted: "Iesniegts", approved: "Apstiprināts", rejected: "Noraidīts" },
     meetingStatus: { pending: "Gaida atbildi", accepted: "Pieņemta", declined: "Noraidīta" },
     teamStatus: { applied: "Pieteikusies", accepted: "Apstiprināta", presenting: "Prezentē izstādē" },
-    agendaType: {
-      panel: "Paneļdiskusija",
-      pitch: "Prezentācijas",
-      b2b: "B2B tikšanās",
-      workshop: "Darbnīca",
-      showcase: "Vitrīna",
-      visit: "Vizīte",
-    },
   },
 
   fieldErrors: {
@@ -236,16 +227,6 @@ const lv = {
         },
       ],
     },
-    days: {
-      eyebrow: "Trīs dienas",
-      title: "Īsumā par programmu",
-      items: [
-        { label: "1. diena", title: "Bizness un investori", text: "Atklāšana, nozaru diskusijas, investīciju vitrīnas prezentācijas un B2B tikšanās." },
-        { label: "2. diena", title: "Inovatori un skolas", text: "Inovatoru stendi, skolu izaicinājuma rezultāti un darbnīcas." },
-        { label: "3. diena", title: "Vizītes uzņēmumos", text: "Vizītes strādājošos vietējos uzņēmumos un noslēgums." },
-      ],
-      cta: "Visa programma",
-    },
     forExhibitors: {
       eyebrow: "Uzņēmumiem",
       title: "Ko iegūst dalībnieki",
@@ -325,14 +306,6 @@ const lv = {
     },
   },
 
-  agenda: {
-    title: "Programma",
-    lead: "Trīs dienas: bizness un investori, inovatori un skolas, vizītes uzņēmumos.",
-    exampleNote: "Programma ir piemērs; sesijas tiks precizētas.",
-    dayTitles: ["Bizness un investori", "Inovatori un skolas", "Vizītes uzņēmumos un noslēgums"],
-    daysLabel: "Izstādes dienas",
-  },
-
   stands: {
     title: "Stendi",
     lead: "Izvēlieties stendu kartē un piesakiet to. Brīvos stendus var izvēlēties uzreiz.",
@@ -346,8 +319,7 @@ const lv = {
     innovatorZoneText: "Brīvas vietas: {n} no {total}",
     innovatorPlacesShort: "{n} no {total} brīvas",
     stage: "Skatuve",
-    curtain: "Aizkars (atvērts)",
-    seating: "Skatītāju tribīnes",
+    seating: "Sēdvietas apmeklētājiem",
     planNote: "Provizorisks izvietojums, nav mērogā",
     pricesTitle: "Cenas",
     pricesNote: "Cenas ir provizoriskas, līdz organizatori tās apstiprina.",

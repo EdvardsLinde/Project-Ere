@@ -16,7 +16,6 @@ export const roleHome: Record<Role, string> = {
 /** Menu keys per role; labels come from `messages.nav`. `null` = first visit. */
 export type NavKey =
   | "about"
-  | "agenda"
   | "exhibitors"
   | "showcase"
   | "stands"
@@ -28,7 +27,6 @@ export type NavKey =
 
 export const navHref: Record<NavKey, string> = {
   about: "/",
-  agenda: "/agenda",
   exhibitors: "/exhibitors",
   showcase: "/investment",
   stands: "/stands",
@@ -50,6 +48,6 @@ export function navFor(role: Role | null): NavKey[] {
     case "school":
       return ["about", "challenges", "dashboard"];
     default:
-      return ["about", "agenda", "exhibitors", "showcase"];
+      return ["about", "exhibitors", "showcase"];
   }
 }

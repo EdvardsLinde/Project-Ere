@@ -1,5 +1,5 @@
 import type { InnovatorInput, MeetingInput, StandBookingInput, TeamInput } from "@/lib/fair/forms";
-import type { AgendaItem, Challenge, Exhibitor, FairDatabase, MeetingRequest, TeamApplication } from "./types";
+import type { Challenge, Exhibitor, FairDatabase, MeetingRequest, TeamApplication } from "./types";
 
 /**
  * The only way pages and components touch data.
@@ -32,7 +32,6 @@ export interface DataRepository {
   applyTeam(challengeId: string, input: TeamInput): Promise<TeamApplication>;
 
   // Programme ------------------------------------------------------------
-  listAgenda(): Promise<AgendaItem[]>;
 
   // This browser -----------------------------------------------------------
   /** Ids of what this browser created (there are no accounts). */

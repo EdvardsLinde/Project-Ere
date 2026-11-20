@@ -5,7 +5,6 @@
  */
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import AgendaPage from "@/app/agenda/page";
 import InnovatorPage from "@/app/apply/innovator/page";
 import BookStandPage from "@/app/apply/stand/page";
 import TeamApplyPage from "@/app/challenges/[id]/apply/page";
@@ -37,7 +36,6 @@ import { matchRoute, ParamsContext, splitHref, startHashSync, useHref } from "./
 
 const routes: [string, React.ComponentType][] = [
   ["/", HomePage],
-  ["/agenda", AgendaPage],
   ["/stands", StandsPage],
   ["/apply/stand", BookStandPage],
   ["/exhibitors", ExhibitorsPage],

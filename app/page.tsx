@@ -4,11 +4,9 @@ import {
   ArrowRight,
   Building2,
   CalendarDays,
-  CalendarRange,
   ClipboardList,
   Factory,
   GraduationCap,
-  Handshake,
   Landmark,
   Lightbulb,
   MapPin,
@@ -41,7 +39,6 @@ export default function HomePage() {
       <Sectors />
       <WhySaldus />
       <Parts />
-      <Days />
       <ForWhom />
       <Team />
       <Faq />
@@ -218,41 +215,6 @@ function Parts() {
             );
           })}
         </ul>
-      </Container>
-    </section>
-  );
-}
-
-function Days() {
-  const { t } = useI18n();
-  const d = t.home.days;
-  const icons = [Handshake, Lightbulb, Factory];
-  return (
-    <section className="border-y border-rule bg-surface-muted py-16 sm:py-24" aria-labelledby="days-title">
-      <Container>
-        <SectionTitle id="days-title" eyebrow={d.eyebrow} title={d.title} />
-        <ol className="mt-10 grid gap-5 md:grid-cols-3">
-          {d.items.map((day, i) => {
-            const Icon = icons[i];
-            return (
-              <li key={day.label} className="flex flex-col rounded-lg border border-edge bg-surface p-6">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary">
-                    <CalendarRange className="size-3.5" aria-hidden="true" />
-                    {day.label}
-                  </span>
-                  <Icon className="size-5 text-ink-muted" aria-hidden="true" />
-                </div>
-                <h3 className="mt-4 text-2xl font-extrabold">{day.title}</h3>
-                <p className="mt-1 text-ink-muted">{day.text}</p>
-              </li>
-            );
-          })}
-        </ol>
-        <LinkButton href="/agenda" variant="secondary" className="mt-8">
-          {d.cta}
-          <ArrowRight className="size-4" aria-hidden="true" />
-        </LinkButton>
       </Container>
     </section>
   );

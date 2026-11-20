@@ -50,7 +50,6 @@ const en: Messages = {
     switchToEn: "English",
     switchToLv: "Latviešu",
     about: "About",
-    agenda: "Agenda",
     exhibitors: "Exhibitors",
     showcase: "Investment showcase",
     stands: "Stands",
@@ -104,14 +103,6 @@ const en: Messages = {
     exhibitorStatus: { submitted: "Submitted", approved: "Approved", rejected: "Rejected" },
     meetingStatus: { pending: "Awaiting reply", accepted: "Accepted", declined: "Declined" },
     teamStatus: { applied: "Applied", accepted: "Accepted", presenting: "Presenting at the fair" },
-    agendaType: {
-      panel: "Panel",
-      pitch: "Pitches",
-      b2b: "B2B meetings",
-      workshop: "Workshop",
-      showcase: "Showcase",
-      visit: "Site visit",
-    },
   },
 
   fieldErrors: {
@@ -232,16 +223,6 @@ const en: Messages = {
         },
       ],
     },
-    days: {
-      eyebrow: "Three days",
-      title: "The agenda in short",
-      items: [
-        { label: "Day 1", title: "Business and investors", text: "Opening, sector panels, investment showcase pitches and B2B meetings." },
-        { label: "Day 2", title: "Innovators and schools", text: "Innovator stands, school challenge results and workshops." },
-        { label: "Day 3", title: "Site visits", text: "Visits to working local companies and the closing." },
-      ],
-      cta: "Full agenda",
-    },
     forExhibitors: {
       eyebrow: "For companies",
       title: "What exhibitors get",
@@ -321,14 +302,6 @@ const en: Messages = {
     },
   },
 
-  agenda: {
-    title: "Agenda",
-    lead: "Three days: business and investors, innovators and schools, visits to companies.",
-    exampleNote: "This agenda is an example; sessions will be confirmed.",
-    dayTitles: ["Business and investors", "Innovators and schools", "Site visits and closing"],
-    daysLabel: "Fair days",
-  },
-
   stands: {
     title: "Stands",
     lead: "Pick a stand on the map and book it. Free stands can be chosen straight away.",
@@ -343,8 +316,7 @@ const en: Messages = {
     innovatorPlacesShort: "{n} of {total} free",
     stage: "Stage",
     planNote: "Provisional layout, not to scale",
-    curtain: "Curtain (open)",
-    seating: "Spectator seating",
+    seating: "Seating for visitors",
     pricesTitle: "Prices",
     pricesNote: "Prices are placeholders until the organisers confirm them.",
     colSize: "Size",
