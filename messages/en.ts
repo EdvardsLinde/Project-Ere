@@ -325,7 +325,7 @@ const en: Messages = {
       aria: "{place}, {size}, {state}",
       tooltipFree: "Click to apply",
       tooltipReserved: "Application awaiting confirmation",
-      tooltipSold: "Taken",
+      tooltipSold: "Exhibitor confirmed",
       freeList: "Free places",
       noMatches: "No free places match this filter.",
       sizeNames: { S: "S (small)", M: "M (medium)", L: "L (large)", innovator: "Innovator place" },

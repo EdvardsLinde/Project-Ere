@@ -329,7 +329,7 @@ const lv = {
       aria: "{place}, {size}, {state}",
       tooltipFree: "Spiediet, lai pieteiktu",
       tooltipReserved: "Pieteikums gaida apstiprinājumu",
-      tooltipSold: "Aizņemts",
+      tooltipSold: "Dalībnieks apstiprināts",
       freeList: "Brīvās vietas",
       noMatches: "Ar šo filtru brīvu vietu nav.",
       sizeNames: { S: "S (mazs)", M: "M (vidējs)", L: "L (liels)", innovator: "Inovatoru vieta" },
